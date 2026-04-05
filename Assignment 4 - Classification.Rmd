@@ -1,0 +1,445 @@
+---
+title: "Assignment 4 - Classification - Stat 577"
+output:
+  word_document: default
+  html_document:
+    df_print: paged
+---
+
+**Instructions:**  Ensure this .Rmd file lives in the folder that you've created for this course by doing File, Save As, and forcing a save there.  Also ensure that the working directory is your course folder folder by doing Session, Set Working Directory, Choose Directory (you'll see the path right above the Console window).  Ensure the the associated data sets has been downloaded and moved into your course folder as well.
+
+Knit this to a Word document (you do not need to put your name on this document or otherwise modify it).
+
+
+****
+****
+
+
+### Problem 1: WINE Quality Data (WINE.csv)
+
+This data is related to red and white vinho verde wine samples, from the north of Portugal. The data contains information on:
+
+* fixed acidity
+* volatile acidity
+* citric acid
+* residual sugar
+* chlorides
+* free sulfur dioxide
+* total sulfur dioxide
+* density
+* pH
+* sulphates
+* alcohol
+* quality (Output variable based on sensory data, a factor with levels high low)
+
+This is the famous wine dataset from the UCI data repository https://archive.ics.uci.edu/ml/datasets/
+Wine+Quality with some modifications. Namely, the quality in the original data was a score between 0 and 10. These has been coded as either high or low. See description on UCI for description of variables.
+
+Our obective in this assignment is to accurately predict the quality variable, i.e., based on the other attributes, correctly classify wines as high or low quality.
+
+
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+library(ggmosaic)
+library(caret)
+library(gridExtra) # to arrange side by side plots
+library(pROC) # compute auc for holdout samples
+seed<-577 #th eseed to be used
+
+WINE <- read.csv("WINE.csv",header = TRUE)
+WINE$Quality <- factor(WINE$Quality)
+WINE$chlorides <- ifelse(WINE$chlorides == "Lots", 1, 0)
+
+```
+
+---
+---
+
+# Part (a) Exploratory Data Analysis
+
+Here you will use the ggplot2 package to produce some plots to do an initial exploratory data analysis. Report appropriate plots to assess association between the response variable (Quality) and the predictor variables (all the other variables in the data). Note that for categorical vs numerical it makes sense to use side-by-side box plots whereas for categorical vs categorical a segmented bar chart or mosaic plot could be utilized. Provide a brief description of your observations from each plot, does there seem to be a relationship between each individual predictor and the response? As there are 11 predictors there should be a total of 11 plots comparing them to the response variable.
+
+---
+
+
+```{r - R Code for Question 1 Part a}
+#1
+ggplot(WINE, aes(x = Quality, y = pH, fill = Quality)) +
+  geom_boxplot() +
+  theme_minimal() +
+  labs(title = "Wine pH by Quality",
+       x = "Quality",
+       y = "pH") +
+  theme(legend.position = "none") # Hides the redundant legend
+
+#2
+ggplot(WINE, aes(x = Quality, y = fixed.acidity, fill = Quality)) +
+  geom_boxplot() +
+  theme_minimal() +
+  labs(title = "Wine fixed acidity by Quality",
+       x = "Quality",
+       y = "fixed acidity") +
+  theme(legend.position = "none") # Hides the redundant legend
+#3
+ggplot(WINE, aes(x = Quality, y = volatile.acidity, fill = Quality)) +
+  geom_boxplot() +
+  theme_minimal() +
+  labs(title = "Wine volatile acidity by Quality",
+       x = "Quality",
+       y = "volatile acidity") +
+  theme(legend.position = "none") # Hides the redundant legend
+#4
+ggplot(WINE, aes(x = Quality, y = citric.acid, fill = Quality)) +
+  geom_boxplot() +
+  theme_minimal() +
+  labs(title = "Wine citric acid by Quality",
+       x = "Quality",
+       y = "citric acid") +
+  theme(legend.position = "none") # Hides the redundant legend
+#5
+ggplot(WINE, aes(x = Quality, y = residual.sugar, fill = Quality)) +
+  geom_boxplot() +
+  theme_minimal() +
+  labs(title = "Wine Residual Sugar by Quality",
+       x = "Quality",
+       y = "Residual Sugar") +
+  theme(legend.position = "none") # Hides the redundant legend
+#6
+ggplot(WINE, aes(x = Quality, y = free.sulfur.dioxide, fill = Quality)) +
+  geom_boxplot() +
+  theme_minimal() +
+  labs(title = "Wine free sulfur dioxide by Quality",
+       x = "Quality",
+       y = "free sulfur dioxide") +
+  theme(legend.position = "none") # Hides the redundant legend
+#7
+ggplot(WINE, aes(x = Quality, y = total.sulfur.dioxide, fill = Quality)) +
+  geom_boxplot() +
+  theme_minimal() +
+  labs(title = "Wine total sulfur dioxide by Quality",
+       x = "Quality",
+       y = "Total Sulfur dioxide") +
+  theme(legend.position = "none") # Hides the redundant legend
+#8
+ggplot(WINE, aes(x = Quality, y = density, fill = Quality)) +
+  geom_boxplot() +
+  theme_minimal() +
+  labs(title = "Wine density by Quality",
+       x = "Quality",
+       y = "density") +
+  theme(legend.position = "none") # Hides the redundant legend
+#9
+ggplot(WINE, aes(x = Quality, y = sulphates, fill = Quality)) +
+  geom_boxplot() +
+  theme_minimal() +
+  labs(title = "Wine sulphates by Quality",
+       x = "Quality",
+       y = "sulphates") +
+  theme(legend.position = "none") # Hides the redundant legend
+#10
+ggplot(WINE, aes(x = Quality, y = alcohol, fill = Quality)) +
+  geom_boxplot() +
+  theme_minimal() +
+  labs(title = "Wine alcohol by Quality",
+       x = "Quality",
+       y = "alcohol") +
+  theme(legend.position = "none") # Hides the redundant legend
+
+#11
+# Make sure R knows your variables are categories using factor()
+ggplot(WINE, aes(x = factor(Quality), fill = factor(chlorides))) +
+  geom_bar(position = "fill", color = "white") +
+  theme_minimal() +
+  labs(title = "Proportion of Chlorides by Wine Quality",
+       x = "Quality Rating",
+       y = "Proportion",
+       fill = "Chlorides")
+
+
+```
+
+
+(Your written response goes here.)
+pH by quality: higher quality wines seem to have a slightly higher pH on average and larger variance in pH than lower quality wines. 
+
+fixed acidity by quality: higher quality wines seem to have a slightly lower fixed acidity on average and smaller variance in fixed acidity than lower quality wines. 
+
+volatile acidity by Quality: higher quality wines seem to have a slightly lower volatile acidity on average and higher variance in volatile acidity than lower quality wines. 
+
+Citric acid by quality: higher quality wines seem to have a slightly lower citric acid on average and smaller variance in citric acid than lower quality wines. 
+
+residual sugar by quality: higher quality wines seem to have lower residual sugar on average and smaller variance in residual sugar than lower quality wines.
+
+free sulfur dioxide by quality: higher quality wines seem to have lower free sulfur dioxide on average and smaller variance in free sulfur dioxide than lower quality wines
+
+total sulfur dioxide by quality: higher quality wines seem to have lower total sulfur dioxide on average and smaller variance in total sulfur dioxide than lower quality wines. 
+
+
+density by quality: higher quality wines seem to have lower density on average and smaller variance in density than lower quality wines. 
+
+sulfates by quality: higher quality wines have about the same amount of sulfates on average, but larger variance in sulfates than lower quality wines. 
+
+alcohol by quality: higher quality wine has a higher alcohol content and a larger variance in alcohol content than lower quality wines. 
+
+chlorides by quality: Lower quality wines, on average have chlorides more frequently than higher quality wines. 
+
+
+
+
+
+
+
+---
+---
+
+# Part (b) Multiple Logistic Regression Model
+
+The purpose of this question is to test your understanding of interpretating the estimated coefficients from a multiple logistic regression model.
+
+Using the glm function (not train from caret), fit a multiple logistic regression model predicting Quality of wine using all predictors (no interactions) on the entirety of the data (no training and test). Report the summary of the fitted model and then interpret the coefficients of:
+
+• *alcohol*
+
+• *density*
+
+• *residual sugar*
+
+For these three predictors does your interpretation align with what you observed in part (a)?
+
+Lastly, look at the p-value of *chlorides*. Is it statistically significant? Can we safely conclude that the amount of chlorides has absolutely no effect on the quality of the wine? Why/why not?
+
+---
+
+```{r - R Code for Question 1 Part b}
+M<-glm(Quality~., data = WINE, family = "binomial")
+summary(M)
+
+alc<-exp(-.534)-1
+
+dens<-exp(.9723)-1
+
+sug<-exp(-.4589)-1
+
+alc
+dens
+sug
+
+MC<-glm(Quality~chlorides, data = WINE, family = "binomial")
+
+summary(MC)
+
+```
+
+
+
+(Your written response goes here.)
+Alcohol: a one unit increase in the ABV decreases the probability of being a low quality wine by about 41%. 
+Density: a .001 increase in density increases the probability of being a low quality wine by about 164%.
+Residual Sugar: A one unit increase in residual sugar decreases the probability of being a low quality wine by about 37%. 
+Why this makes sense, according to Gemini, there is multicollinearity between alcohol, density, and residual sugar. Basically, despite higher ABV wines being higher quality and lower quality wines having higher sugar content, Alcohol is less dense than water and sugar is more dense than water, so there is a sort of confounding factor between the three. Thus, the positive increases in density captures both effects, and makes both variables negative, which is weird, but not completely unanticipated. This could possibly be dealt with by a different logistic regression of quality against density, while dropping the residual sugar and ABV.
+
+While chlorides is not statistically significant in the full logistic regression model, it is not safe to say that there is no effect of chlorides on the quality of wines. However, it is safe to say that given the information set available in the full model, the presence of chlorides does not add any additional explanatory value. Above, I have a model which has chlorides as the only independent binary variable, within the model it is statistically significant and the presence of chlorides increases the probability of being a low quality wine. 
+
+---
+---
+
+# Part (c) Training Predictive Models
+
+**Your task is to build a classification model to predict the quality of wine based on its chemical characteristics.** Using the train function from the caret package, train the classification models below. **Use the AUC as a metric to train and select the best model.** Provide an interpretation of the AUC of the best model within the context of this data. Report the performance metrics for each of the methods along  with their performance over the test set, including the AUC using the *roc* function. 
+
+Lastly, produce a variable importance plot for each method showing which chemical characteristics are most predictive of the wine quality. What two variables seem to be at the top most frequently? 
+
+*Use 50% of the data for training and the rest as a holdout.*
+
+* KNN Classifier
+* Linear Discriminant Analysis
+* Quadratic Discriminant Analysis
+* Logistic regression
+* Regularized logistic regression - elastic net
+* Linear SVMs (SVC)
+* Kernel SVMs - radial kernels (this may take some minutes to train)
+
+
+---
+
+```{r - R Code for Question 1 Part c}
+# Load required libraries
+library(caret)
+library(pROC)
+library(kernlab)
+
+# 1. Ensure Quality is a factor with valid names (e.g., "Level_0", "Level_1")
+# If yours is already "Good"/"Bad" or similar, you can skip this step.
+WINE$Quality <- as.factor(make.names(WINE$Quality))
+
+# 2. Set seed for reproducibility
+set.seed(123)
+
+# 3. Create the 50/50 split
+trainIndex <- createDataPartition(WINE$Quality, p = 0.5, list = FALSE)
+trainData <- WINE[trainIndex, ]
+testData  <- WINE[-trainIndex, ]
+
+# 4. Set up the training control
+# classProbs = TRUE and summaryFunction = twoClassSummary are REQUIRED for AUC
+fitControl <- trainControl(method = "cv", 
+                           number = 10, # 10-fold cross-validation
+                           classProbs = TRUE, 
+                           summaryFunction = twoClassSummary)
+
+
+grid_linear <- expand.grid(C = c(0.1, 1, 5, 10, 25, 50))
+# Create a specific grid for the Radial SVM
+grid_radial <- expand.grid(C = c(0.1, 1, 5, 10, 25, 50),
+                           sigma = 0.07870277) 
+
+# 7. Kernel SVM (Radial)
+set.seed(123)
+model_svmRad <- train(Quality ~ ., data = trainData, 
+                      method = "svmRadial", 
+                      metric = "ROC", 
+                      trControl = fitControl,
+                      tuneGrid = grid_radial) # <-- Use the new grid here!
+
+
+# 1. KNN
+set.seed(123)
+model_knn <- train(Quality ~ ., data = trainData, 
+                   method = "knn", 
+                   metric = "ROC", 
+                   trControl = fitControl,
+                   tuneLength = 10) # Tests 10 different k values
+
+# 2. Linear Discriminant Analysis (LDA)
+set.seed(123)
+model_lda <- train(Quality ~ ., data = trainData, 
+                   method = "lda", 
+                   metric = "ROC", 
+                   trControl = fitControl)
+
+# 3. Quadratic Discriminant Analysis (QDA)
+set.seed(123)
+model_qda <- train(Quality ~ ., data = trainData, 
+                   method = "qda", 
+                   metric = "ROC", 
+                   trControl = fitControl)
+
+# 4. Logistic Regression
+set.seed(123)
+model_glm <- train(Quality ~ ., data = trainData, 
+                   method = "glm", family = "binomial", 
+                   metric = "ROC", 
+                   trControl = fitControl)
+
+# 5. Regularized Logistic Regression (Elastic Net)
+set.seed(123)
+model_glmnet <- train(Quality ~ ., data = trainData, 
+                      method = "glmnet", 
+                      metric = "ROC", 
+                      trControl = fitControl)
+
+# 6. Linear SVM
+set.seed(123)
+model_svmLin <- train(Quality ~ ., data = trainData, 
+                      method = "svmLinear", 
+                      metric = "ROC", 
+                      trControl = fitControl,
+                      tuneGrid = grid_linear)
+
+# 7. Kernel SVM (Radial) - This one will take the longest!
+set.seed(123)
+model_svmRad <- train(Quality ~ ., data = trainData, 
+                      method = "svmRadial", 
+                      metric = "ROC", 
+                      trControl = fitControl,
+                      tuneGrid = grid_radial) # <-- Use the new grid here!
+
+# Create a list of all trained models to loop through
+models <- list(KNN = model_knn, 
+               LDA = model_lda, 
+               QDA = model_qda, 
+               GLM = model_glm, 
+               GLMNET = model_glmnet, 
+               SVM_Linear = model_svmLin, 
+               SVM_Radial = model_svmRad)
+
+# Loop through each model to calculate and print Test AUC
+for(name in names(models)) {
+  
+  # Predict probabilities on the test set
+  # Note: predict() outputs probabilities for both classes; we extract the second column
+  preds_prob <- predict(models[[name]], newdata = testData, type = "prob")[,2]
+  
+  # Calculate ROC and AUC
+  roc_obj <- roc(testData$Quality, preds_prob, quiet = TRUE)
+  
+  cat("---", name, "---\n")
+  cat("Test AUC:", auc(roc_obj), "\n\n")
+}
+
+# Plotting Variable Importance
+par(mfrow = c(2, 4)) # Adjusts the plotting window to fit multiple graphs
+
+plot(varImp(model_knn), main = "KNN VarImp")
+plot(varImp(model_lda), main = "LDA VarImp")
+plot(varImp(model_qda), main = "QDA VarImp")
+plot(varImp(model_glm), main = "GLM VarImp")
+plot(varImp(model_glmnet), main = "GLMNET VarImp")
+plot(varImp(model_svmLin), main = "SVM Lin VarImp")
+plot(varImp(model_svmRad), main = "SVM Rad VarImp")
+
+
+# This will print the exact final parameters chosen by the model
+model_svmRad$bestTune
+model_svmLin$bestTune
+```
+
+
+(Your written response goes here.)
+
+
+The best model according to AUC is the radial kernel SVMs. This has an AUC of .946 which is the highest. The second best model is the QDA with an AUC of .93. Across most models, the most important variables are alcohol and density.
+
+
+
+---
+---
+
+# Part (d) Model-based Insights on Data
+
+Now that you have a good handle on what models performed better, what kind of decision boundary do you anticipate your data to have when it comes to classifying high vs low quality wines?
+
+---
+
+
+(Your written response goes here.)
+
+I anticipate a nonlinear decision bound for classifying high vs low quality wines. 
+
+
+---
+---
+
+# Part (e) Model-based Insights on Data - 2
+
+Compare the *cost* parameter of the two support vector models you used. Which one allows a wider margin? Which one more strictly enforces correct classification?
+
+---
+
+
+(Your written response goes here.)
+Cost parameter in the radial model is 5, and in the linear SVM the cost parameter is 25. Meaning that the linear SVM has a much narrower boundary region. SVM will thus strictly enforce the correct classification. 
+
+---
+---
+
+# AI Disclaimer
+
+---
+
+Describe here at which question you utilized AI for what specific purpose.
+
+I used AI to help with coding the variable importance and most of 1 c. Additionally, I used it to ask simple questions regarding the log odds interpretations and how to fix the glm function. It helped with the initial ggplot function to plot the graphs in part a, and helped solve interpreting the data in part b. I also used it to understand the cost parameter and how that works. 
+

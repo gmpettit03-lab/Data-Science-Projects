@@ -1,0 +1,521 @@
+---
+title: "Assignment 3 - Linear Regression Models - Stat 577"
+output:
+  word_document: default
+  html_document:
+    df_print: paged
+---
+
+**Instructions:**  Ensure this .Rmd file lives in the folder that you've created for this course by doing File, Save As, and forcing a save there.  Also ensure that the working directory is your course folder folder by doing Session, Set Working Directory, Choose Directory (you'll see the path right above the Console window).  Ensure the the associated data sets has been downloaded and moved into your course folder as well.
+
+Knit this to a Word document (you do not need to put your name on this document or otherwise modify it).
+
+
+****
+****
+
+
+### Problem 1: The customer life time value data (VALUE.csv)
+
+The data file (VALUE.csv) is part of the customer database describing customer value (adapted from a former case study) and whether they have a loyalty card. Each row corresponds to a customer of a local chain. What affects a customer's total value? This is what you will investigate.
+
+*Gender* --> a factor with levels Female Male giving the customer’s gender
+
+*Married* --> a factor with levels Married Single giving the customer’s marital status
+
+*Income* --> a factor with levels f0t30, f30t45, f45t60, f60t75, f75t90, f90toINF giving the approximate yearly income of the customer. The first level corresponds to 30K or less, the second
+level corresponds to 30K to 45K, and the last level corresponds to 90K or above
+
+*FirstPurchase* --> a numeric vector giving the amount of the customer’s first purchase amount
+
+*LoyaltyCard* --> a factor with levels No Yes that gives whether the customer has a loyalty card for the
+store
+
+*WalletShare* --> a numeric vector giving the percentage from 0 to 100 of similar products that the
+customer makes at this store. A value of 100 means the customer uses this store exclusively
+for such purchases.
+
+*CustomerLV* --> a numeric vector giving the lifetime value of the customer and reflects the amount
+spent acquiring and retaining the customer along with the revenue brought in by the customer
+
+*TotTransactions* --> a numeric vector giving the total number of consecutive months the customer
+has made a transaction in the last year
+
+*LastTransaction* --> a numeric vector giving the total amount of months since the customers last
+transaction
+
+```{r}
+library(tidyverse)
+library(gridExtra)
+value <- read.csv("VALUE.csv")
+```
+
+---
+---
+
+# Part (a) Exploratory Data Analysis
+
+Here you will use the ggplot2 package to produce some plots to do an initial exploratory data analysis. Report appropriate plots to assess association between the response variable (CustomerLV) and the predictor variables (all the other variables in the data). Provide a brief description of your observations from each plot. As there are 8 predictors there should be a total of 8 plots comparing them to the response variable.
+
+---
+
+
+```{r - R Code for Question 1 Part a}
+library(ggplot2)
+library(gridExtra)
+
+# 1. CustomerLV vs x1 (Gender) - Boxplot
+p1 <- ggplot(value, aes(x = Gender, y = CustomerLV)) +
+  geom_boxplot(fill = "lightblue", color = "darkblue") +
+  theme_minimal() +
+  labs(title = "CustomerLV vs x1")
+
+# 2. CustomerLV vs x2 (Married) - Boxplot
+p2 <- ggplot(value, aes(x =  Married, y = CustomerLV)) +
+  geom_boxplot(fill = "lightblue", color = "darkblue") +
+  theme_minimal() +
+  labs(title = "CustomerLV vs x2")
+
+# 3. CustomerLV vs x3 (Income) - Boxplot
+p3 <- ggplot(value, aes(x = Income, y = CustomerLV)) +
+  geom_boxplot(fill = "lightblue", color = "darkblue") +
+  theme_minimal() +
+  labs(title = "CustomerLV vs x3")
+
+# 5. CustomerLV vs x5 (LoyaltyCard) - Boxplot
+p5 <- ggplot(value, aes(x = LoyaltyCard, y = CustomerLV)) +
+  geom_boxplot(fill = "lightblue", color = "darkblue") +
+  theme_minimal() +
+  labs(title = "CustomerLV vs x5")
+
+# 4. CustomerLV vs x4
+p4 <- ggplot(value, aes(x = FirstPurchase, y = CustomerLV)) +
+  geom_point(alpha = 0.5, color = "darkgray") +
+  geom_smooth(method = "lm", color = "blue", se = FALSE) +
+  theme_minimal() +
+  labs(title = "CustomerLV vs x4")
+
+# 6. CustomerLV vs x6
+p6 <- ggplot(value, aes(x = WalletShare, y = CustomerLV)) +
+  geom_point(alpha = 0.5, color = "darkgray") +
+  geom_smooth(method = "lm", color = "blue", se = FALSE) +
+  theme_minimal() +
+  labs(title = "CustomerLV vs x6")
+
+# 7. CustomerLV vs x7
+p7 <- ggplot(value, aes(x = TotTransactions, y = CustomerLV)) +
+  geom_point(alpha = 0.5, color = "darkgray") +
+  geom_smooth(method = "lm", color = "blue", se = FALSE) +
+  theme_minimal() +
+  labs(title = "CustomerLV vs x7")
+
+# 8. CustomerLV vs x8
+p8 <- ggplot(value, aes(x = LastTransaction, y = CustomerLV)) +
+  geom_point(alpha = 0.5, color = "darkgray") +
+  geom_smooth(method = "lm", color = "blue", se = FALSE) +
+  theme_minimal() +
+  labs(title = "CustomerLV vs x8")
+
+# Run the same grid.arrange command to see the new mixed grid!
+grid.arrange(p1, p2, p3, p4, p5, p6, p7, p8, ncol = 4)
+
+```
+
+
+(Your written response goes here.)
+Plot 1: men on average have a higher customer life value than women, however there is more variance. 
+Plot 2: married couples have a lower customer life value than single individuals, and married couples have higher variance. 
+Plot 3: There seems to be a positive relationship between income level and customer life value. 
+Plot 4: there seems to be a positive and linear relationship between first purchase and the customer life value. 
+Plot 5: customers with a loyalty card, on average have a higher lifetime value, but they also have higher variance in lifetime value than those without a loyalty card. 
+Plot 6: There is a strong positive and linear relationship between walletshare and customer lifetime value. 
+Plot 7: There seems to be a strong positive linear relationship between total transactions and customer lifetime value.
+Plot 8: There seems to be a weak positive relationship between last transaction and customer lifetime value. Additionally, the variance in customer lifetime value increases as last transaction increases. 
+
+
+---
+---
+
+# Part (b) Multiple Linear Regression (MLR) Model
+
+The purpose of this question is to test your understanding of interpretating the estimated coefficients from a multiple linear regression model.
+
+Using the lm function (not train from caret), fit a multiple regression model predicting CustomerLV (a customer’s total life time value to a company) using all predictors (no interactions) on the entirety of the data (no training and test). Report the summary of the fitted model and then interpret the coefficients of:
+
+•TotTransactions - the total number of transactions made by the customer
+
+•GenderMale - an indicator variable (1=male, 0=female)
+
+•Incomef30t45 - an indicator variable (1=yearly income is between 30K and 45K, 0=otherwise; reference level is ‘f0t30‘ which means 30K or less
+
+---
+
+```{r - R Code for Question 1 Part b}
+
+M<-lm(CustomerLV~., data= value)
+summary(M)
+
+
+```
+
+
+(Your written response goes here.)
+
+TotTransactions: for each one unit increase in total transactions, the customer lifetime value increases by $165.95, all else equal. 
+
+GenderMale: Men on average have a 97 dollar higher customer lifetime value than women, all else equal. 
+
+Incomef30t45: there is a statistically insignificant difference in lifetime value for individuals who have an income between 30 and 45 thousand dollars and those who do not, all else equal. 
+
+# Part (c) Training Predictive Models
+
+Using the train function from the caret package, train the seven predictive models below with 5-fold cross validation. Write a few sentences comparing the performances of the methods. For each model, be sure to report the performance metrics for the best model, including its performance on the holdout samples. Identify the very best model, and check if its holdout error is not more than 10-20% of the estimated generalization error. Explain in a single sentence what this estimated generalization error means. 
+
+Lastly, report variable importance plots for each method.Which variables appear most important in predicting a customer's life time value to a company?
+
+Use 80% of the data for training and the rest as a holdout.
+
+•The multiple linear regression model
+
+•The Ridge regression model
+
+•The Lasso regression model
+
+•The Elastic Net model, set alpha=seq(0.1,0.9,by=0.1)
+
+•The principal components regression model
+
+•The partial least squares regression model
+
+•The k-nearest neighbors regression model (try k=1:25)
+
+
+---
+
+```{r - R Code for Question 1 Part c}
+
+library(caret)
+library(glmnet)
+library(pls)
+set.seed(123) # For reproducibility
+
+# 1. Split the data (80% training, 20% holdout)
+trainIndex <- createDataPartition(value$CustomerLV, p = 0.8, list = FALSE)
+train_data <- value[trainIndex, ]
+test_data  <- value[-trainIndex, ]
+
+# 2. Set up 5-fold cross-validation
+cv_control <- trainControl(method = "cv", number = 5)
+
+# --- Train the 7 Models ---
+
+# Model 1: Multiple Linear Regression (MLR)
+mod_lm <- train(CustomerLV ~ ., data = train_data, method = "lm",
+                trControl = cv_control, preProcess = c("center", "scale"))
+
+# Model 2: Ridge Regression (alpha = 0)
+mod_ridge <- train(CustomerLV ~ ., data = train_data, method = "glmnet",
+                   trControl = cv_control, preProcess = c("center", "scale"),
+                   tuneGrid = expand.grid(alpha = 0, lambda = seq(0.01, 100, length = 100)))
+
+# Model 3: Lasso Regression (alpha = 1)
+mod_lasso <- train(CustomerLV ~ ., data = train_data, method = "glmnet",
+                   trControl = cv_control, preProcess = c("center", "scale"),
+                   tuneGrid = expand.grid(alpha = 1, lambda = seq(0.01, 100, length = 100)))
+
+# Model 4: Elastic Net
+mod_enet <- train(CustomerLV ~ ., data = train_data, method = "glmnet",
+                  trControl = cv_control, preProcess = c("center", "scale"),
+                  tuneGrid = expand.grid(alpha = seq(0.1, 0.9, by = 0.1),
+                                         lambda = seq(0.01, 100, length = 100)))
+
+# Model 5: Principal Components Regression (PCR)
+mod_pcr <- train(CustomerLV ~ ., data = train_data, method = "pcr",
+                 trControl = cv_control, preProcess = c("center", "scale"),
+                 tuneLength = 10)
+
+# Model 6: Partial Least Squares (PLS)
+mod_pls <- train(CustomerLV ~ ., data = train_data, method = "pls",
+                 trControl = cv_control, preProcess = c("center", "scale"),
+                 tuneLength = 10)
+
+# Model 7: K-Nearest Neighbors (KNN)
+mod_knn <- train(CustomerLV ~ ., data = train_data, method = "knn",
+                 trControl = cv_control, preProcess = c("center", "scale"),
+                 tuneGrid = data.frame(k = 1:25))
+
+
+
+# Define a function to calculate metrics
+get_metrics <- function(model, test_data) {
+  # CV Error (Estimated Generalization Error)
+  cv_rmse <- min(model$results$RMSE)
+  
+  # Holdout Error (Performance on unseen data)
+  predictions <- predict(model, newdata = test_data)
+  holdout_rmse <- postResample(pred = predictions, obs = test_data$CustomerLV)["RMSE"]
+  
+  # Percentage difference
+  pct_diff <- abs(holdout_rmse - cv_rmse) / cv_rmse * 100
+  
+  return(data.frame(CV_RMSE = cv_rmse, 
+                    Holdout_RMSE = holdout_rmse, 
+                    Diff_Percentage = pct_diff))
+}
+
+# Compile results into a clean table
+results_table <- rbind(
+  MLR = get_metrics(mod_lm, test_data),
+  Ridge = get_metrics(mod_ridge, test_data),
+  Lasso = get_metrics(mod_lasso, test_data),
+  ElasticNet = get_metrics(mod_enet, test_data),
+  PCR = get_metrics(mod_pcr, test_data),
+  PLS = get_metrics(mod_pls, test_data),
+  KNN = get_metrics(mod_knn, test_data)
+)
+
+print(results_table)
+
+
+
+# Generate variable importance for all models
+par(mfrow = c(3, 3)) # Set up a grid for base plots if needed, but caret uses lattice/ggplot
+
+plot(varImp(mod_lm), main = "MLR Importance")
+plot(varImp(mod_ridge), main = "Ridge Importance")
+plot(varImp(mod_lasso), main = "Lasso Importance")
+plot(varImp(mod_enet), main = "Elastic Net Importance")
+plot(varImp(mod_pcr), main = "PCR Importance")
+plot(varImp(mod_pls), main = "PLS Importance")
+plot(varImp(mod_knn), main = "KNN Importance")
+
+
+
+
+```
+
+
+(Your written response goes here.)
+
+The ridge model performs the best with regards to being the least overfit. The second best model is lasso, although it is a bit more overfit, its overall RMSE is lower in both the cross validation and test train sample. Going off of the Ridge model, the least over fit, the typical miss in predicting a customer's lifetime value is about $225, which is relatively good considering that this model is good across cross validation and test and train. 
+
+The most important variable seems to be TotTransactions across all models, followed closely by wallet share across all models, then half of the models say that last transaction is important (within the top 3 variables) and the other half of the models say first purchase is within the top 3 variables. Going off of Ridge and Lasso, our best models, first purchase is the third most important variable. 
+
+---
+---
+
+
+### Problem 2: National Life Expectancies
+
+Who is doing health care right? Health care decisions are made at the individual, corporate and government levels. Virtually every person, corporation and government have their own perspective on health care; these  different perspectives result in a wide variety of systems for managing health care. Comparing different health care systems help us learn about approaches other than our own, which in turn help us make better decisions in designing improved systems.
+
+Here, we consider health care systems from n = 185 countries throughout the world. As a measure of the quality of care, we use LIFEEXP, the life expectancy at birth. There are 185 countries considered in this study, not all countries provided information for each variable. The following variables are available in the file: UNLifeExpectancy.csv
+
+• REGION: Categorical variable for region of the world
+• COUNTRY: The name of the country
+• LIFEEXP: Life expectancy at birth, in years
+• ILLITERATE: Adult illiteracy rate, % aged 15 and older
+• POP: 2005 population, in millions
+• FERTILITY: Total fertility rate, births per woman
+• PRIVATEHEALTH: 2004 Private expenditure on health, % of GDP
+• PUBLICEDUCATION: Public expenditure on education, % of GDP
+• HEALTHEXPEND: 2004 Health expenditure per capita, PPP in USD
+• BIRTHATTEND: Births attended by skilled health personnel (%)
+• PHYSICIAN: Physicians per 100,000 people
+• SMOKING: Prevalence of smoking, (male) % of adults
+• RESEARCHERS: Researchers in R & D, per million people
+• GDP: Gross domestic product, in billions of USD
+• FEMALEBOSS: Legislators, senior officials and managers, % female
+
+Read the data, and look at the first three rows using the following code:
+
+```{r}
+life_expectancy <- read.csv("UNLifeExpectancy.csv",header=TRUE)
+head(life_expectancy,3)
+```
+
+Notice that there are many missing values in this data. Check out how many missing values each of the variables has by running the following code:
+
+
+```{r}
+unlist(lapply(life_expectancy,function(x)sum(is.na(x))))
+```
+
+
+We will ignore the variables SMOKING, RESEARCHERS, FEMALEBOSS from the analysis, since there are so many countries that did not report this. For the other variables with missing values, we will do a median imputation.
+
+
+Lets remove SMOKING, RESEARCHERS, FEMALEBOSS because of the excessive missing values, and also remove REGION and COUNTRY because these are just indicators and shouldn’t be used as predictors.
+
+```{r}
+life_expectancy<-life_expectancy[,-c(1,2,12,13,15)]
+```
+
+Now lets do the median imputation and look at the first few rows of the resulting data.
+
+```{r}
+median_input<-function(x){
+x[which(is.na(x))]<-median(x,na.rm=TRUE)
+return(x)
+}
+
+life_expectancy_refined<-apply(life_expectancy,MARGIN= 2,FUN=median_input)
+head(life_expectancy_refined,3)
+
+life_expectancy_refined <- as.data.frame(life_expectancy_refined)
+```
+
+Use the `life_expectancy_refined` data for the analysis below.
+
+---
+---
+
+# Part (a) Training Predictive Models
+
+Using the train function from the caret package, train the seven predictive models below with 5-fold cross validation. Write a few sentences comparing the performances of the methods. For each model, be sure to report the performance metrics for the best model, including its performance on the holdout samples. Identify the very best model, and check if its holdout error is not more than 10-20% of the estimated generalization error. Explain in a single sentence what this estimated generalization error means. 
+
+Lastly, report variable importance plots for each method.Which variables appear most important for life expectancy at birth?
+
+Use 80% of the data for training and the rest as a holdout.
+
+•The multiple linear regression model
+
+•The Ridge regression model
+
+•The Lasso regression model
+
+•The Elastic Net model, set alpha=seq(0.1,0.9,by=0.1)
+
+•The principal components regression model
+
+•The partial least squares regression model
+
+•The k-nearest neighbors regression model (try k=1:25)
+
+
+
+---
+
+```{r - R Code for Question 2 Part a}
+library(caret)
+library(glmnet)
+library(pls)
+set.seed(123) # For reproducibility
+
+# 1. Split the data (80% training, 20% holdout)
+trainIndex <- createDataPartition(life_expectancy_refined$LIFEEXP, p = 0.8, list = FALSE)
+train_data <- life_expectancy_refined[trainIndex, ]
+test_data  <- life_expectancy_refined[-trainIndex, ]
+
+# 2. Set up 5-fold cross-validation
+cv_control <- trainControl(method = "cv", number = 5)
+
+# --- Train the 7 Models ---
+
+# Model 1: Multiple Linear Regression (MLR)
+mod_lm <- train(LIFEEXP ~ ., data = train_data, method = "lm",
+                trControl = cv_control, preProcess = c("center", "scale"))
+
+# Model 2: Ridge Regression (alpha = 0)
+mod_ridge <- train(LIFEEXP ~ ., data = train_data, method = "glmnet",
+                   trControl = cv_control, preProcess = c("center", "scale"),
+                   tuneGrid = expand.grid(alpha = 0, lambda = seq(0.01, 100, length = 100)))
+
+# Model 3: Lasso Regression (alpha = 1)
+mod_lasso <- train(LIFEEXP ~ ., data = train_data, method = "glmnet",
+                   trControl = cv_control, preProcess = c("center", "scale"),
+                   tuneGrid = expand.grid(alpha = 1, lambda = seq(0.01, 100, length = 100)))
+
+# Model 4: Elastic Net
+mod_enet <- train(LIFEEXP ~ ., data = train_data, method = "glmnet",
+                  trControl = cv_control, preProcess = c("center", "scale"),
+                  tuneGrid = expand.grid(alpha = seq(0.1, 0.9, by = 0.1),
+                                         lambda = seq(0.01, 100, length = 100)))
+
+# Model 5: Principal Components Regression (PCR)
+mod_pcr <- train(LIFEEXP ~ ., data = train_data, method = "pcr",
+                 trControl = cv_control, preProcess = c("center", "scale"),
+                 tuneLength = 10)
+
+# Model 6: Partial Least Squares (PLS)
+mod_pls <- train(LIFEEXP ~ ., data = train_data, method = "pls",
+                 trControl = cv_control, preProcess = c("center", "scale"),
+                 tuneLength = 10)
+
+# Model 7: K-Nearest Neighbors (KNN)
+mod_knn <- train(LIFEEXP ~ ., data = train_data, method = "knn",
+                 trControl = cv_control, preProcess = c("center", "scale"),
+                 tuneGrid = data.frame(k = 1:25))
+
+
+
+# Define a function to calculate metrics
+# Define a function to calculate metrics
+get_metrics <- function(model, test_data) {
+  # CV Error (Estimated Generalization Error)
+  cv_rmse <- min(model$results$RMSE)
+  
+  # Holdout Error (Performance on unseen data)
+  predictions <- predict(model, newdata = test_data)
+  
+  # FIXED: Changed CustomerLV to LIFEEXP here!
+  holdout_rmse <- postResample(pred = predictions, obs = test_data$LIFEEXP)["RMSE"]
+  
+  # Percentage difference
+  pct_diff <- abs(holdout_rmse - cv_rmse) / cv_rmse * 100
+  
+  return(data.frame(CV_RMSE = cv_rmse, 
+                    Holdout_RMSE = holdout_rmse, 
+                    Diff_Percentage = pct_diff))
+}
+
+
+# Compile results into a clean table
+results_table <- rbind(
+  MLR = get_metrics(mod_lm, test_data),
+  Ridge = get_metrics(mod_ridge, test_data),
+  Lasso = get_metrics(mod_lasso, test_data),
+  ElasticNet = get_metrics(mod_enet, test_data),
+  PCR = get_metrics(mod_pcr, test_data),
+  PLS = get_metrics(mod_pls, test_data),
+  KNN = get_metrics(mod_knn, test_data)
+)
+
+print(results_table)
+
+
+
+# Generate variable importance for all models
+par(mfrow = c(3, 3)) # Set up a grid for base plots if needed, but caret uses lattice/ggplot
+
+plot(varImp(mod_lm), main = "MLR Importance")
+plot(varImp(mod_ridge), main = "Ridge Importance")
+plot(varImp(mod_lasso), main = "Lasso Importance")
+plot(varImp(mod_enet), main = "Elastic Net Importance")
+plot(varImp(mod_pcr), main = "PCR Importance")
+plot(varImp(mod_pls), main = "PLS Importance")
+plot(varImp(mod_knn), main = "KNN Importance")
+
+
+
+
+
+
+
+
+```
+
+
+
+(Your written response goes here.)
+
+With this model, Elastic net and lasso perform the best with typical misses of around 6 years of life expectancy, the most important variable seems to be the fertility rate by about a mile, with health expenditure and birth attended by a skilled professional following behind. 
+
+# AI Disclaimer
+
+---
+
+Describe here at which question you utilized AI for what specific purpose.
+
+I used AI to help code every problem aside from 1 b, where my BAS 320 skills kicked in, it came in handy with the repetitive task of setting up the training models for the 7 types of predictive models used. Additionally it helped me debug the "get metrics" function it created and solve the 'matrix' sort of data frame that the impuation of life_expectanct_refined created. It also helped in creating the fancy ggplots, and box plots used. All the interpretation is my own, roughly, I might need to use the phrase ceterus paribus somewhere, but I think I covered most bases. 
+

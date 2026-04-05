@@ -1,0 +1,255 @@
+---
+title: "Assignment 2 - Data Exploration and Visualization - Stat 577"
+output:
+  word_document: default
+  html_document:
+    df_print: paged
+---
+
+**Instructions:**  Ensure this .Rmd file lives in the folder that you've created for this course by doing File, Save As, and forcing a save there.  Also ensure that the working directory is your course folder folder by doing Session, Set Working Directory, Choose Directory (you'll see the path right above the Console window).  Ensure the the associated data set has been downloaded and moved into your course folder as well.
+
+Knit this to a Word document (you do not need to put your name on this document or otherwise modify it).  Ensure that the image is showing up.
+
+
+****
+
+The data file (Journey data with dates.csv) summarizes purchases at Kroger stores by 2500 households beginning March 23, 2005 and ending March 3, 2007, giving daily number of trips and total expenditure. Each row is one day of records with number of trips and average expenditure per basket. During the first 14 weeks, it seems that households were being added to the database, as the number of shopping trips is notably less prior to June 2005. Thus, while average basket cost may not be affected by having partial data for the first 14 weeks, variables like number of trips and total expenditure clearly are affected.
+
+This assignment is to create graphics to build understanding about shopping habits of these customers, and perhaps, about Kroger shoppers in general during those years.
+
+****
+
+```{r}
+library(tidyverse)
+library(lubridate)
+df = read_csv("Journey data with dates.csv")
+```
+
+---
+
+# Question 1 
+
+Glimpse into the data to familiarize yourself and then filter out Christmas days (25th of December in 2005 and 2006), as well as weeks 1-14. Make sure to update `df` as this new filtered tibble. Lastly, `mutate` the `Date` column into an appropriate date object.
+
+---
+
+
+```{r - Question 1 Code}
+df |> head()
+
+df <- df %>% 
+  mutate(Date = mdy(Date), `Day of week` = factor(`Day of week`, 
+                           levels = c("M", "Tu", "W", 
+                                      "Th", "F", "Sa", "Su"))) %>% 
+  filter(
+    Date != make_date(2005, 12, 25), 
+    Date != make_date(2006, 12, 25), 
+    WEEK_NO > 14
+  )
+
+
+df |> head()
+
+
+
+
+
+```
+
+
+---
+
+# Question 2
+
+Report the mean and standard deviation of the number of trips (`NTrips`). Construct a histogram to understand the distribution of number of trips. Make sure to label the axes and title appropriately. Describe the shape of the histogram; is it symmetric or skewed in any direction? How about outliers?
+
+---
+
+```{r - Question 2 Code}
+
+mean(df$NTrips)
+sd(df$NTrips)
+
+hist(df$NTrips, xlab = "number of trips", ylab="Freuency" )
+
+# 3. Identify Outliers (IQR Method)
+# Calculate Quartiles
+Q1 <- quantile(df$NTrips, 0.25, na.rm = TRUE)
+Q3 <- quantile(df$NTrips, 0.75, na.rm = TRUE)
+IQR_value <- Q3 - Q1
+
+# Define Upper and Lower Limits (Standard 1.5x Rule)
+lower_bound <- Q1 - 1.5 * IQR_value
+upper_bound <- Q3 + 1.5 * IQR_value
+
+# Filter and display the specific days that are outliers
+outliers <- df %>% 
+  filter(NTrips < lower_bound | NTrips > upper_bound) %>%
+  select(Date, NTrips) # Select relevant columns to view
+
+cat("\n--- Outlier Analysis ---\n")
+cat("Lower Bound:", lower_bound, "\n")
+cat("Upper Bound:", upper_bound, "\n")
+cat("Number of Outliers found:", nrow(outliers), "\n")
+print(outliers)
+
+
+
+```
+
+
+(Question 2 Response)
+The mean niumber of trips is around 424. The standard deviation is about 49. Additionally, the data seems to be right skewed. There are 8 outliers listed above. 
+---
+
+# Question 3
+
+
+Report the mean and standard deviation of the number of trips (NTrips) by day of the week. Also, create side-by-side box plots for the number of trips by day of the week. Be sure to order the days as they appear on the calendar, beginning with Monday (feel free to ask this to your favorite GenAI). Write a summary of your observations from the plot.
+
+---
+
+
+```{r - Question 3 Code}
+summary_stats<-df %>%
+  group_by(`Day of week`) %>% 
+  summarize(mean_NTrips= mean(NTrips, na.rm=TRUE) , sd_NTrips= sd(NTrips, na.rm=TRUE))
+
+# 5. Visualization
+# Side-by-side box plots ordered by day of the week
+ggplot(df, aes(x = `Day of week`, y = NTrips, fill = `Day of week`)) +
+  geom_boxplot() +
+  labs(
+    title = "Distribution of Trips by Day of Week",
+    x = "Day of Week",
+    y = "Number of Trips"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none") # Remove legend as x-axis is sufficient
+
+print(summary_stats)
+
+```
+
+
+(Question 3 Response)
+Monday Mu: 421 sd: 35.6
+Tuesday Mu: 395 sd: 37.2
+Wednesday Mu: 396 sd: 46.8
+Thursday Mu: 398 sd: 31.9
+Friday Mu: 412 sd: 34.3
+Saturday Mu: 471 sd: 37.4
+Sunday Mu: 478 sd: 35.3
+
+---
+
+# Question 4
+
+Report the mean and standard deviation of the mean cost per trip by day of the week. Create side-by-side box plots for the mean cost per trip by day of the week. Be sure to order the days as they appear on the calendar, beginning with Monday. Write a summary of your observations from the plot.
+
+---
+
+```{r - Question 4 Code}
+
+summary_stats_cost <- df %>%
+  group_by(`Day of week`) %>%
+  summarize(
+    mean_Cost = mean(`Mean $ per basket`, na.rm = TRUE),
+    sd_Cost = sd(`Mean $ per basket`, na.rm = TRUE)
+  )
+
+ggplot(df, aes(x = `Day of week`, y = `Mean $ per basket`, fill = `Day of week`)) +
+  geom_boxplot() +
+  labs(
+    title = "Distribution of Mean Cost per Trip by Day of Week",
+    x = "Day of Week",
+    y = "Mean $ per basket"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+print(summary_stats_cost)
+```
+
+Monday Mu: 28.7 sd: 2.73
+Tuesday Mu: 27.8 sd: 2.75
+Wednesday Mu: 27.3 sd: 2.33
+Thursday Mu: 27.3 sd: 2.87
+Friday Mu: 29.3 sd: 3.07
+Saturday Mu: 31.0 sd: 3.08
+Sunday Mu: 32.2 sd: 3.01
+
+
+(Question 4 Response)
+
+
+---
+
+# Question 5
+
+Now we wish to understand change over time in mean cost per trip. This change could be seasonal (e.g., end of year or holidays being a time with larger baskets) or trend (e.g., going up over time). The fact that you have nearly two years of data will be useful in separating trend from seasonal effects. Create a time series plot using Date as the time unit on your x-axis. Discuss your observations.
+
+---
+
+```{r - Question 5 Code}
+ggplot(df, aes(x = Date, y = `Mean $ per basket`)) +
+  geom_line(color = "darkgreen", alpha = 0.6) + # Raw data line
+  geom_smooth(method = "loess", color = "blue", se = FALSE) + # Trend line (smooth)
+  labs(
+    title = "Time Series of Mean Cost per Trip (2005-2006)",
+    subtitle = "Green: Daily Average | Blue: Smoothed Trend",
+    x = "Date",
+    y = "Mean $ per basket"
+  ) +
+  scale_x_date(date_breaks = "3 months", date_labels = "%b %Y") + # Format x-axis labels
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+
+
+(Question 5 Response)
+It seems as the costs tend to increase during the winter months per trip and decrease during the summer however there seems to be an underlying increasing cost trend. 
+
+---
+
+# Question 6
+
+Does the trend and or seasonal effects (in question 5 above) depend on the day of week? Answer using an appropriate plot. (HINT: Try different `color` and `linetype` based on the day of week along with `geom_line` and `geom_smooth`.)
+
+---
+
+```{r - Question 6 Code}
+# 8. Time Series Analysis by Day of Week
+# Visualizing trends separately for each day to identify day-specific effects
+ggplot(df, aes(x = Date, y = `Mean $ per basket`, color = `Day of week`, linetype = `Day of week`)) +
+  geom_line(alpha = 0.3) + # Faint lines for raw daily data
+  geom_smooth(se = FALSE, size = 1) + # Distinct smoothed trend lines for each day
+  labs(
+    title = "Trends in Mean Cost per Trip by Day of Week",
+    subtitle = "Comparison of seasonal patterns across different days",
+    x = "Date",
+    y = "Mean $ per basket"
+  ) +
+  scale_x_date(date_breaks = "3 months", date_labels = "%b %Y") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+```
+
+
+(Question 6 Response)
+While the seasonal trends are consistent across both plots, there seems to be a starker trend between weekend days and week days in the categorized by week graphs. The Saturday and sunday lines are much higher across all months for the entire time series. 
+
+---
+
+# AI Disclaimer
+
+---
+
+Describe here at which question you utilized AI for what specific purpose.
+
+I have used AI to help with finding outliers on question 2, with cleaning my data set on question 1 and with the plotting of question 3. I also used AI for questions 5 and 6, to make the graphs with GG plot. 
+
+
