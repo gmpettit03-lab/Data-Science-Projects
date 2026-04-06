@@ -1,0 +1,489 @@
+---
+title: "BAS 471 Spring 25 Homework on Unit 9 Phase 1 - Standard errors and confidence intervals for parameters and the average of probability distributions"
+author: "Your Name Here Please"
+date: "see Canvas for due date"
+output:
+  word_document: default
+---
+```{r setup, include=FALSE}
+#Leave this as-is.
+knitr::opts_chunk$set(echo = TRUE,collapse=TRUE)
+if( as.numeric( paste( unlist( strsplit( paste(R.Version()$major,R.Version()$minor,sep="."),split="\\.") ),collapse="") ) < 422 ) { 
+  stop("You must have R version 4.2.2 or later to knit this document")}
+RNGversion("4.2.2")
+```
+
+
+******************************************************************************
+
+# Note: these are your homework problems
+
+As a reminder about the collaboration policy, remember that you can develop a common set of R code with your colleagues. However, all written interpretations (i.e., anything that follows a **Response:**) needs to be written *in your own words* (unless you are instructed to copy/paste what ChatGPT says for a particular question).  Homework submissions that look to be near copies of each other will receive substantially reduced credit, may receive a 0, and may result in you receiving an F in the class.  If you do use ChatGPT as a learning tool (caution:  in BAS 471, unlike other BAS classes, *there are quite a few concepts/problems that ChatGPT gets plain wrong*), you'll need to rephrase its very obvious AI-sounding phrasing.  Remember that exams are closed ChatGPT, so do not rely on it too much.  
+
+
+**********************************************************************************
+
+## Question 1 (Bonus question)
+
+In a previous homework, you looked at `X` = the number of people that ultimately hear about a new product via word of mouth when `k` people initially heard about it.
+
+$$P(X=x) = \frac{k}{x}\frac{e^{-mx}(mx)^{x-k}}{(x-k)!} \qquad x= k, k+1, k+2, \ldots$$
+
+In that homework, you took `k=4` and you derived that the MOM and MLE estimators for `m` were one minus 4 times the reciprocal of the sample average:
+
+$$\hat{m}_{MLE} = \hat{m}_{MOM} = 1 - \frac{4}{\bar{X}}$$
+
+It's possible to come up with other ways to estimate `m`.  For example, if you plug in `k=4` and `x=4` into the PMF, then solve for `m`, you find:
+
+$$P(X=4) = \frac{4}{4}\frac{e^{-m\cdot 4}(m\cdot 4)^{4-4}}{(4-4)!} =  1 \cdot \frac{e^{-m\cdot 4}(m\cdot 4)^{0}}{0!}$$
+
+$$P(X=4) = e^{-4m}$$
+$$m = -\frac{1}{4}\ln ( P(X=4) )$$
+
+Thus, logic suggests that another reasonable estimator of `m` is the negative of the natural logarithm of the proportion of data values that equal 4. 
+
+$$\hat{m}_{logic} = \texttt{-1*log(mean(x==4))}$$
+
+Let's investigate which of these estimators is "better"!  The `BAS471-Unit8-Part 3-BiasVarianceRMSESolutions.Rmd` file provides a great example to adapt (it was covered during a Kahoot).  
+
+Run a Monte Carlo simulation (100,000 trials) to evaluate the bias, variance, and root mean squared error of both of these estimators when the sample size is `n=30` and when the "true" value of `m` is 0.3.
+
+* Define vectors `mle` and `logic` to be empty vectors before your `for` loop.
+
+* In each trial, generate a random sample of size 30 (an example using the `sample` command is provided).
+
+* Compute the value of the MLE estimator and the "logic" estimator, and store them into the appropriate positions of your `mle` and `logic` vectors (the value from the `i`-th trial should be stored in the `i`-th element).
+
+* Print to the screen the *bias* of each estimator (the difference between the `mean` of your `mle` and `logic` vectors and the "true" value of `m=0.3`), the *variance* of each estimator (using `var` on your vector of estimates `mle` and `logic`), and the root mean squared error *RMSE* of each estimator.
+
+* In the response, fill in the blanks:  the typical error when the MLE is used to estimate `m` is _.004_ while the typical error when the "logic" estimator is used to estimate `m` is .016_.
+
+**Response:** 
+
+```{r Q1}
+#The following lines set up the PMF
+dcustom <- function(x,m) { 4/x * exp(-m*x)*(m*x)^(x-4)/factorial(x-4) }
+values <- 4:100 #Smallest possible x is 5, go up to 100 since that's large enough to capture most of the PMF
+m <- 0.3
+PMF <- dcustom(values,m)
+barplot(PMF[1:20],names.arg=values[1:20])
+sum(PMF) #Captured basically all the probability going out to x=100, even though larger values are possible
+
+#Here's an example of creating a random sample of size 20, then finding the two estimators
+x <- sample(values,size=30,replace=TRUE,prob=PMF)
+1-4/mean(x) #mle estimator
+-1/4*log( mean(x==4) ) #logic estimator; note: if no 5s were observed this will equal Inf
+
+
+
+
+#Your code for the rest of the problem
+
+#Define mle and logic to be empty vectors
+mle <- c()
+logic <- c()
+
+#Run Monte Carlo simulation.  Each trial generates a random sample then stores into
+#the mle and logic vectors the values of the MLE and "logic" estimators
+
+
+ntrials<- 10000
+
+for (i in 1:ntrials) {
+x <- sample(values,size=30,replace=TRUE,prob=PMF)
+mle[i]<-1-4/mean(x) 
+logic[i] <- -1/4*log( mean(x==4) )   
+
+}
+
+
+
+
+
+#After mle and logic vectors are populated, throw away those samples where 4 was not observed
+logic <- logic[is.finite(logic)]
+
+
+#Report the bias of each estimator (average value of the estimator minus the "true" value)
+bias_mle<-mean(mle)-.3
+bias_logic<-mean(logic)-.3
+
+#Report the variance of each estimator  (the `var()` of values of the estimators)
+head(mle)
+var(mle)
+var(logic)
+
+#Report the RMSE of each estimator  (square root of bias^2 + variance)
+
+RMSE_MLE<-sqrt(bias_mle^2) + var(mle)
+RMSE_MLE
+RMSE_LOGIC<-sqrt(bias_logic^2) + var(logic)
+RMSE_LOGIC
+
+
+
+```
+
+
+******************************************************************************************
+
+
+## Question 2:  Inference on Parameters of Probability Models
+
+You'll need the `BAS471-S25Unit9Phase1.RData` saved environment loaded in for this problem.   You know the drill:
+
+*  Make sure the .RData file is in your 471 folder
+*  Make sure to do a Save As on this .Rmd file and forcibly put it in your 471 folder
+*  Make sure your working directory is your 471 folder too (Session, Set Working Directory)
+
+```{r loading in data}
+load("BAS471-S25Unit9Phase1.RData")
+```
+
+For each of the following probability distributions, use `fitdist` (or otherwise) and:
+
+* Report (print to the screen) the numerical value of the MLE and its standard error (both of these can be found by running `summary` on your fit) as well as a 95% confidence interval for *each* parameter (if there is more than one).
+
+* Answer the follow-up question posed about the fitted probability model.
+
+
+2a.  $X_i \sim Geom(p)$  (i.e. our data is a random sample from some geometric distribution)
+
+The geometric distribution is useful for counting up the number of "trials" that result in a "failure" before the first "success" happens.  For example, it would do a good job at describing the number of games you lose before you finally win, if each game independently has a p=5% chance you will win.  The data in `data.for.geometric` is being made by *some* geometric distribution; we just don't know its `p` (the probability of "success").  
+
+In the response, fill in the blanks:  we estimate `p` to be _.183_, but this estimate might be off from the "true" value of `p` by _.016_ or so.  We are 95% confident that `p` is between _.152_ and _.214__  (round to 3 digits after the decimal).
+
+**Response:**  
+
+```{r Q2a,warning=FALSE}
+library(fitdistrplus)
+FIT<-fitdist(data.for.geometric, "geom")
+summary(FIT)
+SD<-FIT$sd
+
+FIT$estimate + c(-1,1)*2*SD
+
+
+
+
+```
+
+2b.  $X_i \sim Geiranger(s,t)$  (i.e. our data is a random sample from a "Geiranger" distribution)
+ 
+The "Geiranger" distribution could be used to model a quantity where larger values are progressively less likely to be observed (e.g., the time it takes a faulty machine part to fail; most times are very short).  The shape depends on two parameters `s` and `t`.  Mouse over to see the equation; if the equation doesn't pop up, try restarting RStudio and/or clicking the double up/down arrows on the far right side of the equation box to expand it.
+
+$$f(x) = \frac{st}{(1+sx)^{t+1}} \qquad x > 0, s>0, t>1$$
+
+The data in `data.for.geiranger` comes from some Geiranger distribution; we just don't know its values of `s` or `t`.  Find the MLEs for `s` and `t` using the values in `data.for.geiranger`.  Note:  you'll need to define `dcustom`.  Sanity check:  close to 0.8 for `s` and 6.9 for `t`. Try starting guesses of 2 for each parameter. 
+
+The boss has a vested interest in the exact value of the parameters of whichever flavor of this distribution is making the data.  Specifically, the boss believes that `s` is 1.5 and `t` is 2.   The values estimated from the data are ... well kind of close I guess.  Based on the fit, are these reasonable/plausible values for the "true" values of `s` and `t`?  Why or why not? 
+
+**Response:** 
+The guess for the t parameter seems reasonable because 2 is within the confidence interval for the parameter, however the s parameter is not because 1.5 is not within the confidence interval. 
+
+
+
+```{r Q2b, warning=FALSE}
+
+dcustom<- function(x,s,t){(s*t)/((1+s*x)^(t+1))}
+
+#Uncomment the sanity check to show you pass it
+dcustom(5,s=3,t=2)
+# 0.001464844
+
+FIT<-fitdist(data.for.geiranger, "custom", start=list(s=1.5, t=2))
+
+summary(FIT)
+6.867498- 2*(2.4659504)
+0.812399+ 2*(0.3317338)
+
+
+```
+
+2c (Bonus).  $X_i \sim Slimer(a,b)$  (i.e. our data is a random sample from a Slimer distribution)
+
+The Slimer distribution has been used to describe lifetimes of adults and customer lifetime values.  Mouse over to see the equation; if the equation doesn't pop up, try restarting RStudio and/or clicking the double up/down arrows on the far right side of the equation box to expand it.
+
+$$f(x) = ab e^{a + bx - a e^{bx}} \qquad x > 0$$
+
+We think the data in `data.for.slimer` is coming from *some* Slimer distribution; we just don't know its values of `a` and `b`.   
+
+In the response, fill in the blanks:  we estimate `a` to be _5.755 _ , give or take about _2.141__ or so.  Round to 3 digits after the decimal.
+
+Note:  you'll need to define `dcustom`.  Starting guesses of 1.5 for both parameters should suffice.  Sanity check:  MLEs of `a` and `b` are close to 5.8 and 2.0, respectively.
+
+**Response:** 
+
+```{r Q2c,warning=FALSE}
+
+dcustom<-function(x,a,b){a*b*exp(a+b*x-a*exp(b*x))}
+
+#Uncomment the sanity check to show you pass it
+dcustom(3,a=0.5,b=0.6)
+#0.145323
+
+FIT<-fitdist(data.for.slimer, "custom", start=list(a=1.5,b=1.5))
+summary(FIT)
+
+
+
+
+
+
+```
+
+
+******************************************************************************************
+
+## Question 3:  Studying streaming amounts (how many segments?)
+
+In `BAS471-S25Unit9Phase1.RData`, there is a vector named `streamamts`.  Each element gives the fraction of a particular hour that users streamed music on Spotify (all values are between 0 and 1).
+
+We can treat the values in `streamamts` as a random sample from *some* probability distribution; we just don't know what it is.  Since all values are between 0 and 1, the beta distribution seems like a natural starting choice.
+
+a)  Fit the data to a beta distribution using `fitdist`.  Print out a `summary` of the fit so that the parameters of the fit and its AIC are shown (the MLEs are close to 2.2 and 1.3, and the AIC is close to -390).  Also, include the plot made by `qqcomp` (add additional arguments `fitpch=20` and `cex=.3` to make the red dots small filled circles).
+
+The QQ plot shows some worrisome features: a "peeling away" above the diagonal line at smaller values (starting close to 0.4), a big "dip" below the diagonal line between 0.4 and 0.8, and another large "bump" above the diagonal line after 0.8.
+
+```{r Q3a}
+FIT<-fitdist(streamamts, "beta")
+summary(FIT)
+qqcomp(FIT,fitpch=20,cex=.3 )
+
+
+
+```
+
+b)  Make a histogram (with additional argument `freq=FALSE`) of the values in `streamamts`, also adding the argument `breaks=seq(0,1,length=50)` so that you get 50 bars.  Then, add a `curve` that shows the fitted model from (a).  This beta distribution does *not* provide a convincing fit!
+
+```{r Q3b}
+hist(streamamts, freq=FALSE, breaks=seq(0,1,length=50)); curve(dbeta(x, shape1 =2.218456, shape2 =1.295173 ), add=TRUE, col="red")
+
+
+```
+
+c)  Some deficiencies of the original fit *might* be fixed if we make the distribution bimodal (one peak near 0.45 and another peak near 0.9; these mimic features in the histogram).   If a bimodal distribution does provide a better fit, the implication would be that there are two "segments" or groups of streamers.  
+
+Let's use the following 5-parameter "mixture" model, which "mixes" and combines two beta distributions (let's represent the `shape1` and `shape2` parameters that R uses as `a` and `b`, respectively, for convenience in the equation).  Mouse over to see the equation; if the equation doesn't pop up, try restarting RStudio and/or clicking the double up/down arrows on the far right side of the equation box to expand it.  
+
+$$f(x) = p \cdot beta(a_1,b_1) + (1-p) \cdot beta(a_2,b_2)$$
+Below shows an example curve of a mixture that is 60% beta with parameters 1.5 and 4.4, and 40% beta with parameters 4.2 and 1.6.  It's not a curve that mimics our histogram, but it shows that a bimodal distribution can indeed be created by mixing two distributions!  
+
+```{r Q3c setup}
+curve( 0.6*dbeta(x,1.5,4.4) + 0.4*dbeta(x,4.2,1.6),ylab="" )
+```
+
+The provided `dcustom` function takes advantage of the fact that the formula for the PDF of a beta distribution can be written as `dbeta`.  The first argument is `x` (like it always is) and 2nd-6th arguments are the five parameters of model:  `a1`,`b1`,`a2`,`b2`,`p` (the "mixing" proportion). 
+
+Let's fit this model to the data in `streamamts` using some starting guesses suggested by `curve` (which reproduces key features of the histogram):  
+
+* `a1=3`
+* `a2=3`
+* `b1=2`
+* `b2=5`
+* `p=0.6`
+
+Add the additional argument `control=list(maxit=5000)` to `fitdist` to give the function "extra time" to find a fit (it fails with the default number of iterations to find a solution).
+
+Provide a `summary` of the fit and a 95% confidence interval for `p`.
+
+```{r Q3c, warning=FALSE}
+dcustom <- function(x,a1,b1,a2,b2,p) { p*dbeta(x,a1,b1)+(1-p)*dbeta(x,a2,b2) } 
+
+FIT<-fitdist(streamamts, "custom", start = list(a1=3,a2=3,b1=2,b2=5,p=0.6),control=list(maxit=5000) )
+
+summary(FIT)
+
+
+
+FIT$estimate["p"] + c(-1,1)*2*FIT$sd["p"]
+
+
+
+
+```
+
+d)  Remake the histogram (with additional argument `freq=FALSE`) of the values in `streamamts`, also adding the argument `breaks=seq(from=0,to=1,length=50)` so that there are 50 bars.  Then, add a `curve` that shows the fitted model (use additional arguments `add=TRUE` and `col="red"`).  You'll see that this follows the shape of the histogram a bit better!
+
+```{r Q3d}
+hist(streamamts, freq=FALSE, breaks=seq(0,1,length=50));curve(dcustom(x, a1=17.2365470,a2=7.2115694,b1= 2.0218063,b2=7.7562502,p=0.3283608), add=TRUE, col="red")
+
+
+```
+
+e)  One way to assess whether this "mixture" fits better than just a single beta distribution is to compare AICs.  Comment as to whether the "mixture" model is better than a single beta fit.  If the mixture is preferred, we've discovered something interesting -- there may be two "clusters" of streamers living in this data!
+
+**Response:** 
+
+The AIC for the custom mixture fit is like -779 which is about 380 lower than the beta distribution, so it is objectively better. 
+
+f)  Another way to assess whether this "mixture" fits better than just a single beta distribution is to determine if 1 is a reasonable/plausible value for `p`, consistent with the data that was collected.  After all, if `p=1`, then the model would become just `beta(a1,b1)`.  Comment as to whether the "mixture" model is better than a single beta fit.
+
+**Response:** 
+P=1 is not reasonable, because the parameter is estimated to be .32 give or take .015, within 95% confidence 1 is not in that range. 
+
+g)  Knowing what probability distribution is making the data is great, but sometimes we only care about the *average* value ($\mu$) of that distribution.  For instance, it might be the case that 5 years ago, the average fraction of the hour that users streamed was 0.65.  We might want to know if this average has changed since then.  
+
+* Report the average streaming amount in the data
+
+* Report the standard *deviation* of the streaming amounts
+
+* Report the standard *error* of the average streaming amounts in the data
+
+```{r Q3g}
+     #mean/average
+mean(streamamts)
+     #SD of data values
+sd(streamamts)
+
+
+     #SE of sample average
+sd(streamamts)/sqrt(length(streamamts))
+
+length(streamamts)
+
+
+```
+
+h)  One of the most common points of confusion when learning about confidence intervals for the average is the difference between the *standard deviation of the data values* in our sample and the *standard error of the sample average*.  Briefly explain the difference between the two.
+
+**Response:** 
+
+Our standard deviation is like the typical difference in observed data values whereas the standard error is like the typical difference between our sample means and other means. 
+
+i)  The average streaming amount in the data is our "best guess" of the average of the underlying probability distribution making it, but we know our guess is wrong.  If we assume the streaming amounts in the data are an i.i.d. (independently and identically distributed) sample from *some* probability distribution, about how far off do we think the sample average $\bar{x}=0.6175$ is from the average value $\mu$ of this probability distribution?
+
+**Response:** 
+Our mean is off by about .006.
+
+
+
+j)  For this random sample, will the Central Limit Theorem allow us to develop a 95% confidence interval for $\mu$?  Why or why not?  Tip:  consider the sample size.
+
+**Response:** 
+
+Yes, regardless of the skew, the sample size of 1200 is greater than the worst case scenario to invoke the central limit theorem which requires a sample size of 100. 
+
+
+k)  An *approximate* 95% confidence interval for $\mu$ is found by taking the sample average and going plus or minus "about 2" standard errors.  Use `t.test` to skip the hand-calculation and to immediately produce the interval.
+
+```{r Q3k}
+t.test(streamamts)
+
+
+```
+
+l)  Why can't we say the interval in (k) has *exactly* 95% confidence?  In other words, what (false) assumption does `t.test` make about the sampling distribution of the sample average in order to make the 95% confidence interval (the Central Limit Theorem does assure us this assumption is *close* to being true though).
+
+**Response:** 
+
+The t test assumes normality, however we have a bimodal distribution, however because of our central limit theorem, this doesn't make much of a difference. 
+
+
+m)  This question arises in interviews more than what you might expect.  What do we mean when we say that a 95% confidence interval has "95% confidence"?  It's *not* the probability that $\mu$ is inside the interval.  What probability does this 95% confidence refer to?  You've answered a question like this before, back in Unit 2B!
+
+**Response:** 
+Within 100 samples our estimated mean will be within the margin of errors of the sample means for 95 of these samples, on average. 
+
+n)  Based on the data collected, does it appear reasonable that the average value $\mu$ of whatever probability distribution that is making this data is still 0.65 (the average amount from 5 years ago)?  Explain.
+
+**Response:**  
+I don't think that is plausible because that mean is not within our margin of errors within from our estimated mean. 
+
+******************************************************************************************
+
+
+## Question 4:  Central Limit Theorem
+
+The Central Limit Theorem tells us that the sampling distribution of the sample average (i.e., the probability distribution of the *possible* values of the sample average that we *might* observe when data is collected) is approximately Normal...provided we are considering "large enough" samples.
+
+a)  "Large enough" depends on the shape of the probability distribution generating the data, which we can glimpse by making a histogram.  What are the three shape-based guidelines for having a "large enough" sample for the Central Limit Theorem to be in effect (and thus to allow us to make a 95% confidence interval for $\mu$)?   Hint:  slide 50 of 200 in Unit 9B-Averages.pdf.  
+
+**Response:**
+
+If its like a normal distribution, sample size has to be 10. 
+if slightly skewed, sample size has to be 25.
+if its like really skewed, sample size has to be 100. 
+
+
+b)  Go to the Central Limit Theorem Demo at https://oddsmaker.shinyapps.io/CLTdemo/ .  Select Bimodal from the drop down menu for PMF.  Leave the "Dynamically adjust range of plot" at No.
+
+Start at a "Select Sample Size" of 2 so that the bottom plot shows the sampling distribution of the possible averages we might observe when a sample of size 2 is drawn from the PMF.  Not very Normal!  But a sample of size 2 isn't "large enough" here.  Try again with a sample of size 5 - not very Normal either (Central Limit Theorem not in effect yet).  The shape does look like one really fun roller coaster though.
+
+Play around with the app to estimate the minimum sample size where the sampling distribution of the sample average becomes "basically indistinguishable" from the Normal curve predicted from the Central Limit Theorem.  *Take a screenshot and put it in your knitted document*!  PS:  there's no exact answer for this one, just "ballpark".  The restrictions on the sample size for being "large enough" is a pretty broad guideline.
+
+**Response:**  
+
+******************************************************************************************
+
+## Question 5:  Sampling Distribution of a Sum (and Central Limit Theorem)
+
+Prof Petrie is *still* an avid player of the MMORPG Final Fantasy XIV.  You get to level up your character, choose between classes like Warrior, Scholar, Reaper, and Pictomancer, beat up bad guys, and save the world.  There's also a lot of social interaction, and some players run "casinos" where you can place a "bet" using in-game currency called "gil".  If you win the bet, you get a nice payoff!
+
+Consider the following casino.  It costs 5000 "gil" to play.  A random number between 1-100 is generated.  The outcome of the bet depends on the number selected.
+
+* 1-60:  you lose all 5000
+* 61-80: you win  500
+* 81-90: you win  1500
+* 91-99: you win  10000
+* 100:   you win  75000
+
+Ultimately, the question we want to answer is "What is the probability of coming out ahead (i.e., winning *some* gil) after 250 games have been played?".  Let's investigate.
+
+The following R chunk defines vectors `x.game` and `p.game` to represent the possible payoffs and their probabilities.  The expected value of a bet (and its standard deviation) is provided, establishing that the odds are against the player in the long run (the expected value of a game is negative 1100 gil).
+
+```{r Q5}
+x.game <- c(-5000,500,1500,10000,75000)
+p.game <- 1/100 * c(60,20,10,9,1)
+sum(x.game*p.game) #Expected value (borrowing the code from Unit 5)
+sqrt( sum( (x.game-sum(x.game*p.game))^2*p.game) )  #Standard deviation (borrowing the code from Unit 5)
+```
+
+If you plan to play a total of 250 games, the Central Limit Theorem will help describe what the possible sums that these 250 payoffs might end up being.
+
+The CLT says that the sum of `n` independent values (all coming from the same probability distribution) has, at least approximately, a Normal distribution (provided that `n` is "large"; and with 250 games, it's "large" here).  Mouse over to see the equation; if the equation doesn't pop up, try restarting RStudio and/or clicking the double up/down arrows on the far right side of the equation box to expand it.
+
+$$\sum X_i \sim N\left( n\mu, \sigma\sqrt{n} \right)$$
+
+```{r Q5 calculations}
+mu <- sum(x.game*p.game)
+250*mu
+sigma <- sqrt( sum( (x.game-sum(x.game*p.game))^2*p.game) )
+sigma*sqrt(250)
+```
+
+Thus, the expected value of the sum of 250 games is -275000 gil.  The standard deviation of the sum of 250 games is about 140800 gil.  Thus, the sampling distribution of the possible sums will be approximately Normal with a mean at -275000 and a standard deviation of 140800
+
+$$Sum \sim N(-275000,140800)$$
+
+a)  Make a `curve` of the sampling distribution of the total amount of gil gained/lost over 250 games (i.e., this Normal curve).  Have the lower/upper values on the horizontal axis be -750000 and 250000  Add a vertical line at 0 with `abline(v=0)` to represent breaking even, and add a horizontal line at 0 with `abline(h=0)` to better show where the relative probabilities of each value get close to 0.
+
+```{r Q5a}
+
+```
+
+b)  Find the probability you will come out ahead after 250 games (i.e. that the sum of these 250 payouts is greater than 0).  Use `pnorm` and the complement rule!  Close to 2.5%!
+
+```{r Q5b}
+
+```
+
+c)  (Bonus)  Write a Monte Carlo simulation that plays 100,000 sets of 250 games, keeping track of the total amount of gil won/lost after each set.  
+
+From your Monte Carlo simulation, what is the estimated probability of coming out ahead?  
+
+Make a histogram (with `freq=FALSE`) and superimpose the hypothetical Normal curve that the Central Limit Theorem says is supposed to do a good job describing the sampling distribution of the possible sums.  Does the Normal curve seem like a decent fit?  
+
+Note:  if you look at the fraction of trials where you you break even, you should find about 3.5%, about 1% higher than the approximate probability given by the Central Limit Theorem in part b.  Even though we say "the Central Limit Theorem is in effect whenever you consider samples with a size of at least 100", for *extremely* skewed distribution like this, the approximation can still be a bit off.  Monte Carlo makes no assumptions, so it's almost universally better to answer questions using it!  
+
+**Response**  
+
+```{r Q5c}
+
+```
+
+d)  (Bonus)  This game obviously isn't "fair", since the expected value is negative.  Let's change the price of a game (and thus the "payout" for getting a number 61-80; right now it's 500) to make it fair.  What *should* the price of this game be to make the game "fair" and to have an expected value of 0? 
+
+**Response:**
+
+

@@ -1,0 +1,247 @@
+---
+title: "BAS 471 - Unit 1 Parts 1-3 - Probability Definition and Basic Calculations"
+author: "Probability Ponderers"
+output:
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+#Leave this as-is.
+knitr::opts_chunk$set(echo = TRUE,collapse=TRUE)
+if( as.numeric( paste( unlist( strsplit( paste(R.Version()$major,R.Version()$minor,sep="."),split="\\.") ),collapse="") ) < 421 ) { 
+  stop("You must have R version 4.2.1 or later to knit this document")}
+RNGversion("4.2.1")
+```
+
+
+**********************************************************************************
+
+# Note:  these are problems that are addressed in class
+
+**********************************************************************************
+
+
+
+
+
+**********************************************************************************
+**********************************************************************************
+
+# Frequentist Definition of Probability
+
+**********************************************************************************
+**********************************************************************************
+
+##Question 1
+
+A value between 1-4 is randomly selected.  The probability of picking a 2 is 25%.  Under the frequentist definition of probability, "the probability of picking a 2 is 25%" means that as we pick more and more values (answer TRUE or FALSE for each, if FALSE, explain why):
+
+```{r Q1}
+outcomes <- sample(c(0,1),1e6,prob=c(.75,.25),replace=TRUE)
+proportion <- cumsum(outcomes)/(1:1e6)
+plot(1:1e6,proportion,log="x",type="l",xlab="Trial #",ylab="Proportion of Wins")
+abline(h=0.25, col="red")
+#See also https://professorpetrie.shinyapps.io/Frequentist/
+```
+
+
+* **Kahoot 1** the proportion of picks that equal 2 will eventually equal 25% and stay at 25% forever
+
+**Response:**  
+F
+
+
+* **Kahoot 2** the proportion of picks that equal 2 gets closer and closer to 25\%
+
+**Response:**  
+T
+
+* **Kahoot 3** the number of 2s that are picked gets closer and closer to 1/4 of the total number of picks.
+
+**Response:** 
+false
+
+
+
+##Question 2 (Kahoot 4)
+
+You set up cups for a game of beer pong (https://www.c5beerpong.com/wp-content/uploads/2017/08/collapsable_featuredimage.jpg) and decide to run an experiment to determine the probability that you can throw a ping-pong ball into a cup on the other side of the table.   To estimate your probability of making the shot, you throw 250 balls and see how many went in a cup (your friend immediately takes the ball out when necessary).  True or False and explain:  according to the frequentist definition of probability, the fraction of these 250 throws that went in the cup is a good estimate of your probability of making a shot.
+
+**Response:** 
+
+
+
+##Question 3
+
+There's some new construction on Kingston Pike near where I live.  The building kind of looks like it will house something fast-food-ish.  I think the probability that it will be a Starbucks is 30%.  Explain why the previous statement is problematic if we use the frequentist definition of probability.
+
+**Response:**  
+
+
+
+## Question 4 (Kahoot 5)
+
+From `/r/Showerthoughts`:  TRUE or FALSE and explain:  "there's a 1 in 7 chance that the meteor that killed the dinosaurs hit on a Monday".
+
+**Response:** 
+
+
+
+**********************************************************************************
+**********************************************************************************
+
+# Calculating probability from number of outcomes (and fallacies)
+
+**********************************************************************************
+**********************************************************************************
+
+## Question 5 (Kahoot 6)
+
+One of points on the grid is going to be selected at random.  What's the probability that the selected point will be a solid circle (as opposed to an open circle)? 
+
+
+```{r Q5, echo=FALSE}
+plot(1:5,1:5,pch=20,cex=3,xlab="x",ylab="y",xlim=c(0,6),ylim=c(0,6))
+for(i in 1:5) { for (j in 1:5) { points(i,j,cex=2 ) } }
+points(1:5,6-(1:5),pch=20,cex=3 )
+abline(v=0:6,lty=3); abline(h=0:6,lty=3)
+abline(0,1,lwd=2,lty=3); abline(6,-1,lwd=2,lty=3)
+```
+
+**Response:**  
+
+
+
+## Question 6
+
+Although each eclipse is a little different, let's take the "path of totality" to be a rectangle that is 100km wide and 12000 km long.  If an eclipse is modeled by placing such a rectangle at random on the surface of the Earth (ignoring any curvature effects), what is the probability that that the eclipse would be visible exactly in the middle of Market Square?   Explain.  
+
+Hint: its easiest to change perspective.  An equivalent setup is having the eclipse rectangle be placed in a fixed location on the surface of the Earth, and then picking at random a point on the surface of the Earth to represent the location in question.  This way, our question becomes the "dartboard" problem where the surface of the Earth is the dartboard, the eclipse path is a bullseye, and our location in equation is the location a dart lands when it is thrown.  
+
+```{r Q6}
+
+```
+
+**Response:** 
+
+
+
+
+## Question 7 
+
+Explain the flaw in the following argument.  ``On any given day, there are four options.  1)  Petrie brings both Cannon and Jackson to class.  2)  Petrie brings Cannon to class but leaves Jackson at home.  3)  Petrie brings Jackson to class but leaves Cannon at home.  4)  Petrie leaves both dogs at home.  Therefore, because 3 of the 4 options involving bring a dog to class, there is a 75% chance that Petrie brings at least one dog to class on any given day."   Note:  attack the statement giving the numerical value of probability, not whether it makes sense to talk about probability in this case under the strict frequentist definition.  
+
+**Response**:  
+
+
+
+
+
+
+## Question 8 - Two lies and a truth (Kahoot 7)  
+
+One of the following 3 statements is true about Prof Petrie (with the other two being lies)
+
+* He has won the Showcase Showdown on the Price is Right.
+* His audition was featured during an early season of American Idol.
+* His art is featured on a series of sparkling wine bottles.
+
+So does that mean the probability that Prof Petrie won the Showcase Showdown is 1/3?
+
+**Response**:  
+
+
+
+## Question 9 - (Kahoot 8)  
+
+Cannon, Jackson, Biscuit, and Dumplin are placed in a random seating arrangement from left to right.  
+
+a.  What's the probability that Cannon will be next to Jackson?
+
+```{r Q9}
+dogs <- c("Cannon","Jackson","Biscuit","Dumpin")
+install.packages("combinat")
+library(combinat)
+permn(dogs)
+matrix(unlist(permn(dogs)),ncol=4,byrow=TRUE)
+```
+
+b.  The answer turns out to be 50%.  True or False:  we could have skipped enumerating the sample space because there are only 2 options:  Cannon/Jackson are next to each other or they are not, so the probability of being next to each other had to be 1/2.
+
+**Response:**  
+
+
+
+
+
+
+**********************************************************************************
+**********************************************************************************
+
+# Sample spaces using expand.grid and combn
+
+**********************************************************************************
+**********************************************************************************
+
+The `expand.grid` function in R provides a very useful function for enumerating the sample space of an experiment.  The function creates a dataframe with column names of your choosing for easy interpretation of the result.  A few examples will show how it works:
+
+```{r expand grid,eval=FALSE}
+#Sample space for flipping 4 fair coins
+expand.grid(Flip1=c("H","T"),Flip2=c("H","T"),Flip3=c("H","T"),Flip4=c("H","T") )
+#Sample space for rolling 3 dice
+expand.grid(Roll1=1:6,Roll2=1:6,Roll3=1:6)
+#Sample space when pairing together one of the first 10 letters of the alphabet and a number 1-7
+#recall that `letters` is a built in vector containing all lower case letters
+expand.grid(Pick1=letters[1:10],Pick2=1:7)
+```
+
+
+## Question 10 - (Kahoot 9)  
+
+Four integers between 1-10 are picked at random.  What is the probability that the sequence picked (e.g. 4,3,1,9) is strictly increasing (a number farther in the sequence is always larger than numbers that come before it) if numbers are picked with replacement.
+
+Note:  if `x` is the 4 numbers picked, then `x` is a strictly increasing sequence if `min(diff(x))>0`
+
+For this, use `expand.grid` and left-arrow the result into a dataframe called `ALL` to get the sample space of all 10000 sequences.  Then, write a function called `diffseq` that takes an argument `x` and returns `min(diff(x))` (i.e., given a vector `x`, `diffseq` returns the smallest difference in sequential elements).  Use the `apply` function to calculate this quantity for every row of `ALL`, and find the fraction that are strictly greater than 0.  
+
+```{r Q10a}
+ALL <- expand.grid(x1=1:10,x2=1:10,x3=1:10,x4=1:10)
+as.numeric( ALL[54,] ) #not an increasing sequence
+min(diff( as.numeric( ALL[54,] ) ))
+as.numeric( ALL[7633,] ) #an increasing sequence
+min(diff( as.numeric( ALL[7633,] ) ))
+
+diffseq <- function(x) { min(diff(x)) }
+stuff <- apply(ALL,1,diffseq)  #calculate the function for each row of ALL and store it in stuff
+mean(stuff>0)  #proportion of elements of stuff that are strictly positive
+
+
+#Monte Carlo
+ntrials <- 1e6
+counter <- 0
+for (i in 1:ntrials) { 
+  x <- sample(1:10,4,replace=TRUE)
+  if( min(diff(x))>0 ) { counter <- counter + 1 }
+}
+counter/ntrials
+```
+
+
+
+What if the numbers were picked without replacement?  Running `combn(x,n)` creates all sets (order doesn't matter) of size `n` from a vector of elements `x`.  Output is matrix where each column represents a set, with elements sorted from smallest to largest.
+
+```{r Q10b}
+combn(1:10,4)
+ncol( combn(1:10,4) ) / (10*9*8*7)
+#Monte Carlo
+ntrials <- 1e6
+counter <- 0
+for (i in 1:ntrials) { 
+  x <- sample(1:10,4,replace=FALSE)
+  if( min(diff(x))>0 ) { counter <- counter + 1 }
+}
+counter/ntrials
+```
+
+
+

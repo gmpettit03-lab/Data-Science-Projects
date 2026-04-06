@@ -1,0 +1,346 @@
+---
+title: "BAS 471 - Unit 8 - Estimating Parameters of Probability Distributions with Method of Moments and Maximum Likelihood"
+author: "Eager Estimators"
+date: "see Canvas for due date"
+output:
+  word_document: default
+---
+
+
+```{r setup, include=FALSE}
+#Leave this as-is.
+knitr::opts_chunk$set(echo = TRUE,collapse=TRUE)
+if( as.numeric( paste( unlist( strsplit( paste(R.Version()$major,R.Version()$minor,sep="."),split="\\.") ),collapse="") ) <= 400 ) { 
+  stop("You must have R version 4.1.1 or later to knit this document")}
+RNGversion("4.1.1")
+library(fitdistrplus)
+
+load("BAS471-Unit8Estimation.RData")
+#if this .RData file is in your Working Folder, and if this Rmd
+#has been forced saved into this folder as well, you can run the load() command.
+#Otherwise do Session, Load Workspace, and load in the data!
+```
+
+*********************************************************************************************
+
+# Note:  these are problems that are addressed in class and some additional practice problems
+
+Make sure to load in the .Rdata file for this assignment!
+
+*********************************************************************************************
+
+
+Formulas for the methods of moments (MOM) and maximum likelihood estimator (MLE) provide simple rules that let us know what to do with the data in order to come up with a reasonable estimate of the parameters of the probability distribution responsible for producing it.  Knowing these rules (e.g., find the sample average; take the reciprocal of the sample average; sum up the squared values in the data and divide by the sample size; etc.) is "cute", and finding them is a staple of any statistics or analytics training.
+
+Because this is expected knowledge, here are a few good additional practice examples.  I *highly* recommend watching my videos where you can see how to set up these equations and how to work with them (I've done my best to add highlights, annotations, and animations to add clarity).
+
+However, also keep in mind that "in the real world", this is a task you'd rarely (if ever) actually do.  While everyone assumes you to know how to do this stuff, in practice you'll be able to run `fitdist` to come up with numerical estimates of the parameters of a probability distribution on a case by case basis once you are provided data.  You won't have that "simple rule", but ultimately who cares as long as you can find a reasonable estimate!  The next activity will focus on using `fitdist` as a shortcut for all of this math to get data-specific estimates!
+
+
+
+## Question 1: the exponential distribution
+
+The exponential distribution has a PDF that can be written one of two ways.
+
+$$f(x) = \lambda e^{-\lambda x} \qquad x>0$$
+$$f(x) = \frac{1}{\beta}e^{-x/\beta}\qquad x>0$$
+
+a)  **Kahoot 1** Find the MOM and MLE estimators for each parameterization.  
+
+b)  We're used to seeing the exponential distribution written in terms of $\lambda$.  The other way of writing it just replace $\lambda$ with $1/\beta$.  Or, in other words $\beta = 1/\lambda$.  We've talked about how the MLE of a function of a parameter is obtained by just plugging in the MLE to the function of interest.  For example, the MLE of $\lambda^3$ would be  
+
+$$\hat{\lambda^3} = (\hat{\lambda})^3 = \left( \frac{1}{\bar{X}} \right)^3$$
+Show that you could have found the MLE for $\beta$ with this method and have saved a lot of time!
+
+
+## Question 2: the inverse gamma distribution
+
+The inverse gamma distribution has PDF
+
+$$f(x) = \frac{\beta^\alpha}{\Gamma(\alpha)} x^{-\alpha - 1}e^{-\beta/x} \qquad x>0$$
+
+Imagine that $\alpha$ is fixed, but left unspecified (perhaps it's 1.7, or 8.3).  Determine the MOM and MLE for $\beta$.  Note:  $\Gamma()$ is the "gamma" function, basically the factorial function but for any number and not just integers.  The solutions to the estimators end up not needing it. 
+
+
+
+
+
+## Question 3: Power Law distributions
+
+Often, raw data is scaled to range between 0 and 1 (e.g., modeling the number of people attending a Vols game as the fraction of Neyland's capacity).  When this is done, a power-law distribution (an alternative to the beta distribution) may be appropriate for measuring the values.  
+
+There are two ways you might parameterize the distribution:
+
+$$f(x) = (1+a) x^{a} \qquad 0 < x < 1 \qquad a > 0 $$
+
+$$f(x) = a x^{a -1} \qquad 0 < x < 1 \qquad a > 0 $$
+
+
+
+a)  **Kahoot 2**  Find $E[X]$ for these distributions using Wolfram Alpha, then use that formula to find the methods of moments estimator.
+
+b)   Write out the likelihood then find the the maximum likelihood estimator for $a$. Note:  remember the following math properties:
+
+*  $X_1 \cdot X_2 \cdot X_3 \cdot \ldots \cdot X_n = \prod X_i$ (the product sign abbreviation)
+*  $\log (a^b) = b \log a$
+*  $\log (a\cdot b) = \log (a) + \log (b)$
+*  $\log \prod X_i = \log (X_1 \cdot X_2 \cdot \ldots \cdot X_n) = \sum \log X_i$
+
+
+## Question 4: Pareto (watch out, calculus won't help you!)
+
+The Pareto is a PDF often used to describe the distribution of wealth (and is the origin of the 80-20 rule, e.g., 80% of profit comes from 20% of customers). 
+
+$$f(x) = \frac{3m^3}{x^4} \qquad x \ge m$$
+
+In other words, the probability of finding larger and larger values of $x$ very quickly gets smaller.  All the while, there is an unknown minimum value that $x$ can attain (the parameter $m$).  You can show it is a valid PDF via `integrate 3*m^3/x^4 from x=m to x=infinity` in Wolfram-Alpha.
+
+a)  Find the methods of moments estimator for $m$.
+
+b)  Write out the equation for the likelihood of a random sample.  You can abbreviate $\prod x_i^4$ as $P$.  The MLE for $m$ will be whatever value maximizes the likelihood.  $P$ is a value that has been measured from a random sample, so we can consider its value "fixed".  Determine an expression for the $\hat{m}$, the MLE.  If the observed sample values were 7.3, 15.3, 18.8, and 32.3, what is the numerical value of the MLE?  
+
+
+*********************************************************************************************
+
+## Question 5: Instructions for the remaining problems using fitdist
+
+*********************************************************************************************
+
+Before Wolfram-Alpha and user-friendly numerical optimization routines like `fitdist`, solving for the method of moments and maximum likelihood estimators "by hand" was really the only option, and it took some top notch calculus and algebra skills.  These days, technology is a lifesaver.  In fact, it's increasingly hard to justify spending much time in the classroom on the mathematical rigor required to find general expressions for methods of moments and maximum likelihood estimators, especially in business analytics when we're more focused on what we *do* with these estimates once they are found.  Sometimes there actually isn't even a simple equation that tells us what we need to do with the data to estimate the parameters!
+
+`fitdist` (and other routines) quickly and efficiently find numerical values for the MOM and MLE on a case-by-case basis.  While it's a "fun, useful, and interesting fact" that the MLE of $\lambda$ parameter of an exponential is the reciprocal of the sample average, it's debatable whether this general rule increases our understanding of the problem.  Just give me a number based on the data I've collected!
+
+To show just how far our analytics tools have come, let's find the MLEs for a few niche distributions where the mathematics of finding the general expressions for the MLE would have been extremely difficult (if not impossible), but finding a numerical value for the MLE for a given dataset is easy with `fitdist`.
+
+
+For each distribution:
+
+* Define `dcustom` (you can have a different name if you want, but it does have to start with `d`), taking as its first argument `x` and 2nd, 3rd, etc. arguments the names of the parameters of the PDF.  The real challenge in this problem is transcribing the equation for the PDF into your function.
+
+* Show that you pass the sanity check by evaluating `dcustom` at a particular value of x and at a particular set of parameters.
+
+* Run `fitdist`, left-arrowing the result into `FIT`, then printing the contents of `FIT` to the screen.  
+
+  - Remember to ignore warnings of `The pcustom function must be defined`, since we don't actually need `pcustom` to get the MLE estimates (only for QQ plots).  
+  - Remember to ignore the output of `fitdist` as it's being run (you'll see `start.arg` and `fix.arg` along with some other nonsense); this gives details as to how the search for the MLE is taking place *but is NOT the final values for the MLE*
+  - Note: all datasets live in the saved environment file `BAS471-Unit8Estimation.RData`.  The code for loading that into the environment is in the code chunk at the beginning of the document.
+
+
+* Make a histogram of your data with `hist` (add in `freq=FALSE`), then use `curve` to overplot the fitted PDF.  Although the quality of fit is better assessed with the QQ plot, this at least establishes that the fit is decent!  For `curve`, the syntax should be:  `curve(dcustom(x,FIT$estimate[1],FIT$estimate[2]),add=TRUE,col="red")` so that it automatically extracts out the best fitting parameters (the MLEs) from the fit.  If the distribution only has 1 parameter, then you'll just have `FIT$estimate[1]` as the 2nd argument.  If the distribution has 3, you'll also have to add `FIT$estimate[3]`.
+
+Note:  if the equation for the probability distribution does not pop up when you mouse over it, you can knit the document so you can see the equation in its full glory!
+
+
+
+## Example (for reference and a useful template)
+
+The inverse gamma distribution plays a key role in Bayesian statistics (the main competing approach to the frequentist version of statistics that BAS 471 is about) where it can be used to aid inference on the $\sigma$ parameter of a Normal distribution.  Its PDF is:
+
+$$f(x) = \frac{b^{a}}{\Gamma(a)} \left( \frac{1}{x} \right)^{a+1} e^{-b/x} \quad x>0$$
+
+Here, $\Gamma()$ is the "gamma" function (the generalization of the factorial that works for non-integers, $\Gamma(z+1) = z!$).  In R, use `gamma` to use the function, e.g. `gamma(5)` is $\Gamma(5) = 4!$, or 24.
+
+Find the MLEs for $a$ and $b$ using the values in `data.for.invgamma`. Sanity check:  close to 3.4 and 1.5, respectively.  Try starting guesses of 2.5 for each parameter. 
+
+```{r example template for fitting distributions}
+load("BAS471-Unit8Estimation.RData") #if this .RData file is in your Working Folder, and if this Rmd
+#has been forced saved into this folder as well, you can run the load() command.
+#Otherwise do Session, Load Workspace, and load in the data!
+
+
+dcustom <- function(x,a,b) {
+  b^a/gamma(a)*(1/x)^(a+1)*exp(-b/x)
+}
+
+#Uncomment the sanity check to show you pass it
+dcustom(1,a=3,b=2)
+0.5413411
+dcustom(3,a=2,b=5)
+0.1748848
+FIT <- fitdist(data.for.invgamma,"custom",start=list(a=2.5,b=2.5))
+#Ignore the nonsense about start.arg, fix.arg, and ignore the warning about "pcustom" must be defined.
+FIT
+hist(data.for.invgamma,freq=FALSE); curve(dcustom(x,FIT$estimate[1],FIT$estimate[2]),add=TRUE,col="red")
+```
+
+
+
+## Caution.  `fitdist` can fail.  Whenever the possible values of x depend on the parameter you are trying to estimate, calculus (Wolfram Alpha) and fitdist usually fails.
+
+
+For example:
+
+$$f(x) = \frac{2x}{\theta^2} \qquad 0 \le x \le \theta$$
+
+```{r example where fitdist fails}
+curve(2*x, from=0, to=10)
+set.seed(471); my.data <- 5*sqrt(runif(15))  #generate a random sample of values from this PDF
+hist(my.data)
+sort(my.data)
+dcustom <- function(x,theta){ 2*x/theta^2 } 
+fitdist(my.data,"custom",start=list(theta=3) )
+#         estimate   Std. Error
+#theta 3.181418e-16 4.756283e-05
+```
+
+Although `fitdist` runs, the MLE is output to be "basically" 0 ($3.18 \times 10^{-16}$).  This is an impossible value for $\theta$ since $0 \le x \le \theta$, and we observed values between 0.5 and 4.83.
+
+Rather, logic has to take you to the solution:
+
+$$L = \frac{2x_1}{\theta^2} \cdot  \frac{2x_2}{\theta^2} \cdot  \frac{2x_3}{\theta^2} \cdot  \ldots  \frac{2x_n}{\theta^2}$$
+$$L = \frac{ 2^n \prod_{i=1}^n x_i }{\theta^{2n}}$$
+The likelihood gets larger the closer that $\theta$ goes to 0 (making the denominator small increases the numerical value of the fraction).  This is why R is taking the estimate to be "basically" be 0 (dividing by a number close to 0 makes the likelihood MASSIVE).  R doesn't know about the restriction that $0 \le x \le \theta$.  Though we want $\theta$ to be as small as possible, it can't get any smaller than the largest observed value of $x$ (or the sample would have been impossible to observe).  Thus the MLE in this case is the largest value of $x$ observed in the data, which is 4.83439 here.
+
+
+
+
+**************************************
+## One Parameter Examples
+**************************************
+
+
+## 5a)  The "Borel" distribution (https://en.wikipedia.org/wiki/Borel_distribution).  
+
+If the number of offspring that an organism has is Poisson-distributed, and if the average number of offspring of each organism is no bigger than 1, then the descendants of each individual will ultimately become extinct. The total number of descendants that an individual ultimately has in that situation is a random variable distributed according to a Borel distribution.  
+
+Find the MLE for $a$ using the values in `data.for.borel`. Take as starting guess $a=0.3$.  You can get the factorial of a value by running `factorial()`.  Sanity check:  close to 0.6.  **Note:  since this is a discrete distribution, do not produce a histogram or add a `curve` (which only allows us to compare continuous distributions).**
+
+$$P(X=x) = \frac{ e^{-ax} (ax)^{x-1} }{x!} \qquad x = 1, 2, 3, \ldots$$
+
+
+```{r Q5a one parameter Borel}
+
+#Uncomment the sanity check to show you pass it
+#dcustom(7,3.2)
+#4.686636e-06
+
+dborel<-function(x,a){exp(-a*x)*(a*x)^(x-1)/factorial(x)}
+
+hist( sample(1:50,size=1000,replace=TRUE,prob=dcustom(1:50,0.6) ) )
+
+samp<-sample(1:50,size=1000,replace=TRUE,prob=dcustom(1:50,0.6) )
+
+FIT<-fitdist(data.for.borel, "borel", start = list(a=.3))
+
+summary(FIT)
+
+```
+
+## 5b)  The "raised cosine" distribution 
+
+This provides a bell-shaped type curve over a fixed range of values (in contrast to the Normal which allows any value, positive or negative).  For values of $x$ that range between -1 and 1, the PDF is 
+
+$$f(x) = \frac{1}{4} \left( 1 + \cos\left( \frac{x-b}{2}\pi\right) \right) \qquad -2 \le x \le 2$$
+
+Find the MLE for $b$ using the values in `data.for.cosine`. Sanity check:  close to 3.  Try a starting guess of 3 for the parameter.  Note:  this is one of the few examples where the starting guess *really* matters.  A starting guess that's not that close to the MLE makes `fitdist` come up with a VERY wrong estimate (try a few other starting guesses so you can see what I mean).
+
+```{r Q5b one parameter raised cosine}
+
+
+#Uncomment the sanity check to show you pass it
+#dcustom(0.5,b=3)
+#0.0732233
+
+dcosine<-function(x,b){1/4*(1+cos( (x-b)/2 * pi))}
+
+FIT<-fitdist(data.for.cosine, "cosine", start=list(b=3))
+summary(FIT)
+
+curve(dcosine(x,b=3), from=0, to=2)
+
+
+```
+
+
+
+**************************************
+## Two Parameter Examples
+**************************************
+
+## 5c) The "Kumaraswamy" distribution (https://en.wikipedia.org/wiki/Kumaraswamy_distribution).   
+
+This distribution is similar to the Beta distribution (wide variety of shapes between 0 and 1), but it is much simpler to use especially in simulation studies since its probability density function, cumulative distribution function, and quantile functions can be expressed in "closed form" (simple equations involving exponents).  
+
+$$f(x) = abx^{a-1}(1-x^a)^{b-1} \qquad 0 < x < 1$$
+
+Find the MLEs for $a$ and $b$ using the values in `data.for.kumaraswamy`. Sanity check:  close to 1.5 and 4, respectively.  Try starting guesses of 2 for each parameter.
+
+
+```{r Q5c two parameter Kumaraswamy}
+
+#Uncomment the sanity check to show you pass it
+#dcustom(0.6,a=2,b=9)
+#0.303993
+
+dkumaraswamy<-function(x,b,a){a*b*x^(a-1)*(1-x^a)^(b-1)}
+
+FIT<-fitdist(data.for.kumaraswamy, "kumaraswamy", start=list(a=2,b=2))
+summary(FIT)
+
+((1.503428-1)/((1.503428*3.915456)-1))^(1/1.503428)
+
+
+
+```
+
+
+
+## 5d)  The Gompertz distribution 
+
+This is often applied to describe the distribution of adult lifespans by demographers and actuaries.  More recently, computer scientists have also started to model the failure rates of computer code by the Gompertz distribution. In Marketing Science, it has been used as an individual-level simulation for customer lifetime value modeling.
+
+$$f(x) = ab e^{a + bx - a e^{bx}} \qquad x > 0$$
+
+Find the MLEs for $a$ and $b$ using the values in `data.for.gompertz`. Sanity check:  close to 0.2 and 0.5, respectively. Try starting guesses of 0.8 for a, and 0.3 for b for each parameter. 
+
+```{r Q5d two parameters gompertz}
+
+
+#Uncomment the sanity check to show you pass it
+#dcustom(3,a=.2,b=.5)
+#0.2233706
+dgompertz<-function(x,b,a){ a*b*exp(a+b*x-a*exp(b*x))}
+
+FIT<-fitdist(data.for.gompertz, "gompertz", start=list(a=.8, b=.3))
+summary(FIT)
+
+
+
+```
+
+
+
+************************************************
+## Three Parameter Example
+************************************************
+
+##5e)  The "Gamma Gompertz" distribution 
+
+This has been used in business analytics as an aggregate-level model of customer lifetime and a model of mortality risks.  An advantageous feature of this distribution is (like the Weibull) that it can be either left or right-skewed.  However, this flexibility is obtained by having a total of *three* parameters a, b, s.
+
+$$f(x) = \frac{bse^{bx}a^s}{(a-1+e^{bx})^{s+1}} \qquad x > 0$$
+
+Find the MLEs for $a$, $b$ and $s$ using the values in `data.for.gammagom`. Sanity check:  close to 3.5, 2, and 2.8, respectively. Try starting guesses of 3 for each parameter. 
+
+
+```{r Q5e three parameter gamma gompertz}
+
+dggomp<-function(x,a,b,s){b*s*exp(b*x)*a^s/(a-1+exp(b*x))^(s+1)}
+
+FIT<-fitdist(data.for.gammagom, "ggomp", start = list(a=3,b=3,s=3))
+
+summary(FIT)
+
+
+
+#Uncomment the sanity check to show you pass it
+#dcustom(0.25,a=4,b=2,s=3)
+#1.35564
+
+
+
+```
+
+
+
+

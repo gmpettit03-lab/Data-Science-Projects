@@ -1,0 +1,431 @@
+---
+title: "BAS 471 - Unit 3 Parts 1-3 - Conditional Probability"
+author: "Cohort of the Conditional"
+output:
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+#Leave this as-is.
+knitr::opts_chunk$set(echo = TRUE,collapse=TRUE)
+if( as.numeric( paste( unlist( strsplit( paste(R.Version()$major,R.Version()$minor,sep="."),split="\\.") ),collapse="") ) < 411 ) { 
+  stop("You must have R version 4.1.1 or later to knit this document")}
+RNGversion("4.1.1")
+```
+
+
+**********************************************************************************
+
+# Note:  these are problems that are addressed in class
+
+**********************************************************************************
+
+**Kahoot 1**  From the lecture notes and video.  0.04% of people have disease. If +, test is + with 99.9% chance. If -, test is - with 99% chance. P(+|test+) = ?
+4% like 3.996% or something 
+
+
+
+
+**Kahoot 2**  From the lecture notes and video.  Monty Hall. You pick Door 1. Goat revealed behind Door 3. You can stay with Door 1 or switch to Door 2. What should you do to maximize the chance of you winning the car?
+
+******
+
+## Question 1
+
+Conditional probability is the underpinning of many classification models in machine learning, data mining, and artificial intelligence.  Overall, 15% of customers churn.  Given a customer has a set of characteristics "X", the probability may be much higher (like 70%).  A huge part of customer analytics is spent finding those sets of characteristics with high churn rates. 
+
+Consider the following data.  In a dataset of 10000 customers:
+
+* 1500 customers churned
+* 2800 customers paid their bill manually (as opposed to auto-pay)
+* 1200 customers had both characteristics (churned and were people who paid their bill annually).
+
+Assuming these frequencies generalize to customers as a whole:
+
+a)  What is the prior probability that a customer churns (i.e., given no information about them)
+
+**Response:** 
+.15
+
+**Kahoot 3** b)  What is the posterior probability that a customer churns, given that the customer paid their bill manually.
+.12/.28
+**Response:** 
+.42857
+
+
+**************
+
+
+## Question 2
+
+An indicator of credit card fraud for online transactions is if the CVV code on the back of the card is inputted incorrectly. The following information is relevant:
+
+* 0.2% of attempted online purchases using credit cards are fraudulent
+* 5% of attempted legitimate purchases have their CVV codes inputted incorrectly
+* When a fraudulent transaction is attempted, there is a 99.9% chance the code is inputted incorrectly (there are 1000 possible CVV codes, only 1 is correct, assuming it is picked at random)
+
+
+a) What is the prior probability of a transaction (i.e., given no additional information about it) being fraudulent?
+
+**Response:**  
+.2%
+
+**Kahoot 4** b)  Use the table method to find the posterior probability that the transaction is fraudulent given that the CVV code was inputted incorrectly.  Consider 500,000 transactions.
+
+**Response:**  
+
+3.996%
+
+Steps:
+
+* Label the rows after the event of interest (fraud vs. legit)
+* Label the columns after the information on which you're conditioning (CVV incorrect and its opposite)
+* Fill in the row totals (last column) with the expected number of legit and fraud purchases out of 500000
+* Fill in the column corresponding to CVV incorrect (the actual bit of info on which you're conditioning) with the expected numbers of CVV incorrects for each type of purchase
+* Get the total number of times CVV was incorrect.   This is your "reduced" sample space.  
+* From the CVV incorrect column, divide the number of fraud purchases by the total number of times CVV was incorrect.
+
+
+
+
+ &nbsp;     | CVV incorrect   | CVV correct | Total 
+   -----    | ----            | ----        | ----
+**Fraud**   |                 |             |    
+**Legit**   |                 |             |  
+**Total**   |                 |             | 500,000
+
+
+
+c)  Once you've finished the Bayes Theorem (Part 3) videos, try the following:
+
+* By partitioning on the true transaction status (fraudulent or legitimate), determine the probability that the CVV code is input incorrectly during a transaction.
+
+**Response:**  
+
+
+* Given that the CVV code was input incorrectly, what is the posterior probability that the transaction is fraudulent?   Fill in the pieces to Bayes Theorem
+
+$$P(fraud|incorrect) = \frac{P(incorrect|fraud)P(fraud)}{P(incorrect)}$$
+
+
+**************
+
+
+## Question 3
+
+These days, spam filters are pretty effective.  Only 2% of emails in inboxs are spam.  Legitimate emails and spam emails have different characteristics.  For example, consider the presence of the world "urgent".  1% of legitimate emails have the word "urgent", while 5% of spam emails contain the word "urgent".
+
+An email has just arrived in your inbox:
+
+a)  What is the prior probability that the email is spam, i.e. P(email is spam)?
+
+**Response:**
+
+b)  What is the prior probability that the email is legitimate, i.e. P(email is legitimate)?
+
+**Response:** 
+
+c)  What is the probability that the email contains the word "urgent" given that the email is spam, i.e. P(contains urgent | spam)? 
+
+**Response:** 
+
+d)  What is the probability that the email contains the word "urgent" given that the email is legitimate, i.e. P(contains urgent | legitimate)? 
+
+**Response:** 
+
+e)  You mindlessly open an email and you spot the word "urgent" within.   Use the table method to find the  "posterior" probability that an email is spam given that it contains the word "urgent", i.e., P(spam|contains urgent)?  Consider 1000 emails.
+
+**Response:**  
+
+Steps:
+
+* Label the rows after the event of interest (spam vs. legit)
+* Label the columns after the information on which you're conditioning (urgent and its opposite)
+* Fill in the row totals (last column) with the expected number of spam and legit emails out of 10,000
+* Fill in the column corresponding to the email having the word "urgent" (the actual bit of info on which you're conditioning) with the expected numbers of emails containing the word for each type of email
+* Get the total number of emails that contain the word urgent.   This is your "reduced" sample space.  
+* From the urgent, divide the number of spam emails by the total number of emails containing urgent.
+
+
+
+
+ &nbsp;     | CVV incorrect   | CVV correct | Total 
+   -----    | ----            | ----        | ----
+**Spam **   |                 |             |    
+**Legit**   |                 |             |   
+**Total**   |                 |             | 10000
+
+
+f)  After learning about Bayes Theorem and Partitioning (Unit 3), answer:
+
+* What is the probability that the email contains the word "urgent"?  This can be found by partitioning on whether the email is spam or legit.
+
+**Response:** 
+
+```{r Q1e}
+
+```
+
+* What is the  "posterior" probability that the email is spam given that it contains the word "urgent", i.e., P(spam|contains urgent)?
+
+**Response:**  
+
+```{r Q1f}
+
+```
+
+
+
+**************
+
+## Question 4:
+
+When grandma visits, she gives you either 5, 10, or 20 dollars (with probabilities 0.2, 0.5, 0.3, respectively).  When grandpa visits, he gives you either 10, 20, 50, or 100 dollars (with probabilities 0.20, 0.40, 0.30, 0.10 respectively).  When Cannon and Jackson visit, you receive no money, but you do get plenty of love and licks!  
+
+The probability grandma visits is 45%; the probability grandpa visits is 35%; the probability Cannon and Jackson visit is 20%.  
+
+
+a)  Use partitioning to find the probability that the next visitor will give you $10.  
+
+
+**Response:**  
+
+
+**Kahoot 5** b)  Unfortunately, you were sick in bed and weren't able to see your visitor.  However, $10 was slipped under your door.  What's the probability that it was from grandma?  Use the table method with 1000 visits.
+
+**Response:**
+
+Steps:
+
+* Label the rows after the event of interest (grandma vs. grandpa vs. Cannon and Jackson)
+* Label the columns after the information on which you're conditioning (got 10 and its opposite)
+* Fill in the row totals (last column) with the expected number of visits from the 3 possibilities out of total 1000 
+* Fill in the column corresponding to the 10 being left (the actual bit of info on which you're conditioning) with the expected numbers of times each visitor will leave that amount.  
+* Get the total number of emails that contain the word urgent.   This is your "reduced" sample space.  
+* From the 10 column, divide the number of times grandma visited by the total number of times 10 was left.
+
+
+ &nbsp;     | 10    | Not 10  | Total 
+   -----    | ----  | ----    | ----
+**Ma**      |       |         |  
+**Pa**      |       |         |  
+**CJ**      |       |         |  
+**Total**   |       |         | 1000
+
+
+
+
+
+
+
+
+
+****************************************************
+****************************************************
+****************************************************
+**Questions for 2nd class meeting and 2nd Kahoot**
+****************************************************
+****************************************************
+****************************************************
+
+
+## Question 5
+
+Antibody testing for COVID-19 is not the best (tests for the active virus in the body are much, much better).  By design, an antibody test is supposed to tell you whether you have become infected and have since recovered, through antibodies, from COVID-19 (i.e., did you already have it?).  Imagine the following describe the characteristics of one such antibody test:
+
+* If a person has antibodies to COVID-19, the test says they have antibodies with a probability of 94%
+* If a person does not have antibodies to COVID-19, the test says they have antibodies with a probability of 15%
+
+Consider the numbers back on September 21, 2020.  Tennessee had 6.829 million individuals, and 0.181 million individuals have tested positive for COVID-19.  Since not all people who have developed antibodies have taken the test, let us take the prior probability that you have COVID-19 antibodies to be 0.106 (four times higher than the fraction of people in TN who had tested positive at that point).
+
+
+a)  **Kahoot 1** You take the COVID-19 antibody test and it comes back *negative.*  What is the probability you *have* COVID-19 antibodies?
+
+**Response:** 
+
+Steps:
+
+* Label the rows after the event of interest (antibodies vs. none)
+* Label the columns after the information on which you're conditioning (test - and test +)
+* Fill in the row totals (last column) with the expected number of people with and without antibodies.  
+* Fill in the column corresponding to the test coming back + with the expected numbers of positive tests among people with and without antibodies.
+* Fill in the column corresponding to the test coming back - with the expected numbers of negative tests among people with and without antibodies.  Just subtract the numbers in the Test + column from the Total column
+* Get the total number of negative tests.   This is your "reduced" sample space.  
+* Find the fraction of negative tests that belonged to people with antibodies.  That's your answer!
+
+
+
+
+ &nbsp;           | Test -          | Test +      | Total 
+   -----          | ----            | ----        | ----
+**Antibodies **   |                 |             |    
+**None**          |                 |             |    
+**Total**         |                 |             |  100000
+
+
+
+```{r Q5a}
+
+```
+
+b)  You take the COVID-19 antibody test and it comes back *positive.*  What is the probability you *have* COVID-19 antibodies?  
+
+**Response:**
+
+From the table:
+
+* Get the total number of positive tests.   This is your "reduced" sample space.  
+* Find the fraction of positive tests that belonged to people with antibodies.  That's your answer!
+
+
+```{r Q5b}
+
+```
+
+
+c)  Would you recommend widespread use of a COVID-19 antibody test to determine who has been infected (and thus maybe immune for now)?  Why or why not?
+
+**Response:** 
+
+
+
+**************
+
+## Question 6
+
+Jolene takes a multiple choice exam.  Each question has $m$ possible choices.  If Jolene knows the correct answer, she gets that question correct with probability 1.  If she doesn't know the correct answer, she picks a choice at random and gets it correct with probability `1/m`.  Imagine the probability that she knows the answer to any particular question is $p$ (same for each question).
+
+I grade the first question and find that Jolene has answered it correctly.  Way to go Jolene!  If $C$ is the event "Jolene answers correctly" and $K$ is the event "Jolene knows the answer", calculate $P(K|C)$.  In other words, given that the answer is correct, what is the probability that Jolene actually knew the answer?  Your answer will be in terms of $m$ and $p$.  Evaluate the expression for $m=5$ and $p=0.8$ (i.e., she knows 80% of the material).
+
+**Kahoot 3:** Using partitioning, find the probability that Jolene answers a question correctly.
+**Kahoot 4:** m=5 choices and Jolene knows 80% of questions. P(Jolene knew answer | she got question correct)=?
+
+
+
+
+*************
+
+## Question 7:
+
+A secret message is being transmitted as a string of two 0s and 1s:
+
+00 = continue (30%)
+
+01 = stop  (30%)
+
+10 = slow down (25%)
+
+11 = speed up (15%)
+
+Certain messages are more likely to be transmitted than others, and the probability of each message is in parentheses.  
+
+To complicate the matter, transmission isn't perfect.  Sometimes a 0 becomes a 1; sometimes a 1 becomes a 0.  The probability any particular digit gets transmitted in error is 10%.
+
+You receive the message 10 (slow down).  What's the probability the message was originally transmitted as 11 (speed up)? 
+
+**Kahoot 5:**  The prior probability that the sent message is 11 (Speed Up)
+**Kahoot 6:**  The posterior probability that the sent message is 11 (Speed Up), given the received message is 10 (Slow Down)
+
+
+
+ &nbsp;           | Received 10          | Did not receive 10       | Total 
+   -----          | ----                 | ----                     | ----
+**Sent 00 **      |                      |                          |     
+**Sent 10 **      |                      |                          |     
+**Sent 01 **      |                      |                          |     
+**Sent 11 **      |                      |                          |     
+**Total   **      |                      |                          |   10000
+
+
+
+Set up the table with 4 rows (sent 00, 01, etc.) and 2 columns (received 10 and "didn't receive 10").  Consider 10,000 messages.
+
+a)  Fill in the row totals (last column) with the expected number of sent messages of each type.
+
+b)  Find the following probabilities.  Remember whether each digit stays the same (90%) or changes (10%) during transmission is independent of each other.  
+
+* P(Received 10 | Sent 00 ) = ?
+* P(Received 10 | Sent 10 ) = ?
+* P(Received 10 | Sent 01 ) = ?
+* P(Received 10 | Sent 11 ) = ?
+
+c)  Fill in the column corresponding to "Received 10" with the expected numbers of messages that are 10 when sent as each of the 4 types.  Use the probabilities in (b) to help.  You should find that the column total for Received 10 is 2460; this is your "reduced" sample space.
+ 
+ 
+d)  What fraction of values in the Received 10 column correspond to messages being sent 11?  This is P(Sent 11|Receive 10)!
+
+**Response:** 
+
+*********
+
+
+## Question 8
+
+A bit more advanced; for those of you that enjoy coding a bit more.  This example shows how you can compute conditional probabilities efficiently using matrix notation.
+
+It is important for the post office that handwritten digit recognition software can correctly identify which digits are written for the zip code on an envelope.  Imagine they are trying a new classification technique.  Assume that envelopes contain digits with the following probabilities:
+
+
+```{r Q8}
+digit <- 0:9
+p.written <- c(.06,.06,.06,.28,.06,.07,.08,.15,.08,.10)
+names(p.written) <- digit
+p.written
+#   0    1    2    3    4    5    6    7    8    9 
+#0.06 0.06 0.06 0.28 0.06 0.07 0.08 0.15 0.08 0.10 
+```
+
+The matrix `CLASS` gives the success rates (e.g. P(predict 2 | written 2) = 0.974, P(predict 4 | written 9) = 0.013).  I suggest printing out `CLASS` to the screen because the rows/columns are labeled.
+
+```{r Q8 table}
+CLASS <- matrix( c(
+  0.989 , 0.000 , 0.000 , 0.000 , 0.002 , 0.003 , 0.002 , 0.000 , 0.004 , 0.000,
+  0.000 , 0.992 , 0.001 , 0.001 , 0.002 , 0.000 , 0.001 , 0.001 , 0.002 , 0.000,
+  0.003 , 0.002 , 0.974 , 0.006 , 0.002 , 0.002 , 0.001 , 0.003 , 0.007 , 0.000,
+  0.002 , 0.000 , 0.001 , 0.990 , 0.000 , 0.004 , 0.000 , 0.000 , 0.003 , 0.000,
+  0.001 , 0.000 , 0.004 , 0.000 , 0.983 , 0.002 , 0.001 , 0.002 , 0.002 , 0.005,
+  0.001 , 0.000 , 0.001 , 0.008 , 0.000 , 0.983 , 0.003 , 0.000 , 0.004 , 0.000,
+  0.002 , 0.000 , 0.001 , 0.000 , 0.006 , 0.004 , 0.986 , 0.000 , 0.001 , 0.000,
+  0.001 , 0.000 , 0.004 , 0.001 , 0.002 , 0.000 , 0.000 , 0.980 , 0.006 , 0.006,
+  0.000 , 0.001 , 0.000 , 0.004 , 0.000 , 0.001 , 0.002 , 0.003 , 0.989 , 0.000,
+  0.000 , 0.000 , 0.000 , 0.000 , 0.013 , 0.002 , 0.000 , 0.006 , 0.000 , 0.979),
+  nrow=10,ncol=10,byrow=FALSE)
+row.names(CLASS) <- paste("Predict",0:9)
+colnames(CLASS) <- paste("Write",0:9)
+CLASS
+
+```
+
+
+a)  If the software predicts the digit is a 7, what is the probability that a 7 was actually written?  In other words, what is P(written 7 | predict 7).  Compare this with the 98\% chance that the software predicts a 7 when a 7 is actually written, i.e. P(predict 7 | written 7).  
+
+```{r Q8a}
+numerator <- CLASS["Predict 7","Write 7"]*p.written["7"]
+denominator <- CLASS["Predict 7","Write 0"]*p.written["0"] + CLASS["Predict 7","Write 1"]*p.written["1"] +
+  CLASS["Predict 7","Write 2"]*p.written["2"] + CLASS["Predict 7","Write 3"]*p.written["3"] +
+  CLASS["Predict 7","Write 4"]*p.written["4"] + CLASS["Predict 7","Write 5"]*p.written["5"] +
+  CLASS["Predict 7","Write 6"]*p.written["6"] + CLASS["Predict 7","Write 7"]*p.written["7"] +
+  CLASS["Predict 7","Write 8"]*p.written["8"] + CLASS["Predict 7","Write 9"]*p.written["9"] 
+numerator/denominator
+
+
+#In matrix form
+PRIOR <- matrix( c(.06,.06,.06,.28,.06,.07,.08,.15,.08,.10 ),ncol=1 )
+rownames(PRIOR) <- paste("Write",0:9)
+
+CLASS %*% PRIOR  #Gives the probability of predicting each digit
+CLASS["Predict 7","Write 7"]*PRIOR["Write 7",] / (CLASS %*% PRIOR)["Predict 7",] 
+```
+
+
+$$P(write7|predict7) = P(predict7|write7)P(write7)/P(predict7)$$
+$$P(predict7) = P(predict7|write7) + P(predict7|write7) + \ldots + P(predict7|write7)$$
+
+b)  If the software predicts the digit is an 8, what is the probability that a 0 was actually written?  In other words, what is P(written 0 | predict 8). 
+
+```{r Q8b}
+CLASS["Predict 8","Write 0"]*PRIOR["Write 0",] / (CLASS %*% PRIOR)["Predict 8",] 
+
+```
+
+

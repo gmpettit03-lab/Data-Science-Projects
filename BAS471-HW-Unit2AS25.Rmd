@@ -1,0 +1,776 @@
+---
+title: "BAS 471 Spring 2025 Homework on Unit 2A - Monte Carlo Simulation"
+author: "Your Name Here Please"
+date: "see Canvas for due date"
+output:
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+#Leave this as-is.
+knitr::opts_chunk$set(echo = TRUE,collapse=TRUE)
+if( as.numeric( paste( unlist( strsplit( paste(R.Version()$major,R.Version()$minor,sep="."),split="\\.") ),collapse="") ) < 442 ) { 
+  stop("You must have R version 4.4.2 or later to knit this document")}
+RNGversion("4.4.2")
+```
+
+************************************************************************
+
+# Note: these are your homework problems
+
+As a reminder about the collaboration policy, you may develop a common set of R code with your colleagues. However, all written interpretations (i.e., anything that follows a **Response:**) must be written *in your own words* (unless explicitly instructed to copy/paste a response from ChatGPT for a specific question). Homework submissions that appear to be near-identical copies will receive substantially reduced credit, may receive a score of 0, and could result in a failing grade for the course. While ChatGPT and similar tools can serve as useful learning aids, you must rephrase its responses to avoid overly AI-generated phrasing. Keep in mind that exams are closed to ChatGPT, so do not become overly dependent on it.
+
+Whenever you are asked to provide the output of some code or display your probability estimate, print the result to the screen using the relevant command. The phrase "print to the screen" simply means ensuring the command does not include a left-arrow assignment (<-), so the results appear in the Console and are "knitted" into the document. For example, the following chunk "prints to the screen" the contents of x:
+
+```{r}
+x <- 1:10
+x
+```
+
+************************************************************************
+
+## Question 1:  Call times
+
+Few things are more aggravating than experiencing issues with your credit card, internet, electricity, or other services, calling customer support, and being told there is a 45-minute wait to speak with an agent. The customer support team at a company wants to determine the appropriate number of staff needed at the call center to maintain acceptable wait times. They have asked for your help in conducting several Monte Carlo simulations to analyze call resolution times.
+
+Let's assume this company has a total of 2,500 customers.
+
+During the 1–2 PM hour, each customer has a 0.4% chance of calling support (so we expect approximately 0.4% of them, or `0.004 * 2500 = 10`, to call). Using a Monte Carlo simulation, estimate the probability that at least 14 customers call during this hour. Develop your code to run for 10 trials initially, then obtain a final probability estimate using 50,000 trials. Use the counter method to solve this problem.
+
+Sanity check: The probability should be approximately 13–14%.
+
+```{r Q1}
+counter=0
+ntrials= 10
+for (i in 1:ntrials){
+  
+  CALL<-sample(c(1,0), size =2500, replace=TRUE, prob= c(.004, (1-.004)) )
+  if (sum(CALL) >= 14){ counter =1 +counter}  
+}
+counter
+#probability of at least 14 calls when ntrials = 10
+print(counter/ntrials)
+
+counter=0
+ntrials= 50000
+for (i in 1:ntrials){
+  
+  CALL<-sample(c(1,0), size =2500, replace=TRUE, prob= c(.004, (1-.004)) )
+  if (sum(CALL) >= 14){ counter =1 +counter}  
+}
+counter
+
+#probability of at least 14 calls with ntrials= 50,000
+print(counter/ntrials)
+```
+
+
+************************************************************************
+
+## Question 2:  Kroger Coupons
+
+Kroger has a world-class analytics team that frequently uses data to design targeted campaigns, including "custom" coupons for customers. The idea behind these campaigns is that while a coupon may lead to a small loss when redeemed, the additional purchases a customer makes during their visit will more than compensate for it.
+
+Most coupon campaigns are highly successful (which is why Kroger continues to run them). However, Kroger has a long-standing interest in determining which campaigns are more effective than others.
+
+Now, imagine Kroger has asked you to analyze how the effectiveness of a recent campaign varies by age. The table below displays the number of households that redeemed the coupon, with each age demographic consisting of 100 households.
+
+Age             | 18-25 | 26-34 | 35-45 | 46-60 | 61+
+----------------|-------|-------|-------|-------|------
+Number redeemed |   12  |   18  |   9   |   22  |  13
+
+At first glance, the campaign appears to have been more successful for the 46–60 age demographic (22% redemption rate) compared to the 35–45 demographic (9% redemption rate). However, even if the campaign were equally effective across *all* age groups, we would still expect *some* variation in redemption rates due to the inherent randomness in household behavior.
+
+Although there are many ways to compare effectiveness (we will learn how to do this using the `aov` command in a later unit), for this problem, I want you to focus on the number of coupons redeemed by the demographic with the highest redemptions (which happens to be 22 in this case) and the number of coupons redeemed by the demographic with the lowest redemptions (which happens to be 9 in this case).
+
+In this problem, you will use a Monte Carlo simulation to estimate the probability that this difference of at least 13 occurs "by chance alone", assuming each household in each demographic has the same underlying 14.8% chance of redeeming the coupon (Total Number Redeemed / Number of Households = 74/500 = 0.148).
+
+ChatGPT, DeepSeek, and similar AI tools do an excellent job of setting up simple simulations and computing the answer. However, the code they generate is often too efficient, making the simulation less transparent. If you ask AI this question, you’ll likely see code using the `rbinom` and `replicate` commands -- both are extremely useful shortcuts once you've mastered the basics, but they are not ideal for learning or explaining the simulation process to others.
+
+Rather than relying on AI-generated shortcuts, let's break the simulation into smaller steps and tackle it gradually.
+
+a)  Write a command (or a combination of commands) using `sample` to determine the total number of coupons redeemed by the 18–25 age demographic, assuming that each of the 100 households has a 14.8% chance of redeeming a coupon. Store this total number of redeemed coupons in a variable named `n18` using the left-arrow assignment (<-).
+
+```{r Q2a}
+n18<-sum(sample(c(1,0), size= 100, replace=TRUE, prob= c(.148, (1-.148))))
+print(n18)
+```
+
+b)  Define `n26`, `n35`, `n46`, and `n61` similarly.
+
+```{r Q2b}
+n26<-sum(sample(c(1,0), size= 100, replace=TRUE, prob= c(.148, (1-.148))))
+print(n26)
+
+n35<-sum(sample(c(1,0), size= 100, replace=TRUE, prob= c(.148, (1-.148))))
+print(n35)
+
+n46<-sum(sample(c(1,0), size= 100, replace=TRUE, prob= c(.148, (1-.148))))
+print(n46)
+
+n61<-sum(sample(c(1,0), size= 100, replace=TRUE, prob= c(.148, (1-.148))))
+print(n61)
+```
+
+c)  Create a vector named `redeemed` that contains `n18`, `n26`, etc., as its elements. Then, define a variable named `biggestdifference` to store the difference between the largest and smallest values in the `redeemed` vector.
+
+```{r Q2c}
+redeemed<-c(n18,n26,n35,n46,n61)
+print(redeemed)
+biggestdifference<- (max(redeemed)-min(redeemed))
+print(biggestdifference)
+```
+
+d)  Define `ntrials` to be 10,000 and initialize `simulateddifferences` to be an empty vector using `c()`. Use a `for` loop to populate the elements of `simulateddifferences`, where each element represents the difference between the largest and smallest number of redemptions across the five household demographics for each trial in the simulation.  As with all Monte Carlo simulations, first ensure your code works for 10 trials before running the final estimate using 10,000 trials.
+
+```{r Q2d}
+ntrials<-10
+simulateddifferences<-c()
+for (i in 1:ntrials){
+  n18<-sum(sample(c(1,0), size= 100, replace=TRUE, prob= c(.148, (1-.148))))
+  n26<-sum(sample(c(1,0), size= 100, replace=TRUE, prob= c(.148, (1-.148))))
+  n35<-sum(sample(c(1,0), size= 100, replace=TRUE, prob= c(.148, (1-.148))))
+  n46<-sum(sample(c(1,0), size= 100, replace=TRUE, prob= c(.148, (1-.148))))
+  n61<-sum(sample(c(1,0), size= 100, replace=TRUE, prob= c(.148, (1-.148))))
+  redeemed<-c(n18,n26,n35,n46,n61)
+  simulateddifferences[i]<-max(redeemed)-min(redeemed)
+}
+length(simulateddifferences)
+
+ntrials<-10000
+simulateddifferences<-c()
+for (i in 1:ntrials){
+  n18<-sum(sample(c(1,0), size= 100, replace=TRUE, prob= c(.148, (1-.148))))
+  n26<-sum(sample(c(1,0), size= 100, replace=TRUE, prob= c(.148, (1-.148))))
+  n35<-sum(sample(c(1,0), size= 100, replace=TRUE, prob= c(.148, (1-.148))))
+  n46<-sum(sample(c(1,0), size= 100, replace=TRUE, prob= c(.148, (1-.148))))
+  n61<-sum(sample(c(1,0), size= 100, replace=TRUE, prob= c(.148, (1-.148))))
+  redeemed<-c(n18,n26,n35,n46,n61)
+  simulateddifferences[i]<-max(redeemed)-min(redeemed)
+}
+length(simulateddifferences)
+```
+
+e)  Use the `table` command to generate a frequency table of the values in `simulateddifferences`, allowing you to see how often different values occur for the difference between the largest and smallest number of redemptions across the five household demographics.
+
+Next, run another `table` command where you divide the output by 10,000 to convert these frequencies into proportions between 0 and 1.
+
+Based on your simulation, determine the most likely value for the difference between the largest and smallest number of redemptions across the five household demographics. You can do this visually, but it is also useful to write a command that extracts this value automatically.
+
+Note: FILL IN YOUR RESPONSE AFTER YOU HAVE KNITTED. Since we haven't set a seed, the most common value will depend on R’s position in the random number stream at the time of knitting, and it may differ from what you observed while coding.
+
+**Response:** 
+It looks like there aren't any real differences in the redemption rates of coupons for the five household demographics since the confidence interval for our simulated difference does not contain .05. 
+```{r Q2e}
+table(simulateddifferences)
+#table(simulateddifferences)/10000
+print(max(table(simulateddifferences)/10000))
+
+
+```
+
+f)  Using the `mean` function with an appropriate logical condition on `simulateddifferences`, estimate the probability that the difference between the largest and smallest number of redemptions across the five household demographics (assuming all households have an identical 14.8% probability of redeeming a coupon) is at least 13 (the difference observed in our data).
+
+Discuss the practical implications of this probability and answer Kroger's question: "Are there any real differences in redemption rates across age demographics?"
+
+Sanity check: The probability should be approximately 8–9%.
+
+Hint: Standard statistical criteria suggest that a difference in redemption rates is only supported by the data if this probability is less than 5%.
+
+**Response**:
+It looks like there aren't any real differences in the redemption rates of coupons for the five household demographics since the confidence interval for our simulated difference does not contain .05. 
+
+```{r Q2f}
+mean(simulateddifferences>=13)
+
+ME<-2*sqrt((0.0925*(1-0.0925))/10000)
+CI<-c(0.0925-ME,0.0925+ME)
+CI
+
+
+```
+
+g)  Ask ChatGPT to perform the simulation. Specifically, copy and paste all the text in this problem from the beginning up to, but not including, the sentence "ChatGPT, DeepSeek, etc., do a wonderful job of setting up simple simulations and finding the answer." Then, add the instruction "Please write the Monte Carlo simulation in R." after pasting the problem text into the prompt.
+
+Finally, report its estimated probability. Does it agree with the results of your own simulation?
+
+**Response:** 
+
+It does agree with the results from my simulation. 
+
+```{r Q2h ChatGPT}
+set.seed(123)  # For reproducibility
+
+ntrials <- 10000  # Number of simulations
+simulated_differences <- numeric(ntrials)  # Preallocate vector
+
+for (i in 1:ntrials) {
+  # Simulate the number of redemptions for each age group (assuming 14.8% redemption probability)
+  n18 <- sum(sample(c(1, 0), size = 100, replace = TRUE, prob = c(0.148, 1 - 0.148)))
+  n26 <- sum(sample(c(1, 0), size = 100, replace = TRUE, prob = c(0.148, 1 - 0.148)))
+  n35 <- sum(sample(c(1, 0), size = 100, replace = TRUE, prob = c(0.148, 1 - 0.148)))
+  n46 <- sum(sample(c(1, 0), size = 100, replace = TRUE, prob = c(0.148, 1 - 0.148)))
+  n61 <- sum(sample(c(1, 0), size = 100, replace = TRUE, prob = c(0.148, 1 - 0.148)))
+
+  # Compute the difference between max and min redemptions
+  redeemed <- c(n18, n26, n35, n46, n61)
+  simulated_differences[i] <- max(redeemed) - min(redeemed)
+}
+
+# Estimate the probability of observing a difference of at least 13
+
+
+probability <- mean(simulated_differences >= 13)
+print(probability)
+
+ME<-2*sqrt((probability*(1-probability))/10000)
+CI<-c(probability-ME,probability+ME)
+CI
+
+
+```
+
+h)  Use DeepSeek to do the same.
+
+**Response:** 
+It is pretty much the same result from my simulation, although p hat is slightly different. 
+
+
+
+
+```{r Q2h DeepSeek}
+# Set the seed for reproducibility
+set.seed(123)
+
+# Parameters
+n_simulations <- 10000  # Number of simulations
+n_households <- 100     # Number of households per demographic
+p_redeem <- 0.148       # Probability of redeeming a coupon
+
+# Initialize a vector to store the differences
+differences <- numeric(n_simulations)
+
+# Monte Carlo simulation
+for (i in 1:n_simulations) {
+  # Simulate the number of redemptions for each demographic
+  redemptions_18_25 <- rbinom(1, n_households, p_redeem)
+  redemptions_26_34 <- rbinom(1, n_households, p_redeem)
+  redemptions_35_45 <- rbinom(1, n_households, p_redeem)
+  redemptions_46_60 <- rbinom(1, n_households, p_redeem)
+  redemptions_61_plus <- rbinom(1, n_households, p_redeem)
+  
+  # Find the maximum and minimum number of redemptions
+  max_redemptions <- max(redemptions_18_25, redemptions_26_34, redemptions_35_45, redemptions_46_60, redemptions_61_plus)
+  min_redemptions <- min(redemptions_18_25, redemptions_26_34, redemptions_35_45, redemptions_46_60, redemptions_61_plus)
+  
+  # Calculate the difference
+  differences[i] <- max_redemptions - min_redemptions
+}
+
+# Calculate the probability that the difference is at least 13
+prob_diff_at_least_13 <- mean(differences >= 13)
+
+# Print the result
+prob_diff_at_least_13
+
+
+ME<-2*sqrt((prob_diff_at_least_13*(1-prob_diff_at_least_13))/10000)
+CI<-c(prob_diff_at_least_13-ME,prob_diff_at_least_13+ME)
+CI
+```
+
+
+************************************************************************
+
+## Question 3:  Geocaching 
+
+Geocaching is a fun activity! People hide a cache (a lunchbox-sized container) in an interesting location and post GPS coordinates for others to track down. It’s a great date idea, and with Valentine's Day coming up, it might be something to consider. Prof. Petrie actually proposed to his significant other via geocaching *way* back in the day, though that relationship ultimately didn’t work out. Your results may vary!
+
+The cache initially starts with small trinkets or toys, and it’s tradition to swap out one or two items for ones you've brought once you find it. Sometimes, people just add items. Sometimes, people take items. Most of the time, there’s no net change, i.e., they take and leave the same number of items.
+
+Suppose the cache initially contains 30 items. The net change in the number of items after someone adds or subtracts items has the following probabilities:
+
+ Items Probability
+    -3        0.03
+    -2        0.07
+    -1        0.20
+     0        0.45
+     1        0.15
+     2        0.06
+     3        0.04
+     
+On average, the cache loses about 0.04 items per visit, so eventually, it will become depleted. Write a Monte Carlo simulation (75,000 trials) to estimate the probability that the cache will be depleted *before* visitor number 250 finds the cache.
+
+Develop your code to work for 10 trials initially, and then obtain a final estimate of the probability with 75,000 trials. Though either the counter or storage approach can be used, I think the counter approach is more intuitive.
+
+Sanity check: The estimated probability should be about 23–24% or so.
+
+Hint: Create a vector containing the amounts taken or deposited by the first 249 visitors. The `cumsum` (cumulative sum) command provides a running total of the net change in items after each visitor (1st element, 2nd element, 3rd element, etc.). If the cumulative sum reaches -30 (or any value more negative), you’ll know the cache was depleted before the 250th visitor.
+
+Note: While ChatGPT/DeepSeek may come up with a solution, it tends to take about 5 times longer to run compared to a solution based on the hint, so try the hint method first!
+
+```{r Q3}
+
+ntrials<- 75000
+change<-c(-3,-2,-1,0,1,2,3)
+pdiddy<-c(.03,.07,.2,.45,.15,.06,.04)
+counter<-0
+
+for( i in 1:ntrials){
+  cache<- 30
+ for (l in 1:249){
+  delta <-sample(change, size=1, replace = TRUE, prob = pdiddy)
+  delta+cache->cache
+  if (cache <= 0){break}
+ }
+if(cache<=0){counter<- counter+1}
+  
+}
+
+counter/ntrials
+
+```
+
+************************************************************************
+
+## Question 4:  This question rocks
+
+A landscaping company needs to break a large rock into smaller pieces suitable for use in lawns. A machine strikes the rock, breaking it into a number of pieces with the following probabilities:
+
+ Pieces Probability
+      1        0.15 (the machine may fail to break the rock, so the rock may continue to exist as one piece)
+      2        0.20
+      3        0.30
+      4        0.30
+      5        0.05
+      
+After the first strike, the machine strikes each resulting rock. For example, if the original rock splits into 3 pieces, the machine strikes all 3, potentially splitting them further. The first piece might split into two, the second might stay as one, and the third may split into three.
+
+This process continues for a total of four 'rounds' (round 1 is the initial strike on the original rock). In each round, every existing rock is struck, and each strike uses the same set of probabilities to determine the number of resulting pieces.
+
+Using a Monte Carlo simulation with 10,000 trials, estimate the probability that the total number of pieces after four rounds is between 125 and 150 (inclusive). Use the storage approach. Note: the only `for` loop in your code should be the `for (trial in 1:ntrials)` loop (AI solutions often use a nested `for` loop, which is slower and inefficient).
+
+Also, *include a histogram of the total number of pieces after the four rounds are complete*.
+
+Develop your code to work for 10 trials initially, then obtain a final estimate of the probability with 10,000 trials.
+
+Sanity check: The estimated probability should be around 5%.      
+      
+```{r Q4}
+pieces<-c(1,2,3,4,5)
+brainhurt<-c(.15,.2,.3,.3,.05)
+counter<-0
+ntrials<-10000
+n.rocks<-c()
+for (i in 1:ntrials){
+  rocks<-1
+  strike1<-sum(sample(pieces, size=rocks, replace = TRUE, prob = brainhurt))
+  rocks<-strike1
+  strike2<-sum(sample(pieces, size=rocks, replace = TRUE, prob = brainhurt))
+  rocks<-strike2
+  strike3<-sum(sample(pieces, size = rocks, replace=TRUE, prob=brainhurt))
+  rocks<-strike3
+  strike4<-sum(sample(pieces, size = rocks, replace =TRUE, prob = brainhurt))
+  rocks<-strike4
+  n.rocks[i]<-rocks
+  if (rocks>= 125 & rocks<= 150){ counter<- counter+1}
+  
+}
+
+counter/ntrials
+
+f.rocks<-c(table(n.rocks)/10000)
+
+hist(f.rocks)
+
+#can't figure out the histogram...
+
+
+```
+
+************************************************************************
+
+## Question 5: The gig economy
+
+To help bring in some extra cash, you decide to start driving for a ride-sharing service like Uber or Lyft. With the flexibility and control over your schedule, a low barrier to entry (you have an acceptable vehicle), and a love for interacting with a variety of people, you feel like being a driver could be a great fit for you.
+
+However, with such flexibility comes a bit of income instability. The amounts that drivers make can vary significantly depending on factors like demand, location, time of day, and surge pricing. Additionally, ride-sharing policies (including fare structures, promotions, and incentives) can change without much notice, which can lead to anxiety about whether the driving will be enough to cover expenses.
+
+To alleviate some of your concerns, you decide to write a Monte Carlo simulation to explore various scenarios that incorporate uncertainties likely to arise.
+
+How detailed your simulation becomes is ultimately up to you. You could model:
+
+- The random nature of where pickups and drop-offs are requested (which affects base fares)
+- The random nature of the charged fare (even for the same route; this can depend on time of day, surge pricing, etc.)
+- The random amount that people leave as a tip
+- The randomness of travel times between any two locations (including the possibility of taking a wrong turn or even getting lost)
+
+a)  What other random or non-constant quantities, not listed above, could you potentially include in your simulation?
+
+**Response:** 
+The number of customers who you drive in a given day. 
+
+b)  You decide to model the tip amounts that people will leave on top of the base fare.
+
+b1)  First, a very basic model: Imagine that passengers leave a random percentage on the fare between 15% and 30% in integer amounts. Develop a `sample` command that picks an integer within this range. In the R chunk, have it "print to the screen" the result of running `set.seed(471); sample(???)`, where you've filled in the contents of the necessary `sample` command to pick *1 number at random* from this range. You should find that it gives 15 (some Macs) or 17 (Windows, other Macs).
+
+```{r Q5b1}
+tip_pct<-c(15:30)
+set.seed(471); sample(tip_pct, size=1, replace = TRUE)
+
+
+```
+
+b2)  You figure the model in (b1) is too basic -- some tip percentages are more likely to happen than others. Develop a `sample` command that picks an integer in this range, where a 30 is three times more likely than a 15, with the probability ramping up linearly as we go from 15 to 30. In the R chunk, have it "print to the screen" the result of running `set.seed(471); sample(???)`, where you've filled in the contents of the necessary sample command to pick *8 random numbers* in this range with replacement. Sanity check: if you write the code in the way we've covered in class, the first three values should be 30, 29, and 21.
+
+```{r Q5b2}
+
+tip_pct<-c(15:30)
+first8<-c()
+set.seed(471);sample(tip_pct, size=8, replace=TRUE, prob = seq(1, 3, length.out = length(tip_pct)))->first8
+
+print(first8)
+
+
+
+
+
+
+
+```
+
+b3)  You figure the model in (b2) is still too optimistic — you think the most likely tip amount is 22, with larger and smaller amounts being less likely. Specifically, you think a 22 is 3 times as likely as a 15 (with the probability ramping up linearly as we go from 15 to 22), and 2 times as likely as a 30 (with the probability ramping down linearly as we go from 22 to 30).
+
+To make this model, define a vector named `tip.probability` that has 16 elements. The first element would be the "weight" or "relative frequency" of picking a 15 (set this weight to 1), the second element would be the "weight" or "relative frequency" of picking a 16, and so on. This way, when `sample` is eventually run, you can use `prob=tip.probability` as an argument.
+
+In the R chunk, have it "print to the screen" the result of running `set.seed(471); sample(???)`, where you've filled in the necessary contents of the sample command to pick *10 random numbers* in this range with replacement. Sanity check: if you've passed the sanity checks for `head`, `tail`, and `length` in the chunk, you should find that the first five values will be 22, 23, 28, 29, and 19.
+
+
+```{r Q5b3}
+tip.probability= c(seq(1, 3, length.out = sum(tip_pct<=22)), seq(3, 2, length.out = sum(tip_pct>22)))
+
+
+
+length(tip.probability)
+
+
+
+first10<-c()
+set.seed(471);sample(tip_pct, size=10, replace=TRUE, prob = tip.probability)->first10
+print(first10)
+
+
+
+```
+
+b4)  A frequent user of Uber is quick to point out that the "tip window interface" doesn't let you leave a tip *percentage* easily unless the fare is above a certain amount. For a smaller fare, the app instead suggests actual dollar amounts like 2, 3, or 5. Let's imagine that if the fare is $10 or less, the user doesn't select a tip percentage but instead selects a tip amount of either 2, 3, or 5 with probabilities of 25%, 60%, and 15%, respectively.
+
+Develop a `sample` command that picks a random tip amount when the base fare is $10 or less. In the R chunk, have it "print to the screen" the result of running `set.seed(471); sample(???)`, where you've filled in the contents of the necessary sample command to pick *12 random numbers* with replacement. Sanity check: if you write the code as we've covered in class, the first four values will be 3, 3, 2, 2.
+
+```{r Q5b4}
+ride<-sample(c(1:10), size=1)
+
+set.seed(471); sample(c(2,3,5), size=12, replace = TRUE, prob = c(.25,.6,.15))->tip12
+
+
+print(tip12)
+
+
+
+```
+
+b5)  When writing Monte Carlo simulations, it's almost always a better strategy to keep your first attempt simple and then add additional layers of realism once you're convinced your logic is airtight. With that in mind, let's combine methods from (b1) and (b4) to simulate a tip. In English, here's what we want to do:
+
+* If the fare amount is MORE than 10, pick a tip percentage between 15%-30% at random (each integer equally likely as in b1) and convert that into a tip amount.
+
+* If the fare amount is 10 or LESS, pick either a 2, 3, or 5 dollar tip amount with probabilities of 20%, 60%, or 15%, respectively.
+
+To flesh out the code:
+
+* Start by defining a vector named fares that contains the integer sequence 6, 7, 8, ..., 17, 18, 19.
+
+* Define an empty vector `tips` that will contain the tip amounts left on each of these fares.
+
+* Use a `for` loop to fill in the elements of `tips.` Note 1: on the same line but immediately before `for`, have `set.seed(471);` so that we all get the same random tip amounts for each fare. Note 2: remove the `set.seed(2025);` before each `sample` command you previously developed (for this chunk, keep them in the previous chunks). Note 3: you'll need to use `if`.
+
+* Print to the screen the result of running `data.frame(fares, tips)`.
+
+```{r Q5b5}
+
+tip_pct<-c(15:30)
+tip.probability= c(seq(1, 3, length.out = length(which(tip_pct<=22))), seq(3, 2, length.out = length(which(tip_pct>22))))
+#the tip probability here is likely what is throwing off the code. I can not get it to work as intended, my bad g.
+
+ntrials=14
+tip=c()
+fare=c()
+set.seed(471);for (i in 1:ntrials){
+  fare[i]<-sample(c(6:19), size=1)
+  if (fare[i]<=10){ sample(c(2,3,5), size=1, replace = TRUE, prob = c(.25,.6,.15))->tip[i]}
+if (fare[i]> 10){ ((sample(tip_pct, size=1, replace=TRUE, prob = tip.probability)/100)*fare[i])->tip[i]}
+}
+
+data.frame(fare,tip)
+
+
+
+
+
+#Sanity check (some rows of the expected result for some macs)
+#   fares tips
+#1      6 3.00
+#2      7 3.00
+#3      8 2.00
+#4      9 2.00
+#5     10 3.00
+#6     11 2.20
+#7     12 2.16
+#...
+#12    17 4.08
+#13    18 3.42
+#14    19 3.42
+
+#Sanity check (some rows of the expected result for Windows or other Macs)
+#fares tips
+#1      6 3.00
+#2      7 3.00
+#3      8 2.00
+#4      9 2.00
+#5     10 3.00
+#6     11 2.86
+#7     12 2.04
+#...
+#12    17 3.91
+#13    18 3.96
+#14    19 4.18
+```
+
+c)  @Note:  this and future parts require successful completion of part (b5).  If you could not pass the sanity check, make sure to email/visit the instructor or TA to ensure you get that part!
+
+You plan to make 10 trips each day. Let's develop a Monte Carlo simulation (100,000 trials) and store the total amount earned via tips during these 10 trips in a vector named `tip.totals`. To simulate the fares for these 10 trips, pick random integers between 5 and 20 (inclusive). Use the model for tips from (b5). You are curious about:
+
+* The distribution of total tip amounts (you can `hist(tip.totals)` after the simulation to visualize this)
+* The probability that the total tip amount is exactly 32
+* The probability that the total tip amount is an integer (check all integers from 1 to 100; consider `%in%`)
+* The probability that the total tip amount is at least 35
+* The probability that the total tip amount is less than 30
+* The probability that the total tip amount is between 32.1 and 38.3, inclusive.
+
+Estimate these quantities with a Monte Carlo simulation with 100,000 trials (do not use `set.seed` on any line). It's easiest to store the total tip amounts in a vector (perhaps `tip.totals`) and to use the `mean` of various logical conditions. Develop your code so that it works for 10 trials, and then obtain a final estimate of the probability with 100,000 trials.
+
+```{r Q5c}
+#the tip probability here is likely what is throwing off the code. I can not get it to work as intended, my bad g.
+
+
+
+tip_pct<-c(15:30)
+tip.probability= c(seq(1, 3, length.out = length(which(tip_pct<=22))), seq(3, 2, length.out = length(which(tip_pct>22))))
+
+ntrials=100000
+tip.total<-c()
+tip.run<-c()
+
+
+#set.seed(471);
+
+
+for (i in 1:ntrials){
+    tip=c()
+    fare=c() 
+    for(j in 1:10){
+      fare[j]<-sample(c(6:19), size=1)
+      if (fare[j]<=10){ sample(c(2,3,5), size=1, replace = TRUE, prob = c(.25,.6,.15))->tip[j]} else{ ((sample(tip_pct, size=1, replace=TRUE, prob = tip.probability)/100)*fare[j])->tip[j]}
+      
+    }
+    sum(tip)->tip.total[i]
+    
+  
+}
+
+
+mean(tip.total)
+#data.frame(fare,tip)
+
+
+
+
+
+#The distribution of total amount in tips using hist (the peak should be near 33 or so)
+
+hist(tip.total)
+
+#The probability that the total amount in tips is exactly 32 (sanity check:  very close to 0)
+
+mean(tip.total==32)
+
+#The probability that the total amount in tips is an integer 1-100 (sanity check:  about 1% or so)
+
+int<-c(1:100)
+length(int)
+mean(tip.total == int)
+
+#The probability that the total amount in tips is at least 35 (sanity check:  around 26-28% or so)
+
+mean(tip.total>=35)
+
+
+
+#The probability that the total amount in tips is less than 30 (sanity check:  around 14-16% or so)
+
+mean(tip.total<30)
+
+##The probability that the total amount in tips is somewhere between 32.1 and 38.3 (inclusive) (sanity check:  around 57%  or so)
+
+mean(tip.total>= 32.1 & 38.3>=tip.total)
+
+```
+
+d)  Instead of taking exactly 10 trips, let's let fate (or the whims of your riders) decide how many trips you make. Imagine you stop driving after your total mileage exceeds 60 miles. Based on what you've read about your city, rides are between 0.5 miles and 15.0 miles. Any increment of 0.1 miles is possible, and you reckon that trips of 15.0 miles are only 1/3 as likely as trips of 0.5 miles, with the probability ramping down linearly from 0.5 miles to 15 miles.
+
+Assuming this model is accurate, use a Monte Carlo simulation with 50,000 trials to estimate the probability that you make at least 12 trips in a day. Use the counter approach for this one, just to make sure you understand how to set it up. Develop your code so that it works for 10 trials, and then obtain a final estimate of the probability with 50,000 trials.
+
+Sanity check: I was finding an estimate between 9-11% or so, but I found that DeepSeek and ChatGPT were very far off (reporting an estimate of about 56%).
+
+Note 1: There are 146 possible trip lengths from 0.5 to 15.0 miles.
+
+Note 2: In each trial, generate 121 trip lengths (although the total distance traveled will exceed 60 miles before the 121st trip, it’s the maximum possible number of trips it would take to exceed 60 miles).
+
+Note 3: While there are many ways to solve the problem, the cumulative sum `cumsum` and `which` commands could prove useful (and these are commands you are expected to know for the midterm).
+
+```{r Q5d}
+
+#ntrials=500
+
+
+#dist<-seq(.5,15,by=.1)
+#prob.dist<-seq(3,1,length.out=length(dist))
+#total.trips<-c()
+
+#counter_limit<-0
+#counter_trips<-0
+
+#for(j in 1:ntrials) {
+
+
+
+#total.miles<-c()  
+#for (j in 1:121){
+
+#miles<-sample(dist, size = 1, replace = TRUE,prob = prob.dist )
+#total.miles[i]<-miles
+#if (sum(total.miles) >= 60){ counter_limit<-counter_limit+1}
+
+#}
+#length(total.miles)->total.trips[j]
+#}
+#mean(total.trips)
+
+
+
+
+```
+
+e)  Piece together what you've done in parts (b) - (d) so that:
+
+* You stop driving after your total mileage exceeds 60 miles (using the trip length probabilities in part (d)).
+* The fare charged is twice the mileage. For example, a trip of 1.2 miles will cost 2.4 dollars.
+* Tip amounts/percentages work as in part (b5):
+  - If the fare amount is MORE THAN 10, pick a tip percentage between 15%-30% at random (each integer equally likely as in part b1) and convert that into a tip amount.
+  - If the fare amount is 10 OR LESS, pick either a 2, 3, or 5 dollar tip amount with probabilities 20%, 60%, or 15%, respectively.
+  
+Simulate the total amount earned via tips for each of 50,000 days. Provide a histogram and estimate the probability that the total tip amount is less than 25 dollars.
+
+Sanity check: If you run summary on the tip totals you have simulated, then the first quantile, median, mean, and third quantile should be *close* to (within 10-15 cents or so) the following (ignore the min/max, which are highly simulation-dependent):
+
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  16.29   28.57   32.05   32.51   35.92   66.32 
+  
+```{r Q5e}
+
+
+#Provide a histogram (the peak is a little over 30)
+
+#Provide a summary of tip.totals
+
+#Estimated probability that the tip amount is less than 25 (around 6-8% or so)
+
+```
+
+f)  Bonus (up to 40 extra points).  For this bonus problem, you're tasked with simulating a scenario where you only accept rides between key landmarks in the city, and trips have a specific road network defined by distances between landmarks.
+
+Imagine you decide to accept only certain rides between key landmarks in the city (so that the waiting time/travel time between sequential trips is minimal).  Refer to road network on Canvas.  Circles represent landmarks in the city and edges represent possible trips between landmarks (for whatever reason, trips are only requested between certain pairs of landmarks).  The mileage of a trip is labeled along the edge.  
+
+@Part1:  You always start the day at Landmark A.  The first passenger randomly picks from one of the destinations accessible from A.  You drop off the passenger there, and immediately pick up a another passenger, who one again picks from one of the destinations accessible from the current landmark.  Etc.  Simulate the total amount earned via tips for each of 5,000 days (since generating a trip is computationally intensive, we'll only do 5000 "trials" here).  
+
+Provide a histogram and `summary` of the total amount earned via tips.  Use the same set of assumptions in (e), namely you stop driving if you've traveled over 60 miles (I've noticed that a total of 80 stops always covers much more than 60 miles), fares are double the distance traveled, and tips are left as a dollar amount or percent according to mileage.  
+
+Explain your approach and justify your answer.  ChatGPT might be able to provide a bit of guidance, but you'll need to get creative.  If you use it, let me know your prompts and its responses.
+
+**Response:** 
+
+@Part2:  Is Landmark A really the best place to start the day?  Explain why or why not, fully justifying your reasoning.
+
+**Response:** 
+
+```{r Q5f1}
+
+```
+
+```{r Q5f2}
+
+```
+
+## Question 6 (Long-term Bonus):  Inning in baseball (high difficulty; you can turn this in anytime before the midterm for full points; email Petrie if you do)
+
+BAS 471 is immensely useful if you want to get into sports analytics since they use probability calculations, modeling, and Monte Carlo simulation all the time.  I have seen multiple sports analytics interview questions, and I can say that mastering Units 1-3 in BAS 471 gives you a big edge when trying to get internships and jobs with sports teams.
+
+This question is aimed at fairly advanced programmers who have a decent knowledge of baseball, or for those people who are very interested in getting into sports analytics.  You will write a simulation of an inning in a much-simplified game of baseball.  While the simulation will be missing quite a few key bits of realism, it does provide a jumping off point.  Note:  even with this simplified game, my own simulation was about 60 lines of code!  
+
+Imagine:
+
+* Each pitch has an independent 62% chance of being a strike (38% being a ball) for all batters.  No batters ever get hit by a pitch (i.e., there are no automatic walks).  This number is close the league average.
+
+* Every batter has a 65% chance of swinging at a pitch that would be a strike (Z-Swing%); league average
+
+* Every batter has a 30% chance of swinging at a pitch that would be a ball (O-Swing% / Chase Rate)
+
+* When the batter swings at a pitch that would be a strike, the batter
+  - misses with a 18% chance (counts as a strike)
+  - is "out" with a 56% chance (foul/fly ball caught, or thrown out at first base, etc.)
+  - hits a single with a 15% chance
+  - hits a double with a 6% chance
+  - hits a triple with a 2% chance 
+  - hits a home run with a 3% chance
+
+* When the batter swings at a pitch that would be a ball, he:
+  - misses with a 38% chance (counts as a strike)
+  - is "out" with a 50% chance (foul/fly ball caught, or thrown out at first base, etc.)
+  - hits a single with a 7% chance
+  - hits a double with a 3% chance
+  - hits a triple with a 1% chance 
+  - hits a home run with a 1% chance
+
+* When the batter hits the ball and ends up on a base
+  - All other players on bases move forward the same number of bases
+  - Example, if a batter hits a double and a player is on 2nd base, the player on 2nd advances two bases (arriving home and scoring a point).
+
+* No player ever tries to steal a base.  Obviously this is not very realistic, but it makes the simulation simpler.
+
+* Players already on base are "safe".  In other words, a player already on base is never tagged out or thrown out via a double/triple play.  Obviously this is not very realistic, but it makes the simulation simpler.
+
+Using a Monte Carlo simulation, estimate:
+
+a)  The probability that, during an inning, exactly 1 run is scored.  Sanity check:  close to 13%
+
+b)  The average number of runs scored per game (take the average per inning and multiply by 9)  Sanity check: close to 4.2.
+
+You can estimate both at once if, in each trial, you store the number of runs that have been scored in that trial.  If you follow baseball and don't find your answers realistic, that indicates that this simulation is overly simplistic and that perhaps some/many of the probabilities (ball vs. strike, outcome of a swing, etc.) are not reflective of reality.  In theory, you could play around with these numbers to get a closer match to reality.
+
+```{r Q6}
+
+```
+
+
+
+
+

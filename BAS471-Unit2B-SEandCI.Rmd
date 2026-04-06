@@ -1,0 +1,175 @@
+---
+title: "BAS 471 - Unit 2B - Standard Errors and Confidence Intervals for p"
+author: "Ingenious Inferencers"
+output: html_document
+---
+
+
+```{r setup, include=FALSE}
+#Leave this as-is.
+knitr::opts_chunk$set(echo = TRUE,collapse=TRUE)
+if( as.numeric( paste( unlist( strsplit( paste(R.Version()$major,R.Version()$minor,sep="."),split="\\.") ),collapse="") ) < 411 ) { 
+  stop("You must have R version 4.1.1 or later to knit this document")}
+RNGversion("4.1.1")
+```
+
+
+**********************************************************************************
+
+# Note:  these are problems that are addressed in class
+
+**********************************************************************************
+
+
+## Question 1
+
+A professor gives students a list of 100 questions that may appear on the final exam.  The professor will select 20 of them at random to assign on exam day.  A student studies for the exam, but is ultimately only able to solve 70 questions.  A passing grade is getting at least 16 out of 20 question correct (i.e., at least an 80%).
+
+
+
+a)  What is the probability that the student will pass the exam (i.e., get at least 16 correct, which is an 80%)?  Write a Monte Carlo simulation using 500,000 trials.   You can use the `counter` approach or you can store the score of each randomly generated exam in a vector named `n.correct` and use `mean` function on the appropriate logical condition of values in the vector.  Sanity check:  I was getting a bit above 20%.
+
+Hint:  let's represent the possible questions by the integer sequence 1, 2, 3, ..., 99, 100.  A `sample` command can pick 20 of these questions to appear on the exam.  The key here is figuring out the number of questions the student knows.  Without loss of generality, let's assume that the student knows the answers to questions 1, 2, 3, ..., 69, 70.     Figure out as a group how to count up the number of questions the student got correct for a randomly generated exam.
+
+```{r Q1a}
+n.correct <- rep(0,ntrials)
+
+ntrials <- 500000
+counter<-0
+
+
+for (i in 1:ntrials){
+  num.correct<-sample(c(1,0), size= 20, replace = TRUE, prob= c(7,3))
+  if (sum(num.correct)>= 16){ counter<-counter+1
+  }
+}
+
+
+counter/ntrials
+counter
+
+total.questions<-100
+known.questions<-70
+exam.questions<- 20
+pass.threshold<- 16
+
+pass.results<- replicate(ntrials, {
+selected.questions<-sample(total.questions, exam.questions)  
+correct_answers <-sum(selected.questions<= known.questions)
+correct_answers>=pass.threshold
+})
+
+probability.pass<-mean(pass.results)
+probability.pass
+
+
+
+SE<-sqrt((0.208992*(1-0.208992))/500000)
+SE
+
+
+
+
+SE<-sqrt((0.237348* (1-0.237348))/500000)
+
+binom.test(counter, ntrials)
+
+```
+
+b)  After a different Monte Carlo simulation that used a different set of assumptions (some questions more likely to be selected than others), it was found that the student passed in 34,000 out of 100,000 trials, so the estimated probability of passing is 0.34.  About how far off do we think this estimate is from the true probability of passing?
+
+```{r Q1b}
+se<-(sqrt((.34*(1-.34))/100000))
+se
+
+(4*(.34)*(1-.34))/((2*0.001497999*(1/3))^2)
+
+```
+
+c)  The standard error in (b) was found from 100,000 trials.  If we wanted to make the standard error from (b) smaller, we'd need more trials.  In order to make the standard error found in (b) to go down by a factor of 3 (i.e. 1/3 the size of (b)), how many total trials would be needed?  Hint:  In general to decrease the standard error by a factor of `x`, you need to increase the number of trials by `x^2`.  The extra precision really comes at a premium!
+
+```{r Q1c}
+
+
+```
+
+
+****
+
+## Question 2
+
+It's desired to estimate the probability of a stockout using a particular inventory control policy with a Monte Carlo simulation.  The margin of error of the estimated probability is to be 0.005, i.e. half a percentage point.
+
+a)  Before having any idea of what the stockout probability might be, what is the maximum number of trials needed to achieve this margin of error?
+
+```{r Q2a}
+1/((.0025^2)/(.5^2))
+
+```
+
+b)  A small number of trials is performed and it looks like the stockout probability is about 0.1.  Now how many total trials looks to be necessary to achieve the margin of error of 0.005?
+
+```{r Q2b}
+
+1/((.0025^2)/(.1*.9))
+```
+
+****
+
+## Question 3
+
+A web designer has made an ad and claims it should have a click-thru rate of 0.02 (really good by today's standards).  You ask for a test, and after 1000 random surfers have seen the ad, only 12 have clicked, for an estimated click-thru rate of 12/1000 = 0.012.
+
+a)  Using the "classic" method of designing a 95% confidence interval (estimate plus or minus two standard errors), what range of values for the click-thru rate are plausible based on the test?
+
+```{r Q3a}
+se<-sqrt(.012*(1-.012)/1000)
+2*se
+.012-(2*se)
+
+```
+
+b)  Using the `binom.test` method of designing a 95% confidence interval, what range of values for the click-thru rate are plausible based on the test?
+
+```{r Q3b}
+binom.test(12,1000)
+55442-47577
+4632+2210+1959
+
+(46485-19416)-(31642-19416)
+
+```
+
+c)  The values inside a 95% confidence provide a range of plausible values for p that are consistent with the data that's been collected.  Do you believe the designer's claim that the click-thru rate is 0.02?
+
+**Response:** 
+
+
+***
+
+## Question 4
+
+Extra credit opportunity for HW 2.
+
+A game of chance is played where a marker (initially denoted O below) travels along a gameboard by either moving one space to the left or one space to the right at each of 10 iterations (the direction is chosen randomly).  The gameboard consists of 11 possible spaces (the 0 designates the original location and the Xs represent other possible spaces):
+
+X X X X X O X X X X X
+
+The game ends if the marker "falls off" the board, i.e. tries to move to the space to the left of the last X on the left, or to the space to the right of the last X on the right.   You win if the marker is still on the gameboard after 10 moves.  Sometimes you win (e.g. if the sequence of moves was LLRRLLRRLL) and sometimes you don't (e.g. if the sequence of moves was LLLLRLLL  in this case it fell off on move 8).
+
+Via a Monte Carlo simulation with at least 100,000 trials, estimate the probability of winning the game, and come up with a 95% confidence interval for the probability of winning.
+
+Hints:
+
+* You could represent a move to the left by the number -1 and a move to the right by the number 1
+* You can generate the full sequence of 10 moves with `sample`
+* Consider the function `cumsum` (cumulative sum) on the sequence of 10 moves you've generated.  What can you measure about this vector to determine if you win or lose the game?
+
+
+
+```{r Q4}
+
+
+
+
+```

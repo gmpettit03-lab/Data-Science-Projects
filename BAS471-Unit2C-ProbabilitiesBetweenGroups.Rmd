@@ -1,0 +1,173 @@
+---
+title: "BAS 471 - Unit 2B - Comparing Probabilities Between Groups"
+author: "Comparison Clique"
+output: html_document
+---
+
+
+
+```{r setup, include=FALSE}
+#Leave this as-is.
+knitr::opts_chunk$set(echo = TRUE,collapse=TRUE)
+if( as.numeric( paste( unlist( strsplit( paste(R.Version()$major,R.Version()$minor,sep="."),split="\\.") ),collapse="") ) < 411 ) { 
+  stop("You must have R version 4.1.1 or later to knit this document")}
+RNGversion("4.1.1")
+library(multcompView)  
+```
+
+
+**********************************************************************************
+
+# Note:  these are problems that are addressed in class
+
+**********************************************************************************
+
+
+
+## Question 1
+
+Returns have long been the nemesis of many retail brands. When a product is returned or exchanged, not only does the retailer experience incremental supply chain costs, but often the item cannot be resold at the original price due to damage, wear and tear, or obsolescence/devaluation given the passage of time — particularly an issue with fashion or seasonal merchandise.  The mounting cost of returns is a growing and scary problem for many retailers that simply cannot go unchecked much longer. Some places are tightening return policies, some track serial returners, others go after returns fraud.  It's important to also track down the root causes of returns.  Some undoubtedly are due to product damage, wrong product, etc.
+
+The `TShirtReturns.csv` contains information on 10000 T-Shirts sold by a major retailer (this is real data).  Each row represents a T-shirt and gives its color and whether it was returned.  The `Color` column gives the name of the color (names of colors have been changed to ensure anonymity) of the shirt and the `Status` tell us if that T-Shirt was "Returned" or "Kept".
+
+a.  Reading in the data file can be tricky until you get used to the process.  
+
+*  Ensure the data file `TShirtReturns.csv` lives in your BAS 471 folder.  
+*  Even if you *think* this .Rmd file that you currently have open also lives in your BAS 471 folder, go ahead and File, Save As, then force a save there (often people open up the .Rmd from their Downloads folder, then move the file manually to their 471 folder, and that can cause problems).  
+*  Ensure your working folder is your BAS 471 folder.  If you're not sure, from the top menu do Session, Set Working Directory, Choose Directory to select your BAS 471 folder.  
+
+Read in the data using `read.csv`, left-arrowing the result into `SHIRT`.  Verify you produce the `summary`.  
+
+```{r Q1a reading in data}
+SHIRT <- read.csv("TShirtReturns.csv",stringsAsFactors = TRUE)
+summary(SHIRT)
+#        Color           Status    
+# orange    :2161   Kept    :7935  
+# violet    :1580   Returned:2065  
+# plum      :1373                  
+# periwinkle:1312                  
+# peach     :1185                  
+# navy      :1154                  
+# (Other)   :1235                 
+```
+
+b.  Both "blue" and "navy" are colors in the data, and these colors are similar to each other.  Using `prop.test`, find a 95% confidence interval for the difference in return rates (which will also give you the estimated return rates of each).  Set up your `propt.test` command so that it's estimating P(navy is return) - P(blue is returned).   
+
+Hint:  run `table(SHIRT$Color)` to get a frequency table of the number of times each color appears in the data, and `table(SHIRT$Color,SHIRT$Status)` to produce a table of how often each color was kept and how often each color was returned (the `$Color` etc. extracts the entries from Color column of the `SHIRT` data frame).
+
+Sanity check:  the upper value in the confidence interval should be 0.08547290.
+
+```{r Q1b blue and navy}
+table(SHIRT$Color, SHIRT$Status)
+table(SHIRT$Color)
+
+prop.test(c(197,108),c(1154,930), conf.level = .95)
+
+
+```
+
+
+
+
+c.  Use `aggregate` to produce a table of the colors and their return rates.  Left-arrow the output into an object named `RETURNS`.  The commented-out code will sort this from lowest to highest.  
+
+```{r Q1c aggregate}
+
+RETURN<-aggregate(Status=="Returned"~Color, FUN=mean, data = SHIRT)
+
+RETURN[order(RETURN$Status),]
+```
+
+d.  There's 8 colors in the data.  If we wanted to compare the difference in return rates for all pairs of colors, how many pairs would we need to consider?  Hint:  there's a formula that gives us the number of possible pairs!  Check out 2C-ComparingProbabilities notes, slide 41.
+
+**Response:**  `
+G=8
+.5G(G-1)
+4*(8-1)=28
+
+e.  No two colors should have the EXACT same probability of being returned, but the data won't be able to discern any differences in the probabilities between colors when those differences are very small.  We want to figure out which differences in return rates our data allows us to discern.   Implement Tukey's Honest Significant Difference Procedure to produce the confidence intervals for the difference in return rates for each pair of products.   In others, set up the `aov` and `TukeyHSD` commands appropriately.  Although it's a lot of output, print the collection of confidence intervals to the screen.  
+
+```{r Q2d}
+AOV<-aov(Status=="Returned"~Color, data = SHIRT)
+summary(AOV)
+TUKEY<-TukeyHSD(AOV)
+TUKEY
+multcompLetters4(AOV, TUKEY)
+
+```
+
+
+f.  Produce the connecting letters report.  If you get an error with `library(multcompView)`, you'll need to `install.packages("multcompView")`.  Type that command out and run it in the console window.
+
+```{r Q2f}
+library(multcompView)  
+
+
+```
+
+g.  Based on the connecting letters report, can the data discern a difference in return probabilities 
+
+- between periwinkle and red?  Explain.
+
+**Response:**  
+
+- between periwinkle and peach?  Explain.
+
+**Response:**  
+
+h.  Interpret (i.e. provide a story) the entirety of the connecting letters report to the fullest extent possible.  Rank the return probabilities if you can.
+
+**Response:**  
+
+
+*********
+
+
+## Question 2 
+
+Playing the stock market is all the rage these days with the recently executed "short squeeze" on Gamestop and other "interesting" trades on AMC, Bed Bath and Beyond, and Blackberry.  Wall Street Bets to the moon!
+
+Although the daily movement of stocks can't truly be considered *random* since movements are driven by very intentional buys/sells of people, analysis shows that they are usually so unpredictable that they be treated as random.  
+
+Consider the following very crude model for the evolution of a stock price.
+
+* It starts at 100
+* Each trading day it changes by a random *percentage* of its current value (anywhere between -1% to 1.05%).
+* The final price after 250 trading days can be simulated via `100*prod( 1 + runif(n=250,min=-0.01,max=0.0105) )`
+
+Sidenote:  `runif` (pronounced r-unif, not run-if) makes a random decimal number between `min` and `max` (-1% and 1.05% in this case) and gives us a random percentage change.  Multiplying yesterday's price by `1 + percentage change` gives today's price (e.g., yesterday was 100, it changed by 0.5%, so its current price is 100*(1+.005) = 100.5).  The `prod` command multiplies all elements of a vector much like `sum` takes the sum of all elements of a vector.
+
+
+
+I'd like to know which of the following two events is most likely. 
+
+1)  The final price after 250 trading days will be 110 or more.
+2)  The final price after 250 trading days will be 101 or less.
+
+Let's investigate.  Most code is provided.
+
+Define an empty vector `endprice1`.  Then, use a `for` loop to define its 1st, 2nd, etc. elements to be the final price after 250 trading days.  Have the loop execute a total of 50000 times.  Using `sum` of a logical condition on `endprice1`, count up the number of these 50000 trials that the closing price is 110 or more.
+
+Define an empty vector `endprice2` then use a `for` loop to define its 1st, 2nd, etc. elements to be the final price after 250 trading days.  Have the loop execute a total of 25000 times.   Using `sum` of a logical condition on `endprice2`, count up the number of these 25000 trials that the closing price is 101 or less.
+
+Use `prop.test` to determine if the pair of simulations can discern a difference in the probabilities of these two events occurring (closing price at least 110 vs. final price at most 101).  If so, which event is more likely?  Note:  the reason one simulation goes for 50000 trials while the other goes for 25000 is simply so that I can test that you're setting up `prop.test` correct since the vector in the second argument is the vector of trials.
+
+```{r Q2}
+endprice1 <- c()
+for (i in 1:50000) {
+  endprice1[i] <- 100*prod( 1 + runif(n=250,min=-0.01,max=0.0105) )
+}
+sum(endprice1>=110)
+
+endprice2 <- c()
+for (i in 1:25000) {
+  endprice2[i] <- 100*prod( 1 + runif(n=250,min=-0.01,max=0.0105) )
+}
+sum(endprice2<=101)
+
+prop.test(c(17339,7530), c(50000,25000), conf.level = .95)
+
+
+
+
+```

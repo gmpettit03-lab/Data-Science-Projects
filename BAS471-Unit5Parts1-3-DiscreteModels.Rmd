@@ -1,0 +1,370 @@
+---
+title: "BAS 471 - Unit 5 Parts 1 and 2 - Discrete Probability Model for Counts Basics"
+author: "Prophets of the PMF"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+## Question 1 - Summation/Product Notation
+
+The following problems ask you to work with summation or product notation.  Many of the equations we'll use to characterize a random process by its average, or to find the best-fitting probability model, use this type of notation so it's useful to become comfortable with it!
+
+a)  Write 2 + 5 + 10 + 17 + ... + 901 in summation notation, then evaluate it in R.
+
+Notice this is `(1^2+1) + (2^2+1) + (3^2+1) + ... + (30^2 + 1)`.  So it's like we are summing up a bunch of `(i^2+1)` terms.
+
+```{r Q1a}
+
+
+S<-0
+for (i in 1:30){S<-S+(i^2+1)}
+S
+
+
+
+
+
+```
+
+b)   Write the following sum using summation notation, then use R to evaluate it (use the `factorial` function):  
+
+5/1! + 5/2! + 5/3! + ... + 5/50!
+
+```{r Q1b}
+S<-0
+for (i in 1:50){S<-S+(5/factorial(i))}
+S
+
+```
+
+c)   Write the following sum using summation notation, then use R to evaluate it:  
+
+1/3 + 4/5 + 9/7 + 16/9 + ... + 225/31
+
+Note how the numbers in the numerator are square numbers while the ones in the denominator are odd numbers.  In fact the `i`-th odd number in this sequence can be see to be `2*i-1`.  
+
+```{r Q1c}
+S<-0
+for (i in 1:15){S<- S+ ((i^2)/ (2*i-1))}
+S
+
+
+```
+
+d)  Write `(1+1/1^2)*(1+1/2^2)*(1+1/3^2)*(1+1/4^2)*...*(1+1/100^2)`in product notation, then evaluate it in R.  Note:  this looks like the product of a whole bunch of terms that can be written as `(1+1/i^2)`.
+
+```{r Q1d}
+
+for ( i in 1:)
+
+
+
+```
+
+
+****************
+
+## Question 2
+
+Let's design a PMF that hopefully provides a reasonable description of the \# of purchases that a customer makes at a particular specialty store (e.g., cupcakes, custom bobble heads, etc.) over the customer's "lifetime" (eventually the customer stops shopping there).
+
+Let $X$ be the name of the random variable that describes the number of lifetime purchases made by a customer, and $x$ be its possible values of 1, 2, 3, 4, 5, 6.
+
+a)  Let us a start with a simple model where a customer makes a total of 1-6 purchases with the following PMF.
+
+$x$      | 1    |  2   | 3    | 4    | 5    | 6 
+----     | ---- | ---- | ---- | ---- | ---- | ---- 
+$P(X=x)$ | 0.5  | 0.2  | 0.15 | 0.08 | 0.04 | ?
+
+Determine $P(X=6)$ so this a valid PMF.
+
+```{r Q2a}
+
+1-(.5+.2+.15+.08+.04)
+
+
+
+```
+
+b.  Define a vector `x` to be the possible values of $X$ and `p` to be respective probabilities.  Using `sum` and `which` as needed, produce the probability that someone makes 1) exactly 5 lifetime purchases,  2) at least 3 lifetime purchases, 3) no more than 2 lifetime purchases, and 4)  either 1, 3, or 4 purchases (use the `%in%` shortcut!).
+
+```{r Q2b}
+x<-c(1,2,3,4,5,6)
+p<-c(.5,.2,.15,.08,.04,.03)
+
+
+sum(x)/sum(p)
+.08+.04+.03+.15
+
+
+
+
+
+```
+
+A potentially more flexible and realistic PMF for the random variable $X$ has the shape `Shape=1/x^2` (i.e., probability is inversely proportional to the square of the number of lifetime purchases; more purchases = lower probability).  Let's explore this kind of model.
+
+
+c)  Imagine that the possible values of $x$ are 1, 2, ..., 9, 10 (i.e., there is a built-in maximum number of purchases of 10).   
+
+$$P(X=x) = \frac{1}{???} \frac{1}{x^2} \qquad x=1,2,\ldots, 10$$
+
+* Determine the value of `???` so that the equation $P(X=x)$ gives a valid PMF (same shape as `1/x^2`, but the probabilities sum to 1).  
+* Convert the shape into a PMF by defining vectors `x` (integer sequence 1-10) and `p` (corresponding probabilities) appropriately.  
+* Print out the contents of `p` to the screen and make a barplot to visualize the PMF.
+* Determine $P(X \le 5)$ using `sum` and `which`.
+
+
+```{r Q2c}
+x<-1:10
+sum(x)
+shape<-1/x^2
+
+shape/sum(shape)
+
+sum(shape)
+```
+
+
+d)  **Note:  This question is worth the most** The company wants a probability distribution for the number of a different type of product that is sold.  They like the shape:
+
+$$Shape = (1+x)^2 \cdot e^{-0.1x} \qquad x = 0, 1, 2, \ldots $$
+**Find the probability that number of sold is at least 10**
+
+Note:  there is no explicit upper bound on the values!  When this happens, we define a vector `x` that contains "enough" values to cover "basically" all of the probability, and use that `x` and `p` vector to do probability calculations.
+
+* Step 1:  Get some practice in Wolfram-Alpha in how to take infinite sums.  `https://www.wolframalpha.com/`  In the input box you can type basically in English:   sum of .... (replace the ... with the mathematical expression you are summing) from x=0 to x=infinity.  Show that currently the sum of the shapes is a little more than 2200.
+
+* Step 2:  Define `x` to be the integer sequence start at 0 and going up to a "very large" number, like 1 million.
+
+* Step 3:  Define `p` appropriate (i.e., transcribe the equation for "Shape", but pre-multiply by the reciprocal of the value you found in Step 1)
+
+* Step 4:  Verify that you've captured "most" of the probability by running `sum(p)` and seeing that it equals 1 (or something close like 0.999999).
+
+* Step 5:  Use your `x` and `p` vector to answer the question about the probability!
+
+
+```{r Q2d}
+
+```
+
+
+****************
+
+Begin 2nd activity
+
+****************
+
+
+## Question 3
+
+Let's practice identifying when to use various discrete probability distributions.  Choose between uniform, geometric, binomial, negative binomial, Poisson, and zero-Truncated Poisson.  Do not list a more complicated distribution (negative binomial) when a simpler one (geometric) could do.
+
+
+a.  The number of times a customer visits a website *before* they make their first purchase. 
+
+**Response:**  
+
+b.  The number of promotions (out of 20) a customer uses?
+
+**Response:** 
+
+c.  The number of customers that enter a store before a particular item (of which there is 5) sells out (each customer has the same probability `p` of buying the item)?
+
+**Response:**  
+
+d.  The day of the week (represented as a number 1-7) that people were born?
+
+**Response:** 
+
+e.  The number of visitors to an obscure website between 1:14am-1:16am?
+
+**Response:** 
+
+f.  The number of visits a customer visits a website before someone makes their first purchase. 
+
+**Response:**  
+
+g.  The number of apps someone has downloaded to their phone among people who have downloaded at least one app.
+
+**Response:**  
+
+
+****************
+
+
+## Question 4
+
+Let's practice using the discrete probability distributions in R.
+
+a)  Let the number of cars that a 55yo woman has purchased have a Poisson Distribution with an average of 3.2.  Determine the `lambda` parameter of this Poisson, then find the probability she has purchased exactly 1 car.  5 or fewer cars.   More than 7.
+
+```{r Q4a}
+
+
+ppois(5,3.2)
+
+```
+
+b)  An exam consists of 30 questions.  The probability you get one correct is 75%.  What is the probability you get exactly 29 out of 30 correct? 27 or more (i.e., a 90% or better on the exam)?  21 or fewer (a 70% or below).  
+
+```{r Q4b}
+pbinom(3,30,.25)
+
+
+```
+
+c)  Take the number of misses you have to make before you finally hit the ball to have a geometric distribution with p=0.2 (i.e. 20% chance of hitting it).  What is the probability you miss at least 10 times before hitting the ball?  You miss fewer than 3 times?
+
+```{r Q4c}
+
+pgeom(2,.2)
+
+1-0.9984
+
+```
+
+d)  The number of months before a customer churns on a monthly contract may be modeled as a negative binomial distribution.  Imagine that each month, independently, a customer is dissatisfied with a probability of 0.2.  A customer leaves after being dissatisfied a total of 3 times.  Find the probability that a customer stays on contract for at least 9 months.  
+
+Hint: consider being DISSATISFIED a "success" and being SATISFIED a "failure" (weird I know, but necessary to connect it to the negative binomial framework). The negative binomial give the probability of observing `x` failures before `size=r` successes.
+
+Being on contract for at least 9 months means having at least 6 "failures" (satisfied months) before 3 "successes" (dissatisfied months). Recall "at least 6" is the the complement of "5 or fewer". I'd recommend using the `pnbinom` function here, then using complement rule.
+
+```{r Q4d}
+
+pbinom(4,9,.2)
+1-0.9804186
+
+
+
+pnbinom(7,9,.8)
+
+1-0.9929964
+
+1 - pnbinom(5, size = 3, prob = 0.2)
+
+
+```
+
+
+
+
+
+
+
+
+****************
+****************
+****************
+
+
+
+
+
+
+## Question A (extra practice)
+
+The number of calls that households make to customer service seems to vary between 0 and 12 per month.  Higher numbers are progressively less likely.  A shape that approximates this behavior is
+
+$$Shape = \frac{1}{(1+x)^2}$$
+
+Convert this shape into a PMF by defining a vector `x` to be a vector of possible values (the integer sequence 0-10) and a vector `p` of the corresponding probabilities.  Verify `sum(p)` is 1 and make a barplot of the PMF.   Using `sum` and `which`, find: 
+
+* P(X=1)
+* P(X>4)
+* P(X<=3)
+* P(5<=X<=8)
+
+```{r QA}
+
+```
+
+
+**************
+
+
+
+## Question B (advanced practice)
+
+A distribution used to model brand abundances is:
+
+$$P(X=x) = \frac{-1}{\log(1-r)} \frac{r^x}{x}$$
+
+`-1/log(1-r) * r^x/x`
+
+Here, `X` is a discrete random variable describing the number of brands of a product someone has used over the last few years (e.g., if we're talking about laundry detergent `X` would be the number of different brands someone has used, and $x=3$ if they used Tide Original, Tide Pods, and Gain Original).  
+
+The possible values of `x` are 1, 2, ... (technically there always a finite number of brands, but allowing it go to to infinity is mathematically convenient).  `r` is a value that determines the shape of the distribution; different products (detergents vs. toothpastes vs. soap could have different values of `r`,).  **For this problem, take `r=0.8`.**  
+
+$$P(X=x) = 0.621335 \cdot \frac{0.8^x}{x}$$
+
+`0.621335 * 0.8^x/x`
+
+
+a) Provide a barplot of this PMF (for `x` from 1 to 15).
+
+```{r qBa}
+
+```
+
+b)  Although technically there is no upper limit to the possible value of $X$, let `x` be `1:100` and define `p` accordingly.  You should find `sum(p)` is 1 so it's a valid enough PMF.  Calculate the probability that 
+
+* someone uses 3 or fewer brands. 
+* someone uses 6 or more brands. 
+
+```{r qBb}
+
+```
+
+c)  Allowing `x` to go from 1 to infinity is mathematically convenient but not very realistic.   Let us assume that the *shape* of the distribution is described by the formula (so `r=0.8`), but there's a hard cap at `x=5`.  Define `x <- 1:5` and define `p` so that `x` and `p` together form a valid PMF.  Print the contents of `p` to the screen.  Note:  P(X=3) = 0.117 in this scenario so you can check your work.
+
+```{r qBc}
+
+```
+
+d)  Write the function `dbrand` which take arguments `x`, `r` and `maxbrands` (for the parameter `r` and the maximum number of brands respectively) and which returns the values of the PMF of the distribution for a vector `x`.  
+
+Show what your function outputs when `r=0.8` and `size=8` for the vector `x` of `1:8`.  
+
+Sanity check:  running `dbrand(c(1,4),0.8,8)` should yield the numbers 0.51505766 0.06592738
+
+If you need to review how to write functions, check out the IntroRProgrammingbyPetrie.pdf on the Petrie's Programming Packet page.
+
+```{r q2d}
+
+```
+
+e)  Write a function named `rbrand` that takes arguments `n`, `r`, and `maxbrands` and which returns `n` random numbers from this distribution.  Note:  it's easiest to use `sample` in this function.   Run the command `set.seed(471); rbrand( 10,0.8,8)` to produce 20 random numbers for the distribution.  The last three will be 6 then 4 then 1.
+
+
+```{r qBe}
+
+```
+
+
+
+**************
+
+
+## Question C (advanced practice)
+
+A zero-inflated binomial distribution has PMF:
+
+$$P(X=0) = p_0$$
+$$P(X=x) = \frac{ (1-p_0) }{1-(1-p)^n} \cdot \frac{n!}{x!(n-x)!} p^x (1-p)^{n-x} \qquad x=1,2,\ldots,n$$
+
+Basically, the probability of observing a value $x$ is given by a binomial, but there is an excess of 0s.  For example, imagine half of your customer base was sent 4 coupons while the other half was not.  The number of coupons used is recorded for all customers.  All of the customer who didn't get the coupon would of course have a 0.  A binomial distribution would do a good job modeling the number used by the others (0, 1, 2, 3, or 4).  So the distribution looks binomial but with way too many zeros.  
+
+Imagine `p_0=0.3`, `p=0.1` and `n=4` (i.e. about a 10% chance of using one of those 4 coupons, and 70% of people were sent them).  Find $P(X=0)$ and $P(X=1)$.  This is really just a challenge in transcribing the formula correctly!
+
+
+```{r QC}
+
+```
+
+

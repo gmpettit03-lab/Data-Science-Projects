@@ -1,0 +1,399 @@
+---
+title: "BAS 471 Spring 2025 Homework on Unit 8 - Estimating Parameters of Probability Distributions"
+author: "Your Name Here Please"
+date: "see Canvas for due date"
+output:
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+#Leave this as-is.
+knitr::opts_chunk$set(echo = TRUE,collapse=TRUE)
+if( as.numeric( paste( unlist( strsplit( paste(R.Version()$major,R.Version()$minor,sep="."),split="\\.") ),collapse="") ) < 422 ) { 
+  stop("You must have R version 4.2.2 or later to knit this document")}
+RNGversion("4.2.2")
+library(fitdistrplus)
+```
+
+
+******************************************************************************
+
+# Note: these are your homework problems
+
+As a reminder about the collaboration policy, remember that you can develop a common set of R code with your colleagues. However, all written interpretations (i.e., anything that follows a **Response:**) needs to be written *in your own words* (unless you are instructed to copy/paste what ChatGPT says for a particular question).  Homework submissions that look to be near copies of each other will receive substantially reduced credit, may receive a 0, and may result in you receiving an F in the class.  If you do use ChatGPT as a learning tool (caution:  in BAS 471, unlike other BAS classes, *there are quite a few concepts/problems that ChatGPT gets plain wrong*), you'll need to rephrase its very obvious AI-sounding phrasing.  Remember that exams are closed ChatGPT, so do not rely on it too much.  
+
+**Note:** For this assignment, you'll be required to have a few screenshots from Wolfram Alpha as well as a few pictures of work you are to perform on pen and paper.  For these parts, pasting a photo of work into your Word document after it knits is fine! 
+
+**********************************************************************************
+
+## Question 1 (fitdist to the rescue)
+
+You'll need the data in the `BAS471-HWonUnit8S25.RData` saved environment file to complete this problem.  You know the drill:
+
+*  Make sure the .RData file is in your 471 folder
+*  Make sure to do a Save As on this .Rmd file and forcibly put it in your 471 folder
+*  Make sure your working directory is your 471 folder too (Session, Set Working Directory)
+
+```{r load in data}
+load("BAS471-HWonUnit8S25.RData")
+```
+
+Let's find the MLEs for a few niche distributions where the mathematics of deriving the general expressions for the MLE would have been extremely difficult (if not impossible), but finding a numerical value for the MLE for a given dataset is easy with `fitdist`.
+
+**For each distribution**:
+
+1)  Define `dcustom` (you can have a different name if you want, but it does have to start with `d`), taking as its first argument `x` and 2nd, 3rd, etc. arguments the names of the parameters of the probability distribution. 
+
+2)  Show that you pass the sanity check for `dcustom` by evaluating `dcustom` at the given value of x and set of parameters (the value of the PMF or PDF should be printed out and knitted into the document).
+
+3)  Run `fitdist`, left-arrowing the result into `FIT`.  Then, print to the screen the results of running `summary(FIT)`.  Remember to ignore warnings of `The pcustom function must be defined` since we don't actually need `pcustom` to get the MLE estimates (it's only needed for QQ plots).  
+
+4)  Make a histogram of the data with `hist` (add in `freq=FALSE`), then use `curve` to overplot the fitted PDF.  Although the quality of fit is better assessed with the QQ plot, this at least establishes that the fit is decent!  For `curve`, the syntax should be:  
+
+  - one parameter:  `curve(dcustom(x,FIT$estimate[1]),add=TRUE,col="red")`
+  - two parameters:  `curve(dcustom(x,FIT$estimate[1],FIT$estimate[2]),add=TRUE,col="red")` 
+  - three parameters:  `curve(dcustom(x,FIT$estimate[1],FIT$estimate[2],FIT$estimate[3]),add=TRUE,col="red")` 
+  
+This way, the code automatically extracts the best fitting parameters (the MLEs) from the fit!  
+
+Refer to examples in the in-class Worksheet:  `BAS471-Unit8-Estimation.Rmd` if you need a reminder for how to do any of these things!
+
+a)  The notorious zoo lacks distributions that are skewed right (a useful feature to have for distributions in business analytics) while allowing negative values.  Such a distribution may be useful for modeling checking account balances (where some people are temporarily overdrawn and have negative balances).  
+
+One distribution does allow for both.  Let's call it the "Oddsmaker" distribution (not its official name).  The Oddsmaker distribution has two flavors (mouse over to see the equation; if the equation doesn't pop up, try restarting RStudio and/or clicking the double up/down arrows on the far right side of the equation box to expand it):
+
+
+$$Flavor\,1 \qquad f(x) = \frac{s e^{-x}}{(1+e^{-x})^{s+1}}  \qquad -\infty < x < \infty$$
+
+$$Flavor\,2 \qquad f(x) = \frac{st e^{-tx}}{(1+e^{-tx})^{s+1}}  \qquad -\infty < x < \infty$$
+
+You'll notice that Flavor 1 is a special case of Flavor 2 when t=1.  
+
+a1)  Find the MLE for `s` (Flavor 1) using the values in `oddity`. Sanity check:  close to 3.8. Try a starting guess of 3.
+
+a2)  Find the MLEs for `s` and `t` (Flavor 2) using the values in `oddity`. Sanity check:  close to 6.89 and 1.76, respectively.  Try starting guesses of 3.5 for both parameters.
+
+a3)  Look at the AICs of the fits and comment on which is preferred (remember, if the AICs indicate they are comparable, the suggestion is to pick the simpler model)
+
+**Response:** 
+The two parameter estimate is a better fit because its AIC is significantly lower than the one parameter estimate. 
+
+
+```{r Q1a}
+#Part a1 (Flavor 1); only 1 parameter s
+dcustom <- function(x,s) {  (s*exp(-x))/((1+exp(-x))^(s+1)) }
+#Uncomment the sanity check to show you pass it
+dcustom(-0.2,s=3)
+#0.1504773
+#Uncomment to see a curve if you're interested; this doesn't have to be in writeup
+
+
+curve(dcustom(x,s=3),from=-2,to=8)
+FIT<-fitdist(oddity, "custom", start=list(s=3))
+summary(FIT)
+hist(oddity,freq = FALSE);curve(dcustom(x,FIT$estimate[1]),add=TRUE,col="red")
+
+#Part a2 (Flavor 2); two parameters s and t
+
+#Uncomment the sanity check to show you pass it
+
+#0.2133126
+#Uncomment to see a curve if you're interested; this doesn't have to be in writeup
+
+
+dcustom <- function(x,s,t) {  (s*t*exp(-t*x))/((1+exp(-t*x))^(s+1)) }
+dcustom(-0.2,s=3,t=5)
+curve(dcustom(x,3,.2),from=-15,to=50)
+FIT<-fitdist(oddity, "custom", start=list(s=3.5,t=3.5))
+summary(FIT)
+hist(oddity,freq = FALSE);curve(dcustom(x,FIT$estimate[1],FIT$estimate[2]),add=TRUE,col="red")
+
+
+```
+
+
+b)  The Lomax distribution is a heavy-tail probability distribution used in business, economics, actuarial science, queueing theory, and Internet traffic modeling.  Mouse over to see the equation; if the equation doesn't pop up, try restarting RStudio and/or clicking the double up/down arrows on the far right side of the equation box to expand it.
+
+$$f(x) = \frac{pq^p}{(x+q)^{p+1}} \qquad x > 0$$
+
+Find the MLEs for `p` and `q` using the values in `lomaxs`. Sanity check:  the MLE for p is close to 121 while the MLE for q is near 220. Try starting guesses of 10 for each parameter. 
+
+```{r Q1b}
+dcustom <- function(x,p,q) { (p*q^p)/((x+q)^(p+1))}
+#Uncomment the sanity check to show you pass it
+dcustom(2.5,p=4,q=3)
+#0.06437712
+
+FIT<-fitdist(lomaxs, "custom", start = list(p=10,q=10))
+
+summary(FIT)
+
+hist(lomaxs, freq=FALSE);curve(dcustom(x,FIT$estimate[1],FIT$estimate[2]),add=TRUE,col="red")
+
+
+```
+
+
+c)  The "BAS" distribution (not its real name) can serve as an alternative to the Weibull when modeling times to failure (e.g., of lightbulbs, jet engines, computer parts, etc.).  The Weibull has the ability to model either an increasing or decreasing instantaneous failure rate, but not both.  The BAS allows cases where the failure rate is high at early times, small for mid times, and high at late times (a U shape).  This could be useful for modeling the lifetimes of electrical components where parts often fail in the first few moments of operation, but if the part manages to work "for a while", chances are it will continue working for a very long time.
+
+The BAS has three parameters with the following PDF.  Mouse over to see the equation; if the equation doesn't pop up, try restarting RStudio and/or clicking the double up/down arrows on the far right side of the equation box to expand it.
+
+$$f(x) = (a + bx + cx^2)e^{-(ax +bx^2/2 + cx^3/3 )} \qquad x > 0$$
+
+Find the MLEs for `a`, `b`, and `c` using the values in `bas`. Sanity check:  close to 3.3, 1.9, and 1.9, respectively. Try starting guesses of 4 for each parameter.
+
+```{r Q1c}
+dcustom <- function(x,a,b,c) {(a+b*x+c*x^2)*exp(-(a*x+((b*x^2)/2)+(c*x^3)/3)) }
+#Uncomment the sanity check to show you pass it
+dcustom(1.5,5,3,2)
+#2.792627e-05
+
+FIT<-fitdist(bas, "custom", start = list(a=4,b=4,c=4) )
+summary(FIT)
+
+hist(bas, freq=FALSE);curve(dcustom(x,FIT$estimate[1],FIT$estimate[2],FIT$estimate[3]),add=TRUE,col="red")
+
+```
+
+**********************************************************************************
+
+## Question 2 (math time) 
+
+Consider the following simple model for how knowledge of a new product spreads by "word of mouth" in a large city.
+
+* At first, `k` people hear about the new product (perhaps they all saw an advertisement in a theater before a movie started).  Each of these `k` individuals tells a random number of new individuals (0, 1, 2, 3, ...).  On average, the number of individuals this person tells is a bit less than 1 (e.g., there's a large probability that the person tells no one).
+
+* Each new person who has now heard of the product tells an additional random number of new individuals.  
+
+* The PMFs describing the random number of new individuals told are all identical.
+
+Eventually, the spread by "word of mouth" will stop.  Let `X` be the *total* number of people who hear about the product.  Possible values are `x` = `k`, `k+1`, `k+2`, `k+3`, ....  The probability mass function (PMF) of `X` is (mouse over to see the equation; if the equation doesn't pop up, try restarting RStudio and/or clicking the double up/down arrows on the far right side of the equation box to expand it):
+
+$$P(X=x) = \frac{k}{x}\frac{e^{-mx}(mx)^{x-k}}{(x-k)!} \qquad x= k, k+1, k+2, \ldots$$
+The value of `m` is the "shape" parameter of the distribution and controls what the PMF looks like.
+
+If `k=4` and `m=0.4`, the following vectors `x` and `PMF` give one example of the PMF.
+
+```{r Q2 illustration of PMF}
+x <- 4:75; m <- 0.7; k<- 4
+PMF <- k/x*exp(-m*x)*(m*x)^(x-k)/factorial(x-k)
+barplot(PMF,names.arg=x,ylab="Probability",xlab="Number of people who know about product")
+
+
+
+
+-(4/mean(x))+1
+
+
+```
+
+Let's imagine that you know that `k=4` (4 people heard of the product initially), but you do not know `m`.  You want to estimate `m` from a random sample of `n` data values, each letting you know how many total people have heard about the product in `n` different cities when, in each, `k=4` people were initially told about the product. 
+
+* The number of people that heard about product 1 might have been $x_1 = 56$
+* The number of people that heard about product 2 might have been $x_2 = 48$
+* The number of people that heard about product 3 might have been $x_3 = 7$
+* etc.  
+
+a)  Using some advanced math tricks (Wolfram-Alpha doesn't work well with this PMF), it can be shown that the expected value and standard deviation of `X` is:
+
+$$E[X] = \frac{k}{1-m}$$
+$$SD(X) = \sqrt{ \frac{km}{(1-m)^3} }$$
+
+Find the Method of Moments estimator for `m` when `k=4`.  In other words, what function of $\bar{X}$ does MoM suggest we use to estimate `m` when 4 people initially hear about the product?
+
+**Insert Screenshot from Wolfram-Alpha, a photo of your work on scratch paper, or type out by hand (not too hard of an equation to solve)**
+mean(x)=39.5
+k=4
+
+mean(x)=4/(1-m)
+mean(x) *(1-m) =4
+1-m=4/mean(x)
+-m=(4/mean(x))-1
+m=-(4/mean(x))+1
+
+m=0.8987342
+
+
+b)  Let `X_1`, `X_2`, ..., `X_n` be a random sample from this PMF (e.g. `X_1` is the number of people who heard about the product in city 1, `X_2` is the number of people who heard about the product in city 2, etc.; each result is independent), when 4 people initially heard about the product in each city.  Again, the PMF is:
+
+$$P(X=x) = \frac{4}{x}\frac{e^{-mx}(mx)^{x-4}}{(x-4)!} \qquad x= 4, 5, 6, 7, \ldots$$
+
+On a piece of scratch paper, write out the likelihood of a random sample (the equations for the PMF multiplied by each other), then use some algebra to group terms, combine powers and/or exponents, and simplify to show that the likelihood is (mouse over to see the equations; if the equation doesn't pop up, try restarting RStudio and/or clicking the double up/down arrows on the far right side of the equation box to expand it):
+
+$$L = \frac{4^n}{P}\frac{e^{-mS} \cdot m^{S-4n} \cdot Q}{R}$$
+
+where (omitting subscripts and superscripts on the sum and product symbols) 
+
+$$S = \sum x_i$$
+$$P = \prod x_i$$
+
+$$Q = \prod x_i^{x_i-4}$$
+
+$$R = \prod (x_i-4)!$$ 
+
+**Response:**  Insert a screenshot of your work on scratch paper showing how to get the likelihood
+
+
+c)  Maximize the likelihood in Wolfram to find the expression for the MLE of `m` (it will involve `S` but not `P` or `Q` or `R`).  Translate into English (e.g., ``two times the sample average") what the MLE says to do with the data (i.e., the "simple rule") to find the MLE for `m`.
+
+Note:  Wolfram for whatever reason doesn't take you all the way there in one line.  Do this in two steps.
+
+Step 1:  Find the derivative of the likelihood in Wolfram:  `derivative of ...` where ... is the expression for the likelihood L above
+
+Step 2:  Clicking on the solution for the derivative (which puts that equation into the input box), then solving that equation equals 0 for m.  In other words, `solve ... = 0 for m` , were ... is the equation that emerges from Step 1 (clicking on that equation from Step 1 will shoot it into the input box to save you typing).
+
+**Response:** Insert Screenshot from Wolfram-Alpha
+
+
+d)  A big theme of BAS 471 is that *you* get to decide which of two things you want to be good at:  math or programming.  Most of us choose the latter!  While `fitdist` doesn't provide us the "simple rule" of what to do with the data to find the MLE, it at least gives us an answer for the MLE on a case-by-case, dataset-by-dataset basis.   
+
+Define `dcustom` with arguments `x` and `m` (you can copy/paste the formula for the PMF in the first R chunk, replacing `k` with the number 4), then run `fitdist` to find the MLE for the data stored in `spread` (use an initial guess of m=0.4).  Remember, you can ignore the Warning `The pcustom function must be defined`.
+
+Then, show that the value of the MLE from `fitdist` (close to 0.5) is essentially identical to the value you get when you plug in the relevant numbers into the equation for the MLE in part (c).   Note:  `spread` lives in the saved .RData environment file.  The code for loading that into the environment is in the code chunk at the beginning of the document and reproduced here.
+
+```{r Q2d}
+load("BAS471-HWonUnit8S25.RData") #Instruction on how to load at top of Q1
+hist(spread, freq = FALSE)
+library(fitdistrplus)
+dcustom <- function(x,m) { (4/x)* (exp(-m*x)*(m*x)^(x-4))/factorial(x-4)  }
+
+dcustom(10,.8)  #This serves as a sanity check to make sure your dcustom is correct
+#0.04885529
+
+FIT<-fitdist(spread, "custom", start=list(m=.4))
+summary(FIT)
+
+hist(spread, freq = FALSE);curve(dcustom(x,FIT$estimate[1]),add=TRUE,col="red")
+
+
+
+
+```
+
+
+
+**********************************************************************************
+
+## Question 3 (math time)
+
+Planned obsolescence describes the practice of designing products to break quickly or become obsolete in the short to mid-term. The general idea behind this is to encourage sales of new products and upgrades, a practice that has been banned in some countries.
+
+Imagine that an unscrupulous maker of dishwashers has made it so that after `r` uses, the dishwasher becomes unusable (requiring an expensive repair by a certified, official technician).  It's perfectly possible for the dishwasher to become unusable before use `r` due to natural causes.  
+
+Let `X` be the number of uses before the dishwasher becomes unusable.  The possible number of uses before this happens is thus x = 0, 1, 2, ..., `r-1`, `r`.
+
+You believe that `X` has the PMF (mouse over to see the equation; if the equation doesn't pop up, try restarting RStudio and/or clicking the double up/down arrows on the far right side of the equation box to expand it):
+
+$$P(X=x) = \frac{1}{35 - 34\left(\frac{34}{35}\right)^r} \cdot \left(\frac{34}{35}\right)^x \qquad x = 0, 1, 2, \ldots, r $$
+Your goal is the find the maximum likelihood estimator of `r`.  The standard procedure of using calculus (Wolfram-Alpha or R) to maximize the likelihood won't work here!   Whenever the value of `x` depends on the unknown parameter that we are trying to estimate (`r` here), the likelihood might peak at a place where the slope of the tangent line *isn't* 0 (which is what Wolfram-Alpha and R try to find).  Let's use logic instead to find the MLE!
+
+
+a)  A consumer advocacy group purchases 7 of these dishwashers.  The observed number of uses before they break are `x_1 = 35`, `x_2 = 13`, `x_3 = 42`, `x_4=52`, `x_5 = 7`, `x_6=48`, `x_7=15`.  Show that the likelihood of this sample is:
+
+$$L =  \frac{1}{\left(35 - 34\left(\frac{34}{35}\right)^r\right)^{7}} \cdot \left(\frac{34}{35}\right)^{212} $$
+**Response:**  Insert a screenshot of your work on scratch paper showing how to get the likelihood
+
+
+b)  Let's plot the likelihood of the data vs. `r` to help find the MLE.  The chunk below plots the likelihood for values of `r` from 5 to 55 to give you an idea of what the likelihood looks like (you can expand the `to` and `from` arguments if you wish to see more).   
+
+```{r Q3b}
+#Remember curve always needs you to write the function in terms of x, even though our function is of r
+curve( 1/(35-34*(34/35)^x)^7 *(34/35)^212, from=5,to=55,xlab="r",ylab="Likelihood")
+
+
+
+```
+
+Let's use the shape the likelihood function to help choose r.
+
+**Response:**  Replace the "blank" with either the word "SMALL" or "LARGE".  To maximize the likelihood, we need to choose `r` as SMALL as possible.
+
+c)  The observed data is `x_1 = 35`, `x_2 = 13`, `x_3 = 42`, `x_4=52`, `x_5 = 7`, `x_6=48`, `x_7=15`.  Certain values of `r` make the probability model unable to produce the collected values (i.e., the likelihood equals 0 for certain values of `r`).  Thus, logic dictates that there is a limit on how small or how large `r` can be.    For example, we can outright eliminate the possibility that `r` equals 23.4 (think why that is).   Thus, determine the MLE for `r` and explain your reasoning.  In general if `x_1`, `x_2`, ..., `x_n` is a random sample from this PDF, what will be the "formula" for the MLE of `r` (i.e., what needs to be calculated from the dataset to get the MLE)?
+
+**Response:**  
+The MLE will be the lowest value that is within the data set in this example because we cannot put an MLE that is greater than the data that is observed. 
+Generally speaking we are looking for the highest point in likelihood. If we have a convex decreasing function that does not have an obvious maximum, due to it being convex, then basically we have to find the smallest value that exists. So the literal math equation is min(x). D/D(whatever parameter) = 0, solve for whatever parameter. Said another way, we are taking first order conditions on concave (finding local maxima) functions and minimums on convex functions, because that is where the likelyhood is maximized. 
+It also reduces the RMSE, by having a low variance.
+
+**********************************************************************************
+
+## Question 4
+
+The Binomial distribution tells us the number of "successes" in a sequence of `n` independent trials, where each trial has a probability `p` of success.  For example, if a customer is sent `n` special coupons, and each coupon has an independent probability `p` of being redeemed, then the total number of coupons a customer redeems would have a binomial distribution.
+
+But what if we wanted to model the number of coupons used among coupon-redeemers (i.e., only those customers that have redeemed at least one coupon)?   A "zero-truncated Binomial distribution" may work!
+
+You've studied the zero-truncated Poisson, which gives a good model when a random quantity *would* be Poisson, but zero is not a possible value (e.g. number of items in shopping carts at check out).  The zero-truncated Binomial gives a good model when the random quantity *would* be Binomial, but zero is not a possible value (e.g. number of coupons out of 10 that are used among people who have redeemed at least one).
+
+With some math, it's possible to show that the PMF of a zero-truncated Binomial is:
+
+$$P(X=x) = \frac{1}{1 - (1-p)^n} \cdot \frac{n!}{x!(n-x)!}p^x(1-p)^{n-x} \qquad x=1, 2, \ldots, n-1, n$$
+
+Wolfram-Alpha (`sum x * 1/(1-(1-p)^n) * n!/(x!(n-x)!) p^x *(1-p)^(n-x) from x=1 to x=n assuming 0 < p < 1`) shows that the equation for the expected value is (mouse over to see the equation; if the equation doesn't pop up, try restarting RStudio and/or clicking the double up/down arrows on the far right side of the equation box to expand it):
+
+$$\mu = E[X] = \sum x \cdot P(X=x) = \sum_{i=1}^{n} x \cdot \frac{1}{1 - (1-p)^n} \cdot \frac{n!}{x!(n-x)!}p^x(1-p)^{n-x} = \frac{np}{1-(1-p)^n}$$
+
+For example, a zero-truncated Binomial with `n=10` and `p=0.2` would have an average value of `10*.2/(1-(1-.2)^10)` = 2.24. 
+
+The data in the vector `coupons` (in the `.RData` file) contains the number of coupons (out of `n=10`) that 20 coupon-redeeming shoppers of Kroger ended up using.  You'll see that the average is 2.85.  
+
+Assume that the data comes from *some* zero-truncated Binomial distribution with `n=10`, we just don't know what "flavor" it is (i.e., its value of `p`).
+
+a)  Find the Method of Moments estimator for `p` by having Wolfram solve the equation $E[X] = \bar{X}$ for `p`.  You'll need to replace $\bar{X}$ with the *exact* sample average from the data in this equation (measured in R), then have Wolfram solve the equation for `p` (replace `n` with 10).  Include your screenshot from Wolfram-Alpha.  Sanity check:  a little above 0.27.
+
+**Response:**  Screenshot from Wolfram
+
+
+```{r Q4a}
+load("BAS471-HWonUnit8S25.RData") #Instruction on how to load at top of Q1
+
+#Get the average value of the data in coupons; needed for Wolfram
+
+mean(coupons)
+
+
+```
+
+b)  Find the maximum likelihood estimator for `p` using `fitdist`.  Note:  you'll need to define the "d" version of the function for the PMF (`dcustom`); have it take arguments `x` and `p` (replace `n` in the equation with 10).  Transcribe the formula for the PMF inside the curly brackets.  You can write `x!` as `factorial(x)`, etc.  Try a starting guess of `p` of 0.28.  Sanity check:  the MLE is a little above 0.273 (for large sample sizes, the MLE and MOM for the zero-truncated Binomial are essentially the same value)!  Remember, you can ignore the Warning `The pcustom function must be defined`.
+
+```{r Q4b}
+dcustom <- function(x,p) { (1/(1-(1-p)^10))*((factorial(10))/(factorial(x)*factorial(10-x)))*(p^x)*(1-p)^(10-x) }
+#Sanity check to make sure you defined dcustom correctly
+dcustom(4,0.2)
+#0.0986756
+FIT<- fitdist(coupons, "custom", start = list(p=.28))
+summary(FIT)
+
+hist(coupons, freq = FALSE);curve(dcustom(x,FIT$estimate[1]),add=TRUE,col="red")
+
+```
+
+
+c)  Of special interest is the probability that `X=6`, i.e., the probability that exactly 6 coupons are redeemed (imagine the customer analytics team has a goal for coupon design so that this probability is 0.2% or larger).  In theory, you *could* estimate this as the fraction of customers in the data who used 6 coupons:
+
+```{r Q4 fraction of exactly 6}
+mean(coupons==6)  
+
+
+
+
+
+```
+
+However, this estimation procedure doesn't work for this dataset since 6 hasn't yet been observed (though it's definitely a possible value).  No worries though!  Because we have more information about the probability distribution creating the data (it's coming from a zero-truncated binomial), we still have a way to estimate P(X=9)!  
+
+Utilizing the formula for the PMF and plugging in `x=6`, we find that `P(X=6)` can be written as some sophisticated function of `p`  (mouse over to see the equation; if the equation doesn't pop up, try restarting RStudio and/or clicking the double up/down arrows on the far right side of the equation box to expand it):
+
+$$P(X=6) = \frac{1}{1 - (1-p)^{10}} \cdot \frac{10!}{6!(10-6)!}p^6(1-p)^{10-6} = \frac{210p^6(1-p)^4}{1-(1-p)^{10} }$$
+
+
+Find the MLE of this *function* of `p`, i.e. the MLE of probability that a customer redeems 6 coupons.  You'll find that it is small (about 0.025), so it's not a huge surprise that 6 hadn't been observed in the data. since there's only 20 observations.
+
+```{r Q4 p 6 thing}
+FIT[1]
+p<-0.2732934 
+
+(210*(p^6)*((1-p)^4))/(1-(1-p)^10)
+#genuinely can't figure out how to do this properly
+
+```

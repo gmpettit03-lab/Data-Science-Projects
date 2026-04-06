@@ -1,0 +1,671 @@
+---
+title: "BAS 471 Spring 2025 Homework on Unit 6 - Probability Models for Continuous Quantities"
+author: "Your Name Here Please"
+date: Worth double and cannot be dropped; see Canvas for due date; late assignments are accepted
+output:
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+#Leave this as-is.
+knitr::opts_chunk$set(echo = TRUE,collapse=TRUE)
+if( as.numeric( paste( unlist( strsplit( paste(R.Version()$major,R.Version()$minor,sep="."),split="\\.") ),collapse="") ) < 422 ) { 
+  stop("You must have R version 4.2.2 or later to knit this document")}
+RNGversion("4.2.2")
+library(regclass)
+library(fitdistrplus)
+```
+
+******************************************************************************
+
+# Note: these are your homework problems
+
+As a reminder about the collaboration policy, remember that you can develop a common set of R code with your colleagues. However, all written interpretations (i.e., anything that follows a **Response:**) needs to be written *in your own words* (unless you are instructed to copy/paste what ChatGPT says for a particular question).  Homework submissions that look to be near copies of each other will receive substantially reduced credit, may receive a 0, and may result in you receiving an F in the class.  If you do use ChatGPT as a learning tool (caution:  in BAS 471, unlike other BAS classes, *there are quite a few concepts/problems that ChatGPT gets plain wrong*), you'll need to rephrase its very obvious AI-sounding phrasing.  Remember that exams are closed ChatGPT, so do not rely on it too much.  
+
+# Note:  this homework is worth double and cannot be dropped; start early!
+
+**********************************************************************************
+
+**Note:** For this assignment, you'll be required to perform integration (finding the area under the curve) and differentiation (finding the slope of a tangent line to a curve).  Show your work when possible by pasting a screenshot from one of
+
+* Wolfram-Alpha
+* `https://www.integral-calculator.com/`
+* `https://www.derivative-calculator.net/`
+* work you've done "by hand" (if you love doing calculus that way)
+
+into your knitted Word document, or by using the R chunk when running `integrate` or `optimize` as requested.
+
+On the final exam, Wolfram-Alpha will not be available due to Proctorio limitations, so you're highly encouraged to try the integral and derivative websites that should work during the exam.
+
+**********************************************************************************
+
+## Question 1:
+
+Chain businesses like Walmart, Best Buy, and PetSmart receive a substantial amount of online feedback, both positive and negative. Their customer support teams strive to respond to all emails promptly. Let `X` represent the "response time," defined as the amount of time (in hours) it takes for customer service to address a concern raised in an email. Since there’s no strict minimum or maximum limit on response time, we can assume that the possible values of `X` form a continuum ranging from 0 to infinity. This means any decimal value within this range, such as 1.42932 hours, is possible.
+
+One function that appears to describe the relative frequencies of these response times is:
+
+$$Shape = \frac{x}{1 + e^{x/2}}\qquad 0 < x < \infty$$
+a)  Use curve to visualize the shape of the function from x=0 to x=20, as most of the probability is concentrated within this range, even though larger values of `x` are possible. Label the x-axis as "Number of Hours" and the y-axis as "Relative Frequencies." Add a horizontal line at 0 by running `abline(h = 0)` as well.
+
+Note: If your R Markdown (Rmd) is set to embed plot previews directly in the document instead of displaying them in the plotting window, you may need to place the `curve` and `abline` commands on the same line, separated by a semicolon.
+
+```{r Q1a}
+curve((x/(1+exp((x/2)))), from = 0, to= 20 )
+abline(h=0)
+```
+
+b)  For an equation to describe a valid probability model, i.e., a valid probability density function (PDF), all its values must be positive (which is true in this case). However, there is one more requirement that the equation must satisfy: the total area under the curve should equal 1.
+
+To investigate, use the `integrate` command in R to calculate the integral of the function from 0 to infinity (remember that R refers to infinity as `Inf`).
+
+Additionally, include a screenshot of the result from Wolfram or another online integral calculator  to confirm the result. Note: Wolfram Alpha will not be available during the final exam, so make sure to practice using one of these online integral calculators.
+
+Explain why this shape does not describe a valid PDF.
+
+**Response:**  (include screenshot from Wolfram or the online integral calculator here; also explain why the shape is not a valid PDF).  
+
+The integral of this function is equal to 3.289, which is not equal to 1, therefore the equation of the PDF must be divided by that area in order to have an area of 1. Probabilities can only be from 0 to 1. 
+
+
+
+```{r Q1b}
+integrate(function(x){(x/(1+exp((x/2))))}, lower = 0, upper = Inf)
+
+
+
+```
+
+c)  It’s easy to convert the desired shape into a valid PDF by multiplying the equation by the reciprocal of a "well-chosen number". You found this number in part (b), which corresponds to the integral of the original shape function.  Note:  it's best to do this with the exact value found from Wolfram or the online integral calculator (which involves `pi`).  
+
+Include the output of `integrate(PDF,lower=0,upper=Inf)` to establish it is indeed a valid PDF (it integrates to "basically 1"), then provide a `curve` of the PDF from 0 to 20.  Label the x-axis "Number of Hours" and the y-axis "PDF".
+
+```{r Q1c}
+#PDF <- function(x) {  1/"well chosen number" * ( equation for shape ) }
+PDF<- function(x){(1/((pi^2)/3))*(x/(1+exp((x/2))))}
+integrate(PDF, lower = 0, upper = Inf)
+
+curve(PDF, from= 0, to = 20)
+
+```
+
+
+d)  Show that the PDF evaluated at `x = 4` is approximately 0.145 and the PDF evaluated at `x = 10` is approximately 0.020 by using the `PDF` function you defined earlier.  What do these numbers tell us about the probability that the response time is *exactly* 4 or *exactly* 10 hours?   Provide an interpretation of these two numbers by considering their ratio.
+
+**Response:** 
+This is a trick question because it is a continuous function, these just show that the height of the PDF at these 2 points are .145 and .020, but that does not mean anything when it comes to probability. The probability of the response time being exactly 4 or 10 hours is 0. However, values closer to 4 are 7.12 times as likely as values closer to 10. 
+
+
+```{r Q1d}
+#Run PDF(4) and PDF(10)
+
+PDF(4)
+PDF(10)
+PDF(4)/PDF(10)
+
+
+```
+
+e)  Find the mode of this distribution using `optimize` (about 2.56), the expected value using `integrate` (about 4.4), and the standard deviation using `integrate` (about 2.9).  Interpret the mean and standard deviation in the usual way (layman's terms, as if you were talking to the boss or your parents).
+
+```{r Q1e}
+#Mode
+
+optimize(PDF, lower= 0, upper = 20, maximum = TRUE )$maximum
+#expected value
+mu<-integrate(function(x){(1/((pi^2)/3))*x*(x/(1+exp((x/2))))}, lower = 0, upper = Inf)$value
+mu
+#SD,
+SD<-sqrt(integrate(function(x){(1/((pi^2)/3))*((x-mu)^2)*(x/(1+exp((x/2))))}, lower = 0, upper = Inf)$value)
+SD
+```
+
+**Response:**  
+The most likely response time is around 2.56 hours, while the average response time is about 4.38 hours give or take around 2.9 hours. 
+
+
+f)  Bonus:  find the 30th and 70th percentiles of this distribution to one decimal place.  Reminder:  there's a 30% chance of observing the 30th percentile response time or something smaller; there's a 70% chance of observing the 70th percentile or something smaller. Try to figure out how to find these by setting up an `optimize` command.  If you can't, trial and error is fine (I could not get Wolfram to solve the integral equation).  
+
+```{r Q1f}
+
+```
+
+
+**********************************************************************************
+
+## Question 2:
+
+The customer analytics team is also considering the following long-tailed PDF model for `X` (the response time in hours):
+
+$$f(x) = \frac{6x^2}{(x+2)^4} \qquad 0 \le x \le \infty$$
+
+Let's define a function named `PDF` that takes as its argument a vector `x` and that returns the corresponding values of the PDF.
+
+```{r Q2}
+PDF <- function(x) { 6*x^2/(x+2)^4 }  #Define the PDF
+curve( PDF,from=0,to=50,ylab="f(x)"); abline(h=0)  #Look at the PDF (values are all positive, good!)
+integrate(PDF,lower=0,upper=Inf)  #Establish it's a valid PDF
+```
+
+According to the probability model, what fraction of response times will be:
+
+a) exactly 4 hours 
+
+b) between 4 and 6 hours (between 0.125 and 0.126)
+
+c) 10 hours or more (about 0.42)
+d) less than 0.5 hour (about 0.01)
+
+Find these probabilities using an `integrate` function in R (preferred), or by integrating in Wolfram or the online integral calculator (and including screenshots).
+
+```{r Q2 a to d}
+#a: 
+PDF(4)
+#is 0 because it is continuous
+
+#b
+integrate(PDF, lower = 4, upper = 6)$value
+
+#c
+integrate(PDF, lower=10, upper= Inf)$value
+#d
+
+integrate(PDF, lower=0, upper=.5)$value
+
+
+```
+
+e)  Using Wolfram-Alpha or the online integral calculator, find the formula for `F(x) = P(X <= x)`, the cumulative distribution function (CDF) for `X`.  Recall that `F(x)` provides a nice function for finding the probability of observing a value of "at most `x`".  Include a screenshot showing the equation.  Then, define a function named `CDF` in the R chunk below that takes a single argument `x` and that returns the corresponding values of `F(x)`.  Include a `curve` of the CDF for values between 0 and 50.  Note:  you can ignore Wolfram's "for Re(x) > -2 V x not in R" - that's for picky math folk and is irrelevant to us.
+
+In the R chunk, show/verify that  `CDF(0)` equals 0, `CDF(1e9)` (a billion, or "basically infinity") equals 1, then use the `CDF` function to calculate
+
+* P(X <= 3); about 0.22
+* P(X > 15); about 0.31
+* P(4 <= X <= 6), which was also calculated in part (d)
+
+**Response:**
+
+```{r Q2e}
+CDF <- function(x) { (x^3)/((x+2)^3) }
+
+
+#P(X <= 3)
+CDF(3)
+#P(X > 15)
+1-CDF(15)
+#P(4 <= X <= 6)
+CDF(6)-CDF(4)
+```
+
+
+
+
+**********************************************************************************
+
+## Question 3:
+
+Most of the time, stores are able to sell items at a profit.  Occasionally, items need to be liquidated at a loss.  A CDF that provides a distribution for both positive and negative numbers is:
+
+$$F(x) = \frac{e^{2x}}{\left(1+e^x\right)^2} \qquad -\infty < x < \infty $$
+
+```{r Q3 setup}
+curve( exp(2*x)/(1+exp(x))^2 ,from=-3,to=6); abline(h=c(0,1),lty=2)
+```
+
+This distribution could be useful in modeling the amount of money gained or lost when an item is sold.  Let's work with this model.
+
+a)  Find the formula for the PDF `f(x)`, then provide a `curve` between x=-3 and x=6.  A screenshot from Wolfram-Alpha or the online derivative calculator (recommended, since Wolfram will not be available on the final) will suffice for finding the formula.  The formula for the PDF is a tricky one to type in R with all the parentheses.  You should see a nice bellish-shaped curve for `f(x)` peaking a little below 1.
+
+```{r Q3a}
+PDF<- function(x){(2*exp(2*x))/((1+exp(x))^3)}
+curve(PDF, from= -3, to =6)
+abline(v=1)
+optimize(PDF, lower = -3, upper= 6, maximum = TRUE)
+
+
+```
+
+**Response:**
+
+b)  Find the formula for the quantiles of this distribution, i.e., the equation for the quantile function $F^{-1}(x)$.  A screenshot from Wolfram-Alpha will suffice (while Wolfram is not available on the final exam, I'm working on an online algebra solver, or will have a question that is easily doable by hand).  Then, write a function named `QUANTILE` that takes a single argument `q` and returns the `q-th` quantile (e.g., if you passed 0.60 to the function, it would give you the 0.60 quantile / 60th percentile).  Show that `QUANTILE(0.80)` is about 2.14.   
+
+Note:  look at the "Real solution" rather than the "Result".  The equation is rather involved, but if you click the "Real solution" in Wolfram, it'll provide a nice transcription in the input box that you can copy/paste into this .Rmd (but you'll still need to insert an implicit multiplication symbol to multiply `q` by a `sqrt()` function).
+
+**Response:** 
+
+```{r Q3b}
+QUANTILE<-function(q){log((sqrt(q/((q-1)^2))*q-q-sqrt(q/((q-1)^2)))/(q-1))}
+QUANTILE(.6)
+QUANTILE(.8)
+
+```
+
+c)  Using your `QUANTILE` function, find the 50th (median) and 20th percentiles (about 0.88 and -0.21, respectively).  Finally, fill in the blank:  95% of individuals' values of `x` will be less than or equal to 3.650492 (i.e. there's a 95% chance that `x` is less than or equal to 3.650492)
+
+**Response:** 
+
+```{r Q3c}
+
+QUANTILE(.5)
+QUANTILE(.2)
+QUANTILE(.95)
+
+```
+
+
+**********************************************************************************
+
+## Question 4:
+
+Trucks sent out to collect recyclables rarely return at 100% capacity. In fact, many random factors influence how full they are upon return, such as the varying amount of recyclables put out by households and whether households remember to put them out for collection.
+
+To model the "fullness" at which trucks return, we'll use the following probability density function (PDF). The fullness is represented as a number between 0 (completely empty) and 1 (completely full).
+
+$$f(x) = 18/19 - 1200x(x-1)(x-0.35)(x-0.8)/19 \qquad 0\le x \le 1$$
+```{r Q4}
+#Valid PDF because it integrates to 1
+curve( (18/19-1200*x*(x-1)*(x-0.35)*(x-0.8)/19) ,ylim=c(0,2),ylab="PDF f(x)" ); abline(h=0) 
+integrate( function(x) (18/19-1200*x*(x-1)*(x-0.35)*(x-0.8)/19), lower=0, upper=1)
+```
+
+a)  Find the two modes of the distribution in R (preferred), Wolfram, or an online derivative calculator.  If you use Wolfram, click the "Approximate forms" to get the numerical values.   Remake the `curve` of the PDF, then use `abline(v=?)` to add a vertical line at each mode (replacing the `?` with the value of a mode).  Note:  you may need to have the `curve` and two `abline` commands on the same line separated by a semi-colons if you have the Rmd set up to embed previews of the plots in the Rmd rather than in the plotting window.
+
+```{r Q4a}
+PDF<-function(x){(18/19-1200*x*(x-1)*(x-0.35)*(x-0.8)/19)}
+Mode1<-optimize(PDF, lower = 0, upper=.5, maximum = TRUE)$maximum
+Mode1
+Mode2<-optimize(PDF, lower = .5, upper=1, maximum = TRUE)$maximum
+Mode2
+```
+
+b)  Find the expected value $\mu$ (near 0.42) and standard deviation $\sigma$ (near 0.32) of this distribution in R (preferred), Wolfram, or an online integral calculator.
+
+```{r Q4b}
+mu<-integrate(function(x){x*((18/19)-1200*x*(x-1)*(x-0.35)*(x-0.8)/19)},lower=0, upper=1)$value
+mu
+SD<-sqrt(integrate(function(x){((x-mu)^2)*((18/19)-1200*x*(x-1)*(x-0.35)*(x-0.8)/19)},lower=0, upper=1)$value)
+SD
+```
+
+c)  The following R chunk re-makes the curve.  It then adds vertical lines at the mean and at the mean plus/minus one standard deviation (replace the ? and @ in the lines of code with the mean and standard deviation, respectively, then uncomment and run them).  Note:  you may need to have the `curve` and two `abline` commands on the same line separated by a semi-colons if you have the Rmd set up to embed previews of the plots in the Rmd rather than in the plotting window.
+ 
+Explain why the expected value and standard deviation are "lousy" at summarizing this distribution.   
+
+**Response:**
+There does not seem to be a good fit with the peaks and the mean, additionally, I don't think that the CDF up until the lower standard deviation is accurate. There also are two local maximums and a local minima which makes the graph a bit weird to explain with these statistics. 
+
+
+```{r Q4c}
+curve( 18/19-1200*x*(x-1)*(x-0.35)*(x-0.8)/19 )
+
+ abline(v=mu,col="red")  #Replace the ? with mu
+ abline(v=mu + c(-1,1)* SD ,col="red" )  #Replace the ? with mu and the @ with the SD
+```
+
+
+d)  The time it takes to fill a truck to a certain fullness depends on the number of recycle bins out for the day as well as how much material they contain.  Suppose we can convert `X` (Fullness) to `Time` (in minutes) using the following equation: 
+
+$$Time = 12(5+3X^{2/7})$$
+
+Using R (preferred), Wolfram, or an online integral calculator, find the expected value of the time it takes to fill the truck (about 86 minutes).  Note:  this equation is *NOT* describing the shape of the PDF of the Time.  We don't even need to find the PDF of Time to find its expected value!  
+
+```{r Q4d}
+TIME<-function(x){12*(5+(3*x^(2/7)))}
+
+ETime<-integrate(function(x){(((18/19)-1200*x*(x-1)*(x-0.35)*(x-0.8)/(19))*12*(5+(3*x^(2/7))))}, lower=0, upper=1)$value
+ETime
+
+
+
+```
+
+e)  A central theme of probabilistic modeling is that averages are not enough to characterize complex random processes, especially when the system is nonlinear. If the system isn't a simple weighted sum of random components, plugging in the average value of `X` into the equation for `Time` will not yield the correct average Time!  In the R chunk, plug in the expected value of `X` (part b) for the value of `X` in the equation for `Time`, and take note how the "wrong" way of calculating the average `Time` is an overestimate of the actual average `Time` by over 2 minutes.
+
+```{r Q4e}
+TIME(mu)
+```
+
+**********************************************************************************
+
+## Question 5:  Notorious Distribution Identification
+
+We have studied the following notorious continuous distributions:
+
+&nbsp;   | &nbsp;  | &nbsp;    | &nbsp;            | &nbsp;    | &nbsp;
+-------- | ------- | --------- | ----------------- | --------- | ---------
+Normal   | Beta    | Weibull   | Exponential       | Lognormal | Uniform (continuous)
+
+Based on the following scenarios and descriptions (i.e., in the absence of any data), name which distribution would be your "go-to" for modeling the following quantities.  Remember that the Weibull is a "generalization" of the Exponential, and the Beta is a "generalization" of the Uniform.  Don't list Weibull (or Beta) when the Exponential (or Uniform) will do!
+
+Each distribution will be used at least once.  *Provide a very brief justification for your choice*.  Note:  ChatGPT was actually really bad at identifying these, getting only 1/2 correct, so it's of limited help here.
+
+a)  Oneil Cruz's (Pittsburgh Pirates) exit velocities (the speed at which a ball leaves the bat when hit), whose distribution has a left-skew (mostly due to popups; overall peak is near 95 mph)
+
+**Response:**  
+Weibull, because of left skew. 
+
+
+b)  The daily percentage change in the average price of gas across the US (roughly symmetric, can be positive or negative).
+
+**Response:** 
+Normal, because positive or negative values, also symmetric. 
+
+c)  The angle made by the "seconds hand" of a clock (relative to the 12 pm position; pointing at 6:00pm would be 180 degrees, pointing at 3:45 pm would be 112.5 degrees, etc.) after it is vigorously spun and it points to a random time.
+
+**Response:**  
+Uniform, there are no negative angles, I would say its pretty evenly distributed, well obviously it is evenly distributed because time is, well, time.  
+
+
+d)  The amount of time that children are able to easily hold their breath (this distribution is skewed left with a peak at 30 seconds).
+
+**Response:**  
+Weibull, skewed left. 
+
+e)  The weight of frozen custard sold by a set of Andy's restaurants on a random day.  Amounts are skewed to the right, peaking at around 1534 pounds.
+
+**Response:** 
+Lognormal, it's skewed right, can't have negative values, also it's the go to for business stuff. 
+
+f)  The difference between the time actually measured on a stopwatch and the target of 30 seconds (imagine someone is playing a game where they are trying to time exactly 30 seconds). The distribution is roughly symmetric and peaks near zero, and the values can be positive or negative (depending on whether the measured time is above or below 30).
+
+**Response:** 
+Normal distribution, positive and negative values, it is symmetric. 
+
+g)  The fraction of the volume of a bag of potato chips that is actually potato chip instead of air (between 0 and 1; peak near 0.32). 
+
+**Response:**  
+Beta because it is between 0 and 1.
+
+
+h)  The proportion (0-1) of a bottle of mayonnaise that is left in the jar when it ultimately discarded. Skewed left with a peak at 0.03.
+
+**Response:**  
+Weibull, skewed left. 
+
+i)  The time that elapses between when the first person in a party of four at a table in Applebees finishes their "food" and when the last person in that party finishes theirs.  It's known that this distribution is slightly skewed right with a peak around 8.2 minutes.
+
+**Response:**  
+Gamma, peak isn't 0, but it seems like a memoryless thing. 
+
+j)  The total acreage of a forest that gets burnt during a forest fire (most fires are relatively small and extinguish themselves quickly, but some fires consume a vast amount of the forest).
+
+**Response:** 
+Exponential, sounds like the peak is near 0, less common for big fires to destroy the forest. 
+
+
+k)  The distance one of the food delivery robots on campus travels before it gets stuck.  Assume that the probability of getting stuck per 1000 ft traveled is relatively constant and that the expected distance until it gets stuck is independent of the distance it's traveled so far.  
+
+**Response:** 
+Exponential, constant probability per unit feet. Memoryless property. 
+
+
+**********************************************************************************
+
+## Question 6:  Practice using the notorious distributions.
+
+For each part, you'll see a `curve` of the distribution that uses R's `d` version of the PDF.  In R (no Wolfram or other online tools for this question), use the `p` version of the PDF to answer questions about the probabilities, and use the `q` version of the PDF to answer questions about percentile or quantiles.  
+
+a)  In class, you saw a trailer for Mrs. Doubtfire but recut as a horror movie.  People have done this with  "Mary Poppins" (also recut as a horror movie; https://www.youtube.com/watch?v=2T5_0AGdFic); and Stanley Kubrick's masterpiece "The Shining" (recut as a romantic comedy (https://www.youtube.com/watch?v=KmkVWuP_sO0 ).  
+
+Consider the length of time between sequential views for this trailer during some early morning hour of the day.  Let's model this length of time (in seconds) with an exponential distribution with a `rate` ($\lambda$) parameter of 0.2.  Note:  the formulas for the mean and standard deviation of an exponential are identical:
+
+$$\mu = \sigma = \frac{1}{\lambda} = \frac{1}{0.2} = 5$$
+
+The model lets us know that "0.2 views happen every second" or, on average, 5 seconds elapse between viewers.  Provided is a `curve` of this model from x=0 to x=30.  Use this model to find: 
+
+* the probability that the next view happens 8-11 seconds after the last view (around 9.1%)
+* the probability that the next view happens more than 7 seconds from now, given that it's been over 35 seconds since the last view (around 25%)
+* the median time between views (about 3.5 seconds)
+
+```{r Q6a}
+#Curve
+curve( dexp(x,rate=0.2), from=0, to=30); abline(h=0)
+
+#Answer questions here
+
+#P(next view happens between 8-11 seconds after the last)
+pexp(11,rate=0.2)-pexp(8,rate=0.2)
+
+#P(next view happens more than 7 secs from now, given that it's been over 35 secs since the last view)
+1-pexp(7,rate=0.2)
+
+#Median
+qexp(.5,rate=.2)
+
+```
+
+
+b)  Let's model the weight of 8 Honey Crisp apples (which Kroger can bundle together in a plastic bag and sell as a group) with a Normal distribution that has a mean (`mean`) of 4.50 lbs and a standard deviation (`sd`) of 0.25 lbs.  
+
+Provided is a `curve` of this model from x=3.5 to x=5.5.  Use this model to find:
+
+*  the probability that weight is between 4.0 and 4.5 lbs (about 48%)
+
+*  the probability that the weight is negative (after all, the Normal model allows negative values and we're using it to model a strictly positive quantity; it's necessary to know if we can "get away" with this by ensuring the probability of an impossible value is very low)
+
+*  the weight at the 85th percentile of the distribution (about 4.76), i.e., "The probability that the weight is 4.76 or less is 85%".
+
+
+```{r Q6b}
+curve(dnorm(x,mean=4.5,sd=0.25),from=3.5,to=5.5); abline(h=0)
+
+#P(4.0 < Weight < 4.5)
+pnorm(4.5,mean=4.5,sd=0.25)-pnorm(4,mean=4.5,sd=0.25)
+#P(Weight < 0)
+pnorm(0,mean=4.5,sd=0.25)
+
+#weight at 85th percentile
+qnorm(.85,mean=4.5,sd=0.25)
+```
+
+
+c)  Consider number of *minutes* that someone spends on TikTok each day (among a certain group of die-hard daily users of the app).  A reasonable distribution to model this quantity could be the lognormal since all values are positive numbers, the times are probably skewed to the right, and it's generally the go-to for many quantities in analytics when human behavior is involved. 
+
+Data suggests that the `meanlog` and `sdlog` of this distribution are 4.3 and 0.65, respectively.  Provided is code that finds the expected value, median, and standard deviation of the distribution.  A `curve` of this model from x=0 to x=400 is also provided.  Use this model to find: 
+
+* the probability that someone spends between 30 and 50 minutes on TikTok? (about 19%)
+* the probability that someone spends at least 2 *hours* on TikTok? (about 23%)
+* 85% of users will spend 144.5 minutes or less (around 145)
+* the expected increase in a user's engagement when a user spends $X$ minutes on TikTok.  Mouse over the equation to see how time spent (`X`) translates to increase in `Engagement`:   
+
+$$Engagement = (1+X^{1/5})\log_{10}(X+2)$$
+
+You will have to use the `integrate` function, multiplying the formula for the engagement by the `dlnorm(x,meanlog=4.3,sdlog=0.65)` function (R's shorthand of the equation for the lognormal so we don't have to type it out).  Sanity check:  between 6.4 and 6.5. 
+
+```{r Q6c}
+meanlog <- 4.3; sdlog <- 0.65
+#Expected Value
+exp(meanlog + sdlog^2/2)
+#Median
+exp(meanlog)
+#Standard Deviation
+sqrt( (exp(sdlog^2)-1)*exp(2*meanlog+sdlog^2) )
+#Curve
+curve(dlnorm(x,meanlog=4.3,sdlog=0.65), from=0, to=400,n=2000 ); abline(h=0)
+
+#Answer questions here
+
+#P(30 minutes < time < 50 minutes)
+plnorm(50,meanlog=4.3,sdlog=0.65)-plnorm(30,meanlog=4.3,sdlog=0.65)
+#P(time >= 2 hours)
+1-plnorm(120,meanlog=4.3,sdlog=0.65)
+#85% of users will spend 144.5 minutes or less
+qlnorm(.85,meanlog=4.3,sdlog=0.65)
+#the expected increase in a user's engagement
+
+engagement<-function(x){(1+x^(1/5))*log10(x+2)}
+curve(engagement(x), from = 0, to= 400)
+
+INCREASE<-function(x){engagement(x)*dlnorm(x,meanlog=4.3,sdlog=0.65)}
+
+
+integrate(INCREASE, lower = 0, upper = Inf)
+
+```
+
+
+d)  Bonus.  Consider the exit velocity of balls hit by Oneil Cruz (Pittsburgh Pirates).  The exit velocity is the speed of the ball after it is hit.  Let's model the exit velocity with a Weibull distribution with a `shape` parameter of 18 and a `scale` parameter of 95. 
+
+* Provide a `curve` of the PDF between 60 and 110
+* Find the mode of the PDF
+* Report the probability that the exit velocity is between 100 and 105 mph
+* Report the median and 90th percentile exit velocities
+* Look up the formulas and report the mean and standard deviation of this Weibull distribution.   Confirm your answers by running `v <- rweibull(1e6,shape=18,scale=95)` and getting the mean and standard deviation of the numbers in that vector (the values will be "close").
+* Interpret the mean and standard deviation in the usual layman-friendly way (talking to your boss or parents)
+
+Note:  if you look up the formulas on Wikipedia, the $\lambda$ parameter is the `scale` parameter (95) and the $k$ parameter is the `shape` parameter (18).  Note:  the $\Gamma$ symbol is the "gamma" function (like the factorial function but it even works for decimals).  You can evaluate it in R by running `gamma`.  For example $\Gamma(1+1/1.5)$ is `gamma(1+1/1.5)`
+
+
+**Response:**  
+
+```{r Q6d}
+#Curve
+curve(dweibull(x, shape = 18, scale = 95), from = 0, to=110)
+#Mode
+FUNCTION<-function(x){dweibull(x, shape = 18, scale = 95)}
+
+optimize(FUNCTION, lower = 0, upper = 120, maximum = TRUE)
+
+
+#Between 100 and 105
+pweibull(105, shape = 18, scale = 95)-pweibull(100, shape = 18, scale = 95)
+#Median and 90th percentile
+qweibull(.5, shape = 18, scale = 95)
+qweibull(.9, shape = 18, scale = 95)
+#Mean: 
+FUNCTION2<-function(x){dweibull(x, shape = 18, scale = 95)*x}
+
+mu<-integrate(FUNCTION2, lower=0, upper=Inf)$value
+mu
+#SD: 
+FUNCTION3<-function(x){dweibull(x, shape = 18, scale = 95)*(x-mu)^2}
+SD<-sqrt(integrate(FUNCTION3, lower = 0, upper = Inf)$value)
+SD
+
+v <- rweibull(1e6,shape=18,scale=95)
+
+#Simulation
+
+```
+
+
+**********************************************************************************
+
+## Question 7:  fitting distributions
+
+The following chunk of code reads in two datasets stored on Google sheets.  
+
+```{r Q7 setup}
+gsheets_url <-"https://docs.google.com/spreadsheets/d/1rFHbMzf0nrNXw8dyMVIHORWkAbRIjtV2Er034AQdOQ0/export?format=csv"
+MLB <- read.csv(gsheets_url)
+str(MLB)
+gsheets_url <- "https://docs.google.com/spreadsheets/d/1UEws8XIAUIp-sGbit45lbKkUeFCvRzn1CWlFqh50uaw/export?format=csv"
+SONGS <- read.csv(gsheets_url)
+str(SONGS)
+```
+
+The first dataset contains information on 596 players in Major League Baseball (2015-2022 seasons), specifically the pitches they've hit at bat (mainly exit velocity and related information).  The second dataset comes from Spotify and contains information on 848 songs from popular artists.  Spotify provides numerical summaries of songs like energy, acousticness, danceability, loudness, etc.  See `https://rpubs.com/PeterDola/SpotifyTracks` for a nice writeup.
+
+a)  Consider the `average_ev` column in `MLB`, which gives the average exit velocity (speed of the ball when hit) attained by the player.
+
+* Look at a histogram (remember to extract out a column of a dataframe you'll refer to it as `MLB$average_ev`).  *Don't include this initial histogram in the writeup*.
+
+* Include the QQ plots for fits to Normal, lognormal, exponential, and Weibull models. 
+
+* Based on the QQ plots, which two of these probability models provide the most reasonable fits (explain why you feel this way)?  
+
+* Look at the relevant metric as a tie-breaker to decide between these two reasonable models, then report what model is the "best" and why.  
+
+* Include a histogram (add `freq=FALSE` as an argument as well as `breaks=50`), using `curve` (add `add=TRUE` as an argument) to superimpose this "best" fit.  Using this along with the Q-Q plot, comment on whether ultimately the "best" fit provides a *reasonable* fit to the data (since there's no guarantee that the model with the lowest AIC actually fits the data well).
+
+**Response:**  
+Based on the QQ plots, the Log normal and normal plots both provide reasonable fits, however, the normal plot looks a bit better and has a lower AIC, therefore, the normal fit is the best fit. I think that the normal distribution does provide a reasonable fit for the data.
+
+
+```{r Q7a}
+library(fitdistrplus)
+ev <- MLB$average_ev
+
+FIT<-fitdist(ev, "norm")
+qqcomp(FIT)
+FIT$aic
+FIT$estimate
+hist(ev,breaks=50,freq=FALSE,main="");curve(dnorm(x,88.772718,2.196581  ),add=TRUE,lwd=3,col="red")
+
+
+
+FIT<-fitdist(ev, "lnorm")
+qqcomp(FIT)
+FIT$aic
+
+
+FIT<-fitdist(ev, "exp")
+qqcomp(FIT)
+
+
+FIT<-fitdist(ev, "weibull")
+qqcomp(FIT)
+
+```
+
+b)  Consider the `danceability` column in `SONGS`.  This gives a number (0-1) describing how suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity.  For example, "Treasure" by Bruno Mars (`https://www.youtube.com/watch?v=nPvuNsRccVw`) has a high danceability (0.874) while "Born to Die" by Lana del Ray (`https://www.youtube.com/watch?v=Bag1gUxuU0g`) has a low danceability (0.179).
+
+Fit the data to Normal, lognormal, exponential, Weibull, and beta distributions.  Include a QQ-plot of the "worst" fit and a QQ-plot of the "best" fit.  In your response, identify what makes the "worst" fit so bad.  Also comment on whether the "best" fit actually provides a *reasonable* fit to the data (and why).
+
+**Response:** 
+The worst fit, in my humble opinion, is the exponential fit. It is, frankly, quite trash. It does not fit the data whatsoever as displayed by its qq plot, additionally, its AIC is the only positive value of all of the fits available. In other words, utter garbage fit. Just a crazy bow around the line of fit, it looks like a bent finger, just nah bro. 
+
+The best fit is the weibull. Beautifully captured on the line of fit, no bow shapes, beautiful AIC of like negative -997.37, no ugly lines. Just beautiful. 
+
+
+
+```{r Q7b}
+dance <- SONGS$danceability  
+
+FIT<-fitdist(dance, "norm")
+qqcomp(FIT)
+FIT$aic
+
+FIT<-fitdist(dance, "lnorm")
+qqcomp(FIT)
+FIT$aic
+#meh
+
+FIT<-fitdist(dance, "exp")
+qqcomp(FIT)
+FIT$aic
+#bad.
+
+FIT<-fitdist(dance, "weibull")
+qqcomp(FIT)
+FIT$aic
+#wow that's nice
+
+FIT<-fitdist(dance, "beta")
+qqcomp(FIT)
+FIT$aic
+#pretty good, but weibull AIC is goated
+
+
+
+```
+
+c)  The `fitdist` command is great, but it can sometimes yield error messages.  Try fitting the `launch_angle` column in `MLB` to a lognormal distribution and the `loudness` column in `SONGS` to a Weibull.  Both fail.  Make a histogram of both quantities (they have straight-forward shapes to model), then explain why `fitdist` isn't able to fit those distributions 
+
+**Response:**  
+Both quantities have negative values, therefore they can't fit to these distributions because these distributions only allow for positive values. Thus, a possible solution is to take the log of these values to make them positive values. 
+
+
+```{r Q7c,eval=FALSE}
+launchang<-MLB$launch_angle
+
+FIT<- fitdist(launchang, "lnorm")
+hist(launchang)
+
+loud<-SONGS$loudness
+
+FIT<-fitdist(loud, "weibull")
+hist(loud)
+
+
+```

@@ -1,0 +1,384 @@
+---
+title: "BAS 471 Spring 2024 Homework on Unit 9 Phase 2 - Comparing Averages and Bootstrapping"
+author: "Your Name Here Please"
+date: "see Canvas for due date"
+output:
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+#Leave this as-is.
+knitr::opts_chunk$set(echo = TRUE,collapse=TRUE)
+if( as.numeric( paste( unlist( strsplit( paste(R.Version()$major,R.Version()$minor,sep="."),split="\\.") ),collapse="") ) < 422 ) { 
+  stop("You must have R version 4.2.2 or later to knit this document")}
+RNGversion("4.2.2")
+library(regclass)
+library(boot)
+library(multcompView)
+```
+
+
+******************************************************************************
+
+# Note: these are your homework problems
+
+As a reminder about the collaboration policy, remember that you can develop a common set of R code with your colleagues. However, all written interpretations (i.e., anything that follows a **Response:**) needs to be written *in your own words* (unless you are instructed to copy/paste what ChatGPT says for a particular question).  Homework submissions that look to be near copies of each other will receive substantially reduced credit, may receive a 0, and may result in you receiving an F in the class.  If you do use ChatGPT as a learning tool (caution:  in BAS 471, unlike other BAS classes, *there are quite a few concepts/problems that ChatGPT gets plain wrong*), you'll need to rephrase its very obvious AI-sounding phrasing.  Remember that exams are closed ChatGPT, so do not rely on it too much.  
+
+
+**********************************************************************************
+
+## Question 1 - Drivers of Movie Success
+
+The COVID-19 pandemic has significantly impacted the movie industry, potentially altering its landscape permanently, despite its ongoing recovery. This comes after years of struggling due to the increasing emphasis on profit and changing audience expectations. To tackle this challenge, studios have been utilizing artificial intelligence, as learned in BAS 320/474, to analyze the elements that attract audiences and generate profits.
+
+As Hollywood studios tend to avoid taking big risks, any insights into the factors that contribute to a movie's success are highly valuable. In this context, we aim to investigate the main drivers behind the success of movies using the `MOVIES` dataframe in `BAS471Sp25Phase2.RData`. 
+
+This dataset includes information on 2043 movies which had theatrical releases during 2010 or later and which had budgets of at least 1 million dollars. The data includes various characteristics such as rating (`vote_average`), `popularity`, `runtime`, `ROI`, release timing, genre information (columns `Action` through `Western`), and keywords (columns `aftercreditsstinger` through `woman.director`).  The original source came from `https://www.kaggle.com/datasets/asaniczka/tmdb-movies-dataset-2023-930k-movies` but has undergone substantial data wrangling.
+
+You know the drill:
+
+*  Make sure the .RData file is in your 471 folder
+*  Make sure to do a Save As on this .Rmd file and forcibly put it in your 471 folder
+*  Make sure your working directory is your 471 folder too
+
+We can leverage this data to give general suggestions on the types of movies to produce in order to optimize their potential for success.  Let's focus on `ROI` and `vote_average`.
+
+* `ROI` is the return on investment.  ROI measures the amount of profit generated in relation to the amount of money invested in the production of the movie (i.e., its "true" budget).   A value of 0 means it only made back its budget (but no additional profit).  A value of 1.5 means that the movie not only made back its budget, but that the profit was 1.5x its budget.  A value of -0.5 means it only made back 1/2 its budget.  A value of -1 would mean all money was lost.  While studios don't release full information on the amount of money it takes to produce a movie, a good rule of thumb is that the "true" budget is double the listed value in `budget` (to account for advertising).
+
+* `vote_average` is a score from 0-10 with larger values being more favorable (the score from the tmdb website) 
+
+
+```{r Q1 reading in data}
+load("BAS471-S25Unit9Phase2.RData") 
+```
+
+
+a)  Your first inquiry is determining whether there is a statistically significant difference in the average `ROI` or `vote_average` across `Comedy`. Movies in the "Comedy" group had comedy listed as one of its genres. Movies in the "No" group did not.When comparing two groups, the first question you must answer is "Are these paired samples or independent samples?".How should we treat these samples:  paired or independent?  Explain. 
+
+**Response:** 
+These samples should be treated as independent because you can either be comedy or not comedy, while some movies can be multiple genres, this sample already separates between comedies and non comedies, so these are separate products. Yeah. 
+
+b)  The second question you must answer when comparing two groups is whether the Central Limit Theorem is in effect.  If it is, then `t.test` can quickly produce a 95% confidence interval and you can determine whether the difference in averages is statistically significant.  Produce a frequency table of the values in `Comedy` (which gives the sample sizes of each group).  Then, make histograms (4 total) of the `vote_average` and `ROI` for movies that are and that are not comedies.  Looking at the histograms and referring to the sample sizes, comment on whether the Central Limit Theorem is "in effect" if we want to compare mean `vote_average`s and `ROI`s?  Explain.
+
+
+**Response:**  
+CLT is in effect because both categories have well over 100 observations which means that regardless of the skew of the histogram, we have enough data to justify a mean. 
+
+
+
+```{r Q1b}
+table(MOVIES$Comedy)
+hist(MOVIES$vote_average[MOVIES$Comedy == "Comedy"],breaks = 20)
+hist(MOVIES$vote_average[MOVIES$Comedy == "No"],breaks = 20)
+hist(MOVIES$ROI[MOVIES$Comedy == "Comedy"],breaks = 20)
+hist(MOVIES$ROI[MOVIES$Comedy == "No"],breaks = 20)
+
+```
+
+c)  Report the average ROI for comedies and for non-comedies.  Is the difference in averages statistically significant?  Explain.  If the difference is statistically significant, explain whether the difference is large enough to be meaningful and impactful.
+
+**Response:** 
+Yes, the ROI's confidence interval is between -.457 and -.038, meaning that studios lose money on producing comedies when compared to non comedies. We know that this difference is significant because our p value is less than .05.
+
+
+```{r Q1c}
+t.test(ROI ~ Comedy, data = MOVIES)
+```
+
+d)  Repeat part (c) but for `vote_average`.  Combining your insights from (c) and (d), comment on the practical implications as to whether studios should emphasize producing comedies.
+
+**Response:**  
+There doesn't seem to be a difference in the audience reception of the movies based upon categories, because the p value is way above .05, it would make sense for the movie studios to cut back upon production of comedies because the audiences enjoy them roughly the same as non comedies and they are less profitable. 
+
+
+
+```{r Q1d}
+t.test(vote_average ~ Comedy, data = MOVIES)
+```
+
+e)  Let's examine how ROI varies over the course of the year.  Provide the output from `aggregate` that gives the average `ROI` for the levels of `Month`.  Without making a connecting letters report, explain how you know that there are *no* statistically significant differences in average ROI across these 12 levels.
+
+**Note:**  This step was unfortunately omitted from the lecture/notes.  Look at the `Pr(>F)` in the analysis of variance.  If this is *less* than 0.05, there *are some* statistically significant differences between groups (however, the analysis of variance doesn't tell us *which* groups are different).  ONLY WHEN the `Pr(>F)` is less than 0.05 do we continue the analysis and look at the connecting letters.  It is possible that `Pr(>F)` is less than 0.05 (indicating some differences) but all connecting letters will be the same (meaning the data can't discern differences after all).
+
+**Response:** 
+All of the connection's p adjusted values are above .05, there is no significant difference between ROI across months. 
+
+
+```{r Q1e}
+aggregate(ROI~Month, data=MOVIES, FUN=mean)
+
+AOV<-aov(ROI~Month, data=MOVIES)
+AOV
+TUKEY<-TukeyHSD(AOV)
+TUKEY
+
+```
+
+f)  Provide the output from `aggregate` that gives the mean `vote_average` for each of the levels of `runtimecategory`.  The ANOVA reveals that there are *some* statistically significant differences, so produce a connecting letters report to find them.  
+
+```{r Q1f}
+library(multcompView)
+aggregate(vote_average~runtimecategory, data=MOVIES, FUN=mean)
+AOV<-aov(vote_average~runtimecategory, data=MOVIES)
+TUKEY<-TukeyHSD(AOV)
+multcompLetters4(AOV,TUKEY)
+```
+
+For the following, answer "yes" or "no", then briefly explain:
+
+* Can the data discern a difference in the mean vote average of movies with runtimes of 61-80 minutes (5.38) and 81-90 minutes (5.97)? 
+
+**Response:** 
+No, they both share a letter d. 
+
+* Does the data indicate a statistically significant difference in the mean vote average of movies with runtimes of 91-100 minutes (6.24) and 111-120 minutes (6.66) 
+
+**Response:**  
+Yes, they don't share any letters. 
+
+* Movies with runtimes of 121-150 minutes have the highest mean vote average (6.87).  Are other runtimes "statistically tied" for this highest average?  Why or why not?  If so, which?
+
+**Response:** 
+Yes, movies with a run time of 151 or more minutes are tied because they both share the letter a in the connecting letters report. 
+
+g)  (Bonus)  In analytics, we are often interested in the "biggest drivers" of some process of interest (donating, churning, buying, etc.).  Here, we want to know the "biggest drivers" of `vote_average`.   A "big" driver will have large and statistically significant differences in averages across the driver's possible values.  
+
+One way to "score" a driver is to fit a multiple linear regression model (BAS 320) using the driver as the sole predictor, e.g. `summary( lm(vote_average ~ runtime,data=MOVIES) )`.  If you recall, a multiple linear regression model also allows you to determine if there are any statistically significant differences in the average value of "y" (the process you're studying, e.g. vote average) across levels of a categorical predictor (the driver).  The "Adjusted R-Squared" of the model allowed us to quantify, at least roughly, what percentage of the variation in "y" can be attributed to the driver.  Higher adjusted R-Squared = higher score = stronger driver = more variation in average "y" across the driver's levels.
+
+Find the "scores" (Adjusted R-Squared) of all "valid" drivers in the data (everything but the `title`, `vote_average`, `vote_count`, `revenue`, `budget`, `popularity`, `Year`, `runtime`, and `ROI` columns).  Then, provide a ranked list of the top 8 drivers (along with their scores) of `vote_average`  Note:  appending `[9]$adj.r.squared` to the end of the `summary()` command above will directly extract the adjusted R-squared.   If you're strong at programming, you may be able to write a `for` loop on your own to figure this out.  However, even if you are not, you should be able to have a back-and-forth with ChatGPT to solve this (it doesn't have access to the data, but it can still provide code with a thorough enough description).
+
+Obviously, studios would like to make movies that people enjoy.  What eight drivers do you suggest studio executives focus on to make this happen?  Explain.
+
+**Response:**  
+
+
+```{r Q1g}
+#If you do it manually, here's a quick way to get the commands for ALL the columns, you'll have to ignore the non-valid ones
+#cat(paste("summary( lm(vote_average ~",names(MOVIES),",data=MOVIES) )[9]$adj.r.squared\n"))
+
+
+
+
+```
+
+
+******************
+
+## Question 2
+
+A chef wants to determine which of two recipes for Fish Florentine is better.  The chef recruits 25 foodies and has them rate (on a scale of 0-100) the dishes on two sequential Friday nights.  The `FISH` dataset in the global environment (after loading in the .RData file) records each foodies' ratings (0-100) of recipes A and B. 
+
+a)  Are the ratings for Recipe A and B paired or independent samples?  Explain.
+
+**Response:**
+These are paired samples because it is the same group of people eating food from the same chef. 
+
+b)  Can we invoke the Central Limit Theorem here to help create reliable confidence intervals for the difference in the averages of whatever probability distributions happen to be generating these samples?  In other words, are the "large enough" sample size condition(s) met?  Why or why not?  Make the relevant histogram(s) to support your argument.
+
+**Response:**  
+Both of these graphs have slightly right skews and sample sizes above 10, which means that we kind of can invoke the CLT, but I would probably rely on bootstrapping for determining the true means. Additionally, these are paired non independent samples. Not xiid. 
+
+
+```{r Q2b}
+hist(FISH$RecipeA)
+hist(FISH$RecipeB)
+```
+
+c)  From the data, the difference in average ratings is 5.32 (A is higher than B).  Produce a 95% confidence interval for the "true" difference in average ratings of the recipes.  Comment on the plausibility/reasonability that the difference in average ratings is 0. 
+
+**Response:** 
+
+the difference being 0 is not really plausible nor reasonable because 0 is not in our 95% confidence interval, however it is possible. 
+
+
+```{r Q2c}
+differences<-FISH$RecipeA-FISH$RecipeB
+
+se<-sd(differences)/sqrt(length(differences))
+mean(differences)
+
+#95% confidence interval differences
+mean(differences)+ c(-1,1)*2*se
+
+```
+
+d)  Run `t.test` the "wrong" way (i.e., if they are paired samples, do the independent sample test;  if they are independent samples, do the paired test).  Notice how the conclusion from (c) *completely changes* if you perform the wrong test!
+
+Completely noted, look there is even 0 in the confidence interval. INSANITY!!!
+
+```{r Q2d}
+se<-sqrt((sd(FISH$RecipeA)^2/length(FISH$RecipeA))+(sd(FISH$RecipeB)^2/length(FISH$RecipeB)))
+
+mean(differences)+ c(-1,1)*2*se
+
+
+```
+
+
+******************
+
+## Question 3 (bonus)
+
+At Oddsmaker's Jeans LLC, some colors of jeans have high return rates while others have low return rates.  The data in `RETURNS` (in the saved .RData for this assignment) shows the weekly return rates (fraction of jeans in that color that got returned that week) of different colors of jeans.
+
+Boxplots of the weekly return rates reveal that they vary quite a bit from week to week within a given color, and that colors can have vastly different average weekly return rates.
+
+```{r Q3}
+#Run whole chunk as is
+aggregate(ReturnRate~Color,data=RETURNS,FUN=mean)
+#Boxplot
+par(las = 1,mar=c(5,8,4,2)+0.1) ; boxplot( ReturnRate ~ Color, data=RETURNS, horizontal=TRUE,ylab="",col="skyblue"); par(las = 0,mar=c(5,5,4,2)+0.1)
+```
+
+a)  Let's compare the average return rate for "Orange" and "Purple" (14.9% and 16.3%, respectively).  Whenever we compare two groups, the first question we have to ask ourselves is:  "are these paired samples or independent samples?"  Assuming customers never purchase products from *both* colors in a given week, which type of samples are we dealing with?  Explain.
+
+**Response:** 
+
+b)  Produce a 95% confidence interval for the difference in average return rates between "Orange" and "Purple".  Can the data discern a difference in the "true" average return rates between these colors?  Why or why not?  If the difference is statistically significant, interpret the values in the confidence interval.   Note:  a subset of the data with just these two colors is provided for you.
+
+**Response:** 
+
+```{r Q3b}
+TWO <- droplevels( subset( RETURNS, Color %in% c("Orange","Purple") ) )
+
+```
+
+
+c)  "Cerise" has the 2nd highest average return rate (24.6%).  "Carmine" has the 3rd highest (24.1%).  Can the data discern a difference in the "true" average return rates between these colors?  Explain.   If the difference is statistically significant, interpret the values in the confidence interval.  
+
+**Response:** 
+
+```{r Q3c}
+
+```
+
+
+d)  Let's "rank" the return rates of six colors with "fairly typical" average return rates:  "Orangered", "Pear", "Amaranth", "Crimson", "Amethyst", "Puce".  Produce a connecting letters report.  
+
+* Which of these six colors has the highest average return rate from a statistical point of view (or is there a tie; list all colors tied for highest if so)?  
+
+* Which of these six colors has the lowest average return rate from a statistical point of view (or is there a tie; list all colors tied for lowest if so)?  
+
+* Can the data discern a difference in the average return rates of "Amethyst" and "Crimson"?  Explain.
+
+**Responses:** 
+
+```{r Q3d}
+GROUPS <- droplevels( subset( RETURNS, Color %in% c("Orangered", "Pear", "Amaranth", "Crimson", "Amethyst", "Puce") ) )
+
+```
+
+
+***********
+
+## Question 4:  Bootstrapping and NBA statistics
+
+The bootstrap is a powerful tool that allows us to produce a confidence interval for *almost any* parameter of the probability distribution that's responsible for generating our data, often without even knowing the identity of this distribution.   
+Consider the `NBA` dataset in `BAS471Sp25Phase2.RData`.  This data includes statistics on players in the NBA from 2018 to 2022 (each row represents the statistics for the entirety of a season for one player).  If you're interested, see  `https://www.kaggle.com/datasets/justinas/nba-players-data` for the original source.  A partial data dictionary follows:
+
+* `player_height` - Height of the player (in centimeters)
+* `player_weight` - Weight of the player (in kilograms)
+* `college` - Name of the college the player attended
+* `country` - Name of the country the player was born in (not necessarily the nationality)
+* `draft_year` - The year the player was drafted
+* `draft_round` - The draft round the player was picked
+* `draft_number` - The number at which the player was picked in his draft round
+* `gp` - Games played throughout the season
+* `pts` - Average number of points scored across all games they played during the season
+* `reb` - Average number of rebounds grabbed
+* `ast` - Average number of assists distributed
+* `net_rating` - Team's point differential per 100 possessions while the player is on the court
+* `oreb_pct` - Percentage of available offensive rebounds the player grabbed while he was on the floor
+* `dreb_ct` - Percentage of available defensive rebounds the player grabbed while he was on the floor
+* `usg_pct` - Percentage of team plays used by the player while he was on the floor (FGA + Possession Ending FTA + TO) / POSS)
+* `ts_pct` - Measure of the player's shooting efficiency that takes into account free throws, 2 and 3 point shots (`PTS / (2*(FGA + 0.44 * FTA))`)
+* `ast_pct` - Percentage of teammate field goals the player assisted while he was on the floor
+
+
+a)  The "classic" procedure to create confidence intervals ("best guess" plus or minus "about two" standard errors) works great for many parameters of probability distribution under most conditions.  However, there are instances when the "classic" procedure is "unavailable" and *cannot* be used, thus forcing us to bootstrap.  Obviously, if the statistical theory isn't there to provide us with a value of the standard error, we must bootstrap.  In what situation is the "classic" procedure unavailable when coming up with a confidence interval for the average of the underlying probability distribution, leaving the bootstrap as our only option?
+
+**Response:** 
+
+b)  The values in `reb` give the average number of rebounds grabbed by the player per game over the course of a season.   The histogram of values shows a right-skew, so if we wanted to summarize the distribution with a "typical" value, the median is preferred over the mean (the mean provides a better summary for symmetric distributions).
+
+Implement the bootstrap via the `boot` command and find 95% confidence intervals for the median value of whatever probability distribution is responsible for making the values in `reb`.  Report both percentile and BCa confidence intervals.  Use 2500 bootstrap samples and have `set.seed(2025);` on the same line and immediately preceding the `boot` command.  Note:  this code will take a while to run (which means knitting will take some time).  You can ignore any warnings about `extreme order statistics used as endpoints`.
+
+The median value of `reb` in the data is 3.1 (`median(NBA$reb)`).  This should be close to the "true" median `reb` if we could consider all possible players in all possible seasons. So might the true median just be 3 instead, a nice round number?  Based on the 95% confidence intervals, is 3.0 a plausible value for the "true" median of the probability distribution generating the data?  Why or why not?
+
+**Response:** 
+Yeah, that's plausible in my opinion. Looks like 3 is the lower bound of the median in our confidence interval, I'm comfortable with it. 
+
+
+```{r Q4b}
+hist(NBA$reb,breaks=seq(0,16,.25))
+library(boot)
+
+boot.stat <- c()
+for (i in 1:4999) {
+    boot.sample <- sample(NBA$reb,replace=TRUE)
+    boot.stat[i] <- median(boot.sample)
+}
+quantile( boot.stat, c(.025,.975) )
+
+
+
+```
+
+c)  Let's program our own (percentile) bootstrap.  This is also good review for the BAS 320 portion of the THEC!  It would make sense if the number of points a player scores across the season (`pts`) is correlated with the number of assists per game over the course of a season (`ast`).  
+
+```{r Q4c setup}
+plot(pts ~ ast, data=NBA); abline(lm(pts ~ ast, data=NBA))
+M <- lm(pts ~ ast, data=NBA); check_regression(M)
+cor(NBA$pts,NBA$ast,method="spearman")
+```
+
+Sidenote:  due the heteroscedasticity (unequal vertical spread) and a hint of nonlinearity in the stream of points, Pearson's correlation (which is what `cor` measures by default) isn't the *best* measure of the strength of the association; rather we *should* be using Spearman's correlation instead (easily found by adding method="spearman" to `cor`).
+
+Thinking back to BAS 320, correlations range between -1 and 1, so we would say these quantities are "fairly positively correlated".  Players with above-average number of assists tend to score an above average number of points.  One way to interpret the (Pearson) correlation is to look at its squared value.  Squaring the correlation (technically, once again, you need to do this with Pearson's correlation, but this example that uses Spearman's is...still illustrative I think), we find that about 59% of the variation in the number of points scored  can be attributed to differences in the number of assists.  In other words, knowing the number of assists for the season "gets us" about 59% of the way there to knowing the number of points scored for the season!  
+
+However, the "true" Spearman correlation between these two quantities remains unknown since our data only provides a "good guess" (we assume the pairs of observations are being generated by some joint probability distribution).
+
+Using a `for` loop to make 9999 bootstrap samples, provide a 95% (percentile) bootstrap confidence interval for the "true" Spearman correlation.  You'll need to sample *rows* of the `NBA` dataframe and look at the Spearman correlation between the two quantities using the selected rows; the example in the notes (Unit 9C slide 42) about estimating regression coefficients provides an example of this kind of sampling.
+
+Note:  have `set.seed(2025);` on the same line and immediately preceding the `for` command. Your upper/lower limits should be close to 0.75 and 0.79. 
+
+```{r Q4c}
+
+#yeah I tried this, I got cooked by it, somehow this worked but I had to look it up. 
+boot.stat <- c()
+set.seed(2025); for (i in 1:9999) {
+  rows <- sample(1:nrow(NBA), replace = TRUE)       
+  boot.sample <- NBA[rows, ]                    
+  boot.stat[i] <- cor(boot.sample$pts, boot.sample$ast, method = "spearman")
+}
+# 95% percentile confidence interval
+quantile(boot.stat, probs = c(0.025, 0.975))
+
+
+
+
+
+
+```
+
+d)  Using either the `boot` command or by programming your own bootstrap, find a 95% confidence interval for the 90th percentile of whatever probability distribution is generating the values contained in `NBA$net_rating`.  Use 2999 bootstrap samples. 
+
+If you use `boot`, have `set.seed(2025);` on the same line and immediately preceding the `boot` command (this code will take a while to run, so knitting will take a while too).  If you program your own, have `set.seed(2025);` on the same line and immediately preceding the `for` command. 
+
+```{r Q4d}
+boot.stat <- c()
+n<-nrow(NBA)
+
+set.seed(2025); for (i in 1:2999) {
+  boot.rows <- sample(1:n, replace = TRUE)       
+  boot.sample <- NBA[boot.rows, ]                    
+  boot.stat[i] <- quantile(boot.sample$net_rating, probs = .9)
+}
+# 95% percentile confidence interval
+quantile(boot.stat, probs = c(0.025, 0.975))
+
+
+#did it work chat??? DID IT WORK??? No clue, guess Nolan will find out.
+```
+
+

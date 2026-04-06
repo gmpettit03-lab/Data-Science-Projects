@@ -1,0 +1,420 @@
+---
+title: "BAS 471 - Unit 6 Parts 1 to 3 - Probability Models for Continuous Quantities"
+author: "Continuous Connoisseurs"
+date: "see Canvas for due date"
+output:
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+#Leave this as-is.
+knitr::opts_chunk$set(echo = TRUE,collapse=TRUE)
+if( as.numeric( paste( unlist( strsplit( paste(R.Version()$major,R.Version()$minor,sep="."),split="\\.") ),collapse="") ) <= 400 ) { 
+  stop("You must have R version 4.1.1 or later to knit this document")}
+RNGversion("4.1.1")
+library(fitdistrplus)
+```
+
+
+*********************************************************************************************
+
+# Note:  these are problems that are addressed in class and some additional practice problems
+
+*********************************************************************************************
+
+## 1.  Calculus and Wolfram Alpha
+
+a)  Find the area under the following curve from 2 to 3, and the area under the curve above 4.
+
+$$f(x) = \frac{100}{1+x^2}$$
+
+b)  Find the slope of the tangent line to the following function at x=3.
+
+$$F(x) = \frac{100}{1+x^2}$$
+
+c)  Solve the following equation for x:
+
+$$F(x) = \frac{100}{1+x^2} = q$$
+
+******************
+
+## 2.  Spotify - Shape to PDF f(x); interpreting values from f(x); modes using optimize
+
+To better understand the maximum server strain that might be seen during the 8-9pm hour, Spotify wants to develop a probability for `X`, the number of minutes during this time that a user streams music (they already have a good model for total number of people streaming this hour; they want to model streamers' usages).  The number of minutes `x` can be any decimal number between 0 and 60.
+
+a)  Based on a small preliminary study of a subset of its subscribers, Spotify has identified a shape for the distribution they would like to use:
+
+$$Shape = x(60-x)^4 + 5x^4\sqrt{60-x}  \qquad 0 \le x \le 60$$
+
+Using `curve` in R, provide a visualization of the shape.  By design, it is bimodal with a smaller peak around 10 minutes (casual streamers) and a larger peak above 50 minutes (serious streamers). 
+
+```{r Q2a curve}
+
+shape<-function(x){x*((60-x)^4)+ 5*x^4* sqrt(60-x)}
+
+curve(shape, from= 0, to=60)
+
+integrate(shape, lower= 0, upper= 60)
+PDF<-function(x){(x*((60-x)^4)+ 5*x^4* sqrt(60-x))/3780244022}
+curve(PDF, from= 0, to = 60)
+integrate(PDF, lower= 0, upper= 60)
+
+x<- 0:10
+p<-dpois(x, lambda=2)
+
+barplot(p, names.arg = x)
+
+PDF(50)/PDF(5)
+#near 5, near 50, remember these probabilities are 0,
+
+
+
+
+```
+
+b)  Using R or Wolfram-Alpha, explain why this shape doesn't describe a valid probability density function (PDF) $f(x)$.  
+
+**Response:**  
+
+```{r Q2b}
+
+```
+
+c)  **Kahoot Day 1** Convert the formula for the shape into a valid PDF and give the formula for $f(x)$.  Specifically, replace the `???` in the equation below by the appropriate 10 digit number.  Write this number as an integer, reporting the first 5 digits and having the remaining 5 digits being 0s.
+
+$$Shape = \frac{ x(60-x)^4 + 5x^4\sqrt{60-x} }{???}  \qquad 0 \le x \le 60$$
+
+
+d)  **Kahoot Day 1** Show that the PDF evaluated at `x=5` is about 0.0121 and that the PDF evaluated at `x=50` is about 0.026.    What do these numbers tell us about the probability that a streamer listens to exactly 5 minutes vs. exactly 50 minutes.   Provide a complete interpretation of what these two values of the PDF do tell us.  
+
+```{r Q2d}
+
+
+```
+
+**Response:** 
+
+
+e)  Using R (`optimize`) or Wolfram-Alpha, report the values of `x` that correspond to the two modes, and also the value of `x` that corresponds to the "local minimum" between the two modes.
+
+```{r Q2e}
+
+
+```
+
+f)  Show that the expected value of the number of minutes is a little over 34.0.  Normally, we use the expected value to summarize a "typical" value we might see from a distribution.  Why do you think the expected value isn't useful for summarizing the PDF here?
+
+```{r Q2f}
+
+```
+
+**Response:** 
+
+
+
+******************
+
+## 3.  Spotify - Defining function for PDF f(x); using integrate to find probabilities
+
+Spotify decides to model `X` (the number of minutes a subscriber streams) for a different hour of the day among its more casual users with the PDF:
+
+$$f(x) = \frac{1001}{5308416000000 \sqrt{15} } \cdot \sqrt{x}(60-x)^5 \qquad 0 \le x \le 60$$
+
+a)  Define a function named `PDF` that takes as its argument a single vector `x` and that returns the corresponding values of the PDF, then run `curve(PDF,from=0,to=60,ylab="f(x)")` to see it.
+
+```{r Q3a}
+curve((1001/(5308416000000*sqrt(15)))*(sqrt(x)*((60-x)^5)), from = 0, to= 60)
+
+shape<-function(x){(1001/(5308416000000*sqrt(15)))*(sqrt(x)*((60-x)^5))}
+
+integrate(shape, lower= 15, upper= 30)
+
+integrate(shape, lower = 0, upper= 18)
+
+```
+
+
+
+According to the probability model, what fraction of these subscribers will stream:
+
+b) **Kahoot Day 1** exactly 10 minutes
+c) between 15 and 30 minutes (about 0.27)
+d) **Kahoot Day 1** less than 18 minutes (about 0.78)
+e) at least 40 minutes (about 0.003)
+
+```{r Q3b to e}
+#b: 
+
+#c
+
+
+#d
+
+
+#e
+
+```
+
+
+
+******************
+
+## 4.  Basic examples of translating between PDF f(x) and CDF F(x) Using the CDF F(x) to find probabilities
+
+
+a)  If $f(x) = \frac{1}{16}(1 + x)$ for $1 \le x \le 5$, what is $F(x)$?.  Find $P(2 \le X \le 4)$ using $F(x)$.
+
+```{r Q4a}
+
+```
+
+b)  A CDF that provides a distribution for positive numbers that's unimodal and skewed to the right (like most distributions in business analytics) is:
+
+$$F(x) = 1 - e^{-0.1x^2} \qquad x > 0 $$
+
+Find the formula for the PDF $f(x)$.  Then use both the PDF and CDF to find $P(X\le1.5)$, $P(1 \le X \le 2)$ and $P(\ge 3)$.  Note: infinity in R is referred to as `Inf`.
+
+**Response:**
+
+
+
+```{r Q4b}
+curve(1/x^2)
+
+```
+
+c)  **Kahoot Day 2**  If the PDF is $f(x) = x/12$ for $1 \le x \le 5$, then what is the formula for the CDF $F(x)$?
+
+
+d)  **Kahoot Day 2**  If the CDF is $F(x) = 1 - \frac{1}{x}$ for $x \ge 1$, then what is the formula for the PDF $f(x)$?
+
+
+
+******************
+
+## 5.  Real-world example of translating between PDF f(x) and CDF F(x) Using the CDF F(x) to find probabilities
+
+Spotify uses the following probability model to describe `X` (the number of minutes a subscriber streams; any decimal between 0-60 is possible) for a particular hour of the day among its more casual segment of users with the PDF:
+
+$$f(x) = \frac{1}{\log 73} \cdot \frac{2x}{x^2 + 50} \qquad 0 \le x \le 60$$
+
+`integrate 1/log(73)*2*x/(x^2+50) from x=0 to x=60`
+
+Here, log means "natural log", usually abbreviated as ln (as opposed to log-base10 or $\log_{10}$ which you have used often in BAS 320/474).  In R, you refer to natural log with the function `log`.
+
+a)  Visualize the PDF f(x), then find the formula for $F(x) = P(X \le x)$, the cumulative distribution function for $X$.  Visualize F(x) as well.
+
+```{r Q5a}
+
+```
+
+**Response:**
+
+
+b)  Define a function `CDF` in the R chunk below that takes a single argument `x` and that returns the corresponding values of $F(x) = P(X \le x)$, i.e. transcribe your equation from (a).  
+
+Show/verify that  `CDF(0)` equals 0 and `CDF(60)` equals 1.  
+
+Use the PDF and CDF find:
+
+* $P(X \le 5)$ ; approximately 0.095  
+
+* **Kahoot Day 2** $P(15 \le X \le 30)$ ; approximately 0.29.  
+
+* $P(X \ge 45)$; approximately 0.13
+
+```{r Q5b}
+
+
+```
+
+
+
+******************
+
+## 6.  Quantiles
+
+a)  Consider the following right-skewed distribution for positive numbers:
+
+$$F(x) = 1 - e^{-0.1x^2} \qquad x > 0 $$
+
+Find the 99th percentile of this distribution (about 6.8).
+
+**Response:**  
+
+
+b)  Consider the random variable `X` which has the PDF
+
+$$f(x) = \frac{4}{25} (5-2x) \qquad 0 < x < 5/2$$
+
+Find the inverse CDF $F^{-1}(q)$ function, and use it to find the 10th percentile and the median, which should be close to 0.13 and 0.73 respectively.
+
+```{r Q6b}
+
+
+```
+
+******************
+
+## 7.  Spotify quantiles
+
+Continuing from the last Spotify example.  Spotify uses the following probability model to describe `X` (the number of minutes a subscriber streams; any decimal between 0-60 is possible) for a particular hour of the day among its more casual segment of users with the PDF:
+
+$$f(x) = \frac{1}{\log 73} \cdot \frac{2x}{x^2 + 50} \qquad 0 \le x \le 60$$
+$$F(x) = \frac{\log(\frac{x^2}{50} + 1) }{\log 73} \qquad 0 \le x \le 60$$ 
+
+
+a)  By hand or using Wolfram-Alpha, find the formula for the "inverse CDF" $F^{-1}(q)$, aka the quantile function.  In other words, solve the equation $F(x) = q$ for $x$.  Include the screenshot, and in the response make a comment to let us know what needs to be modified in the solution so that equation makes sense.
+
+**Response:**  
+
+b)  Define a function named `QUANTILE` in the R chunk below that takes a single argument `p` (a number between 0 and 1) and that returns the corresponding quantile/percentile of the distribution (i.e., transcribe your equation from part C1).  Use your function to find the median (between 19-20) and the 75th percentile (close to 34.5).  Or, to save time, to find the 75th percentile just plug in `q=0.75` into the equation in C1, and to find the median just plug in `q=0.50` into the equation in (a).
+
+```{r Q7b}
+curve((1/log(73))*((2*x)/((x^2)+50)), from = 0, to = 60)
+
+CDF <- function(x) {log(x^2/50 +1)/log(73)}
+
+CDF(5)
+1-CDF(45)
+
+CDF(30)-CDF(15)
+
+QUANTILE<- function(p){5*sqrt(2)*sqrt(73^p -1)}
+
+QUANTILE(.5)
+
+QUANTILE(.75)
+
+QUANTILE(.99)
+
+
+```
+
+
+
+
+******************
+
+## 8. Expected Value, Standard Deviation, Expected Value of Function
+
+
+a) Find the expected value, standard deviation, and the mode of $X$ using the following probability distribution.
+
+$$f(x) = 0.01xe^{-x/10} \qquad x\ge 0$$
+
+```{r Q8a}
+#Step 1, verify you didn't typo the equation for the PDF and ensure it integrates to 1
+
+
+#To get mu, average, E[X], simply pre-multiply the expression for the PDF by x, making sure
+#to put a big pair of parentheses/big hug around the expression for the PDF
+
+
+#To get the standard deviation, get the variance first.  Simply pre-multiply the expression
+#for the PDF by (x-mu^2), replacing mu with the numerical value found above, and making sure
+#to put a big pair of parentheses/big hug around the expression for the PDF.  SD is square root of variance.
+
+
+
+#To get the mode, use optimize.  The first argument should be function(x) transcribe formula,
+#2nd argument should be interval=c(lower,upper), where lower and upper bracket where you know
+#the mode must be (make a plot to find some reasonable values)
+
+
+```
+
+
+
+b) Find the expected value, standard deviation, and the mode of $X$ using the following probability distribution.
+
+$$f(x) = \frac{4}{575}\left(10 - x(x-2)(x-7)\right) \qquad 2 \le x \le 7$$
+
+```{r Q8b}
+#Step 1, verify you didn't typo the equation for the PDF and ensure it integrates to 1
+
+
+#To get mu, average, E[X], simply pre-multiply the expression for the PDF by x, making sure
+#to put a big pair of parentheses/big hug around the expression for the PDF
+
+
+#To get the standard deviation, get the variance first.  Simply pre-multiply the expression
+#for the PDF by (x-mu^2), replacing mu with the numerical value found above, and making sure
+#to put a big pair of parentheses/big hug around the expression for the PDF.  SD is square root of variance.
+
+
+
+#To get the mode, use optimize.  The first argument should be function(x) transcribe formula,
+#2nd argument should be interval=c(lower,upper), where lower and upper bracket where you know
+#the mode must be (make a plot to find some reasonable values)
+
+
+```
+
+
+
+******************
+
+## 9.  Spotify Expected Value, Standard Deviation, Expected Value of Function
+
+Spotify uses the following probability model to describe `X` (the number of minutes a subscriber streams; any decimal between 0-60 is possible) for a particular hour of the day among its more casual segment of users with the PDF:
+
+$$f(x) = \frac{1}{\log 73} \cdot \frac{2x}{x^2 + 50} \qquad 0 \le x \le 60$$
+
+Here, log means "natural log", usually abbreviated as ln (as opposed to log-base10 or $\log_{10}$ which you have used often in BAS 320/474).  In R, you refer to natural log with the function `log`.
+
+a)  **Kahoot Day 2** Visualize the distribution, then find is the expected value and standard deviation of the distribution.  Interpret these values in layman's terms.
+
+**Response:**  
+
+```{r Q9a}
+
+
+#Step 1, verify you didn't typo the equation for the PDF and ensure it integrates to 1
+curve(1/log(73)*2*x/(x^2+50), from = 0, to=60)
+
+#To get mu, average, E[X], simply pre-multiply the expression for the PDF by x, making sure
+#to put a big pair of parentheses/big hug around the expression for the PDF
+integrate(function(x){x*1/log(73)*2*x/(x^2+50)}, lower=0, upper = 60)
+mu<-23.17808
+
+integrate(function(x){(x-mu)^2*1/log(73)*2*x/(x^2+50)}, lower=0, upper = 60)
+
+sqrt(251.8477)
+
+optimize(function(x){1/log(73)*2*x/(x^2+50)}, interval = c(0,20), maximum = TRUE)
+#To get the standard deviation, get the variance first.  Simply pre-multiply the expression
+#for the PDF by (x-mu^2), replacing mu with the numerical value found above, and making sure
+#to put a big pair of parentheses/big hug around the expression for the PDF.  SD is square root of variance.
+
+
+
+#To get the mode, use optimize.  The first argument should be function(x) transcribe formula,
+#2nd argument should be interval=c(lower,upper), where lower and upper bracket where you know
+#the mode must be (make a plot to find some reasonable values)
+```
+
+b)  **Kahoot Day 2** Spotify is considering implementing a "pay as you go" feature as an alternative to it subscription model.  Let the price Spotify charges for a usage `X` be $2(1-e^{-x/20})$.  Note:  this is NOT a shape corresponding to the PDF of Price; rather it's an equation to convert from a usage to a price.  
+
+What is the expected value of the price using this probability model?  Remember R raises `e` to a power with the `exp()` function.  I was getting close to a dollar and 18 cents.
+
+```{r Q9b}
+curve( 2*(1-exp(-x/20)),from=0,to=60 )
+integrate(function(x){(2*(1-exp(-x/20)))*(1/log(73)*2*x/(x^2+50))}, lower=0, upper=60)
+
+```
+
+
+
+c)  The major theme of probabilistic modeling is that averages are not good enough to characterize a complex random process (anything that's not a simple weighted sum of its random components).  You can't just plug in the average value of $X$ in the equation for the $Price$ to get the average Price!  Plug in the expected value of $X$ (part b) into the equation for Price.  How far the "wrong" way of calculating the average Price is from the correct way in (d).
+
+
+**Response:** 
+
+
+```{r Q9c}
+
+```
+
+
+

@@ -1,0 +1,172 @@
+---
+title: "BAS 471 - Unit 1 Part 5 - Basic Rules of Probability"
+author: "Retainer of Rules"
+output:
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+#Leave this as-is.
+knitr::opts_chunk$set(echo = TRUE,collapse=TRUE)
+if( as.numeric( paste( unlist( strsplit( paste(R.Version()$major,R.Version()$minor,sep="."),split="\\.") ),collapse="") ) < 421 ) { 
+  stop("You must have R version 4.2.1 or later to knit this document")}
+RNGversion("4.2.1")
+```
+
+
+**********************************************************************************
+
+# Note:  these are problems that are addressed in class
+
+**********************************************************************************
+
+
+
+
+
+**********************************************************************************
+**********************************************************************************
+
+# Practice using addition, multiplication, and complement rules 
+
+
+**********************************************************************************
+**********************************************************************************
+
+## Question 1
+
+A fair coin is flipped and a card is taken from a shuffled deck (all cards equally likely; half are red and half are black).   The probability of  "heads" is 50%.  The probability of picking a red card is 50%.  TRUE or FALSE and explain:  P(heads or red) is thus 50% + 50% = 100%.  If FALSE, calculate the actual probability.
+
+P(red) U P(heads)= P(reds) + P(heads)- P(heads intersect red)= 1- .25
+
+Or implies union, and these are two independent events 
+P(red) intersect P(heads)= 0
+
+
+**Response:**  
+
+
+## Question 2
+
+Hydraulic landing assemblies coming from an aircraft rework facility are each inspected for defects. Historical records indicate that 
+
+* 9% have defects in shafts ONLY
+* 6% have defects in bushings ONLY
+* 2% have defects in both shafts AND bushings
+
+Draw a Venn diagram that illustrates the situation.  
+
+```{r}
+#Code for a Venn Diagram
+plot(0,0,xlim=c(0,1),ylim=c(0,1),col="white",axes=FALSE,xlab="",ylab="")
+rect(.2,.2,.6,.6,col="red")
+rect(.5,.5,.8,.8,col="blue")
+rect(.5,.5,.6,.6,col="purple")
+text(.3,.3,"Shaft Only",cex=0.5)
+text(.7,.7,"Bushing Only",cex=0.5)
+text(.55,.55,"Both",cex=0.8)
+```
+
+One of the hydraulic assemblies is selected randomly.  Use your Venn diagram to find the probability that the assembly has:
+
+2a) a bushing defect?  Note:  this could mean a bushing defect only or a defect in both bushing and shaft
+
+**Response:** 
+P(bushing only)+ P (bushing and shaft)= .08
+
+2b) a shaft or bushing defect (i.e., at least one of these two types of defects)?
+
+**Response:** 
+
+P(bushing only)+ P(shaft only) + P(shaft and bushing)= .06+.09+.02= .17
+
+2c) exactly one of the two types of defects?
+
+**Response:**  
+
+P(only Bushing)+ P(only shaft)= .15
+
+2d) neither type of defect?
+
+**Response:**  
+1-.17 =.83 = 1- P(Shaft U Bushing)
+
+
+## Question 3
+
+A pitcher throws a strike with probability 75% and a ball with probability 25%.  Although reality is probably more complicated, we'll assume that the result of each pitch is independent from another.  In other words, it doesn't matter what the past history of strikes/balls has been, the probability the next pitch is a strike is 75%.
+
+Let's imagine the pitcher is currently practicing on an empty plate (no batter).
+
+3a.  What is the probability that the first two pitches are both strikes?  
+
+```{r Q3a}
+.75*.75= 0.5625
+.75*.75*.75=0.421875
+
+```
+
+3b.  When the previous two pitches have both been strikes, what is the probability the next pitch will be a strike?
+
+**Response:**  
+0.421875
+
+3c.  What is the probability of getting a strike on the first pitch or second pitch?  Remember that "or" in probability really means "at least one of", so this is asking "what is the probability that at least one of the first two pitches are strikes".
+
+
+```{r Q3c}
+(.75+.75)-(.75*.75)= 0.9375
+
+```
+
+3d.  What is the probability that the pitcher will be able to throw 9 strikes in a row (enough to end an inning in the fastest way possible).  
+
+```{r Q3d}
+.75^9=] 0.07508469
+```
+
+3e.  Using the complement rule, find the probability that the pitcher will have at least one strike in his first 6 pitches (note:  the event "at least one" is the complement of "zero").
+
+```{r Q3e}
+1-(.25)^6=0.9997559
+```
+
+3f.  Find the probability of the following sequence of pitches (S = strike, B = ball):   SBBSBS
+
+```{r Q3f}
+.75^3*.25^3=0.006591797
+
+
+```
+
+
+3g.  (Bonus) Find the probability of a "strike out", i.e., that 3 strikes occur before 4 balls.  Hint:  write out all possible sequences of strikes/balls that result in a "strike out", find the probability of each sequence, then appropriately combine the results.  Sanity check:  I found the result close to 96%.
+
+```{r Q3g}
+factorial(3)*factorial(4)
+
+.75^3*.75^4* 35
+No balls 
+(.75)^7=0.1334839
+
+
+#SS S   
+#One ball  
+
+#SSB S
+#SBS S 
+#BSS S
+#Two balls 
+
+
+#Three balls
+
+
+
+
+
+
+```
+
+
+

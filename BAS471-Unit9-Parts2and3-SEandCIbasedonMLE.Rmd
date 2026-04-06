@@ -1,0 +1,317 @@
+---
+title: "BAS 471 - Unit 9 - Parts 2 and 3 Standard Errors and Confidence Intervals based on the MLE"
+author: "Influencial Inferencer"
+date: "see Canvas for due date"
+output:
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+#Leave this as-is.
+knitr::opts_chunk$set(echo = TRUE,collapse=TRUE)
+if( as.numeric( paste( unlist( strsplit( paste(R.Version()$major,R.Version()$minor,sep="."),split="\\.") ),collapse="") ) <= 400 ) { 
+  stop("You must have R version 4.1.1 or later to knit this document")}
+RNGversion("4.1.1")
+
+library(fitdistrplus)
+
+load("BAS471Unit9Parts2and3.RData")  #Unit 9 is used for HW10 and the Unit9Worksheet
+#if this .RData file is in your Working Folder, and if this Rmd
+#has been forced saved into this folder as well, you can run the load() command.
+#Otherwise do Session, Load Workspace, and load in the data!
+```
+
+*********************************************************************************************
+
+# Note:  these are problems that are addressed in class and some additional practice problems
+
+*********************************************************************************************
+
+
+## Question 0 (pre-activity practice)
+
+The "Kumaraswamy" distribution (https://en.wikipedia.org/wiki/Kumaraswamy_distribution).   This distribution is similar to the Beta distribution (wide variety of shapes between 0 and 1), but it is much simpler to use especially in simulation studies since its probability density function, cumulative distribution function, and quantile functions can be expressed in "closed form" (simple equations involving exponents).  
+
+$$f(x) = abx^{a-1}(1-x^a)^{b-1} \qquad 0 < x < 1$$
+
+Find the MLEs for $a$ and $b$ using the values in `data.for.kumaraswamy`. Sanity check:  close to 1.5 and 4, respectively.  Try starting guesses of 2 for each parameter.
+
+
+```{r Question 0 warmup}
+set.seed(2021); data.for.kumaraswamy <- (1 - ( 1 - runif(1000))^(1/4) )^(1/1.5 )  #a=1.5, b=4 in reality
+hist(data.for.kumaraswamy)
+
+#Fit the distribution to the data and get 95% confidence intervals for the parameters
+dcustom <- function(x,a,b) {  a*b*x^(a-1)*(1-x^a)^(b-1) }
+FIT <- fitdist(data.for.kumaraswamy,"custom",start=list(a=2,b=2))
+FIT
+1.450036 - 2*0.04559332
+1.450036 + 2*0.04559332
+
+FIT$estimate[1]  + c(-1,1)*2*FIT$sd[1]
+
+
+
+#Investigate how often this procedure actually produces an interval that covers the true values
+#of the parameters.  In other words, lets estimate the achieved level of confidence of our procedure
+#of taking the MLE and then going plus or minus 2 standard errors
+a.est <- c()
+b.est <- c()
+cover.a <- 0
+cover.b <- 0
+for( trial in 1:500) {
+  data.for.kumaraswamy <- (1 - ( 1 - runif(1000))^(1/4) )^(1/1.5 )  #a=1.5, b=4 in reality
+  FIT <- fitdist(data.for.kumaraswamy,"custom",start=list(a=2,b=2))
+  a.est[trial] <- FIT$estimate[1]
+  b.est[trial] <- FIT$estimate[2]
+  if( FIT$estimate[1] - 2*FIT$sd[1] <= 1.5 & 1.5 <= FIT$estimate[1] + 2*FIT$sd[1] ) { cover.a <- cover.a+1 }
+  if( FIT$estimate[2] - 2*FIT$sd[2] <= 4 & 4 <= FIT$estimate[2] + 2*FIT$sd[2] ) { cover.b <- cover.b+1 }
+
+}
+hist(a.est)
+hist(b.est)
+cover.a/500
+binom.test(cover.a,500)
+cover.b/500
+binom.test(cover.b,500)
+#Looks like our procedure is indeed achieved the desired 95% level of confidence since the intervals contain the
+#true values of the parameters about 95% of the time.
+```
+
+
+
+*************
+
+
+## Question 1: getting standard errors and confidence intervals for MLE with fitdist
+
+Using `fitdist` (or otherwise), find the numerical value of the MLE, its standard error, and a 95% confidence interval for *each* parameter (if there is more than one) of the following probability distributions.  Then, answer the question posed about the fit.
+
+a.  $X_i \sim Exponential(\lambda)$
+
+The exponential distribution is an easy-to-work-with distribution that permeates the fields of supply chain analytics and queueing theory.  Further, the memoryless property of the exponential allows us to model failure times of objects that have a constant rate of failure.  The data in `data.for.exponential` is coming from *some* exponential, we just don't know its value of $\lambda$.
+
+Fill in the blanks:  we estimate $\lambda$ to be _____ give or take _____ or so.
+
+**Response:**  
+
+```{r Q1a,warning=FALSE}
+
+FIT<-fitdist(data.for.exponential, "exp")
+FIT
+
+
+```
+
+
+b.  The "Gamma Gompertz" distribution has been used in business analytics as an aggregate-level model of customer lifetime and a model of mortality risks.  An advantageous feature of this distribution is (like the Weibull) that it can be either left or right-skewed.  However, this flexibility is obtained by having a total of *three* parameters a, b, s.
+
+$$f(x) = \frac{bse^{bx}a^s}{(a-1+e^{bx})^{s+1}} \qquad x > 0$$
+
+The data in `data.for.GG` is coming from *some* gamma gompertz distribution, we just don't know its parameters.  The `dcustom` has been defined for you.   Find the MLEs for $a$, $b$ and $s$ (try starting guesses of 3 for each parameter) and answer the following questions.
+
+```{r Q1b}
+#Sanity check; a should be about 12.38, b should be about 0.94, and s should be about 0.55.  If you didn't get that,
+#the dcustom you typed out likely has a typo
+dcustom <- function(x,a,b,s) { b*s*exp(b*x)*a^s/( (a-1+exp(b*x))^(s+1))}
+
+FIT<-fitdist(data.for.GG, "custom", start=list(a=3,b=3,s=3))
+FIT
+FIT$estimate[2]  + c(-1,1)*2*FIT$sd[2]
+
+FIT$estimate[3]  + c(-1,1)*2*FIT$sd[3]
+
+```
+
+b1)  Fill in the blanks:  we estimate $a$ to be ____ , but this is likely off from "the true value of $a$" by about  _____.
+
+**Response:** 
+
+b2)  Imagine you are highly invested in the exact value of the parameters of whichever flavor of this distribution is making the data.  Specifically, you have a hunch that $b=1.5$ and $s=0.5$.  Based on the fit, are these plausible values for the "true" values of $b$ and $s$?  Why or why not? 
+
+**Response:**  
+
+
+
+*************
+
+## Question 2:  fitting distributions to data about product returns
+
+Returns have long been the nemesis of many retail brands. When a product is returned or exchanged, not only does the retailer experience incremental supply chain costs, but often the item cannot be resold at the original price owing to damage, wear and tear, or obsolescence/devaluation given the passage of time — particularly an issue with fashion or seasonal merchandise.  
+
+Consider the data in `ReturnRate`, which contains the fraction (between 0 and 1) of a particular type of item that have been returned over the course of a week.  Perhaps we can find a probability distribution that fits the data well.
+
+```{r Q2 intro}
+summary(ReturnRate)
+hist(ReturnRate)
+```
+
+a)  Fit the data to a beta distribution (a natural choice since values go between 0-1), a lognormal distribution (our go-to for business analytics), and a Weibull distribution (a good backup if the lognormal fit isn't great).  Include the `qqcomp` (you do not need to do it on a log scale) and `summary` of each fit.  While no model is perfect, based on the AIC, which fit is "best".  Based on the QQ plot, does the "best" fit model provide a reasonable fit to the data?  Why or why not?
+
+**Response:** 
+
+
+```{r Q2a}
+FIT<-fitdist(ReturnRate,"weibull")
+FIT$aic
+summary(FIT)
+FIT$estimate[2]  + c(-1,1)*2*FIT$sd[2]
+
+
+FIT<-fitdist(ReturnRate,"lnorm")
+FIT$aic
+FIT<-fitdist(ReturnRate,"beta")
+FIT$aic
+
+
+```
+
+b)  Let's focus in on the Weibull fit and assume that the data really is coming from some flavor of Weibull.  Let's talk about how well we have estimated its two parameters "shape" and "scale".
+
+Fill in the blanks:  we estimate "shape" to be _____ give or take _____ or so.
+
+**Response:**  
+
+Fill in the blanks:  we estimate "scale" to be ____, though this estimate is likely off from the true value of scale by about _____ 
+
+**Response:** 
+
+Fill in the blanks:  we are 95% confident that "scale" is between _____ and _____
+
+**Response:** 
+
+```{r Q2b}
+#If needed
+
+
+```
+
+
+
+
+*************
+
+## Question 3 (extra practice) - comparing bias, variance, and root mean squared error
+
+Previously, you considered the Power Law distribution.  Often, raw data is scaled to range between 0 and 1 (e.g., modeling the number of people attending a Vols game as the fraction of Neyland's capacity).  When this is done, a power-law distribution (an alternative to the beta distribution) may be appropriate for measuring the values.  
+
+$$f(x) = a x^{a-1} \qquad 0 < x < 1 \qquad a > 0 $$
+
+After much math, we derived the method of moments and maximum likelihood estimators for $a$:
+
+$$\hat{a}_{MOM} = \frac{\bar{x}}{1-\bar{x}}$$
+$$\hat{a}_{MLE} = -\frac{n}{\sum \log x_i}$$
+
+
+Run a Monte Carlo simulation (100,000 trials) to evaluate the bias, variance, and root mean squared errors of both of these estimators when the sample size is $n=7$ when the "true" value of $a$ is 3.
+
+* Define vectors `mle` and `mom` to be empty vectors before your `for` loop.
+
+* In each trial, generate a random sample of size 7 (an example is provided).  Note:  there are clever ways to generate random samples from any distribution you have in mind.  That kind of material is covered in the graduate program.
+
+* Measure the value of the MLE estimator and the MOM estimator, storing it into the appropriate position of your `mle` and `mom` vectors.
+
+* Print to the screen the bias of each estimator, the variance of each estimator, and the root mean squared errors of each estimator.
+
+* Fill in the blanks:  the typical error when the MLE is used to estimate $a$ is _____ while the typical error when the MoM estimator is used to estimate $a$ is _____.
+
+**Response:**  the typical error when the MLE is used to estimate $a$ is 1.65 while the typical error when the "other" estimator is used to estimate $a$ is about 1.63.  The MOM is just a little better (remember we gauge "better" by looking at the mean squared error; in this case the bias of the MOM is smaller but the variance is higher than the MLE).
+
+```{r Q3}
+#The following line of code will generate a random sample of size 7 from a power law distribution when a is 3.
+x <- (runif(7))^(1/3)
+
+#Define mle and mom to be empty vectors
+mle <- c()
+mom <- c()
+
+
+```
+
+
+***********
+
+
+## Question 4  (extra practice) - MLE via logic, MoM, comparing bias, variance, and root mean squared error
+
+Consider a "location-shifted" exponential, which is basically just an exponential with a minimum value that's bigger than 0.  For example, this could be the length of time it takes to be seen at a hospital including a 5 minute mandatory check-in time.  
+
+$$f(x) = e^{-(x-\beta)} \qquad x \ge \beta$$
+
+Whenever the value $x$ depends on the unknown parameter $\beta$, we know calculus and `fitdist` won't help us find the MLE and we have to math and logic out the answer!
+
+
+a)  Show that the equation for the likelihood of a random sample of 15 values ($x_1$, $x_2$, $\ldots$, $x_{15}$) is:
+
+$$L = e^{15\beta} \cdot e^{-\sum x_i}$$
+
+Do this work on scratch paper, take a picture, and insert it into your Word document after knitting.
+
+Use the following property of exponentials:
+
+* $e^{a+b} = e^a \cdot e^b$
+
+**Solution:**
+
+
+b)  Once the values of a random sample are recorded, the quantity $\sum x_i$ is a fixed quantity (it equals 63.18 for the sample values in the following R chunk).  Thus, to maximize the likelihood of the random sample, we need to choose the value of $\beta$ that makes the likelihood the largest it can be.
+
+Based on the form of the likelihood, larger values of $\beta$ give larger values of the likelihood.  So maximizing the likelihood means taking $\beta$ to be as big as a number as possible!
+
+
+```{r Q4b data values}
+x <- c(3.22,5.01,9.25,3.13,4.75,4.1,3.28,5.82,3.2,3.42,3.21,3.03,3.52,3.21,5.03)
+sort(x)
+sum(x)
+```
+
+* Is it possible to observe the all the values in the random sample if $\beta=0$?  Why or why not?
+
+**Response:**  
+
+* Is it possible to observe the values in the random sample if $\beta=3$?  Why or why not?
+
+**Response:**  
+
+* Is it possible to observe the values in the random sample if $\beta=5$?  Why or why not?
+
+**Response:**  
+
+* Thus, in general, what is the large value that $\beta$ can be and still allow each of the values in the random sample to be observed?  We're looking for an answer like "the sample average", "the largest value", "the smallest value", "the median value", etc.
+
+**Response:**  
+
+c)  The method of moments estimator is easier to derive!  Include a screenshot from Wolfram-Alpha that shows the expected value of the PDF is $E[X] = \beta+1$.  Thus, the method of moments estimator is just 
+
+$$\hat{\beta}_{MOM} = \bar{X}-1$$
+
+
+
+d)  Run a Monte Carlo simulation (100,000 trials) to evaluate the bias, variance, and root mean squared errors of the MLE and MOM when the sample size is $n=20$ when the "true" value of $\beta$ is 4.2.
+
+* Define vectors `mle` and `mom` to be empty vectors before your `for` loop.
+
+* In each trial, generate a random sample of size 20 (an example is provided).  
+
+* Measure the value of the MLE estimator and the MOM estimator, storing it into the appropriate position of your `mle` and `mom` vectors.
+
+* Print to the screen the bias of each estimator, the variance of each estimator, and the root mean squared error of each estimator.
+
+* Fill in the blanks:  the typical error when the MLE is used to estimate $\beta$ is _____ while the typical error when the MOM is used to estimate $\beta$ is _____.
+
+**Response:** 
+
+```{r Q4d}
+#The following line of code will generate a random sample from the location-shifted exponential
+#with beta=4.2 (it's basically just using rexp() then adding 4.2 to each value! 
+x <- rexp(20,rate=1) + 4.2
+
+#Define mle and mom to be empty vectors
+mle <- c()
+mom <- c()
+
+
+```
+
+
+

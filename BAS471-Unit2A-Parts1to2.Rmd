@@ -1,0 +1,168 @@
+---
+title: "BAS 471 - Unit 2 Parts 1 and 2 - Intro to Monte Carlo Simulations"
+author: "Monte Marlo Mavens"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Question 1 (Kahoot 1):  "for" loop in your head
+
+Run the following "for" loop in your head. What is the value of `x` when the loop terminates?
+
+```{r Q1}
+# Given in class
+
+x<- 0
+values<-c(2,4,3)
+for (i in 1:length(values)){
+  x<- x + 1 + values[i]
+  
+}
+x
+
+
+
+```
+
+## Question 2  (Kahoot 2):  How does sample work?
+
+What will the following command output?
+
+```{r Q2}
+# Given in class
+model<- "Petrie"
+outfits<- c("hoodie", "buttons", "tshirts")
+
+for(i in outfits){
+  dress(model, i)
+  strut(model)
+  
+}
+
+```
+
+**Response:**
+
+
+
+
+## Question 3  (Kahoot 3):  How does sample work?
+
+Why won't the following sample command work?
+
+```{r Q3}
+# Given in class
+
+
+```
+
+**Response:** 
+
+
+
+
+
+## Question 4
+
+Four integers between 1-20 are picked at random with replacement.  Consider two scenarios.  One where all numbers are all equally likely.  Another where the weight assigned to the integer `x` equals `5+x^2` (i.e. larger numbers are progressively more likely).  Via Monte Carlo simulations with 100,000 trials, estimate the following probabilities. 
+
+a.  **Kahoot 4** What is the probability that the numbers picked will add to 63?  
+
+```{r Q4a}
+possible_values=1:20
+weights<- 5+ possible_values^2
+ntrials<- 100000
+counter<-0
+
+for( i in 1:ntrials){
+value<-sample(possible_values, size=4, replace= TRUE, prob = weights ) 
+  if( sum(value)==63){ counter<- counter+1}
+}
+counter/ntrials
+
+
+
+
+```
+
+b. **Kahoot 5** What is the probability that the largest number is greater than the sum of the smallest 2.  
+
+
+```{r Q4b}
+
+possible_values=1:20
+weights<- 5+ possible_values^2
+ntrials<- 100000
+counter<-0
+
+for( i in 1:ntrials){
+value<-sample(possible_values, size=4, replace= TRUE, prob = weights ) 
+  if( sum(sort(value)[1:2])<max(value)){ counter<- counter+1}
+}
+counter/ntrials
+
+```
+
+
+
+c.  What is the probability that all are even numbers.  I found about 8.2%.
+
+```{r Q4c}
+
+
+```
+
+d.  At least 2 values are 15 or more.  I found about 85%.
+
+```{r Q1d}
+
+
+```
+
+
+*************
+
+## Question 5
+
+Two contestants are playing a trivia game.  After a question is asked, each contestant has to "buzz in" before answering.  If the contestant wins the buzz in, and answers correctly, they win a point.  If they get it wrong, the game moves to the next question (the other contestant does not get a chance to answer).  Assume:
+
+* Contestant A has a probability of 70% of answering correctly, but has a 40% chance of winning the buzz in.
+* Contestant B has a probability of 50% of answering correctly, but has a 60% chance of winning the buzz in.
+
+30 total questions are asked.  Using a Monte Carlo simulation with 10000 trials to estimate
+
+* **Kahoot 6** the probability that contestant A wins (has a score strictly larger than B)?
+
+* the probability that contestant B wins (has a score strictly larger than A)?
+
+* the probability that game ends in a tie?
+
+One approach:  for each question, select who wins the buzzer appropriately, then determine if that contestant got it right.  I defined variables `score.A` and  `score.B` to keep track of the scores each game, and incremented counters I had defined called `win.A`, `win.B`, `tie` appropriately after 30 questions had been asked.
+
+Another approach:  Let `correct.A` be a vector of 30 1s and 0s to represent whether contestant A would answer correctly (had they won the buzzer).  Define `correct.B` similarly.  Then define a vector `winbuzz` to be a vector of 30 1s and 0s to represent who wins the buzz-in (1 represents A winning and 0 represents B winning).  What does `sum(winbuzz*correct.A)` tell us?  What `sum( (1-winbuzz)*correct.B)` tell us?
+
+```{r Q5}
+
+
+
+```
+
+
+***********
+
+
+### Question 6 (Kahoot 7)
+
+Imagine a pitch has a 60% chance of being a strike and a 40% chance of being a ball.  A batter has a "strike out" if 3 strikes occur before 4 balls.  A batter has a "walk" if 4 balls occur before 3 strikes.
+
+With a Monte Carlo simulation of 10,000 trials, estimate the probability that a batter will have a "strike out" (3 strikes occur before 4 balls). 
+
+Hint:  let 1 represent a strike and 0 represent a ball.  Pick 6 values with replacement, where 1 has a 60% chance of being picked and 0 has a 40% chance of being picked.  What about the sum of these 6 values tells you whether has a strike has occurred or not?
+
+```{r Q6}
+
+
+```

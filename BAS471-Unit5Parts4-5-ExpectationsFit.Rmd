@@ -1,0 +1,234 @@
+---
+title: "BAS 471 - Unit 5 Parts 4 and 5 - Expected Value, Standard Deviation, Checking Fit"
+author: "Pontiffs of the PMF"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Question 1
+
+Let the random variable X be the demand for a product.  Possible values are x=8 to x=46.
+
+```{r Q1}
+x <- 8:46
+shape <- 6300 + 18*x - 0.012*(x - 19)^2*(x-74)^2
+p<-shape/sum(shape)
+mu<-sum(p*x)
+var<-sum(((x-mu)^2)*p)
+sqrt(var)
+mu
+
+barplot(shape,names.arg=x,xlab="Possible Demand",ylab="Relative Frequency")
+```
+
+a.  The values in `shape` are not probabilities, but we can convert them into them.  Use the standard shape to PMF conversion to define a vector `p` whose elements give the probabilities of observing each value of `x`.  Verify your output of running `head` on `p`, then calculate the probability that the demand is between 16 and 26 inclusive.
+
+
+```{r Q1a}
+sum(p[which(x<=26 & x>=16)])
+
+
+
+#head(p)
+#0.0008542915 0.0099856723 0.0179246261 0.0247475949 0.0305289548 0.0353410159
+
+
+```
+
+b.  Find the expected value of the demand.
+
+```{r Q1b}
+
+```
+
+c.  What's the difference between the expected value, the average, and the mean of a probability distribution?
+
+**Response:**  
+
+d. What's the standard "layman's" interpretation of the numerical value of the expected value of a probability distribution?  In other words, how should we talk about it to the boss?
+
+**Response:** 
+
+e. Calculate the standard deviation of the demand.
+
+```{r Q1e}
+
+```
+
+f. How do we interpret the standard deviation of a probability distribution?
+
+**Response:**
+
+g.  Provide an interpretation of the average and standard deviation of the distribution of demand in the usual boss-friendly way, i.e., in the context of the problem.
+
+**Response:**  
+
+h.  Imagine that the cost to ship a particular demand is:
+
+$$Cost = 10 + 0.5\sqrt{x+2}$$
+`cost = 10 + 0.5*sqrt(x+2)`
+
+In other words, shipping cost increases, but cost per item diminishes for larger numbers of items.
+
+Find the expected cost of a random day's demand (it's between 12 and 13 )
+
+```{r Q1h}
+Cost = 10 + 0.5*(sqrt(x+2))
+Cost = 10 + 0.5*(sqrt(mu+2))
+
+sum(Cost*p)
+
+```
+
+i.  One theme of probabilistic modeling is "averages aren't good enough".  If we want to characterize the typical value of a complex random process (like the cost of shipping some demand), it's not acceptable to plug in the average value of $X$ into our equation for Cost  What is the value you get if you plug in the average value of $X$ (from part b) into the equation for $Cost$?   In this case, it's actually pretty close to the actual average cost!  But it isn't always, as you'll see in the homework problems.
+
+
+```{r Q1i}
+
+```
+
+*****************
+
+## Question 2
+
+Make sure this .Rmd file and the `FitTheseDistributions.RData` have been moved/saved to your BAS 471 folder.  
+
+```{r Q2}
+library(fitdistrplus)
+load("FitTheseDistributions.RData")
+```
+
+For each vector:
+
+* fit the data to the requested distribution (left-arrow it into an object with the name `FIT`)
+* print the contents of `FIT` out to the screen to see the best-fitting parameters of the distribution
+* include `plot(FIT)` to assess the fit
+* comment on whether (and why) it's a good fit, bad fit, or otherwise 
+
+**NOTE**:  when you run `fitdist`, some text will automatically be output to the screen.  These are back-end details about the procedure used to determine the best-fitting model and they are not relevant to us.  Ignore it!  The actual details about the fitted model is found by printing the contents of `FIT` to the screen.
+
+a)  `x1.totalitems` - the total number of items in people's shopping carts at checkout (real data from Kroger actually).  Fit to a Poisson and to a Negative Binomial.  Which is better?  Do either provide a reasonable reflection of reality?
+
+```{r Q2a}
+FIT<-fitdist(x1.totalitems, dist="nbinom")
+plot(FIT)
+summary(FIT)
+
+```
+
+b)  `x2.totalvisits` - the total number of visits that households have made to Kroger over the course of 2 years.  Fit to a Poisson and to a Negative Binomial.  Which is better?  Do either provide a reasonable reflection of reality?
+
+```{r Q2b}
+
+```
+
+c)  `x3.spampurchases` - the total number of times that households purchased Spam at Kroger over the course of 2 years.  Fit to a Poisson and to a Negative Binomial.  Which is better?  Do either provide a reasonable reflection of reality?
+
+```{r Q2c}
+
+```
+
+d)  `x4.numberof16redeemed` - the number out of 16 coupons that a Kroger customer was sent that they ended up redeeming.  Code is provided to fit to a binomial (you have to specify an argument to that gives the n=size parameter and a starting "guess" of what the probability of success might be; the best-fitting Binomial may have a different number).
+
+```{r Q4d}
+
+```
+
+e)  `x5.custservicecalls` - the number out times the customer called customer service.   Fit to a geometric, Poisson, binomial (with the provided code), and negative binomial.  Which provide reasonable reflections of reality?
+
+```{r Q4e}
+
+FIT <- fitdist(x5.custservicecalls, dist="nbinom") 
+
+
+FIT <- fitdist(x5.custservicecalls, dist="geom")
+
+FIT <- fitdist(x5.custservicecalls, dist="pois")
+FIT <- fitdist(x5.custservicecalls, dist="binom", fix.arg=list(size=150), start=list(prob=2/150))
+plot(FIT)
+```
+
+f)  `x6a.timebetweenvisits` - the number of days (can be 0) that elapsed between shopper A's visits to Kroger.  Fit to a geometric, Poisson, binomial (with the provided code), and negative binomial.  Which provide reasonable reflections of reality?
+
+```{r Q4f}
+
+
+
+FIT <- fitdist(x6a.timebetweenvisits, dist="binom", fix.arg=list(size=150), start=list(prob=12.8/150))
+
+```
+
+
+g)  `x6b.timebetweenvisits` - the number of days (can be 0) that elapsed between shopper B's visits to Kroger.  Fit to a geometric, Poisson, binomial (with the provided code), and negative binomial.  Which provide reasonable reflections of reality?
+
+```{r Q4g}
+
+
+
+FIT <- fitdist(x6b.timebetweenvisits, dist="binom", fix.arg=list(size=100), start=list(prob=.03))
+
+```
+
+h)  `x6c.timebetweenvisits` - the number of days (can be 0) that elapsed between shopper C's visits to Kroger.  Fit to a geometric, Poisson, and negative binomial.  Which provide reasonable reflections of reality?
+
+```{r Q4h}
+FIT <- fitdist(x6c.timebetweenvisits, "geom")
+plot(FIT)  #decent
+FIT <- fitdist(x6c.timebetweenvisits, "nbinom")
+plot(FIT)  #decent
+FIT <- fitdist(x6c.timebetweenvisits, "pois")
+plot(FIT)   #bad
+```
+
+i)  `x6d.timebetweenvisits` - the number of days (can be 0) that elapsed between shopper D's visits to Kroger.  Fit to a geometric, Poisson, and negative binomial.  Which provide reasonable reflections of reality?
+
+```{r Q4i}
+FIT <- fitdist(x6d.timebetweenvisits, "geom")
+plot(FIT)  #good
+FIT <- fitdist(x6d.timebetweenvisits, "nbinom")
+plot(FIT)  #good
+FIT <- fitdist(x6d.timebetweenvisits, "pois")
+plot(FIT)  #bad
+```
+
+j)  `x6f.timebetweenvisits` - the number of days (can be 0) that elapsed between shopper D's visits to Kroger.  Fit to a geometric, Poisson, and negative binomial.  Which provide reasonable reflections of reality?
+
+```{r Q4j}
+FIT <- fitdist(x6f.timebetweenvisits, "geom")
+plot(FIT)  #good
+FIT <- fitdist(x6f.timebetweenvisits, "nbinom")
+plot(FIT)  #good
+FIT <- fitdist(x6f.timebetweenvisits, "pois")
+plot(FIT)  #not good
+```
+
+k)  `x8.harrypotter` - the number of Harry Potter books read by students.  Fit to a binomial distribution with n=7.  Is it a good fit?
+
+```{r Q4k}
+FIT <- fitdist(x8.harrypotter, dist="binom", fix.arg=list(size=7), start=list(prob=.46)); FIT
+plot(FIT)  #terrible
+```
+
+l)  `x11.numcategories` - the number of different product categories (out of 6; e.g. electronics, clothing, grocery, etc.) in which consumers have made purchases.
+
+```{r Q4l}
+FIT <- fitdist(x11.numcategories, dist="binom", fix.arg=list(size=6), start=list(prob=.46)); FIT
+plot(FIT)  #ok at best
+```
+
+
+m)  `x12.numdonations` - the number of donation a previous donor has given to a veteran's charity.  Fit to a geometric, Poisson, and negative binomial.  Which provide reasonable reflections of reality?
+
+```{r Q4m}
+FIT <- fitdist(x12.numdonations, dist="pois")
+plot(FIT)  #ok but not great
+FIT <- fitdist(x12.numdonations, dist="nbinom")
+plot(FIT)  #decent
+FIT <- fitdist(x12.numdonations, dist="geom")
+plot(FIT)  #nope
+```
+

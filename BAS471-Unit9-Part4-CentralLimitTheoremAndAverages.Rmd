@@ -1,0 +1,262 @@
+---
+title: "BAS 471 - Unit 9 - Part 4 - Central Limit Theorem and Averages"
+author: "Average Student"
+date: "see Canvas for due date"
+output:
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+#Leave this as-is.
+knitr::opts_chunk$set(echo = TRUE,collapse=TRUE)
+if( as.numeric( paste( unlist( strsplit( paste(R.Version()$major,R.Version()$minor,sep="."),split="\\.") ),collapse="") ) <= 400 ) { 
+  stop("You must have R version 4.1.1 or later to knit this document")}
+RNGversion("4.1.1")
+
+
+library(fitdistrplus)
+```
+
+
+## Question 1 - Sampling Distribution
+
+The whole field of inference is built upon the sampling distribution of a statistic (a statistic, by definition, is some numerical value calculated from the data).  
+
+*  How far is $\hat{p}$ from $p$?  
+*  How far is $\bar{x}$ from $\mu$?  
+*  How far is $\hat{\theta}$ from $\theta$?   
+*  What possible values of the statistic might we observe when we go and collect data?  
+
+What probability distribution describes the possible values of the statistic?  That's what we mean by sampling distribution!
+
+To illustrate, imagine a random sample of 10 values is taken from an exponential distribution with rate parameter $\lambda = 0.1$.  This is easy to make via `rexp(10,0.1)`.  Consider the sum of these 10 values (the sum is a statistic, since it is computed from the sample values).  This statistic is obviously a random quantity since its value depends on what data values happen to populate the sample.  Let's explore its sampling distribution, i.e. the possible values it may end up taking along with their respective probabilities. 
+
+a)  Define a vector named `sums` to be an empty vector.  Then, use a `for` loop to define each element of `sums` one by one, where the `i`-th element is the sum of the 10 random values for the `i`-th sample.  Generate 10000 total samples.  A summary of `sums` should vaguely resemble what's provided (due to randomness, there will be differences).
+
+```{r Q1a}
+sums <- c() 
+for (i in 1:10000) {    sums[i] <- sum( rexp(10,.1) ) }
+library(fitdistrplus) 
+FIT <- fitdist(sums,"norm"); qqcomp(FIT) 
+FIT <- fitdist(sums,"lnorm"); qqcomp(FIT) 
+FIT <- fitdist(sums,"exp"); qqcomp(FIT) 
+FIT <- fitdist(sums,"weibull"); qqcomp(FIT) 
+FIT <- fitdist(sums,"gamma"); qqcomp(FIT) 
+
+hist(sums)
+
+averages <- c(); for (i in 1:10000) { averages[i] <- mean( sample(x,size=2,replace=TRUE,prob=PMF)) }; hist(averages)
+
+
+x <- 1:11 
+p <- rep(1/11,11) 
+mu <- sum(x*p) 
+sigma <- sqrt( sum( (x-mu)^2 *p ) ) 
+
+averages <- c(); for (i in 1:10000) { averages[i] <- mean( sample(x,size=50,replace=TRUE,prob=p)) }; hist(averages)
+
+#summary(sums)
+#   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#  22.49   77.45   96.88  100.57  119.53  312.96 
+```
+
+b)  **Kahoot 1** Make a histogram to visualize the sampling distribution of the sum.  Some samples have tiny sums.  Some have large sums.  The distribution of the possible sums is actually a notorious distributions that's used in the sciences quite often (though we have no spent time talking about it in analytics).  Fit to a Normal, lognormal, exponential, Weibull, gamma using `fitdist` to determine which notorious distribution this is.   Note:  the sum of many exponential values is described by a notorious distribution.  This happens often:  a lot of these notorious distributions are related to each other (the Binomial is the sum of independent Bernoulli values).
+
+```{r Q1b}
+
+library(fitdistrplus)
+
+
+```
+
+**************
+
+## Question 2:  Central Limit Theorem
+
+Go the to Central Limit Theorem Demo at https://oddsmaker.shinyapps.io/CLTdemo/
+
+Select Bimodal from the drop down menu for PMF.  Leave the "Dynamically adjust range of plot" at No.  Start at a "Select Sample Size" of 2.  Not very Normal.  5 - not very Normal either.  However, for samples of size 65 (or larger), the distribution of possible sample averages.becomes basically indistinguishable from the Normal curve predicted from the Central Limit Theorem.
+
+The Central Limit Theorem (CLT) underpins a tremendous number of important results in statistical inference.  It's also a somewhat bizarre and unexpected "truth" about how averages work.  
+
+  *  For (almost any) probability distribution, find $\mu$ (the expected value) and $\sigma$ (the standard deviation).  
+  *  Once you have those two numbers, you can predict how far the average ($\bar{x}$) that you'll measure in a sample (of size $n$) will be from $\mu$  (typically about $\sigma/\sqrt{n}$).  
+  *  You can even put probabilistic bounds on how far $\bar{x}$ will be from $\mu$ (e.g. a 90% chance that $\bar{x}$ will be at most $1.65\sigma/\sqrt{n}$) since its sampling distribution will be approximately Normal *regardless of whatever PDF/PMF is making the data*.
+
+
+Go back to the app and select "Free Form" with "shape parameter 1" equal to 0.5 and "shape parameter 2" equal to 2.  You'll see the PMF is quite skewed.  In the R chunk below, I have defined `x` and `PMF` to be the vector of the possible sample values and their respective probabilities that are displayed in the app.  Run these two lines.
+
+```{r Q2 setup}
+#Run these 2 lines as is
+PMF <- dbeta(seq(.05,.95,by=.05),0.5,2); PMF <- PMF/sum(PMF)
+x <- seq(from=0,by=1,length=length(PMF))
+barplot(PMF,names.arg=x)
+
+
+```
+
+a)  **Kahoot 2** Using `sample`, generate two random samples from this PMF (the first argument to `sample` will be `x`, the `prob` argument will be `PMF`).  One with a sample size of 25, another with a sample size of 5000.  Provide histograms of each (adding the argument `breaks=-1:19)` to each call of histogram).  Notice how in the smaller sample, the histogram only has a passing resemblance to the barplot of the PMF, but the histogram of the larger sample looks a lot like the PMF.  **Key insight:  when we add more data to a sample, the histogram of its values look more and more like the probability distribution generating the data**
+
+```{r Q2a}
+sample1 <- sample(x,size=25,replace=TRUE,prob=PMF)
+hist(sample1,breaks=-1:19)
+mean(sample1)
+
+sample2 <- sample(x,size=5000,replace=TRUE,prob=PMF)
+hist(sample2,breaks=-1:19)
+mean(sample2)
+
+```
+
+b)  **Kahoot 3**  In the Shiny app (leave Dynamically adjusts range of plot to "No"), examine the sampling distribution of the sample average.  Take two screenshots:  one where the sample size is 5, and another where the sample size is 100 (but pay attention visually as to what is happening as you move your slider from 5 to 100).  The sampling distribution of the possible sample averages that we might measure when we go collect data looks more and more like a Normal distribution as we consider samples of larger sizes.   **Key insight:  When we consider samples with progressively larger sizes, the histogram of the possible averages we might measure from them looks more and more like a Normal curve**
+
+
+c)  What are the two parameters (peak and standard deviation) of the Normal distribution that is doing such a good job describing the sampling distribution of the sample average when $n=100$?  Calculate $\mu$ and $\sigma$ of the PMF (you might have to look up how to find the mean and standard deviation of a PMF back from Unit 7) and use these to help report the parameters of this Normal curve.
+
+**Response:**  
+
+```{r Q2c}
+
+```
+
+
+**************
+
+## Question 3 - Examining the "law of averages" with the CLT
+
+The so-called "law of averages" is a (made-up) principle that claims that future events must unfold to balance any past deviation from a presumed average.  For example, the law of averages would say that if you flipped "heads" on a fair coin 10 times in a row, flips in the future are more likely to be tails so that the number of heads/tails is balanced out.  This is just wishful thinking because the proposition put forth by the law of averages is *wrong*.
+
+a)  Consider a discrete uniform distribution with possible values 1-11.  Find the average value $\mu$ (6) and standard deviation $\sigma$ (close to 3.16) of this distribution.  Consult slide 120-121 in Unit 5 (or the activity HW on it) for quick refresh on how we do this in R.
+
+```{r Q3a}
+x <- 1:11 
+p <- rep(1/11,11) 
+mu <- sum(x*p) 
+mu
+sigma <- sqrt( sum( (x-mu)^2 *p ) ) 
+
+averages <- c(); for (i in 1:10000) { averages[i] <- mean( sample(x,size=50,replace=TRUE,prob=p)) }; hist(averages)
+
+
+mean(averages>=6.9)
+
+sample(x,size=50,replace=TRUE,prob=p)
+
+SE<-sigma/sqrt(50)
+
+
+```
+
+b)  **Kahoot 4** Imagine that a random sample of size 50 has been collected and the average is 5.1.  That's quite far below $\mu=6$!  The "law of averages" would say that the next 50 values are bound to be larger so that the past deviation from the average is "canceled out".  To "cancel out" the first 50 values, the average of the next 50 values would need to be 6.9 or larger.
+
+Use the Central Limit Theorem to estimate the probability that the average of a random sample of size 50 from this uniform PMF would be 6.9 or larger.  Use the `pnorm` function and the complement rule (sanity check, it's a little above 2%)!
+
+Remember, the Central Limit Theorem gives the probability distribution of possible averages we might measure upon taking a random sample from the probability distribution.
+
+$$\bar{X} \sim N\left( \mu, \frac{\sigma}{\sqrt{n}} \right)$$
+
+```{r Q3b}
+1-pnorm(6.9, 6, sigma/sqrt(50))
+
+
+```
+
+
+************
+
+## Question 4 - standard deviation vs. standard error; confidence interval for mu
+
+Returns have long been the nemesis of many retail brands. When a product is returned or exchanged, not only does the retailer experience incremental supply chain costs, but often the item cannot be resold at the original price owing to damage, wear and tear, or obsolescence/devaluation given the passage of time — particularly an issue with fashion or seasonal merchandise.  
+
+Consider the data in `RETURNS`, which contains information on the return rates for 19 different products sold by an online retailer (the products are given colorful codenames to maintain company privacy, but you can think of them as products such as Rolex Watches, Microwaves, Dresses, etc.).  Each row gives the percentage (written as a decimal between 0-1) of items in that product group that were sold in a particular week which were eventually returned.  
+
+For the purposes of this problem, we'll assume that *some* probability distribution is generating the observed return rates (we know how to find a beta or Kumaraswamy distribution that might fit well, but ultimately we don't really care about its exact identity), and that the return rates in the data are a random sample from this PDF.
+
+```{r Q4 returns data}
+load("BAS471Unit9Part4.RData")
+hist(RETURNS$ReturnRate)
+summary(RETURNS$ReturnRate)
+FIT <- fitdist(RETURNS$ReturnRate,"beta")
+summary(FIT)
+qqcomp(FIT)  #beta fit is meh
+dkura <- function(x,a,b) { a*b*x^(a-1)*(1-x^a)^(b-1) }  #kumaraswamy is better
+pkura <- function(q,a,b) { 1 - (1-x^a)^b }
+qkura <- function(p,a,b) { (1-(1-p)^(1/b))^(1/a) }
+FIT <- fitdist(RETURNS$ReturnRate,"kura",start=list(a=2,b=2))
+summary(FIT)
+qqcomp(FIT)
+
+mean(RETURNS$ReturnRate)
+
+
+
+
+```
+
+a)  Report the mean return rate, the standard deviation of the return rates, and the standard error of the average return rate.  In the context of this problem, provide a layman's interpretation of each of these quantities.
+
+```{r Q4a}
+mean(RETURNS$ReturnRate)
+sd(RETURNS$ReturnRate)/sqrt(length(RETURNS$ReturnRate))
+
+
+#difference between standard deviation and standard error, SE needs SD, 
+#SD typical difference in average and data collected
+#SE how far off our estimate mean is from true mean
+
+t.test(RETURNS$ReturnRate)
+
+```
+
+**Response:** 
+
+
+b)  **Kahoot 5 and 6** One of the most common points of confusion when learning about confidence intervals for the average is the difference between the *standard deviation of the data values* in our sample and the *standard error of the average*.  Briefly explain the difference between the two.
+
+**Response:**  
+
+c)  Manually, or with `t.test`, provide an approximate 95% confidence interval for `mu`, the average of whatever PDF that is generating the observed return rates.
+
+```{r Q4c}
+
+```
+
+e)  **Kahoot 7** The average return rate of this company's competitors is 20%.  Does the data (specifically, the confidence interval) suggest that the return rate at this company is better than its competitors?  Explain.
+
+**Response:** 
+
+
+************
+
+## Question 5 - Confidence interval for "mu"
+
+In `Unit9B.RData`, there is a vector named `bequest`, which is the `BEQUEST_LIKELIHOOD` associated with an alumnus who has graduated UT.  This value is their likelihood  (as rated by a 3rd party data harvester) of making a bequest gift (made as part of a will or trust) to the university (basically a "you can't can't my money right now, but when I die you get some").
+
+We can treat the values in `bequest` as a random sample from *some* probability distribution, we just don't know what it is.
+
+
+a)  **Kahoot 8**  Make a histogram of the values in `bequest` adding the argument `freq=FALSE`.  Is the sample size large enough for the Central Limit Theorem to be in effect?  Explain.  What would be the minimum sample size for a sample whose histogram is this shape for the Central Limit Theorem to be in effect?
+
+**Response:** 
+
+```{r Q5a}
+load("BAS471Unit9Part4.RData")
+hist(bequest,freq=FALSE)
+```
+
+b)  Display a 95% confidence interval for the expected value $\mu$ of whatever probability distribution is making the data.  The company calibrates these scores so that the average (over all people at all universities) is 543.   Is 543 a plausible value for $\mu$ for UT alumni based on this data?  Explain.
+
+**Response:**  
+
+```{r Q5b}
+
+```
+
+c)  Fit the values in `bequest` to a Normal distribution, provide a `summary` of the fit, and produce the QQ plot.  Although the distribution doesn't quite look Normal (comment on the problematic features of the QQ plot), make a 95% confidence interval for the $\sigma$ parameter.
+
+**Response:** 
+
+```{r Q5c}
+
+```
+

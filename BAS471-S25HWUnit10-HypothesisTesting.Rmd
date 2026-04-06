@@ -1,0 +1,302 @@
+---
+title: "BAS 471 Spring 2025 Homework on Unit 10 - Hypothesis Testing"
+author: "Your Name Here Please"
+date: "see Canvas for due date"
+output:
+  word_document: default
+---
+
+
+```{r setup, include=FALSE}
+#Leave this as-is.
+knitr::opts_chunk$set(echo = TRUE,collapse=TRUE)
+if( as.numeric( paste( unlist( strsplit( paste(R.Version()$major,R.Version()$minor,sep="."),split="\\.") ),collapse="") ) < 422 ) { 
+  stop("You must have R version 4.2.2 or later to knit this document")}
+RNGversion("4.2.2")
+```
+
+
+******************************************************************************
+
+# Note: these are your homework problems
+
+As a reminder about the collaboration policy, remember that you can develop a common set of R code with your colleagues. However, all written interpretations (i.e., anything that follows a **Response:**) needs to be written *in your own words* (unless you are instructed to copy/paste what ChatGPT says for a particular question).  Homework submissions that look to be near copies of each other will receive substantially reduced credit, may receive a 0, and may result in you receiving an F in the class.  If you do use ChatGPT as a learning tool (caution:  in BAS 471, unlike other BAS classes, *there are quite a few concepts/problems that ChatGPT gets plain wrong*), you'll need to rephrase its very obvious AI-sounding phrasing.  Remember that exams are closed ChatGPT, so do not rely on it too much.  
+
+
+**********************************************************************************
+
+## Question 1:  Hypothesis Testing Using Confidence Intervals
+
+The dataframe `HIT` in `BAS471S25Unit10.RData` gives details of 330 songs from the 2010s that are streamable on Spotify.  If you're curious about the original data source (which has many, many more songs), see `https://www.kaggle.com/datasets/theoverman/the-spotify-hit-predictor-dataset`.
+
+Spotify measures and reports characteristics of songs such as their "energy", "loudness", "valence", "danceability", etc. Copy/pasted from the original data dictionary:
+
+* `danceability`: Danceability describes how suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity. A value of 0.0 is least danceable and 1.0 is most danceable. 
+
+* `energy`: Energy is a measure from 0.0 to 1.0 and represents a perceptual measure of intensity and activity. Typically, energetic tracks feel fast, loud, and noisy. For example, death metal has high energy, while a Bach prelude scores low on the scale. Perceptual features contributing to this attribute include dynamic range, perceived loudness, timbre, onset rate, and general entropy. 
+
+* `key`: The estimated overall key of the track. Integers map to pitches using standard Pitch Class notation. E.g. 0 = C, 1 = C?/D?, 2 = D, and so on. If no key was detected, the value is -1.
+
+* `loudness`: The overall loudness of a track in decibels (dB). Loudness values are averaged across the entire track and are useful for comparing relative loudness of tracks. Loudness is the quality of a sound that is the primary psychological correlate of physical strength (amplitude). Values typically range between -60 and 0 db. 
+		   
+* `mode`: Mode indicates the modality (major or minor) of a track, the type of scale from which its melodic content is derived. Major is represented by 1 and minor is 0.
+
+* `speechiness`: Speechiness detects the presence of spoken words in a track. The more exclusively speech-like the recording (e.g. talk show, audio book, poetry), the closer to 1.0 the attribute value. Values above 0.66 describe tracks that are probably made entirely of spoken words. Values between 0.33 and 0.66 describe tracks that may contain both music and speech, either in sections or layered, including such cases as rap music. Values below 0.33 most likely represent music and other non-speech-like tracks. 
+
+* `acousticness`: A confidence measure from 0.0 to 1.0 of whether the track is acoustic. 1.0 represents high confidence the track is acoustic. 
+	
+* `instrumentalness`: Predicts whether a track contains no vocals. “Ooh” and “aah” sounds are treated as instrumental in this context. Rap or spoken word tracks are clearly “vocal”. The closer the instrumentalness value is to 1.0, the greater likelihood the track contains no vocal content. Values above 0.5 are intended to represent instrumental tracks, but confidence is higher as the value approaches 1.0. The distribution of values for this feature look like this:
+	
+* `liveness`: Detects the presence of an audience in the recording. Higher liveness values represent an increased probability that the track was performed live. A value above 0.8 provides strong likelihood that the track is live.
+	
+* `valence`: A measure from 0.0 to 1.0 describing the musical positiveness conveyed by a track. Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry).
+	
+* `tempo`: The overall estimated tempo of a track in beats per minute (BPM). In musical terminology, tempo is the speed or pace of a given piece and derives directly from the average beat duration. 
+	
+* `duration_ms`: 	The duration of the track in milliseconds.
+	
+* `time_signature`: An estimated overall time signature of a track. The time signature (meter) is a notational convention to specify how many beats are in each bar (or measure).
+
+A song is classified a "hit" (`target` column equals "Hit") if it was featured in the Billboard Hot 100 at least once during the 2010s.  Otherwise, the song is classified a "flop" (`target` column equals "No").  Are there clear differences in whether a song is a hit or not based on its characteristics?  Let's investigate.
+
+You know the drill:
+
+*  Make sure the .RData file is in your 471 folder.
+*  Make sure to do a Save As on this .Rmd file and forcibly put it in your 471 folder.
+*  Make sure your working directory is your 471 folder too.
+
+```{r Q1}
+load("BAS471S25Unit10.RData")
+table(HIT$target)
+```
+
+a)  One potential indicator of a hit is the song's `energy`:  is there *any* difference in the average ("mu") energy of hits vs. flops?  The data seems to suggest there might be since the average energy of hits is 0.67 while the average energy of flops is 0.62.
+
+a1)  To answer this question, write out the null hypothesis (Ho) and the appropriate alternative hypothesis (HA) using the standard abbreviations for the "true" average energy (write these as `mu.energy.hit` and `mu.energy.flop`) and the standard equality/inequality symbols (you can write "not equal" as != if needed).
+
+**Response:**  
+Ho= mu.energy.hit-mu.energy.flop = 0
+HA=mu.energy.hit-mu.energy.flop > 0
+
+
+
+a2) To test the hypothesis, we *may* be able to run `t.test` to make a confidence interval for the difference in average energys between the two groups.  However, we can only do so if the Central Limit Theorem is in effect.  Explain why the Central Limit Theorem is indeed in effect.  Run `table` and `hist` to justify your answer.
+
+**Response:**  
+Both samples meet the large enough condition, thus regardless of their distributions' skews, their means will be normally distributed. 
+
+
+```{r Q1a1}
+table(HIT$target)
+hist(HIT$energy[HIT$target=="Hit"])
+hist(HIT$energy[HIT$target=="No"])
+
+
+
+```
+
+a3)  Is the sample of hits independent from the sample of flops, or do we need to "pair" the songs between samples to run the hypothesis test?    Explain.
+
+**Response:** 
+I'd say they're independent because the songs are different, often made by different artists and the only criteria for the song being a hit is that it made the billboard hot 100, which is fairly random. 
+
+
+a4)  Make the appropriate 95% confidence interval to perform the test using `t.test`.  Which hypothesis is "favored" and why?  What is your conclusion to the question: "Do hits and flops have different average energys?"  Note:  if the alternative hypothesis is favored, fill in the blanks:  the average energy of hits is between _-.01__ and _.105_ __higher_ than the average energy of flops (the 3rd blank should be filled in with either the word "higher" or "lower"). 
+
+```{r Q1a4}
+t.test(HIT$energy[HIT$target=="Hit"],HIT$energy[HIT$target=="No"])
+```
+
+**Response:** 
+The null hypothesis is favored because 0 is within the confidence interval. We fail to reject Ho. 
+
+b)  It is suspected that, on average, the `instrumentalness` of hits will be smaller than the `instrumentalness` of flops (record executives feel like it's hard for a purely acoustic song with `instrumentalness` near 1 to be a hit...unless you're Taylor Swift).  Indeed, the data supports this notion since the average `instrumentalness` of hits is 0.005 vs. 0.37 for flops.  However, from a statistical point of view, can we really say that the average `instrumentalness` of hits is lower?  
+
+b1)  To investigate, write out the null hypothesis (Ho) and the alternative hypothesis (HA) using the standard abbreviations for the "true" average instrumentalness (write these as `mu.instrumentalness.hit` and `mu.instrumentalness.flop`) and the standard equality/inequality symbols (you can write "not equal" as != if needed).
+
+**Response:**  
+Ho:mu.instrumentalness.hit-mu.instrumentalness.flop=0
+HA:mu.instrumentalness.hit-mu.instrumentalness.flop<0
+
+
+b2) Make the appropriate 95% confidence interval to perform this test.  Which hypothesis is "favored" and why?  What is your conclusion to the question: "Is the average instrumentalness of hits less than the average instrumentalness of flops?".  If the alternative hypothesis is favored, fill in the blank:  the average instrumentalness of hits is at least _.302__ smaller than the average instrumentalness of flops.  Note: the two levels of `target` are "Hit" and "No".  R preserves alphabetical order when comparing differences, so it will make a confidence interval of the form "Hit" - "No". 
+
+```{r Q1b}
+t.test(HIT$instrumentalness[HIT$target=="Hit"],HIT$instrumentalness[HIT$target=="No"])
+```
+
+**Response:** 
+The alternative hypothesis is favored because 0 is not within our confidence interval. 
+
+
+c)  Songs can be in a "major" or "minor" key.  Major usually sounds happy or fun, while Minor often sounds sad or serious.  While people like feeling happy (perhaps giving the edge to songs in Major), people also enjoy unexpected elements in songs (more easily captured in the Minor key).  Since people generally like feeling happy more than feeling surprised/intrigued, perhaps songs written in Major ultimately have a larger probability of being a hit than songs written in Minor.  The data suggests this might be the case, with 53.3% of Major songs being hits and 51.2% of Minor songs being hits.   Note:  for this problem, you may need to look up how to compare probabilities back from Unit 2BC!
+
+c1)  To investigate, write out the null hypothesis (Ho) and the appropriate alternative hypothesis (HA) using the standard abbreviations for the "true" probability of being a hit (write these as `p.hit.major` and `p.hit.minor`) and the standard equality/inequality symbols (you can write "not equal" as != if needed).
+
+**Response:**  
+Ho:p.hit.major-p.hit.minor=0
+HA:p.hit.major-p.hit.minor>0
+
+
+c2)  When comparing the probabilities of two events, we use `prop.test`.  For the confidence interval to be reliable, there is a "large enough" sample size condition that must be satisfied (similar to how the Central Limit Theorem has a sample size requirement when comparing averages).  Specifically, the number of times the event occurs (being a hit) and the number of times the event doesn't occur (being a flop) both need to be at least 5-10 for each group (Major vs. Minor).
+
+```{r Q1c2 sample size}
+table(HIT$mode,HIT$target) #Checking sample size requirements; need 5-10 in each cell.
+Hit<-112+63
+
+
+
+```
+
+The "large enough" samples condition is indeed satisfied here.  Sidenote:  there's no "large enough sample" condition when using `binom.test` to make a confidence interval for the probability of a *single* event (that's why we love that command). 
+
+Using `prop.test`, make the appropriate 95% confidence interval to perform this test.   Which hypothesis is "favored" and why?  If the alternative hypothesis is favored, fill in the blank:  the probability of being a hit when the song is in Major key is at least  _.19_ larger than the probability of being a hit when the song is in Minor key.
+
+```{r Q1c2 your prop.test work}
+prop.test(c(112,63), c(Hit,Hit), alternative = "greater")
+```
+
+**Response:**  
+The alternative hypothesis is favored because 0 is not within the confidence from the prop test. 
+
+
+
+d)  Songs with different values of `time_signature` may have different hit probabilities (for those of you that play music, the two values in the dataset are 4/4 time and 5/4 time).  Most songs are written in 4/4 time.  Songs in 5/4 are rarer and often just sound...different.  Perhaps the probability that a song is a hit is larger for songs written in 4/4 time.
+
+```{r Q1d setup}
+prop.table( table(HIT$target,HIT$time_signature),margin=2 )
+table(HIT$target,HIT$time_signature)
+table(HIT$time_signature)
+```
+
+d1)  Our working hypothesis is that songs in 4/4 time (57.3% hit rate) have a higher hit probability than songs in 5/4 time (41.4% hit rate).  Write out the null hypothesis (Ho) and the alternative hypothesis (HA) using the standard abbreviations for the "true" probability of being a hit (write these as `p.hit.44` and `p.hit.54`) and the standard equality/inequality symbols  (you can write "not equal" as != if needed). 
+
+**Response:**  
+Ho: p.hit.44-p.hit.54 =0
+HA: p.hit.44-p.hit.54 >0
+
+
+
+d2)  We can use `prop.test` to compare the two probabilities since the sample sizes are large enough (at least 5 hits/flops in each time signature).   Which hypothesis is "favored" and why?  What is your conclusion to the question:  "Is the hit rate for 4/4 songs higher than the hit rate for 5/4 songs?   If the alternative hypothesis is favored, fill in the blank:  the probability of being a hit when the song is in 4/4 time is at least _.054 larger than the probability of being a hit when the song is in 5/4 time.
+
+
+```{r Q1d2}
+
+fourfour<-(134+100)
+fivefour<-(41+58)
+
+prop.test(c(134,41),c(fourfour,fivefour), alternative = "greater")
+
+
+
+
+
+
+```
+
+**Response:** 
+We favor the alternative hypothesis that the hit rate for songs written in 4/4 is higher than the hit rate for songs written in 5/4.
+
+******************
+
+
+## Question 2:  Pure Hypothesis Testing
+
+Normally, in analytics, our questions involve probabilities or averages (occasionally the parameters of probability distributions).  The best strategy when answering questions about the "true" values of `p` or `mu` is to make a confidence interval.  But not all questions can be answered this way.
+
+Consider an ESP test where the experimenter creates a random sequence of the integers 1-50, then asks the subject to "visualize" the correct sequence and recreate it.  It's possible to show mathematically that subjects should get only one number in the correct position, on average.
+
+One subject in the experiment, Subject Upsilon, gets 5 of the 50 numbers in the correct position.  While perhaps this might not seem impressive at first glance (a 10% hit rate), it is five times higher than average!
+
+Let's conduct a hypothesis test to determine if this suggests that Subject Upsilon has ESP.
+
+a)  State the null hypothesis and the alternative hypothesis.   Note:  choose between the two phrases "subject has ESP" and "subject does not have ESP" for the statements in the null/alternative hypotheses.
+
+**Response:** 
+Ho: subject does not have ESP: Subject ESP =0
+HA: subject has ESP: Subject ESP >0
+
+
+Hint:  remember the alternative contains the claim that requires extraordinary evidence to favor (and the null always has an equal sign).  The statement you're choosing from can roughly be translated into something like "the amount of ESP contained in the subject equals 0" vs. "the amount of ESP contained in the subject is greater than 0").
+
+b)  Let the "test statistic" for this experiment be the amount of numbers in the correct positions in the guessed sequence.  At first glance, it may seem like the "sampling distribution of the test statistic under the null" should be a Binomial distribution (which counts up the number of "successes" out of n independent trials), but it is not since the sequence is NOT being picked with replacement.  For example, if the subject guessed "37" as the first number of the sequence, but "37" was actually the second number of the sequence, there's now a 0% chance of getting the 2nd guess right.  The outcomes of the guesses (correct/incorrect) are thus *not* outcomes of a sequence of *independent* trials (a requirement for the Binomial to apply).
+
+However, it *is* possible to simulate the total amount of numbers in the correct positions and thus glimpse the "sampling distribution of the test statistic under the null".  Generating the correct sequence is easy with `sample`.  Generating the sequence proposed by the subject is easy "under the null hypothesis" (random guessing) with `sample`.  But how do we count up the amount of numbers in the correct position?  Let's use `sum` on a logical condition!  
+
+```{r Q2b test stat}
+RNGversion("4.2.2"); set.seed(2025)
+
+ntrials<-100
+
+ncorrect<-c()
+
+
+for (i in 1:ntrials){
+subject <- sample( 1:50 )  
+correct <- sample( 1:50 )  
+ncorrect[i]<-sum(correct==subject)  
+}
+
+
+  #Subject's sequence, for illustration
+subject
+  #Correct sequence picked at random
+correct
+#correct==subject
+ #number of correct guesses, one in this case
+
+
+
+```
+
+Write a Monte Carlo simulation to approximate the sampling distribution of the amount of numbers in the correct position under the null hypothesis of no ESP.  Take inspiration from the R chunk above, and store the amount of numbers in the correct position in a vector named `num.correct`.  Use 100,000 trials.  Provide a barplot and `summary` of the sampling distribution (i.e., of the values in `num.correct`; for the barplot use `barplot(table(num.correct))`).  Also provide `table(num.correct)` and refer to the sanity check.
+
+```{r Q2b}
+num.correct <- rep(0,100000)
+
+
+for ( i in 1:100000) { 
+subject <- sample( 1:50 )  
+correct <- sample( 1:50 )  
+num.correct[i]<-sum(correct==subject)  
+  
+  
+}
+barplot(table(num.correct))
+summary(num.correct)
+table(num.correct)
+#Sanity check for frequency table.  Your numbers will be **CLOSE** to (but **NOT EXACTLY EQUAL**) the values here
+#since we did not set the random number seed.
+#    0     1     2    etc.
+#36950 36875 18255    etc.
+```
+
+c)  Determine the p-value of the observed test statistic (the subject had 5 numbers in the correct position).  Recall that the p-value is the probability of observing your test statistic *or* one that's even more evidence for the alternative hypothesis (i.e. a value that's even larger than 5 in this case) when the null hypothesis of no ESP is true.  Which hypothesis do you favor and why?
+
+```{r Q2c}
+p<-sum(num.correct>=5)/100000
+p
+
+
+```
+
+**Response:** 
+I favor the alternative hypothesis because the p value is significantly less than .05. 
+
+
+d)  The hypothesis testing framework isn't airtight.  There are two types of errors that we might make:
+
+* Type 1:  rejecting the null hypothesis when it is true (instead, we mistakenly end up favoring the alternative hypothesis)
+
+* Type 2:  continuing to favor the null hypothesis when it is false.   
+
+Maybe your conclusion to (c) is correct, or perhaps it's an error.  If your conclusion to (c) happened to be incorrect, what type of error did you commit:  Type 1 or 2?
+
+**Response:** 
+If my conclusion is false, I committed a type 1 error by favoring the alternative hypothesis when the null was true. 
+
+
+
+
+
+

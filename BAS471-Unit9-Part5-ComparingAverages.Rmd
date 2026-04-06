@@ -1,0 +1,202 @@
+---
+title: "BAS 471 - Unit 9 - Part 5 - Comparing Averages Between Groups"
+author: "Curious Comparers"
+date: "see Canvas for due date"
+output:
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+#Leave this as-is.
+knitr::opts_chunk$set(echo = TRUE,collapse=TRUE)
+if( as.numeric( paste( unlist( strsplit( paste(R.Version()$major,R.Version()$minor,sep="."),split="\\.") ),collapse="") ) <= 400 ) { 
+  stop("You must have R version 4.1.1 or later to knit this document")}
+RNGversion("4.1.1")
+
+library(fitdistrplus)
+library(multcompView)
+```
+
+
+
+*********************************************************************************************
+
+# Note:  these are problems that are addressed in class and some additional practice problems
+
+*********************************************************************************************
+
+
+## Question 1 - Confidence intervals for p, differences in p, mu, and differences in mu
+
+In `BAS471Unit9Part5.RData`, there is a dataset named `ALUMNI` which records the donation behavior and characteristics of nearly 6000 UT alumni.  The development office is constantly on the lookout for patterns in donations, characteristics associated with big/small donations, etc.  
+
+```{r Q1 loadin} 
+load("BAS471Unit9Part5.RData")
+```
+
+Columns of interest are:
+
+* `DONATED_THIS_DECADE` - whether an alumnus to UT has or has not donated to UT in the 2010s
+
+* `FRATERNITY_SORORITY` - whether an alumnus was a member of a fraternity or sorority while at UT
+
+* `ESTIMATED_GIFT_CAPACITY` -  UT's own best guess for someone's lifetime gift capacity (which doesn't use any information about how much someone has donated so far).  
+
+* `LOG_TOTAL_CASH` - the log10 of the amount an alumnus has donated so far since graduation (logged because the original values are very skewed)
+
+* `HONOR_SOCIETY` - was the student a member of an honor society at UT
+
+*  `BAND` - was the student a member of the band at UT
+
+*  `STUDENT_GOVT` - did the student participate in student government at UT
+
+
+a)  **Kahoot 1** Make an "exact" 95% confidence interval for the *probability* of donating during the 2010s (`DONATED_THIS_DECADE`, assuming this is a random sample from some Bernoulli distribution).  The development office has a goal getting 58.5% of alumni donating during any given decade.  Is 58.5% a plausible value for $p$ based on this data?  Explain.
+
+**Response:** 
+
+```{r Q1a}
+table(ALUMNI$DONATED_THIS_DECADE)
+
+binom.test(3503, length(ALUMNI$DONATED_THIS_DECADE))
+
+```
+
+b)  **Kahoot 2** Is there a statistically significant difference in the probabilities of donating to UT in the 2010s (`DONATED_THIS_DECADE` = Yes) across people who went Greek (`FRATERNITY_SORORITY` = Yes)?  Explain.
+
+**Response:** 
+
+```{r Q1b}
+table(ALUMNI$FRATERNITY_SORORITY)
+table(ALUMNI$FRATERNITY_SORORITY, ALUMNI$DONATED_THIS_DECADE)
+
+prop.test(c(3003,500), c(5204,911))
+
+t.test(LOG_TOTAL_CASH~ FRATERNITY_SORORITY, data = ALUMNI)
+
+hist(ALUMNI$LOG_TOTAL_CASH[ALUMNI$FRATERNITY_SORORITY=="Y"])
+hist(ALUMNI$LOG_TOTAL_CASH[ALUMNI$FRATERNITY_SORORITY=="N"])
+
+table(ALUMNI$FRATERNITY_SORORITY)
+
+
+t.test(LOG_TOTAL_CASH~ STUDENT_GOVT, data = ALUMNI)
+
+
+table(ALUMNI$ESTIMATED_GIFT_CAPACITY)
+
+plot(LOG_TOTAL_CASH~ESTIMATED_GIFT_CAPACITY,data = ALUMNI)
+
+AOV<-aov(LOG_TOTAL_CASH ~ ESTIMATED_GIFT_CAPACITY,data = ALUMNI)
+summary(AOV)
+
+TUKEY<-TukeyHSD(AOV)
+
+multcompLetters4(AOV,TUKEY)
+
+aggregate(HW~TA, data = GRDAES, FUN=mean)
+
+```
+
+
+c)   Use `aggregate` to produce a table of each level of `ESTIMATED_GIFT_CAPACITY` and their probabilities of donating in the 2010s (`DONATED_THIS_DECADE`).   Produce a connecting letters report that explores which levels of estimated gift capacity have statistically significant differences in regard to their probability of donating.
+
+Determine which two groups have the largest difference in estimated probabilities.  Apologies in advance for making you search through that long list to find the requested interval, but report a 95% confidence interval for difference in probabilities between these two groups.  The development office wants to know if this difference (the largest between any two groups) is 0.30 or not.  Is 0.30 a plausible value?
+
+**Response:**
+
+```{r Q1c}
+library(multcompView)
+
+```
+
+d)  **Kahoot 3** Ensure the Central Limit is in effect, then provide 95% confidence intervals for the difference in average donation amounts (`LOG_TOTAL_CASH`) between Yes/No levels of `HONOR_SOCIETY`, `BAND`, `STUDENT_GOVT`, **Kahoot 4** `FRATERNITY_SORORITY`.  Describe the "ideal" alumnus (assuming outcomes of these 4 characteristics are independent).  Do any alumni in this dataset have this set of 4 characteristics?  
+
+**Response:** 
+
+```{r Q1d}
+#Check sample sizes to see if CLT in effect
+
+
+
+#Confidence intervals
+
+```
+
+e)  Produce a connecting letters report that explores the difference in the average value of `LOG_TOTAL_CASH` across levels of ``ESTIMATED_GIFT_CAPACITY`.  Broadly, it does indeed look like alumni with larger gift capacities donate more on average!   
+
+* Is there a statistically significant difference in the average cash donated between the 50Kto75K and 75Kto100K levels?  Why or why not?
+
+**Response:**  
+
+* **Kahoot 5** Is there a statistically significant difference in the average cash donated between the 20Kto25k and 50Kto75K levels?  Why or why not?
+
+**Response:**  
+
+* What is the smallest category of gift capacity (i.e lowest monetary value of gift capacity) that is clearly differentiated from the category with the lowest average?  Explain.
+
+**Response:**  
+
+```{r Q1e}
+
+```
+
+***************
+
+## Question 2 - Comparing averages (do homework scores need a curve)
+
+**Kahoot 6** The Spring 2021 TAs (Kayla Ellis, Kenny Miller, and Justin Moczaldo) did an excellent job of quickly grading assignments.  However, the question lingered as to whether grading was consistent between TAs.  Is there an "easy" grader?  Is there a "hard" grader?  If there was a hard grader, and scores were consistently lower, you'd be able to make a compelling argument that your homework score should be curved.  You'll definitely want to answer this question for your semester.
+
+**Note:**  This step was unfortunately omitted from the lecture/notes.  Look at the `Pr(>F)`  in the analysis of variance.  If this is *less* than 0.05, there *there are some statistically significant differences* between some groups (the analysis of variance doesn't tell us which).  ONLY WHEN the `Pr(>F)` do we continue and look at the connecting letters.  It is possible that `Pr(>F)` is less than 0.05 (indicating some differences) but all connecting letters will be the same (meaning the data can't discern differences after all).
+
+a)  Use the `GRADES` dataframe.  First, establish that there are no discernible differences in the pre-quiz, activity, or midterm scores across TAs (since the TAs do not grade these, this lets us know that the students assigned to the TAs all have equal abilities).
+
+b)  Then, look to see if there are any statistically significant differences in HW averages across TAs.  Since we've established there are no differences in student abilities across TAs, if we *do* find differences in average HW scores, this means the TAs aren't grading the same and that HW scores should be curved.
+
+```{r Q2}
+library(multcompView)
+load("BAS471Unit9Part5.RData")
+
+
+```
+
+
+*************
+
+## Question 3 - comparing averages (paired)
+
+The dataframes `FLEETWOOD`, `DRAKE`, `SNOOP`, `ELVIS`, and `BEETHOVEN` contain the popularity scores of songs from Fleetwood Mac, Drake, Snoop Dogg, Elvis Presley, and Ludwig von Beethoven as measured by Spotify during November 2018 and during April 2019 (columns `Nov2018` and `Apr2019`).  Let us gauge the popularity of an artist by the average popularity ratings of their songs.
+
+a.  If we wanted to see if Fleetwood Mac, Drake, etc., has changed in popularity between November 2018 and April 2019, why *must* we treat the popularity scores in 2018 and in 2019 as paired samples?
+
+**Response:**  The data is structured so that the popularity of a particular song in 2018 and in 2019 is recorded.  Thus, the values are "paired" or "matched" on a song by song basis.  These are definitely not independent samples (they would have been if they were a random assortment of different songs).
+
+b.  **Kahoot 7 (Beethoven)** of these 5 artists have seen a statistically significant changes in popularity.  Which artists and by how much (could have increased, could have decreased).   Tip:  have Apr2019 be in the first argument and Nov2018 as the second so that positive difference mean an increase in popularity.
+
+```{r Q3b}
+load("BAS471Unit9Part5.RData")
+aggregate(HW~TA, data = GRADES, FUN= mean)
+table(GRADES$TA)
+hist(GRADES$HW[GRADES$TA=="Justin"])
+hist(GRADES$HW[GRADES$TA=="Kayla"])
+hist(GRADES$HW[GRADES$TA=="Kenny"])
+AOV<-aov(HW~TA, data = GRADES)
+summary(AOV)
+
+
+t.test(BEETHOVEN$Apr2019, BEETHOVEN$Nov2018, paired=TRUE)
+
+
+
+
+
+
+
+```
+
+**Response:** 
+
+
+
+
+

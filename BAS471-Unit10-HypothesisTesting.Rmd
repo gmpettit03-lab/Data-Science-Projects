@@ -1,0 +1,120 @@
+---
+title: "BAS 471 - Unit 10 - Hypothesis Testing"
+author: "Hypothetical Hypothesizers "
+output:
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+#Leave this as-is.
+knitr::opts_chunk$set(echo = TRUE,collapse=TRUE)
+if( as.numeric( paste( unlist( strsplit( paste(R.Version()$major,R.Version()$minor,sep="."),split="\\.") ),collapse="") ) <= 400 ) { 
+  stop("You must have R version 4.1.1 or later to knit this document")}
+RNGversion("4.1.1")
+```
+
+
+*********************************************************************************************
+
+# Note:  these are problems that are addressed in class and some additional practice problems
+
+*********************************************************************************************
+
+
+## Question 1
+
+You've hired a photo editor to look through 5,000 digital photos you have taken and to choose the 150 best to put on a digital photo frame.  Unfortunately, you have no way of actually looking at a list of the photos that got on the frame, so you have to take it on faith that the editor did indeed put 150 photos on it.
+
+Of course, it is possible run a hypothesis test to shed some light on the matter.
+
+Imagine that the photo frame chooses the next picture it displays completely at random and with replacement - it's even possible to show the same photo twice in a row!
+
+You sit down and watch 180 photos and record the number of unique pictures that were displayed (there's an extremely good chance not all photos will be seen, even if there actually are 150).  It turns out you only saw 100 unique photos.  
+
+What's your conclusion?  Are there 150 photos on the frame?  Did the photo editor short you?
+
+a)  **Kahoot 1** Write out the null and alternative hypothesis.
+
+b)  Simulate the sampling distribution of the test statistic (number of unique photos when there are 150 on the frame) with a Monte Carlo simulation with 50,000 trials.  Make a histogram!
+
+c)  **Kahoot 2** Find the p-value of *your* test statistic (100).  Interpret this p-value and make a conclusion.
+
+```{r Q1c}
+nunique<-c()
+for (i in 1:10000){
+photos<-sample(1:150, size=180, replace = TRUE)
+nunique[i]<-length(unique(photos))  
+}
+
+hist(nunique)
+
+mean(nunique<=100)
+
+
+```
+
+**Response:**
+
+
+
+*************
+
+
+## Question 2
+
+Working in the hotel can be frustrating.  Rooms that were booked months ago get canceled a few days before check-in, potentially resulting in a money-draining vacancy.
+
+The `HOTEL` dataframe in the `BAS471-Unit10Data.RData` file contains information on 1000 reservations belonging to two hotels in Portugal:  a hotel located in a city and a "resort" hotel.
+
+```{r Q2 load}
+load("BAS471-Unit10Data.RData")
+```
+
+The analytics department working with the reservation specialist would like to determine if there are statistically significant differences in cancellation rates among reservations with different characteristics, among other things!  Let's investigate!
+
+a)  **Kahoot 3** A natural question to ask is whether repeated guests have a lower rate of cancellation than new (non-repeat) guests.  What is the difference in cancellation rates as observed in the data?  Set up the hypothesis test (specify Ho and HA), determine which command in R will help you out, then find and interpret the p-value.  What's your conclusion?  Does the appropriate one-sided confidence interval reach the same conclusion?  What consequences (actionable insight) does your conclusion have?
+
+H0: p_canceling_new= p_canceling_repeat
+HA: p_canceling_new> p_canceling_repeat
+
+
+```{r Q2a}
+table(HOTEL$is_repeated_guest, HOTEL$Cancelled)
+
+prop.test(c(377,5),c(965,35), alternative = "greater")
+
+```
+
+**Response:** 
+
+
+b)  **Kahoot 4** Reservation specialists swear up and down that when people put in special requests with their reservation (like an extra sleeping cot, a bottle of champagne, an extra set of towels), they are much less likely to cancel.  In other words, the average number of special requests for kept reservations is higher than the average number of special requests for canceled reservations.  
+
+As we know, analytics is about replacing "guesswork" and "gut feelings" with data-driven insights.  Run a hypothesis test to investigate the specialists claims.
+
+What is the difference in average number of requests among reservations that were kept and reservations that were canceled?  Specify Ho and HA.  Determine which command in R will help you out.  Find and interpret the p-value.  What's your conclusion?  Does the appropriate one-sided confidence interval reach the same conclusion?  What consequences (actionable insight) does your conclusion have?
+
+
+H0: mu_specialrequests_canceled = mu_specialrequests_kept
+H0: mu_specialrequests_canceled < mu_specialrequests_kept
+
+
+```{r Q2b}
+t.test(total_of_special_requests~ Cancelled, data=HOTEL, alternative="less")
+
+```
+
+**Response:** 
+
+
+
+c)  **Kahoot 5** Is there a statistically significant difference in the average number of adults among reservations that were kept and reservations that were canceled?
+
+What is the difference in average number of adults among reservations that were kept and reservations that were canceled?  Specify Ho and HA.  Determine which command in R will help you out.  Find and interpret the p-value.  What's your conclusion?  Does the appropriate two-sided confidence interval reach the same conclusion?  What consequences (actionable insight) does your conclusion have?
+
+
+```{r Q2c}
+
+```
+
+**Response:** 

@@ -1,0 +1,459 @@
+---
+title: 'BAS 471 Spring 2025 Homework on Unit 2B - Precision of Estimates for p and Comparing Probabilities Between Groups'
+author: "Your Name Here Please"
+date: "see Canvas for due date"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+#Leave this as-is.
+knitr::opts_chunk$set(echo = TRUE,collapse=TRUE)
+if( as.numeric( paste( unlist( strsplit( paste(R.Version()$major,R.Version()$minor,sep="."),split="\\.") ),collapse="") ) < 442 ) { 
+  stop("You must have R version 4.4.2 or later to knit this document")}
+RNGversion("4.4.2")
+library(multcompView)
+library(tidyverse)
+```
+
+******************************************************************************
+
+# Note: these are your homework problems
+
+As a reminder about the collaboration policy, remember that you can develop a common set of R code with your colleagues. However, all written interpretations (i.e., anything that follows a **Response:**) needs to be written *in your own words* (unless you are instructed to copy/paste what ChatGPT says for a particular question).  Homework submissions that look to be near copies of each other will receive substantially reduced credit, may receive a 0, and may result in you receiving an F in the class.  If you do use ChatGPT as a learning tool (caution:  in BAS 471, unlike other BAS classes, *there are quite a few concepts/problems that ChatGPT gets plain wrong*), you'll need to rephrase its very obvious AI-sounding phrasing.  Remember that exams are closed ChatGPT, so do not rely on it too much.  
+
+******************************************************************************
+
+## Question 1 - Stock options
+
+"Barrier" options are a type of exotic financial option that allow you to effectively place a "bet" on a stock's price movement. Depending on the type of option, the stock must either reach a certain price (the barrier) within a specified timeframe or must never exceed or drop below a certain price.
+
+Suppose you model the price of a stock using the following Monte Carlo simulation (you do not need to include this code, but run it a few times to observe its behavior):
+
+```{r Q1,include=FALSE,eval=FALSE}
+#Stock starts out at 50
+#Evolution recorded over 100 days (size=100 argument)
+#Stock either goes down 3, 2, 1, stays at the same price, or increases by 1, 2, or 3
+#Weights for these 7 possibilities are 6,11,16,40,14,9,4, respectively
+initial.price <- 50
+moves <- sample(-4:4,size=100,replace=TRUE,prob=c(4,6,11,12,38,14,9,4,2))
+closings <- initial.price + cumsum(moves)
+closings
+plot.ts(closings)
+
+
+
+```
+
+You have the choice between two barrier options, each costing $10 and paying out $6 under specific conditions based on the stock’s price over 100 consecutive trading days. If an option pays out, you receive $16; otherwise, you lose your $10 investment.
+
+* Option 1 pays out if the stock price always remains between $40 and $60.
+* Option 2 pays out if the stock price ever reaches or exceeds $55.
+
+Using a model similar to the one above for daily price movements (you do not need to run any simulations), the results of a Monte Carlo simulation were:
+
+* Option 1 paid out in 312 out of 468 trials.
+* Option 2 paid out in 495 out of 824 trials.
+
+a)  What is the best estimate for the probability that Option 1 pays out?  Sanity check:  between 66% and 67%.
+
+```{r Q1a}
+
+P1<-312/468
+
+
+
+```
+
+b)  How far off might this estimated probability be from the true probability that Option 1 pays out? In other words, provide an estimate of the potential error in this probability (just how "wrong" might it be?).    Sanity check:  a little over 2%.
+
+```{r Q1b}
+
+SE<-sqrt(( 0.6666667*(1- 0.6666667))/468)
+
+
+```
+
+c)  Provide a range of plausible values for the true probability that Option 1 pays out. This range should be consistent with the simulation results.  You’ve learned two methods to calculate this range (which yield slightly different results). Implement both methods, then explain which method is preferred (in BAS 471 and beyond).
+
+**Response:** 
+Binomial distribution is the preferred method. This is different than our classic confidence interval because it uses factorials and like needs parameters apparently. Also it gives at least 95% confidence whereas the old school way gives around 95% confidence, so it's basically more accurate, I guess. 
+How I think it works:
+I think what the code does is assumes parameters of like p=.5 and q=.5 then throws the number of trials and the outcomes in the factorial spaces to get the initial probability. Then it likely uses some sort of logistic curve with something called normal approximation to get the interval which is just p hat+- (Za*sqrt(p hat(1-p hat)))/sqrt(n). This is different because in the normal way of doing it you basically just have your sqrt( (p(1-p))/ n) as your standard error, which is a much nicer formula if you ask me, but apparently it just isn't as good. 
+This could be completely inaccurate however because I had to look this up. 
+
+
+
+
+
+```{r Q1c}
+
+CI<-c(P1-(2*SE), P1+(2*SE));CI
+
+
+
+binom.test(312, 468)
+
+
+
+
+
+```
+
+d)  Suppose you are only willing to purchase Option 1 if the probability of a payout is at least 70%, which is slightly higher than the best estimate from the simulation.  Based on the simulation results, is 70% a reasonable or plausible value for the true probability of a payout? Explain.
+
+**Response:** 
+Yeah, it seems reasonable because it is within both confidence intervals. 
+
+
+e)  At first glance, Option 1 seems to have a higher probability of paying out than Option 2 (about 66.7% vs. 60.1%, a difference of 6.6%). However, even if both options had the same underlying payout probability, their *estimated* probabilities from the simulation would still vary slightly.  That said, it would be quite unlikely for the two options to have exactly the same true payout probability. Based on the simulation results, can we statistically detect a difference in payout probabilities? In other words, is the observed difference statistically significant?
+
+**Response:**  
+0 is not in the confidence interval, therefore the difference is statistically significant. 
+```{r Q1e}
+prop.test(c(312,495), c(468, 824), conf.level = .95)
+
+```
+
+************************************************************************
+
+## Question 2 - Stock options followup (Bonus question)
+
+For professionals in financial analytics, comparing the payoff probabilities of different options is a key focus. Monte Carlo simulations provide valuable insights into optimizing stock and commodity trading, assuming the model is sufficiently robust. While researchers have spent decades developing better models, there is still significant room for improvement. Understanding the precision of probability estimates from these simulations—and how they relate to the number of trials—is crucial.
+
+a)  Option A pays off 70 times in 1,000 trials, resulting in an estimated 7% payoff probability.  Option B pays off 160 times in 2,000 trials, resulting in an estimated 8% payoff probability.
+
+*  B's probability appears higher, but can the data actually detect a difference in these payoff probabilities? Explain, making sure to include the phrase "statistically significant" in your response.
+
+*  If the results suggest that B's payoff probability is higher, provide a range of values to quantify how much higher.
+
+```{r Q2a}
+prop.test(c(70,160), c(1000,2000), conf.level = .95)
+
+
+```
+
+**Response:**  
+0 is within the confidence interval meaning that there are no statistically significant differences between the two options. 
+
+b)  Option C pays off 700 times in 10,000 trials, resulting in an estimated 7% payoff probability.  Option D pays off 1,600 times in 20,000 trials, resulting in an estimated 8% payoff probability.
+
+*  D's probability appears higher, but can the data actually detect a difference in these payoff probabilities? Explain, making sure to include the phrase "statistically significant" in your response.
+
+*  If the results suggest that D's payoff probability is higher, provide a range of values to quantify how much higher.
+
+**Response:**  
+0 is not within the confidence interval meaning that the difference is statistically significant, option c is between -0.016331554 and -0.003668446 less probable to pay off than option D. 
+
+```{r Q2b}
+prop.test(c(700,1600), c(10000,20000), conf.level = .95)
+
+prop.test(c(700,1600), c(10000,20000), conf.level = .95)$conf.int->CI
+
+
+
+```
+
+
+
+c)  Although the estimated difference in payoff probabilities is 1% in both cases (A vs. B and C vs. D), one result is statistically significant, while the other is not. Explain why this happens. In other words, why is a 1% estimated difference sometimes statistically significant and sometimes not?  You may arrive at an intuitive answer on your own, or refer to slides 22–23 in the course notes (`2C-ComparingProbabilities.pdf`) for additional insights.
+
+**Response:**  
+
+************************************************************************
+
+## Question 3 - Strategy for UT's baseball team
+
+The UT men's baseball team is considering a new strategy (e.g., pitching, stealing, fielding). As an analytics expert, you have developed a detailed simulation of player movement and behavior to assess its effectiveness against Vanderbilt. The goal is to estimate p, the probability that the Vols defeat the Commodores using the new strategy.
+
+However, because the simulation is highly detailed and computationally expensive, you were able to run only 120 simulated games. The Vols won 65 out of 120.  Thus, the "best guess" for p, the probability of winning, is about 65/120 = about 54.2%.  The standard error of this estimate is 4.5%, and the 95% confidence interval for the true probability of winning is (44.8%, 63.3%). Based on this simulation, it is unclear whether the strategy significantly improves the Vols' chances beyond 50%.
+
+```{r Q3overview}
+phat <- 65/120; phat
+SE <- sqrt( (phat*(1-phat))/120 ); SE
+phat + 2*c(-1,1)*SE  #Classic confidence interval
+binom.test(65,120)   #Better confidence interval
+
+2*SE->ME
+
+
+```
+
+a)  Analysts use two terms to quantify the precision of an estimated probability: standard error and margin of error. How are these two quantities related? Compute the margin of error for the estimated probability of winning.
+**Response:**  
+Margin of error is just 2 * Standard Error. 2*SE=0.09096957= ME. This will give about a 95% confidence interval when added and subtracted to Phat. 
+
+
+
+
+b)  Is the confidence interval provided in the R code correct? In other words, does it actually contain p, the true probability of winning? Justify your answer.
+**Response:** 
+At least 95% of the confidence intervals will contain the true mean probability within the binomial test, and about 95% of the confidence intervals will contain the true mean probability within the classic confidence interval test. 
+However, I do not know whether the true probability is actually within either of these confidence intervals, because roughly 95% of these intervals are correct, thus we don't know. 
+
+
+
+c)  Suppose we outsourced the simulation to all 1,500 students majoring in BAS at UT, each of whom runs the simulation on their laptop (using different random number seeds). Due to varying computational power, the number of trials completed by each student differs.  If all 1,500 students construct 95% confidence intervals based on their results, how many would you expect to cover the true probability p? How could you determine which confidence intervals actually contain p?
+
+**Response:**  
+I expect around 1425 to cover the true p.
+
+I could use that letter thing and just pray that the 75 that are expected to not contain the true p are like correlated a bit so that I can use less than 26 letters in the alphabet. The letter thing is probably the best approach, there might be a way to just table the results a-z and just have the letter with the most um instances I guess be the true probability's confidence interval. 
+
+Basically the analysis of variance and Tukey thing. 
+
+multcompLetters4(AOV,TUKEY)# this bad boy.
+
+
+
+
+d)  One student reports a 95% confidence interval of (0.52, 0.63), good news for the Vols!  The student states "There’s a 95% chance that p is between 52% and 63%".  What's wrong with saying "There's a 95% chance that `p` is between 52% and 63%? 
+
+**Response:**  
+
+He doesn't even know if his confidence interval is correct. 
+Like there is a 95% probability that his confidence interval is right, not that the probability is in that range. 
+
+There is probably a more sophisticated way to say it, but to quote Gucci Mane: “If a man does not have sauce, then he is lost. But the same man can get lost in the sauce.” This gentleman doesn't even know if he has the sauce, why is he acting like he does?
+
+
+* The term "95% confident" does indeed refer to *something* that has a 95% chance of occurring.  What?
+
+**Response:**  
+like 95% chance that the interval contains real probability. 
+Like out of 100 different confidence intervals of a similar simulation, about 95 of them will look pretty similar is how I interpret it. But once again refer to Gucci Mane, I could be lost in the sauce. 
+
+e)  The analytics team requests a new Monte Carlo simulation to estimate the probability of winning using a different strategy. They want the margin of error to be 0.015 (1.5 percentage points).  How many simulation trials would be needed if:
+
+* You have no prior knowledge of the true probability of winning?
+* A small pilot study suggests the probability is around 0.61?
+
+```{r Q3e}
+phat<-.61
+
+sqrt((phat*(1-phat))/1000)->SE
+SE
+(SE/.0075)^2->factor
+
+
+sqrt((phat*(1-phat))/(factor*(1000+1)))->SE2
+2*SE2->ME1
+factor*(1000+1)->ntrials; ntrials
+#around 4234 trials for that margin of error
+
+```
+
+f)  The analytics team asks you to perform a Monte Carlo simulation with *yet another*, but simpler strategy.  After 2,000 trials, you estimate the probability of winning with a margin of error of 0.015.  The boss wants greater precision, requesting additional trials to reduce the margin of error by a factor of 5 to 0.003 (i.e., 1/5th of its current value).  How many total trials are required to achieve this precision?  Hint:  don't get caught up in any complex math;  we have a simple rule for this sort of question!
+
+**Response:** 
+50000 trials.
+
+************************************************************************
+
+## Question 4 - Making a great beer
+
+This data originally came from https://www.kaggle.com/datasets/ruthgn/beer-profile-and-ratings-data-set, though you'll work with the pre-wrangled data provided on Canvas.
+
+The dataset contains tasting profiles and consumer reviews for 3,197 unique beers from 934 different breweries. Could analytics help design the next great craft beer? If statistically significant differences can be found in the probability that a beer is considered "high quality" based on factors such as sweetness, sourness, saltiness, fruitiness, and hoppiness, it may be possible to optimize these characteristics and develop a "secret recipe" that could take the world by storm.
+
+*Note:*  So that this .Rmd will knit:
+
+* Make sure `BAS471-beers.csv` is in your BAS 471 folder
+* Make sure your working directory is your BAS 471 folder (Session, Set Working Directory if you need to)
+* You have done a Save As to force-save this .Rmd file into your BAS 471 folder
+
+The following chunk reads in the data and performs some wrangling/cleaning.  While 80-90% of your time doing analytics projects will likely be spent figuring out how to get the data into a form where analytics can happen, let's forgo most of the details and skip to the discovery phase.  
+
+```{r Q4 setup}
+
+
+#install.packages("dplyr")
+library(dplyr)
+library(forcats)
+
+
+#Read in data
+BEERS <- read.csv("BAS471-beers.csv",stringsAsFactors = TRUE)
+#Remove columns that aren't needed/wanted in the analysis
+
+BEERS <- BEERS[, !names(BEERS) %in% c("Name", "Brewery", "Beer.Name..Full.", "Description", "Min.IBU", "Max.IBU", "review_aroma", "review_appearance", "review_palate", "review_taste")]
+
+#Consider beers that have at least 100 reviews
+
+
+BEERS <- BEERS %>% 
+  filter(number_of_reviews >= 100)
+
+#Consider only the 8 most common styles (with 9 being an "Other" category)
+
+
+BEERS <- BEERS %>% 
+  mutate(Style = fct_lump_n(Style, 8))
+
+#Rename these styles to take out the dashes (future commands won't work with dashes)
+levels(BEERS$Style) <- gsub("-","",levels(BEERS$Style))
+
+#Divide the numbers in the Astringency through Malty columns by the number of reviews to get the average number of mentions
+#in the review text left my consumers that specifically call out positively that aspect of the beer
+BEERS <- BEERS %>% mutate(across(Astringency:Malty, ~ . / number_of_reviews))
+
+#Convert these averages to "Small" and "Large"  for Astringency to Hoppy depending on if the value is above the median or not
+BEERS <- BEERS %>%
+  mutate(across(Astringency:Hoppy, ~ factor(if_else(. > median(.), "Large", "Small"))))
+
+BEERS <- BEERS %>%
+  mutate(across(Spices:Malty, ~ cut(., breaks = quantile(., probs = seq(0, 1, length = 6)), 
+                            labels = c("Very Small", "Small", "Medium", "Large", "Very Large"), 
+                            include.lowest = TRUE)))
+
+#Remove the number of reviews column since we don't need it now
+BEERS <- BEERS %>% select(-number_of_reviews)
+
+#Convert the values in review_overall to be "High" or Low" depending on if the review score is at least 4 
+BEERS <- BEERS %>% mutate(review_overall = factor(ifelse(review_overall>=4,"High","Low")))
+  
+#Convert the values in ABV column into 5 roughly equal sized categories
+BEERS <- BEERS %>%
+  mutate(ABV = cut(ABV, breaks = quantile(ABV, probs = seq(0, 1, length = 6)), 
+                            labels = c("Very Small", "Small", "Medium", "Large", "Very Large"), 
+                            include.lowest = TRUE))
+#Proportion of high quality beers in data
+mean(BEERS$review_overall=="High")  #32.2% of beers in this dataset are high quality!
+
+
+
+```
+
+To design a great beer, we need to determine what defines high quality. Is it a high alcohol content? Just the right amount of fruitiness to stand out to the drinker? Or perhaps enough hoppiness to leave a lasting impression? One effective way to identify these key indicators is by analyzing statistically significant variations in the probability that a beer is considered high quality based on its characteristics.
+
+a)  The `Fruits` column indicates whether the number of fruitiness-related mentions in a beer’s written reviews is above or below the median across all beers. A value of "Large" signifies a relatively high number of mentions, while "Small" indicates relatively few.
+
+From the data, 31.3% of the 773 beers with "Large" fruitiness are classified as high quality, compared to 33.1% of the 774 beers with "Small" fruitiness—a difference of approximately 1.8%. Use a 95% confidence interval to determine whether this difference is statistically significant.
+
+**Response:**  
+0 is in the confidence interval, this difference is not statistically significant. 
+```{r Q4a}
+
+prop.test(c((.313*773),(.331*774)),c(773,774), conf.level = .95)
+
+
+
+
+
+```
+
+b)  The `Hoppy` column indicates whether the number of hops-related mentions in a beer’s written reviews is above or below the median across all beers. A value of "Large" signifies a relatively high number of mentions, while "Small" indicates relatively few.
+
+From the data, about 23.4% of the 773 beers with "Large" hoppiness are high quality, while 41.0% of the 774 beers with "Small" hoppiness are high quality.  Use a 95% confidence interval to determine if this ~17.6% difference is statistically significant. 
+
+**Response:**  
+Yep. 0 is not in the confidence interval, small hoppiness is therefore better for high quality. 
+
+```{r Q4b}
+prop.test(c((.234*773),(.41*774)), c(773,774), conf.level = .95)
+
+
+
+
+
+```
+
+
+c)  Use an `aggregate` function (or `group_by` and `summarize` if you are familiar with the `tidyverse`) to produce a table of the proportion of beers that are high quality for each category of `ABV` (the alcohol by volume, the range of which has been split up into 5 roughly equally sized categories).  
+
+```{r Q4c1}
+
+aggregate(review_overall=="High"~ ABV, data = BEERS, FUN= mean)
+
+
+```
+
+The proportion of high-quality beers varies from 16.4% to 48.2% across the five categories, with the likelihood of being high quality increasing steadily with ABV. Generate a connecting letters report to identify statistically significant differences between the categories.
+
+```{r Q4c2}
+library(multcompView)
+
+AOV<-aov(review_overall=="High"~ ABV, data = BEERS)
+TUKEY<-TukeyHSD(AOV)
+TUKEY
+
+multcompLetters4(AOV,TUKEY)
+
+
+
+
+
+
+```
+
+* From a statistical point of view, which category has the lowest probability of being high quality; or is there a "tie"?  Justify your answer.  If there is a tie, list all categories in the tie. 
+
+**Response:** 
+Small & Very Small ABV have the same letters in the multcomp Letters thing, both c, thus they have the lowest probabilities of being high quality. They are not statistically different and their difference contains 0 within its confidence interval. 
+
+* From a statistical point of view, which category has the highest probability of being high quality; or is there a "tie"?  Justify your answer.  If there is a tie, list all categories in the tie. 
+
+**Response:** 
+Large and very large ABV have the highest probability of being high quality, they both share the letter a in the letter test, and their difference contains 0 within its confidence interval. 
+
+d)  Use an `aggregate` function to produce a table of the proportion of beers that are high quality for each `Style`. 
+
+```{r Q4d}
+aggregate(review_overall=="High"~Style, FUN = mean, data = BEERS)
+AOV<-aov(review_overall=="High"~ Style, data = BEERS)
+AOV
+TUKEY<-TukeyHSD(AOV)
+TUKEY
+
+
+```
+
+*  Is there any statistically significant difference in the probability of being high quality between the Tripel and Lager  Märzen / Oktoberfest categories?  After all, this difference does look big (46.9% vs. 16.1%)!  Explain.
+
+**Response:** 
+No, 0 is within the confidence interval for their differences under the TUKEY analysis. This is possibly due to a really small sample size because their confidence interval for the difference is really large. lower: -0.054263009 upper:  0.669182363
+
+*  Is there any statistically significant difference in the probability of being high quality between the Strong Ale  Belgian Dark and the Lager  Märzen / Oktoberfest categories? After all, this difference does look big (52.5% vs. 16.1%)!   Explain.
+
+**Response:** 
+Yes, 0 is not within the confidence interval for the difference in running Tukey, therefore the difference is statistically significant. 
+
+e)   Explain (by performing an ANOVA, but without producing a connecting letters report) how you know that *none* of the differences in the probability of being high quality across categories of Spices are statistically significant.
+
+**Response:** 
+0 is in every single confidence interval from running TUKEY on AOVs. Therefore no statistically significant difference in probabilities for quality on spices. 
+
+```{r Q4e}
+AOV<-aov(review_overall=="High"~Spices, data = BEERS)
+AOV
+TUKEY<-TukeyHSD(AOV)
+#TUKEY
+```
+
+f)  Extra Credit.  "Main driver" analysis—identifying key factors that influence an outcome—is a common technique in business analytics. In this case, the goal is to systematically evaluate each beer characteristic to determine which are most strongly associated with a beer being high quality.
+
+Analyze *all* 13 potential drivers and write a concise report highlighting the top three. Provide sufficient detail to persuade the reader by discussing how the proportion of high-quality beers varies across different categories. Be sure to explain these drivers in plain English rather than using the exact column names from the dataset.
+
+Hint: A practical, though imperfect, way to measure the strength of a driver is by examining the "F value" in the ANOVA output —- higher values indicate stronger associations.
+
+**Response:**  
+I used a letter report for this answer. My main assumption is that A is better than B, while these reports are not transitive these differences can be used to inform us of quality. 
+Beer style matters a lot: styles like the IPA, Belgian dark, and Tripel  perform very well, while "lager adjunct", "pale ales" and Oktoberfest beer perform very poorly. 
+Astringency is important: low astringency is associated with higher ratings and large astringency is associated with lower ratings. 
+ABV content is also very important: anything above a medium abv will perform better than a small or very small ABV. 
+What does this mean for the average beer consumer and producer: a beer like a Budlight which has around a 4-5% abv, and is a lager will perform worse than a dark Belgian beer at 6-7% ABV. 
+It also implies that there are diminishing marginal ratings for ABV, a medium abv of around 6-7% will perform just as well as an incredibly high ABV of around 10-11%, given that the style of beer is one of the 4 considered acceptable via the ratings: IPA Imperial, IPA American, Belgian Dark or Tripel. 
+Astringency means tanins: or why people like a bitter red wine like a malbec. Beer reviewers, however, are a bit unique and don't enjoy astringent tastes. Allegedly this is due to either too much hot water in the process or bad ingredient choices. Simple ingredients, and light processing might be the better approach for breweries in order to get higher ratings.I find this difference odd because IPA's are, in my view, quite bitter and thus tanniny, but according to the report, bitterness and large astringency don't seem to directly overlap. 
+Me personally, I prefer a Belgian Dark to an IPA because I don't like hops, and sometimes they're chocolaty, that seems to be the major outlier of the top performance group. Which is mainly IPA/ light beers. 
+
+
+
+
+```{r}
+AOV<-aov(review_overall=="High"~., data = BEERS)
+TUKEY<-TukeyHSD(AOV)
+head(multcompLetters4(AOV,TUKEY))
+
+
+```
+
+

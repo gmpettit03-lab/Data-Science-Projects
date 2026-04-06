@@ -1,0 +1,500 @@
+---
+title: "BAS 471 Spring 2025 Homework on Unit 1 - Fundamentals of Probability Solutions"
+author: "Your Name Here Please"
+date: "see Canvas for due date"
+output:
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+#Leave this as-is.
+knitr::opts_chunk$set(echo = TRUE,collapse=TRUE)
+if( as.numeric( paste( unlist( strsplit( paste(R.Version()$major,R.Version()$minor,sep="."),split="\\.") ),collapse="") ) < 442 ) { 
+  stop("You must have R version 4.4.2 or later to knit this document")}
+RNGversion("4.4.2")
+```
+
+******************************************************************************
+
+# Note: these are your homework problems
+
+As a reminder about the collaboration policy, remember that you can develop a common set of R code with your colleagues. However, all written interpretations (i.e., anything that follows a **Response:**) needs to be written *in your own words* (unless you are instructed to copy/paste what ChatGPT says for a particular question).  Homework submissions that look to be near copies of each other will receive substantially reduced credit, may receive a 0, and may result in you receiving an F in the class.  If you do use ChatGPT as a learning tool (caution:  in BAS 471, unlike other BAS classes, *there are quite a few concepts/problems that ChatGPT gets plain wrong*), you'll need to rephrase its very obvious AI-sounding phrasing.  Remember that exams are closed ChatGPT, so do not rely on it too much.  
+
+******************************************************************************
+
+# Question 1 - Exploration of the Frequentist Definition of Probability
+
+**Note:**  Keep all responses to just a few sentences.  ChatGPT is notorious for giving very long-winded answers to these types of questions (with wishy-washy and non-committal responses).  Be sure you can answer these type of questions without it.  
+
+a)  As mentioned in the introductory note to this homework, sometimes ChatGPT effortlessly solves BAS 471 problems. Other times, it fails ... epically. You are interested in the probability that ChatGPT provides a correct answer to a pre-quiz, activity, or homework problem (since ChatGPT is not allowed on exams). Imagine you gather all 650 questions from Spring 2024 and run each through ChatGPT, noting the total number that ChatGPT answered correctly. Let's say ChatGPT got 500 of them correct.
+
+True or false and explain: According to the strict frequentist definition of probability (which requires independent trials conducted under identical conditions), a reasonable estimate of the probability that ChatGPT will answer a BAS 471 question correctly this semester is 500/650, or about 77%. In your response, comment on both the "identical conditions" and "independent trials" requirements.
+
+**Response:**  
+False, Chat GPT can answer certain questions with 100% accuracy and others with no accuracy. Because the free version is a large language model, it processes information over time and must learn via input into the model how to 'solve problems', certain models of AI like for example reasoning models- which open AI also has- can break the problem down into steps and then execute each step fairly well. That being said, since chat GPT isn't necessarily a calculator exact decimal places can be an issue, because it can not round past I think the 4th or 5th digit from what I remember, so that is a major limitation with regards to probability. For example if you asked chat to round like 37/61 to the 8th decimal place, I think it would get an incorrect answer. 
+As for like identical conditions, its kind of similar to the basketball question. ChatGPT because of its constraints cannot process all math problems equally, since a) it is a LLM, and b) since it doesn't have numerical accuracy. So, I question the validity of saying each 'BAS 471 Question' is an identical question. 
+Independent trials, if you frame the questions exactly the same on chat gpt, that kind of defeats the purpose of it being a LLM. Like the reason Chat GPT is so damn good at things like taking derivatives and integrals of complex functions is simply because the engineering students are pretty lazy and ask Chat GPT to do their homework. Thus, as it intakes more information from these lazy engineering students, and learns all the rules for calculus it can give really accurate and clean answers and teach every step of the process, because it learns by taking in new information. So, currently where it struggles with probability will not be where it struggles in even a year or two, because it will learn all of the rules for probability from students asking chat gpt to do their homework. In short, because chat GPT "learns", it isn't like flipping a coin or rolling a dice on if it works or not. It's more like a database of past examples that it has already completed, hence these are not independent trials. 
+
+b)  Imagine you are using a beta version of a new update to ChatGPT. OpenAI guarantees that it has a 90% success rate for answering *any* particular question about probability. You ask this new version of ChatGPT the previous question (Q1a on this homework), and it outputs a response.
+
+True or false and explain: According to the strict frequentist definition of probability (which requires independent trials conducted under identical conditions), the probability that ChatGPT has provided a correct response to Q1a is 90%.
+
+**Response:**  
+False, how do I know that chat GPT has seen the previous question or framing of that question? That determines the whole concept, it either has seen and solved a question similar to the above question or it hasn't. If it hasn't, then there is a 0% chance that it can solve the question. If it has seen the above question, it could be like 100% accurate output, give or take decimals. 
+
+c)  You're interested in the probability that a randomly selected UT student is "good with numbers." You visit a section of STAT 201 and ask the 100 students in the class to raise their hand if they consider themselves "good with numbers." 24 out of 100 do.
+
+True or false and explain: According to the strict frequentist definition of probability (which requires independent trials conducted under identical conditions), a reasonable estimate of the probability that a randomly selected UT student is "good with numbers" is 24%. In your response, comment on both the "identical conditions" and "independent trials" requirements.
+
+Hint: Think a little outside the box about what it means for trials to be conducted under "identical conditions" to fairly estimate this probability.
+
+**Response:**  
+False. So, if I walked into an anthropology or sociology class I should get 24% of the hands raised? Absolutely not. If I'm not mistaken, STAT 201 is a required course for business majors, and the engineering and stem people have their own version of the course. That said, there is obviously self-selection bias. Also, what does that mean to be good with numbers? Does that mean these people can do factorials in their head or are they good at numeracy such as counting, adding and subtracting. A more accurate statement from that sample would resemble "24% of students taking stat 201 believe they are good with numbers". 
+If, however, you conducted an independent examination and decided upon a cutoff that was acceptable (a standardized test with like a minimum score requirement) and mandated that every student at the University of Tennessee had to take said exam, then you can make an accurate statement regarding "1 in 10 or 1 in 4 is good with numbers". The second part of those probability conditions is 'identical conditions'. Standardized testing can level that. 
+
+d)  Open this assignment's Canvas page. You'll notice an interconnected network of nodes. Imagine that the nodes represent cities, and the lines (let's call them edges) represent supply lines (e.g., gas, electricity, water). It's fairly easy to visually identify the shortest path between the two red-circled cities—you have to traverse 31 total edges.
+
+But what if you're a dumb ant meandering around this network? At each node, the ant randomly picks an edge to traverse, including the one it just traveled across. Thus, during its journey, the ant sometimes has to randomly choose between two edges, while other times it has to choose between three or even four. Surely, if the ant starts at the top red-circled node, it will *eventually* reach the bottom red-circled node, but it might take a lot of moves!
+
+You write an algorithm that places the ant at the top red-circled node and has it randomly choose edges to traverse. You want to estimate the probability that the ant will reach the bottom red-circled node in at most 250 moves. On the first run, the ant fails to do so. The algorithm restarts, but again, the ant fails. In fact, out of 500 attempts, the ant reaches the bottom red-circled node in only 8 of them.
+
+True or false and explain: According to the strict frequentist definition of probability (which requires independent trials conducted under identical conditions), a reasonable estimate of the probability that the ant can go from the top red-circled node to the bottom red-circled node in at most 250 moves is 8/500 = 1.6%. In your response, comment on both the "identical conditions" and "independent trials" requirements.
+
+**Response:**  
+True, each of these trials selects a new 'ant' with no prior understanding of what it is doing, thus it is independent. Each of these trials also has the same format of the edges and circles, each trial also puts the ant in the same place, thus each trial has identical conditions. 
+
+e) EarWorm (a hypothetical music streaming service) is interested in the probability that Caroline listens to a Taylor Swift song. EarWorm’s library contains 100,000 songs, 200 of which are Taylor Swift songs. To estimate this probability, they note that of the last 10 songs Caroline streamed, 9 were Taylor Swift songs (sometimes she even listened to the same song back-to-back!).
+
+True or false and explain: According to the strict frequentist definition of probability (which requires independent trials conducted under identical conditions), the fraction of streamed songs that were Taylor Swift (9/10, or 90%) is a reasonable estimate of the probability that Caroline’s next streamed song will be from Taylor Swift. That is, in the long run, 90% of songs streamed by Caroline will be Taylor Swift songs. In your response, comment on both the "identical conditions" and "independent trials" requirements.
+
+**Response:**  
+False. Caroline could have been listening to a Taylor Swift album for the past 9 songs in the sample. We would need to know Caroline's long term history of listening to music on this app in order to conclude that 90% of the music she listens to is Taylor Swift. Maybe after 10 songs she goes to work and her next 10 songs are all Rage Against the Machine or Depeche Mode. 
+Maybe Caroline is going through a breakup (I don't understand women, so bear with me) and wants to listen to Taylor Swift to Shake it (her relationship) off, she might have to really shake it off too (hence why she listened to a given Taylor Swift song twice). So, maybe after one day of listening to Taylor Swift, she is no longer in a Taylor Swift mood. Thus, I think that the identical conditions aspect of that frequentist probability would be hard to justify. 
+Also, this seems to be one trial, so we really don't know what her long run proportion of listening to Taylor Swift is. Maybe she, on average, listens to one Taylor Swift song a day, but the day of the sample is just her one day of listening to 9 taylor swift songs, and the other 6 days of the week she listens to 0 Taylor Swift songs.
+I think that the same trial set up could be repeated in independent manners to improve this estimate. 
+
+
+f) Brrrr! I'm writing this homework on January 10, 2025, while the snow is gently falling outside. Did you know that, on average, Knoxville experiences about 50 days per year with low temperatures below 32°F?
+
+True or false and explain: According to the strict frequentist definition of probability, 50/365 = 13.7% is a reasonable estimate of the probability that the low temperature will be 32°F or below on a randomly selected day in the future. In your response, comment on both the "identical conditions" and "independent trials" requirements.
+
+**Response:** 
+False, these days are clustered in like 2 and a half months. So like the probability of it being below 32 in January is higher than the probability of it being below 32 in August. A condition to consider would be what season it is, in the winter it doesn't often get cold till January, whereas if it is July, it is never below 32 degrees. So it is like a probability for certain seasons and a non probability in other seasons. This throws out the identical conditions condition of the frequentist view of probability.
+
+Independent trials: lets say you had 36 ntrials of 10 random days chosen with replacement and it chooses from a list of 365 days in a year with like the probabilities of that day being cold mapped onto each of the 365 days. I.e December 5th has a 10% chance of being below 32, December 27th has a 47% chance of being cold, and January 13th has a 90% chance of being cold. Like weight the days with cold probabilities, but don't weight like the days being chosen by anything, if that makes sense. Like if you choose 10 random days in a loop like that, then like have a condition that the number of cold days chosen is a fraction of the 360 days that are in our sample space, then it could possibly be an independent trial. But even then, that just doesn't follow the logic very well. 
+Like if today is june 1st and I say "There is a 13% probability that tomorrow will be below 32 F" that doesn't make any sense. Like that's like saying if I roll a die and it lands on a 4 then it'll snow. The earth isn't Dungeons and Dragons. Like it just can't be an independent trial at all. 
+
+
+
+
+******************************************************************************
+
+## Question 2 - Supply Line Network and Ants
+
+Let's revisit Q1d. On Canvas, you'll find another image of the supply line network with two nodes circled in blue and several terminal nodes (nodes with only one edge connected to them) in various shades of green.  Note:  while ChatGPT accepts images of inputs (you in theory, you could copy/paste the image along with the question), its visual recognition of the structure of the network is pretty bad.  In fact when I asked it to count the number of terminal nodes and to count the number of green circles it came back with 29 and 24, respectively -- obviously very wrong. 
+
+a) If the dumb ant is on the bottom blue-circled node, what is the probability that it reaches the other blue-circled node in exactly 5 steps (i.e., it makes the correct choice of edge to traverse every time)? Explain how you arrived at your answer.
+
+**Response:**  
+1. There is only one solution to get from circle 1 to circle 2 in 5 steps. 
+So in step 1 the ant can either go up or down, we need it to go up, assuming that each up and down are equally likely, then the ant has a .5 probability of going up. Step 2 the ant can either return to the initial blue circle or go up again, so .5 probability that it goes up. Step 3: after a successful step 2 we have 2 additional routes that lead to green circles and the ant can move up or down. We need the ant to go up, hence it has a .25 probability of going up. Step 4: the ant can go up or down, .5 probability of going up. Step 5: we have one route which leads to a green circle another that leads back and another that leads to blue circle 2. We need it to go to the second blue circle, 1/3 probability. Last multiply all the 5 probabilities together and you get around .0104. 
+```{r Q2a}
+.5*.5*.25*.5*(1/3)
+#This is my formula, I probably should learn how to code this because it seems cool, but yeah. 
+print(0.01041667)
+
+```
+
+b) Two random "terminal nodes" in the network are selected (with replacement, meaning the same node could be chosen twice), and the shortest path between them is constructed. What is the probability that this path passes through both of the blue-circled nodes?
+
+Note: A "terminal node" is a node with only one edge connected to it (these are color-coded in various shades of green; the different shades provide a subtle hint). Explain your reasoning.
+
+Additional Information: There are 31 dark green terminal nodes, 5 bright green terminal nodes, and 3 faded green terminal nodes.
+![alt text](mst3.jpeg)
+Sanity Check: a little above 20%
+
+**Response:**
+
+```{r Q2b}
+
+
+
+#THIS IS MY ANSWER
+#41^2= 1681# number of possible pairs, this is 100% accurate and real trust me. I made a set with x y coordinates (I didn't I was too lazy)
+6*32*2
+#384/1681= 0.2284355
+#hell this is about 22% so that might work??????
+
+
+```
+
+c)  *Bonus*  In part (a), you calculated the probability that the ant travels between the two blue-circled nodes in exactly 5 steps (the shortest route possible). What is the probability that the ant completes the journey in exactly 6 steps? How about exactly 7 steps? Justify your answer and show your work.  I was getting very close to 1.6%.  
+
+**Response:**  
+
+```{r Q2c}
+# okay ant cannot do 6 steps unless he starts outside of a blue in both cases he has 3 possible steps to go to shortest route, Recall probability for 5 steps
+#p5<-.5*.5*.25*.5*(1/3)
+#p5*(1/3)= 0.003472222 #probability of 6 steps, otherwise impossible
+#probability for 7 is cool though because there are two places where the ant can go for 7 steps, plus the ant can go backwards 1 time. 
+#(p5*1*.25)->r1 # green node in middle
+#(p5*(1/3)*1)->r2 # green node next to top blue
+#5 more routes with backing up
+#(p5*.5*(1/3))->r3 #can go backwards at the beginning
+#(p5*.5*.5)->r4 #can go backwards after the first step
+#(p5*(1/3)*.5)->r5 #can go down after second step
+#(p5*.5*(1/3))->r6 #can go backwards after third step
+#(p5*(1/3)*.5)->r7 #can go backwards on 4th step (1 before second blue circle)
+
+#THIS IS MY ANSWER
+#r1+r2+r3+r4+r5+r6+r7=0.015625
+
+#I may be a little off, but I think my process is good, I initially had 8 possible routes but I think I over counted so I removed it, past answer was 0.01736111
+
+```
+
+******************************************************************************
+
+## Question 3 - Cards
+
+You shuffle a standard deck of 52 playing cards. In such a deck, there are 4 aces, 4 kings, 4 queens, 4 jacks, and 4 of each numbered card: 2, 3, 4, ..., 9, and 10.
+
+a)  In general, after the deck is shuffled, what is the probability that the top card of the deck is an ace? Justify your answer.
+
+**Response:** 
+4/52!
+
+There are 52! ways to shuffle a deck of cards. There are 4 aces. thus the probability of an ace being on top is 4/52!. 
+Why is 52! my answer? Well you start out with 52 cards to choose the first card, then you have 51 ways to choose the second card, 50 for the third, 49 for the 4th, and so on. If multiply this all up, then you get 52!. I, like many others, am too lazy to calculate what is 52!, so I say leave it as is and just put the 4 on top and boom that's the probability.
+
+b)  You look at and note the value of all but the two bottom cards of the deck. What is the probability that the bottom card is an ace? Justify your answer.
+
+**Response:** 
+Wait, so you already know 50 of the 52 cards? It's either 1 or 0 depending on how many aces were already counted. like it could be a coin flip if you have 3 aces in that stack of 50 already counted, or it could be 0 if you already counted 4 aces in your first 50, it could be 100% if you had 2 aces counted in the first 50, thus the bottom 2 are both aces. 
+It really just depends on the previous 50 cards, which is already known by the dealer. 
+
+******************************************************************************
+
+## Question 4 - Customer Satisfaction
+
+Businesses use analytical models to predict a customer's satisfaction level with a company on a three-point scale: 1 (Unsatisfied), 2 (Neutral), and 3 (Satisfied).
+
+The probabilities of each of these outcomes have implications for how the company interacts with and incentivizes customers. For example, if 40% of customers are unsatisfied, there clearly needs to be a change in how the company does business to improve customer satisfaction. It's important to get the probabilities of these outcomes correct!
+
+True or False: Because there are 3 possible options, each customer has a 1 in 3 chance of being unsatisfied and a 1 in 3 chance of being satisfied. Explain your answer.
+
+**Response:**  
+False, because these are not independent events. Like if your store is really awesome its like a super low probability of unsatisfied customers, and conversely if you run a terrible store then it is likely a higher probability. Sentiment is like a conditional probability. Given a good environment sentiment will be good, given a bad environment sentiment is bad.
+******************************************************************************
+
+## Question 5 - An infinite sample space
+
+Due to a variety of factors, the big orange buses around UT can sometimes become very clustered, or at other times, they can be spread out over a greater distance. Let's model the time that elapses between the arrival of sequential buses as any length of time (not just integers) between 0 and 10 minutes (with all values being equally likely).
+
+In general, when you show up at the bus stop:
+
+a)  What is the probability you'll have to wait *exactly* 8 minutes for the next bus to arrive?  
+
+**Response:** 
+p= 0.090664
+
+b)  What is the probability you'll have to wait at least 8 minutes?
+
+**Response:**  
+p=0.27239
+
+c)  What is the probability you'll have to wait between 2-4 minutes or between 9-10 minutes?  
+
+**Response:** 
+p= 0.453868
+
+d)  *Bonus* It's a great feeling to show up at the bus stop and have the bus pull up (0 wait time) or at least be within eyesight (30-second wait time). For whatever reason, you seem to be "blessed" and consistently show up when the wait is 30 seconds or less. However, you know that it could just be "good luck" since things are random.  
+
+You'll be convinced that you're blessed if all your next X bus rides require a wait of 30 seconds or less. Find the smallest value of X such that the probability of this happening is at most 1 in a million. You may assume that each wait time is independent of the others. Justify your response and show your work.  Show your work (trial and error in the R chunk is fine).  Note: When I asked ChatGPT this question, it came back with 3, but 3 is definitely NOT the answer.
+
+**Response:**  
+p(wait=<30 seconds)= 0.090698
+
+I can't figure out what is wrong with my code, I think it is the as.numeric thing. 
+
+```{r Q5d}
+#a
+ntrials<- 1000000
+counter<-0
+for (i in 1:ntrials){
+  wait<-sample(as.numeric(0:10), size = 1, replace = TRUE)
+  if (wait==8){counter<-counter+1}
+}
+counter/ntrials
+#b
+
+ntrials<- 1000000
+counter<-0
+for (i in 1:ntrials){
+  wait<-sample(as.numeric(0:10), size = 1, replace = TRUE)
+  if (wait>=8){counter<-counter+1}
+}
+counter/ntrials
+
+#c
+ntrials<- 1000000
+counter<-0
+for (i in 1:ntrials){
+  wait<-sample(as.numeric(0:10), size = 1, replace = TRUE)
+  if ((wait>=9) | ((4>=wait) & (wait>=2)) ){counter<-counter+1}
+}
+counter/ntrials
+
+#d
+ntrials<- 1000000
+counter<-0
+for (i in 1:ntrials){
+  wait<-sample(as.numeric(0:10), size = 1, replace = TRUE)
+  if (.5>=wait){counter<-counter+1}
+}
+counter/ntrials
+
+ntrials<- 1000000
+counter<-0
+for (i in 1:ntrials){
+  wait<-sample(as.numeric(0:10), size = 1, replace = TRUE)
+  if (.5>=wait & wait>0){counter<-counter+1}
+}
+counter/ntrials
+
+```
+
+******************************************************************************
+
+# Question 6 - Addition, multiplication, and complement rules
+
+Your friend refuses to ride the bus or take shuttles and instead prefers to live dangerously, parking at UT in Lot 9 with a Commuter pass every day. Imagine that parking enforcement randomly picks days to deploy its fleet of ticketing officers to Lot 9. With the parking department's new technology acquisitions (license plate readers), they have stepped up their efforts to patrol the lots. I reckon that each day there is an independent 28% chance that Lot 9 will be visited. When Lot 9 is visited, since your friend is parked illegally, they *will* get a ticket!
+
+a)  Your friend has lucked out and didn't get tickets during their first 4 days parking in Lot 9. What is the probability of getting a ticket on both of the next two days? Sanity check: about 8%.
+
+```{r Q6a}
+
+#.28*.28= 0.0784 #probability of ticketing two days in a row
+
+```
+
+b)  Following up on the previous scenario, what is the probability that your friend gets a ticket on the next day *or* on the day after that? Remember that "or" really means "at least one of," so this is asking "what is the probability of getting at least one ticket during these two days?" Try using the addition rule. Sanity check: about 48%.
+
+```{r Q6b}
+#P(T1)+P(T2)-P(T1&2)=  0.4816
+#(.28+.28)- (.28*.28)
+```
+
+c)  What is the probability that your friend will luck out and park 5 additional times in a row without getting a ticket? Sanity check: about 19%.
+
+```{r Q6c}
+#(1-.28)^5= 
+0.1934918
+
+```
+
+d)  Using the complement rule, find the probability that your friend will get at least one ticket at some point during the last 8 days they park in Lot 9. Note: the event "at least one" is the complement of "zero." Sanity check: about 93%.
+
+```{r Q6d}
+1-((1-.28)^8)
+# 1 - probability that they didn't get a single ticket in 8 days
+0.9277796
+
+```
+
+e)  A different friend at another university says: "I'm in a probability class right now and we just learned about the addition rule. I think this is how it works. If I want to know the probability that someone gets 0, or 1, or 2, or 3, or 4 tickets, i.e. P(0 or 1 or 2 or 3 or 4), or P(between 0 and 4), I calculate P(0) + P(1) + P(2) + P(3) + P(4)."
+
+Your friend is correct. However, your friend continues:
+
+"After 4 parking days, the probability of getting a ticket is P(ticket on day 1 or ticket on day 2 or ticket on day 3 or ticket on day 4) = P(ticket on day 1) + P(ticket on day 2) + P(ticket on day 3) + P(ticket on day 4) = 28% + 28% + 28% + 28% = 112%. But, that can't be right since probabilities are 100% or less!"
+
+Explain to your friend the flaw in their reasoning and calculation that yielded a percentage greater than 100%.
+
+**Response:** 
+Getting a ticket is one event. So basically you have to start subtracting the intersect probabilities because you are double counting events. Lets simplify it to 2 days. Right so probability of ticket on day 1 is 28%, day 2 is 28%, both days is 7.8% so you have to basically take 56% less 7.8% to get 48% and change. and then you do the other two days and you get another 48% and change, now if you have P(T1 U t2) U P(T3 + T4) you add 48% and 48% and subract around 23% (the product of the two probabilities). In short that gets you around 96%-23%= 73%, I think. So there's around a 73% probability someone gets a ticket after 4 days. 
+
+
+******************************************************************************
+
+# Question 7 - Stalker
+
+You have just finished your night shift and are driving home. After a while, you notice that the car behind you seems to be following you – after all, you just turned down an obscure road and your "stalker" did the same. You decide to test whether the car is intentionally following you by making a sequence of turns to see if your "stalker" continues to remain behind you. You plan out the strategy in your head:
+
+* The first turn you'll make, a random car would have a 90% chance of also making
+* The second turn you'll make, a random car would have an 80% chance of also making
+* The third turn you'll make, a random car would have a 70% chance of also making
+* etc.
+
+How many such turns would you have to make in order to be at least 95% sure that the car behind you is following you? You can assume that the directions that cars go at different intersections are independent of one another. Explain your reasoning, and in the R chunk show your computation. Keep the computation simple (trial and error is fine); no fancy `while` loops like ChatGPT might suggest.
+
+**Response:** 
+about 5-7 turns. 
+```{r Q7}
+.9*.8*.7*.6*.5*.4*.3
+
+#This about gets the above sequence right, but I don't understand how to make the percentages decrease. 
+x<-1
+for (i in 2:40){
+  x[i]<- .9*x[i-1]*.9*x[i-1]
+}
+plot.ts(x)
+
+```
+
+******************************************************************************
+
+# Question 8 - fashion and the addition, multiplication, and complement rules
+
+Fashion changes quickly, but some people sure are passionate about it.  See the iconic scene from The Devil Wears Prada at `https://www.youtube.com/watch?v=n7FQOi8iJiI`.
+
+Imagine that you take your analytics background and use it to study trends and design custom clothes for your Etsy store. However, you decide to sell only three types of items: pants, shorts, and skirts. Many of your items have square and/or diamond-shaped patterns, but some are patternless. The shapes can be the same color or they may be different. ChatGPT (via DALL-E) has created images of some hypothetical garments, and they can be found on Canvas. One prompt I used was: "Can you provide me with an image of pants that are white except for a bunch of small black squares that serve as designs?"
+
+Your clothes have the following properties 
+
+Types:
+-   55% are pants
+-   35% are skirts
+
+Shapes:
+-  15% have both squares and diamonds
+-  50% have squares (but no diamonds)
+-  20% have diamonds (but no squares)
+
+Detailing (pockets; where the waist band has buttons to fasten it or not):
+-   60% have both pockets and buttons
+-   70% have buttons
+-   80% have pockets
+
+Imagine picking a random garment of clothing from your store.  Use logic, the addition/multiplication/complement rules (or others), and/or a Venn diagram (if you draw one, take a screenshot and paste into your Word document after knitting) to answer the following.
+
+a)  What is the probability that it is a pair of shorts?
+
+**Response:** 
+
+P(shorts)= 1- p(pants U skirts)= 1-(.55+.35)= .1
+
+b)  What is the probability that it has only one type of shape (i.e., has squares or has diamonds, but not both)?
+
+**Response:**  
+P(squares \ diamonds) + P(diamonds \ squares) = (.50+.20)=.7
+
+
+c)  What is the probability that it has squares or diamonds (remember that, in probability,  "or" means at least one of these two things)?
+ 
+**Response:**
+P(squares \ diamonds) + P(diamonds \ squares) + P(squares intersect diamonds)= .7+ .15= .85
+
+d)  What is the probability that it has pockets or has buttons (remember that, in probability, "or" means at least one of these two shades)?
+
+**Response:** 
+P(buttons) + P(pockets)- P(buttons intersect pockets)= .8 + .7 - .6=.9
+
+e)  Now imagine randomly picking a garment that has both squares and diamonds on it.  The following applies to these types of items.
+
+Shape Colors (for those that have both squares and diamonds):
+-   55% have both shapes that are the same color: Set A
+-   25% have at least one type of shape colored blue: Set C
+-   20% have both types of shapes colored blue: Set B
+
+What is the probability that the item has at least one type of shape colored blue or has squares and diamonds that are both the same color?
+
+**Response:** 
+P(C U A)= P(A) + P(C) - P(A intersect C)= .55+.25- (.55*.25)=0.6625
+
+
+
+f) Continuing with the scenario in (e), what is the probability that the item has shapes with two different colors, neither of which is blue?   Hint: you'll need to use a Venn diagram.  After knitting, copy/paste an image of it into your Word document.   Note: ChatGPT failed miserably here for me.
+
+**Response:** 
+P(A \ B)= .55-.2=.35
+
+![alt text](CamScanner 02-04-2025 20.21_1.jpg)
+
+
+******************************************************************************
+
+# Question 9 - using expand.grid and combn
+
+The `expand.grid` and `combn` functions in R provide very useful tools for enumerating the sample space of an experiment when outcomes are picked with replacement (`expand.grid`) and without replacement when order doesn't matter (`combn`), respectively. These functions create a dataframe with column names of your choosing for easy interpretation of the result. A few examples illustrate how they work:
+
+```{r expand grid and combn,eval=FALSE}
+#Sample space for flipping 4 fair coins
+expand.grid(Flip1=c("H","T"),Flip2=c("H","T"),Flip3=c("H","T"),Flip4=c("H","T"))
+
+#Sample space for rolling 3 dice
+expand.grid(Roll1=1:6,Roll2=1:6,Roll3=1:6)
+#Sample space when 2 letters are picked from A-D, order doesn't matter
+combn( c("A","B","C","D"), 2)
+```
+
+People in investment analytics are always looking for patterns in stock movements. If there is an association between what a stock does today and what it has done in the last few days, they may be able to predict whether to buy or sell on any particular day.
+
+To differentiate between "pure randomness" and a pattern, we need a good understanding of what stock movements look like if they have an independent 50% chance of going up and a 50% chance of going down each day. Let's consider the sample space of the five movements over the course of a trading week.
+
+a)  Enumerate (and print to the screen so that it appears in your knitted document) the sample space for the "experiment" by running `expand.grid.` You can adapt the code from the first example of `expand.grid` (coin flips), having the columns labeled Day1, Day2, Day3, etc., and having the possibilities be Up and Down. The result should have 32 rows.
+
+*Note*: Now is a good time to set your RStudio options so that the output of code is sent to the Console (bottom window) instead of being embedded in this Rmd file. Go to Tools, Global Options, click on the R Markdown tab, then make sure "Show output inline for all R Markdown documents" is UNCHECKED.
+
+```{r Q9a}
+print(expand.grid(Day1=c("Up","Down"),Day2=c("Up","Down"),Day3=c("Up","Down"),Day4=c("Up","Down"),Day5=c("Up","Down")))
+```
+
+b)  A "run" is a set of sequential movements that are all the same. For example, the sequence Up Up Up Up Up has 1 run. The sequence Up Down Down Up Up has 3 runs. Let event A be the case where the sequence of movements has 2 runs. By eye, looking at the results of `expand.grid` (i.e., no equations/rules necessary), determine how many outcomes in the sample space satisfy event A, then calculate P(A).
+
+**Response:**
+16/ 80= .25= P(A)
+```{r Q9b}
+#If you need this chunk, you don't necessarily have to use it.  Just count CAREFULLY
+
+```
+
+c)  **Bonus:** Here's one for ChatGPT (or just you if you're up for a challenge).  Consider the sample space of the 10 movements over the course of a trading week (1024 possible sequences of movements).  Find the probability of having a run of length 8 or larger.  Sanity:  close to 9%.
+
+**Response:** 
+
+```{r Q9c}
+##expand.grid(Morning1=c("Up","Down"),Afternoon1=c("Up","Down"),Morning2=c("Up","Down"),Afternoon2=c("Up","Down"),Morning3=c("Up","Down"),Afternoon3=c("Up","Down"),Morning4=c("Up","Down"),Afternoon4=c("Up","Down"),Morning5=c("Up","Down"),Afternoon5=c("Up","Down"))
+
+```
+
+******************************************************************************
+
+# Question 10 **Bonus** Miracle Worker
+
+If you sat down and flipped a fair coin 60 times, you might get a sequence such as:
+
+TTTTHHTHTHTTTHTTTHTTHTHHHTHHHHTHHTHTTTTHHTTHTTTHHTTHTHHHTHHT
+
+No matter the sequence you generate, you have performed a "miracle", something that no one in this world could ever repeat!
+
+a)  Report the probability of the above sequence of 60 flips as "1 in ---".  For example, if the probability was `4.35e-15`, you could run `1/4.35e-15` (which equals `2.298851e+14` or `2.3 * 10^14`)
+
+**Response:** 
+1/1.152922e+18 = 1 in 1.2 *10^14
+```{r Q10a}
+.5^60
+1/8.673617e-19
+
+```
+
+b)  Your `---` from answer from part (a) gives the average number of attempts (attempt = flipping a fair coin 60 times) needed to produce this sequence.  If someone managed to make an attempt every *minute*, how many *years* would it take, on average, to produce this sequence?  Note:  there are (*cues that song from Rent*) 525,600 minutes in a year.
+
+**Response:** 
+2.193535e+12 years 
+```{r Q10b}
+1.152922e+18/525600
+
+
+8000000000*30
+
+2.4e+11/2.193535e+12
+
+```
+
+c)  Let's outsource the attempts.  Imagine all 8 billion people on earth make an attempt each *minute* for 30 years straight.  What is the probability that *at least one* person will have reproduced your sequence after all that time?  Note:  you will need to use Wolfram-Alpha (https://www.wolframalpha.com/) or ChatGPT to perform the final computation.  R is simply not a powerful enough calculator to do so.  Note:  there are 365.25 days in a year.
+
+**Response**  
+About 1 in 10 over 30 years with 8 billion people. 
+0.1094124
+
+

@@ -1,0 +1,557 @@
+---
+title: "BAS 471 - Unit 6 Parts 4 and 5 - Notorious Distributions and Fitting Them To Data"
+author: "Nuanced but Notorious "
+date: "see Canvas for due date"
+output:
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+#Leave this as-is.
+knitr::opts_chunk$set(echo = TRUE,collapse=TRUE)
+if( as.numeric( paste( unlist( strsplit( paste(R.Version()$major,R.Version()$minor,sep="."),split="\\.") ),collapse="") ) <= 400 ) { 
+  stop("You must have R version 4.1.1 or later to knit this document")}
+RNGversion("4.1.1")
+library(fitdistrplus)
+load("KrogerTransactions.RData")
+
+```
+
+
+*********************************************************************************************
+
+# Note:  these are problems that are addressed in class and some additional practice problems
+
+*********************************************************************************************
+
+
+## Question 1:
+
+We have studied the following notorious continuous distributions:
+
+&nbsp;   | &nbsp;  | &nbsp;    | &nbsp;            | &nbsp;    | &nbsp;
+-------- | ------- | --------- | ----------------- | --------- | ---------
+Normal   | Beta    | Weibull   | Exponential       | Lognormal | Uniform (continuous)
+
+Based on the following scenarios and descriptions, name which distribution would be your "go-to" for modeling the following quantities.  Remember that the Weibull is a "generalization" of the Exponential and the Beta is a generalization of the Uniform.  Don't list Weibull (or Beta) when the Exponential (or Uniform) will do!
+
+
+Each distribution will be used exactly one time.
+
+a)  The proportion of water in a bottle that is consumed before being discarded. 
+
+**Response:**  
+
+b)  The amount of money owed on a mortgage (among people who have them).  
+
+**Response:**  
+
+c)  The percentage changes of stocks from yesterday to today (symmetric).  
+
+**Response:**  
+
+d)  The length of time it takes a hard drive to crash.  Studies show that expected time for a hard drive to fail is independent of how long it has already been in operation    
+
+**Response:**  
+
+e)  The length of time someone has to wait on hold to a busy customer support number (the distribution is skewed to the left since extra priority is given to customers that have been on hold for more than a few minutes). 
+
+**Response:**  
+
+f)  The time it takes a light to turn green when you pull up to a red light (on a fixed cycle time with 32 seconds of red time followed by 13 seconds of green time).  
+
+**Response:**  
+
+
+*********************
+
+
+## Question 2:  Practice using the notorious distributions.
+
+For each part, use the `p` version of the PDF to answer questions about the probabilities, and the `q` version of the PDF to answer questions about percentile or quantiles.  Helpful tips (imagining that the abbreviation for the distribution being used is "dist" and the parameters of that distribution are represented by ...).
+
+* `pdist(x,...)` gives the probability of observing a value of `x` or smaller
+* `1-pdist(x,...)` gives the probability of observing a value of `x` or larger
+* `pdist(upper,...) - pdist(lower,...)` gives the probability of observing a value of `x` between `lower` and `upper`
+* `qdist(p,...)` gives the `100p`-th percentile aka the `p`-th quantile.  In other words, it returns the value of `x` such that $P(X\le x) = p$.
+
+a)  You decide to model the width of people's thumb nails with a Normal distribution with a mean of 12.5mm and a standard deviation of 3mm.  
+
+*  What is the probability, using this model, that someone has a thumbnail length between 10mm and 11mm?  Sanity:  between 10-11%.
+
+*  What is the probability, using this model, that someone has a thumbnail length greater than 15mm?  Sanity:  about 20%.
+
+*  This Normal distribution allows negative values, and obviously these widths cannot be negative.  Show that this is not a deal-breaker by calculating the probability, using this model, of obtaining a width <= 0
+
+*  What is width is the 85th percentile width of thumb nails under this probability model?  Sanity:  about 15.6
+
+```{r Q2a}
+
+
+```
+
+
+b)  The fraction of allotted time spent completing a task is to be modeled with a beta distribution.  This beta distribution is to have:
+
+* A mode of 7/10
+* A mean of 2/3
+
+A quick trip to Wikipedia (https://en.wikipedia.org/wiki/Beta_distribution) reveals that the mode and mean can be used to determine the two parameters (`shape1` and `shape2` in R) of the necessary Beta distribution.
+
+Going to Wolfram Alpha and putting in "systems of equations calculator" into the textbox brings up a spot for you to solve the two equations.
+
+* a/(a+b) = 2/3
+* (a-1)/(a+b-2) = 0.7
+
+Thus, we find that `shape1` (R's notation for "a") is 8 and `shape2` (R's notation for "b") is 4.
+
+To do:
+
+* Use `curve` and the `dbeta` function to visualize this distribution and to see that the mode/peak actually is indeed at 0.7
+
+* Use `mean` on the output of `rbeta` (1st argument 1e5 for 100,000 random numbers, 2nd argument 8 and 3rd argument 4) to see that mean of this distribution actually is indeed right at about 2/3.
+
+* Find the probability that the fraction of time allotted is between 0.5 and 0.6.  Sanity:  between 18-19%.
+
+* Find the 1st percentile of the distribution (i.e. the value of `x` that fills in the following blank:  There is a 1% chance that someone's proportion of elapsed time is ____ or less).  Another way to think about it is that the 1st percentile is the value of `x` where there's a 1% chance of observing a value of `x` or smaller and a 99% chance of observing a value of `x` or bigger.   Sanity:  a little over 0.3!
+
+```{r Q2b}
+
+
+```
+
+
+c)  The time spent on a popular social media site on a particular day is to be modeled with a lognormal distribution with mean of 120 and a mode of 100.  
+
+Doing something similar as to part (b), it's possible to show that the `meanlog` parameter is `2/3*log(1200)` or about 4.73 and the `sdlog` parameter is `sqrt(2/3)*sqrt(log(6/5))` or about 0.35.
+
+Aside:  the equations for the mean and mode of a lognormal distribution are: 
+
+* exp(m + s^2/2) = 120.0
+* exp(m - s^2) = 100.0
+
+In theory, you use Wolfram's simultaneous equation solver to find the values of `m` and `s` here, and that's where the solutions of `m=4.73` and `s=0.35` come from.
+
+To do:
+
+* Use `curve` and the `dlnorm` function to visualize this distribution from x=0 to x=350 and to see that the peak really is at 100 (use `abline(v=100)` to add this line after the curve has been made)
+
+* Use `mean` on the output of `rlnorm(1e5,4.73,0.35)` to see that mean is right at about 120
+
+* Find the probability that the that someone spends more than 180 minutes on the site?  Sanity:  between 9-10%.
+
+* Find the 75th percentile of the distribution (i.e. the proportion of time for which 75% of values are smaller and 25% of values are larger).  Sanity:  a little over 140!
+
+* If `X` is the time spent, then find the expected value of $Cost = 0.05\sqrt{X}$, i.e. perhaps the amount of money an advertiser is willing to "pay" to place an advert on someone's screen that spends `X` time on the site.  Note:  you will have to use `integrate` on the product of the equation for the cost and the `dlnorm()` function.  The lower limit will be 0 and you can write "infinity" as the upper limit with `Inf`.  Sanity check:  between 54 and 55 cents.
+
+
+```{r Q2c}
+
+
+```
+
+
+
+******************
+
+## Question 3
+
+The `CENSUS` data in `regclass` provides information on "block groups" across the United States.  A block group is on average about 40 blocks, each typically bounded by streets, roads, or water.  There's a huge amount of variation in these block groups; perhaps this variation can be modeled with a probability distribution.
+
+Load in the `CENSUS` dataset.  Let's study `x1` (the fraction of individuals in a block group which are aged 18-24) and `x2` (the typical household income in that block group).
+
+For each of these quantities:
+
+*  Fit the distribution to a Normal, lognormal, Weibull, and (for `x1`) beta models using `fitdist`.
+*  Use `qqcomp` on your fit to look at the QQ plot
+*  Print to the screen the AIC of these fits to determine the "best" model.
+*  Comment on whether this model provides a reasonable reflection of reality. 
+
+**Response for x1:**  
+
+
+**Response for x2:** 
+
+
+
+```{r Q3}
+library(regclass)
+data(CENSUS)
+x1 <- CENSUS$Age18to24/100 
+x2 <- CENSUS$MedianHHIncomeBlock
+
+
+```
+
+
+
+***********************************************************************************************
+***********************************************************************************************
+## Fitting Distributions Case Study (using Kroger Data to study Lifetime Value of Customers)
+***********************************************************************************************
+***********************************************************************************************
+
+
+## Question 1 - Using data to estimate probabilities about lifetime values
+
+The `KrogerTransactions.RData` contains a dataframe named `TRANSACTION`.  This records the transactions of 2500 different households at Kroger over the course of nearly two years.
+
+```{r Load In Data}
+load("KrogerTransactions.RData")
+```
+
+The relevant columns for this analysis are:
+
+* `household_key` - an identifier variable saying which household bought the item (1-2500)
+* `BASKET_ID` - an identifier variable saying which shopping cart (basket) is holding the item (typically, many items are part of a transaction)
+* `DAY` - when the transaction occurred (days are labeled from 1 to 771)
+* `SALES_VALUE` - the amount spent on that item (taking into account the quantity)
+
+For the purposes of this study, we will treat each household as continually shopping at Kroger (some more frequently than others) over these two years.  Our goal is to come up with a probabilistic model describing possible "lifetime values" over a two year time span (we've observed 2500 values in the data, but clearly other values are possible).
+
+The `aggregate` command can quickly find the total amount spent for each household.
+
+```{r Total Value}
+#For each unique value of household_key, find the sum of the SALES_VALUE
+lifetimevalues <- aggregate(SALES_VALUE~household_key,data=TRANSACTION,FUN=sum)$SALES_VALUE
+hist(lifetimevalues)
+summary(lifetimevalues)
+hist(log10(lifetimevalues))
+```
+
+The distribution has the hallmark property of being skewed towards larger values, like most quantities in business analytics.  The histogram of the logarithms is much more symmetric, with perhaps a little bit of a left skew.  
+
+We might have a ton of questions about the probabilities of lifetime values.  Some we may be able to estimate from the data itself, others we can't!  That's one of the powers of probabilistic modeling.  With a reasonable reflection of reality, we can move beyond to what's already been seen in the data to new potentials and possibilities that haven't yet been realized.
+
+**Kahoot 1**  What is the estimated probability that the lifetime value is at least 2000?
+
+```{r Probabilities about Lifetime Values}
+#P(X <= 1000)  
+mean(lifetimevalues<=1000)
+binom.test(sum(lifetimevalues<=1000),2500)
+#P(X >= 2000)
+mean(lifetimevalues>= 2000)
+
+
+#80th percentile (What lifetime value is larger than 80% of the collection of lifetime values?)
+quantile(lifetimevalues, .8)
+
+#80% of customers will have lifetime values smaller than this; 20% of customers will have lifetime
+#values that exceed this
+
+
+#P(5000 <= X <= 10000)
+mean(lifetimevalues>=5000 & lifetimevalues<=10000)
+
+#P(17000 <= X <= 17100); ut oh, can't estimate
+
+mean(lifetimevalues>=17000 & lifetimevalues<=17100)
+
+tail(sort(lifetimevalues))
+
+
+
+
+
+```
+
+
+
+## Question 2 - Fitting lifetime values to a lognormal
+
+Does one of the notorious distributions provide a reasonable reflection of the distribution of lifetime values?  The lognormal is our "go-to" to most distributions skewed to the right.
+
+**Kahoot 2**: Based on the QQ plot, is the fit of lifetime value to the lognormal good or bad?
+
+```{r fitting lifetime value to lognormal}
+FIT <- fitdist(lifetimevalues,"lnorm")  #fit to a lognormal
+qqcomp(FIT)  #looks bad...but most of the points condensed to the left.  Add arguments to make it clearer.
+qqcomp(FIT,xlogscale=TRUE,ylogscale=TRUE)
+
+abline(v=c(100,1000,10000),col=c("red","blue","green"))
+#Also look at histogram of logs, fit a normal, to see deficiencies in fit
+hist( log10(lifetimevalues),freq=FALSE,breaks=seq(.1,5,by=.1))
+curve( dnorm( x, mean( log10(lifetimevalues) ), sd( log10(lifetimevalues) ) ) ,col="red",lwd=2,add=TRUE)
+lines(density(log10(lifetimevalues)),lwd=3,col="purple")
+abline(v=c(2,3,4),col=c("red","blue","green"))
+FIT$aic
+
+
+
+
+```
+
+There is a systematic bend away from the diagonal line.  Some values appear too often and other appear too rarely compared to what a lognormal distribution would produce.
+
+* Values that "should" be near 100 (red line) are more like 20-40, so there's an excess of "small" values in the data relative to the values a lognormal distribution would produce (this can be seen with the histogram bars jutting above the curve on the left)
+
+* Values that "should" be near 1000 (blue line) are more like 1200, so there's a shortage of "medium" values in the data relative to the values a lognormal distribution would produce.  This can be seen with the histogram bars being below the curve around 3 (1000).
+
+* Values that "should" be near 25000 (green line) are more like 15000, so there's a shortage of "big" values in the data relative to the values a lognormal distribution would produce.  This can be seen with the histogram bars below the curve on at the right.
+
+
+
+## Question 3 - Fitting lifetime values to a Weibull
+
+What about the Weibull?
+
+```{r fitting lifetime value to weibull}
+FIT <- fitdist(lifetimevalues,"weibull")  #fit to a weibull
+qqcomp(FIT,xlogscale=TRUE,ylogscale=TRUE)
+abline(v=50); abline(h=100)
+FIT$aic
+```
+
+This looks like a better fit overall, though it too has issues.  Namely, when we "should" be observing values of about 50 dollars (vertical line) we're seeing values that are more like 100 in the data.  We're seeing a shortage of small lifetime values in the data compared to what the Weibull distribution can produce.  Using the AIC as a guide, we see the AIC of the Weibull is 45392 vs. the lognormal's 45517, so the Weibull is preferable.
+
+**Kahoot 3**  The AIC of the lognormal fit is 45516.79.  The AIC of the Weibull fit is 45392.01.  Which fit is better?
+
+
+## Question 4 - Getting creative with fitting a distribution to the data
+
+But can we do better?  There's nothing that says we *have* to invent a probability model to describe the *originally recorded* values.  Maybe a probability model describes the distribution of the logarithms a bit better.
+
+What if we fit the logarithms of the lifetime values to a Weibull?
+
+```{r fitting log lifetime value to weibull}
+FIT <- fitdist( log10(lifetimevalues),"weibull")  #fit to a weibull
+FIT
+qqcomp(FIT)
+hist( log10(lifetimevalues),freq=FALSE,breaks=seq(.1,5,by=.1))
+curve( dweibull( x, FIT$estimate[1],FIT$estimate[2]) ,col="red",lwd=2,add=TRUE)
+lines(density(log10(lifetimevalues)),col="purple",lwd=3)
+abline(v=c(2,3,4),col=c("red","blue","green"))
+
+FIT$aic
+
+
+```
+
+Wow!  This is eerily effective.  And it turns out this distribution has a name (being a minor member of the zoo of notorious distributions):  the Gumbel distribution:  https://en.wikipedia.org/wiki/Gumbel_distribution
+
+Let's use this to answer our set of probability questions.  Since technically the distribution is fitting the logarithm base 10 of the lifetime values, we need to rephrase in terms of logs:
+
+**Kahoot 4**:  We couldn't estimate P(17000 <= lifetimevalue <= 17100) from the data, but we can from Weibull. It is about:
+
+```{r Probabilities with log Weibull}
+#P(X <= 1000)  ->  P( log10(X) <= 3 )
+pweibull(3,7.948078,3.483453)
+
+
+#80th percentile
+qweibull(0.80,7.948078,3.483453)
+10^3.698393
+
+#P(5000 <= X <= 10000)
+pweibull( log10(10000) ,7.948078,3.483453) - pweibull( log10(5000) ,7.948078,3.483453)
+
+0.149869
+
+#P(17000 <= X <= 17100); ut oh, can't estimate from data but can from model!
+pweibull( log10(17100) ,7.948078,3.483453) - pweibull( log10(17000) ,7.948078,3.483453)
+
+```
+
+
+
+## Question 5 - Alternative approach to modeling lifetime values (number of days between visits and amount spent per visit)
+
+Let's approach modeling the lifetime value (over 2 years) in a different way
+
+* Model the number of days between visits with some PMF
+* Model the amount spent on a visit with some PDF
+
+* We would simulate the "lifetime value" by randomly picking the number of days between visits until we've put together a 2-year window, then for each visit randomly picking the amount spent.
+* We can generate a "large" number of customers behaviors that way and build up the distribution from there.
+
+
+**Transaction Amounts**
+
+Let's look at the distribution of transaction amounts.  We can use `aggregate` to quickly find the total sales value of each unique basket ID (since each basket ID represents a transaction).
+
+```{r looking at amounts spent per shopping cart}
+#Shopping cart amounts
+amounts <- aggregate(SALES_VALUE~BASKET_ID,data=TRANSACTION,FUN=sum)$SALES_VALUE
+hist(amounts)
+summary(amounts)
+min(amounts)  #Zero doesn't make much sense; let's eliminate them
+amounts <- amounts[which(amounts>0)]
+hist(log10(amounts))
+#Roughly symmetric on a logarithmic scale; might be able to try out lognormal
+```
+
+Unsurprisingly, the distribution of transaction amounts is highly skewed.  Something weird is happening in the data since the minimum value is 0, so keep only values that are larger than 0.  Making a histogram of the logarithms shows a roughly symmetric distribution, so perhaps the lognormal works.
+
+```{r lognormal fit to shopping cart totals}
+FIT <- fitdist(amounts,"lnorm")
+FIT$aic
+qqcomp(FIT,xlogscale=TRUE,ylogscale=TRUE)  #May give an error (not sure why; bug in their code)
+abline(0,1)
+mean( amounts >= 0.15 & amounts <= 100)  #Looks good from about 0.15 to 100, what % of data is that?
+hist(amounts,breaks=seq(0,1000,5),xlim=c(0,200),freq=FALSE)
+curve( dlnorm(x,FIT$estimate[1],FIT$estimate[2]),col="red",add=TRUE)
+#Fraction of values expected to exceed 100 from model
+1-plnorm(100,2.725869,1.240607)
+#Actual that exceeds 100
+mean(amounts > 100)
+
+```
+
+The `qqcomp` command may give an error (there's a bug in the program), but it still produces the plot without the individual dots.  The fit is "pretty good".  There's an excess of small values, and a lack of very large values compared to what the lognormal usually gives, but transactions between about 0.15 and 100 match up pretty well, which is about 95% of the data.
+
+The Weibull is not a great fit (the much higher AIC confirms that).  It predicts more small transactions than what we see in the data.
+
+```{r weibull fit to shopping cart amounts}
+FIT <- fitdist(amounts,"weibull")
+FIT$aic
+qqcomp(FIT,xlogscale=TRUE,ylogscale=TRUE)
+abline(0,1)
+mean(amounts < 10)
+pweibull(10,FIT$estimate[1],FIT$estimate[2])
+```
+
+
+
+**Time between visits**
+
+There isn't a field in the data that gives us directly the length of time that has elapsed since the last visit, but we can calculate it without too much difficulty.
+
+Take for example household number 3
+
+```{r Time Between Visits}
+#Take a subset of TRANSACTION which only has household_key of 3 and keeps only three columns
+HH <- subset(TRANSACTION,household_key==3,select=c("BASKET_ID","DAY","TRANS_TIME"))
+head(HH)
+#Many of these are duplicate rows, so let's keep only the non-duplicated ones
+HH <- HH[!duplicated(HH),]
+head(HH)
+days.of.visit <- sort(HH$DAY)  #put days of visit in order
+#We COULD keep track of the time of transaction and model the length of time that has 
+#elapsed between visits, but let's do the days that have elapsed.
+x <- diff(days.of.visit)
+x
+```
+
+The number of days between visits is a discrete random variable, so we can pick possible candidates from our zoo:  Poisson, Geometric, Negative Binomial.  To gauge how well a discrete model fits the data, we look to see if the corners of the red steps on the CDF plot match up with the black circles from the data (this is compare the theoretical proportion of values that should be less than or equal to some value vs. that actual proportion as seen in the data).
+
+```{r days between visits}
+FIT1 <- fitdist(x,"pois")
+plot(FIT1)  #bad fit
+qqcomp(FIT1)
+FIT1$aic
+
+FIT2 <- fitdist(x,"geom")
+plot(FIT2) #better
+qqcomp(FIT2)
+FIT2$aic
+
+FIT3 <- fitdist(x,"nbinom")
+plot(FIT3) #basically the same as a geometric
+qqcomp(FIT3)
+FIT3$aic
+```
+
+**Kahoot 5**  If we model the number of days between visits of household 3, which give "the best" fit?
+
+For household 3, it looks like the number of days that elapses between visits is well-modeled by a geometric distribution.  Is this typically the case?  Let's check each household.
+
+```{r all households days between visits}
+#Data frame where each row is a household, and AICs of each fit are stored
+AICs <- data.frame(HH=1:2500,AIC.pois=rep(0,2500),AIC.geom=rep(0,2500),AIC.nbinom=rep(0,2500) )
+days <- c()  #Initialize an empty vector to keep track of ALL number of days between visits
+for (i in 1:2500) {
+  cat(paste("Household",i,"\n"))  #Print out message that tells us which household is being considered
+  HH <- subset(TRANSACTION,household_key==i, select=c("BASKET_ID","DAY","TRANS_TIME"))
+  HH <- HH[!duplicated(HH),]
+  if(nrow(HH)<=5) { next }  #not enough data
+  days.of.visit <- sort(HH$DAY)  #put days of visit in order
+  x <- diff(days.of.visit)
+  days <- c(days,x) #append the observed values for this household onto end of "days" vector
+  sink(file="ugh.txt")
+  FIT1 <- fitdist(x,"pois")
+  FIT2 <- fitdist(x,"geom")
+  FIT3 <- fitdist(x,"nbinom")
+  sink()
+  AICs[i,] <- c(i,FIT1$aic,FIT2$aic,FIT3$aic)
+}
+table( apply(AICs[,2:4],1,which.min) )  #Which had lowest AIC?  1=Poisson, 2=Geometric, 3=Negative Binomial
+#   1    2    3 
+#  49  903 1548 
+```
+
+For the most part, the negative binomial distribution looks to be a good choice for the majority of households.  In fact, since the geometric is a special case of the negative binomial distribution, it looks like almost all households could be modeled with a negative binomial!  Could we use just one overall negative binomial for each household?   
+
+```{r one negative binomial}
+#days contains ALL elapsed times between visits for all households
+length(days)  #That's a lot of data
+FIT1 <- fitdist(days,"pois")
+FIT2 <- fitdist(days,"geom")
+FIT3 <- fitdist(days,"nbinom")
+c(FIT1$aic,FIT2$aic,FIT3$aic)
+#3807944 1539120 1506844
+
+#Negative binomial looks like the best choice
+plot(FIT3)  #Can't learn much from this plot
+qqcomp(FIT3)
+abline(0,1)
+```
+
+Oof.  Now that's a terrible fit.  There are a LOT of very large values that simply can't really be produced by the negative binomial distribution.  This raises a good point:  should we be considering shoppers that haven't visited for more than 100 days?  a month?  One of the assumptions we made was that the shoppers were continually shopping for these 2 years and that doesn't seem to be the case.  
+
+What if we decide to "throw out" all values greater than (say) 21?  This might capture the number of days that have elapsed for "regular" shoppers.
+
+```{r more realistic time between days}
+mean(days>21)  #only 4% of values exceed 50
+shortdays <- days[which(days<=21)]  #only values of 21 or less
+hist(shortdays)
+
+FIT1 <- fitdist(shortdays,"pois")
+FIT2 <- fitdist(shortdays,"geom")
+FIT3 <- fitdist(shortdays,"nbinom")
+c(FIT1$aic,FIT2$aic,FIT3$aic)
+#1735440 1270287 1270282
+
+
+#Negative binomial looks like the best choice
+plot(FIT3)  #Not terrible
+qqcomp(FIT3)
+abline(0,1)
+```
+
+The fit is actually pretty good.  We've thrown away any values that corresponds to visits separated by 3 weeks or more, but considering we'd like to look at "regular" shoppers that's reasonable.
+
+
+**Putting It Together**
+
+Let's generate the number of days between visits, translate this into the number of visits over 2 years, generate a purchase amount for each, then sum them to find lifetime values.
+
+```{r piecing togther lifetime value from number of visits and spent per visit}
+#Generate 1000 values of days between visits (more than what we need)
+days.between.visit <- rnbinom(1000,size=1.010112,mu=3.659768 )
+#The cumulative sum of days.between.visits tell us the day on which that visit occurs
+#Since the data spans about 700 days, we'll count up the number of visits up to that point
+n.visits <- length(which( cumsum(days.between.visit) <= 700) )
+purchases <- rlnorm(n.visits,2.725869,1.240607)
+sum(purchases)
+```
+
+Let's generate 2500 lifetime values and look at the distributions.
+
+```{r}
+simulated.lifetime.values <- c()
+for (i in 1:2500) {
+days.between.visit <- rnbinom(1000,size=1.010112,mu=3.659768 )
+n.visits <- length(which( cumsum(days.between.visit) <= 700) )
+purchases <- rlnorm(n.visits,2.725869,1.240607)
+simulated.lifetime.values[i] <- sum(purchases)
+}
+hist(simulated.lifetime.values)
+hist(lifetimevalues) #actual;  not the best match
+```
+
+
+
+
+
+
+

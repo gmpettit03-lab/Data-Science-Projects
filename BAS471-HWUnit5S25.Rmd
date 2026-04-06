@@ -1,0 +1,873 @@
+---
+title: "BAS 471 Spring 2025 Homework on Unit 5 - Probability Models for Counts"
+author: "Your Name Here Please"
+date: Worth double and cannot be dropped; see Canvas for due date
+output:
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+#Leave this as-is.
+knitr::opts_chunk$set(echo = TRUE,collapse=TRUE)
+if( as.numeric( paste( unlist( strsplit( paste(R.Version()$major,R.Version()$minor,sep="."),split="\\.") ),collapse="") ) < 422 ) { 
+  stop("You must have R version 4.2.2 or later to knit this document")}
+RNGversion("4.2.2")
+```
+
+
+******************************************************************************
+
+# Note: these are your homework problems
+
+As a reminder about the collaboration policy, remember that you can develop a common set of R code with your colleagues. However, all written interpretations (i.e., anything that follows a **Response:**) needs to be written *in your own words* (unless you are instructed to copy/paste what ChatGPT says for a particular question).  Homework submissions that look to be near copies of each other will receive substantially reduced credit, may receive a 0, and may result in you receiving an F in the class.  If you do use ChatGPT as a learning tool (caution:  in BAS 471, unlike other BAS classes, *there are quite a few concepts/problems that ChatGPT gets plain wrong*), you'll need to rephrase its very obvious AI-sounding phrasing.  Remember that exams are closed ChatGPT, so do not rely on it too much.  
+
+# Note:  this homework is worth double and cannot be dropped; start early!
+
+
+**********************************************************************************
+
+## Question 1
+
+It’s important to understand the difference between the average and standard deviation of a set of data versus a probability distribution:
+
+For a data set:
+* The average/mean is calculated from the *collected* values.
+* The standard deviation measures how much the observed values typically vary from the mean.
+
+For a probability distribution:
+* The average/mean (expected value) represents the *possible* values that could be observed.
+* The standard deviation measures how much these potential values typically vary from the expected value.
+
+Additionally, the procedures for calculating the average and standard deviation differ between a set of data and a probability distribution.
+
+Let's explore these concepts by loading in the data from `BAS471-HW5-Sp25.RData`.
+
+```{r reading in}
+load("BAS471-HW5-Sp25.RData")
+
+
+```
+
+a)  In the saved environment file, `possible.x` is a vector representing the possible values of `X`, a random variable with a given probability mass function (PMF). The vector `p` contains the corresponding probabilities for each value of `X`.   Provide a visualization of the probability distribution of `X`.  
+
+```{r Q1a}
+barplot(p, names.arg = possible.x)
+
+```
+
+b)  What line of code will calculate the average (expected value) of this probability distribution?
+
+```{r Q1b}
+mu<-sum(p*possible.x)
+mu
+```
+
+c)  What line of code will calculate the standard deviation of this probability distribution?  Actually, provide *two* ways of calculating the standard deviation, one of which should use a variable you create named `mu` that stores the average of the probability distribution.
+
+```{r Q1c}
+#method 1
+var<-sum(((possible.x-mu)^2)*p)
+sd<-sqrt(var)
+sd
+
+#method 2
+sd<-sqrt(sum(((possible.x-sum(p*possible.x))^2)*p))
+
+
+
+
+```
+
+d)  In the saved environment file, `observed.x` is a vector that contains data values, i.e., observations of the random variable `X`.  Provide a visualization of the distribution of observed values `observed.x`.
+
+```{r Q1d}
+p2<-observed.x/sum(observed.x)
+sum(p2)
+barplot(p2, names.arg = observed.x)
+
+```
+
+e)  What line of code calculates the average of the data? 
+
+```{r Q1e}
+ave<-mean(observed.x)
+ave
+mu2<-sum(p2*observed.x)
+mu2
+```
+
+f)  What line of code calculates the standard deviation of the data?
+
+```{r Q1f}
+var2<-sum(((observed.x-mu2)^2)*p2)
+var2
+sd2<-sqrt(var2)
+
+```
+
+g)  You'll notice that the average of the observed values is close to, but not exactly equal to, the average of the probability distribution. This is similar to when we observed that an estimated probability of an event is close to, but not exactly the same as, the true probability of that event occurring.
+
+Later in the course, we'll discuss the *standard error* of an estimated average, which measures the typical difference between the "true" average of a probability distribution and the average calculated from observed data.
+
+For now, calculate and report the difference between the "true" average of `X` (from the probability distribution) and the average of the observed data values generated using the PMF of `X`.
+
+```{r Q1g}
+
+diff1<-ave-mu2
+diff1
+#the difference between the mean value of observed x and our mean form the PMF is -1.93686
+```
+
+**********************************************************************************
+
+## Question 2 - Probability distribution with a finite number of possible values
+
+In a previous assignment, you analyzed the number of rides you give as an Uber driver before deciding to stop for the day. After a few weeks, you decide to develop a probability model for the number of rides you give each day, since it seems like your decision to stop feels somewhat random.
+
+Assume you always complete at least 4 rides and never go beyond 20 rides in a day.
+
+Let `X` represent the number of rides you give. The possible values of X range from 4 to 20. You choose the following shape as the foundation for your probability model:
+
+$$Shape = \frac{9}{1+e^{-8(x-9)}} - 0.1(x-9)^2 + 4 \qquad x=4, 5, \ldots, 19, 20$$
+Note:  If the equation doesn’t display, hover your mouse over the equation between the dollar signs. You may also need to click the double up or double down hats to the right of the equation to expand or collapse the chunk for it to appear. If the issue persists, restart RStudio. You must be able to see the equation to transcribe it into R, since copying and pasting the special formatting code used to display the equation will not work.
+
+a.  Define a vector `x` that contains the possible values of `X` and a vector `shape` that represents the relative frequencies of these values. Then, create a barplot to visualize the shape, labeling the horizontal axis as "Number of Rides" and the vertical axis as "Shape."  Remember, to compute "e" raised to a power, use `exp()`, not `e^`. Since this equation can be tricky to transcribe, a sanity check on the shape values is provided.  *Jaws theme* - the shape kind of looks like a shark fin to me.
+
+```{r Q2a}
+x<-4:20
+shape=(9/(1+exp(-8*(x-9))))-(.1*(x-9)^2)+4
+p3<-shape/sum(shape)
+head(shape)
+
+barplot(shape, names.arg = x, xlab = "number of rides", ylab= "shape")
+
+#1.500000 2.400000 3.100000 3.600001 3.903018 8.500000
+
+
+```
+
+b.  Explain why the values in the vector `shape` (which are all between 0-1) cannot be used as the probabilities for your model (run an appropriate command in R to support your argument). 
+
+**Response**:  
+So, if you run sum on shape, you get 115.4, which means that it isn't a valid probability distribution. However if you divide the shape vector by the sum of the shape vector, you get probabilities for each value. Thus, if you take a sum of those probabilities you end up with 1, which means it is a valid probability distribution. Also, the values in shape are not between 0 and 1.
+```{r Q2b}
+sum(p3)
+sum(shape)
+
+```
+
+c.  Since there are a finite number of possible values of `x`, we can convert the `shape` vector into a vector of probabilities using the standard conversion method (no Wolfram needed)!  Do so, defining a vector `p` whose elements give the probabilities of each value of `x`.  Show that the sum of the elements in `p` equals 1, and print to the screen the value of `p[5]` (the probability that `X` equals 8; it should be 0.03382165).
+
+```{r Q2c}
+p3<-shape/sum(shape)
+head(p3)
+sum(p3)
+print(p3[5])
+
+
+sum(shape*p3)
+
+
+```
+
+d.  Using `which`, `sum`, and various logical conditions, determine the following probabilities.
+
+* P(X=12); about 10%
+* P(X < 9); about 12.5%
+* P(X is between 13 and 18); 13 and 18 are included;  do this without using the `%in%` shortcut; about 44%
+* P(X is a multiple of 2);  about 50.2%; hint, use a `seq` command
+* P( X is at most 5, or 8, or 11, or 12, or 13, or at least 17);   about 51.4%; hint, use `%in%` and/or a bunch of logical conditions separated by "or"s
+
+
+```{r Q2d}
+#P(X=12)
+sum(p3[which(x==12)])
+
+
+#P(X < 9)
+sum(p3[which(x<9)])
+
+#P(X is between 13 and 18 inclusive)
+sum(p3[which(x<=18 &x>=13)])
+
+#P(X is a multiple of 2)
+y<-seq(from=4, to =20, by = 2)
+sum(p3[x %in% y])
+#P( Xhelp()#P( X is at most 5, 8, 11, 12, 13, or at least 17 )
+sum(p3[which(x<=5|x==8| x==11|x==12|x==13|x>=17)])
+
+
+```
+
+e.  If you look at the barplot of the shape, it's obvious that the *mode* (most likely value) is 10.  Write a line of R code that uses `x` and `p` that automatically extracts out the most likely value, i.e., that reports the mode of the PMF.  Avoid using `which.max` since if the distribution happened to have two equally high peaks, that would report only the first one.
+
+```{r Q2e}
+x[which(p3==max(p3))]
+
+```
+
+f.  Find the mean/average/expected value of the number of rides given (about 12.3)
+
+```{r Q2f}
+mu3<-sum(x*p3)
+mu3
+
+```
+
+g.  Find the standard deviation of the number of rides given (about 3.5)
+
+```{r Q2g}
+var3<-sum(((x-mu3)^2)*p3)
+sd3<-sqrt(var3)
+sd3
+
+```
+
+h.  Summarize the probability mass function (PMF) in simple terms, as if you were explaining it to your boss or a parent. In other words, provide an easy-to-understand interpretation of both the mean and standard deviation of the PMF. Be mindful of how many decimal places you use for clarity.
+
+**Response:** 
+
+
+So the PMF is basically how many rides an uber driver will take in a given day, where the highest points on the graph are the most likely number of rides to be driven and the smallest points are the least likely to be driven. The average amount of rides driven in a day will be about 12, give or take around 3.5. 
+
+i.  To encourage drivers to provide more rides, imagine Uber gives a daily "bonus" for every ride over 12 given in a day.  In other words, your bonus is 0 if `x` is between 4 and 12 (inclusive), and `10*sqrt(x)*log10(x^0.75)` when `x` is 13 or more.  Find the expected value of the daily bonus.  Hint:  define a vector `bonus` that contains the bonus for all values of `x`, then set the ones where `x` is 4-12 to 0 using `which`.  Sanity check:  close to 16.50
+
+```{r Q2i}
+p3[which(x>12)]
+
+eb<-sum(10*sqrt(x[which(x>12)])*log10(x[which(x>12)]^0.75)*p3[which(x>12)])
+eb #expected bonus.
+
+
+```
+
+
+*************************************************************************************
+
+## Question 3 - making a shape
+
+The most common question students ask when designing a custom PMF is: "How do I find an equation that creates the shape I want?"
+
+Before ChatGPT, the answer was: "You need a strong understanding of graphing equations and how to manipulate them to achieve the desired properties." This made the process quite challenging unless you had that skillset.
+
+Fortunately, ChatGPT has enough mathematical knowledge to generate equations that approximate a desired shape.
+
+Have a conversation with ChatGPT to generate an equation that closely resembles the shape shown on Canvas (possible values are integers 0 to 60).  Copy and paste the prompts you used to guide ChatGPT in the **Response:**.  Include a screenshot of ChatGPT’s response in your Word document after knitting (paste it into your knitted Word document).  Then, define `x` to be the integer sequence 0 to 60 and `shape` to be the equation proposed by ChatGPT.  Provide a `barplot` to verify that the equation reasonably matches the intended shape.
+
+**Response:** 
+
+```{r Q3}
+x<-0:60
+#pmf <- 0.6 * exp(-0.02 * (x - 12)^2) + exp(-0.02 * (x - 40)^2) #shape equation named pmf
+#pmf <- 0.6 * exp(-0.02 * (x - 12)^2) + exp(-0.02 * (x - 40)^2) + 0.3 * exp(-0.015 * (x - 25)^2) # too ugly
+
+pmf <- 0.6 * exp(-0.02 * (x - 12)^2) + 
+       exp(-0.02 * (x - 40)^2) + 
+       0.15 * exp(-0.015 * (x - 25)^2) #This one looks pretty good
+       
+plot(pmf)
+p4<-pmf/sum(pmf)
+
+barplot(p4, names.arg =x)
+
+
+
+
+```
+
+*************************************************************************************
+
+## Question 4 - Probability distribution with an infinite number of possible values
+
+Now, let’s consider the total number of rides your Uber-driving friend gives over the course of a week.  Unlike you, she does not set any minimum or maximum daily ride limits, but she ensures that she completes at least one ride per week.
+
+Let `X` represent the total number of rides she gives in a week. The possible values of `X` are 1, 2, 3, ... with no explicit upper limit (theoretically extending to infinity).
+
+We aim to describe the relative frequencies of `X` using the following shape equation:
+
+$$Shape = x^2 e^{-x/15} \qquad x=1, 2, 3, \ldots$$
+To convert the shape equation into an equation for the probabilities, we *cannot* use the standard approach of normalizing by dividing each shape value by the sum of all shape values (`p <- shape / sum(shape)`). This method works for *finite* sets of possible values but *fails* when there are *infinitely many possible values of* `x`.
+
+However, we *can* still convert the shape equation into a valid probability distribution by multiplying it by the reciprocal of a "well-chosen" number! This number ensures that the sum of all probabilities equals 1, making it a proper probability mass function (PMF).
+
+$$P(X=x) = \frac{1}{???}\left( x^2 e^{-x/15}  \right) \qquad x= 1, 2, 3, \ldots$$
+
+a)  Use Wolfram-Alpha to find the value of `???` in the equation above.  Provide a screenshot of your work in Wolfram (paste into Word after knitting).  Sanity check:  basically 6750 (before you take your screenshot, click on the "More Digits" in the "Result" to see the full decimal approximation).
+
+**Response:** (put screenshot here)
+
+
+
+
+
+b)  Although the values of `x` technically go up to infinity, in R, define `x` to be the integer sequence 1 to 500.  Then, *using your equation* for $P(X=x)$  (using a value of 6750 for `???`; no `p <- shape/sum(shape)` here!), define `p` to be the vector of corresponding probabilities.  
+
+Show that `p[15]` = 0.01226265 and that `sum(p)` is "basically 1" (I was getting 0.9999999 when using 6750 for the `???`), implying that `x` from 1-500 and `p` provide a "reasonable enough" PMF for the number of rides since we've captured "most" of the probabilities (even though the possible values of `x` go to infinity).  
+
+```{r Q4b}
+x<-1:500
+shape1<-(x^2)*exp(-x/15)
+
+p5<-shape1/6750
+sum(shape1/6750)
+p5[15]
+
+
+
+
+
+```
+
+c) Provide a barplot of the PMF.  Use only the first 150 elements of `x` and `p`.   Label the x-axis "Weekly Rides" and the y-axis "Probability".  R will awkwardly label only some of the bars and that's fine.
+
+```{r Q4c}
+barplot(p5[which(x<=150)], names.arg = x[which(x<=150)], xlab = "weekly rides", ylab = "probability")
+
+
+```
+
+d)  Use the PMF vectors `x` and `p` to find the probability that your friend's total number of rides is:
+
+* P(X >= 50); about 36%
+* P(X is between 90 and 115, inclusive);  about 5.6%
+
+```{r Q4d}
+#P(X >= 50)
+sum(p5[which(x>=50)])
+
+
+#P(X is between 50 and 115 inclusive)
+sum(p5[which(x>=90 & x<=115)])
+
+
+
+```
+
+e.  Write a line of R code that uses `x` and `p` that automatically extracts out the most likely value for the number of weekly orders, i.e., reports the mode of the PMF, the figure out the probability that the number of rides exceeds this number.  Avoid using `which.max` since if the distribution happened to have two equally high peaks, that would report only the first one.
+
+Write an R command that uses `x` (the possible values of `X`) and `p` (the corresponding probabilities) to automatically determine the most likely number of weekly rides (i.e., the mode of the probability mass function). Then, write another command to calculate the probability that the number of weekly rides exceeds the mode.
+
+```{r Q4e}
+
+#mode is 30
+x[which(p5==max(p5))]
+
+#P(X is larger than the mode)
+sum(p5[which(x>30)])
+
+
+
+
+```
+
+f. Calculate the mean (aka the average or the expected value) of the number of weekly rides in two different ways:
+
+* Approximate it using your `x` and `p` vectors in R.
+* Find the exact value using Wolfram Alpha.
+
+Both methods should give the same result (don't worry about "More Digits" in Wolfram), which just so happens to be the same number that Michael Jordan briefly wore when he returned to the NBA in 1995 after his first retirement.
+
+**Response:** (put screenshot here)
+
+```{r Q4f}
+mu4<-sum(x*p5)
+
+```
+
+g.  Calculate the standard deviation of the number of weekly rides in two different ways:
+
+* Approximate it using your `x` and `p` vectors in R. Your result should be around 25.98.
+* Find the exact value using Wolfram Alpha.
+
+**Response:** (put screenshot here)
+
+```{r Q4g}
+var4<-sum(((x-mu4)^2)*p5)
+sd4<-sqrt(var4)
+sd4
+
+```
+
+h.  Summarize the probability mass function (PMF) in simple terms, as if you were explaining it to your boss or a parent. In other words, provide an easy-to-understand interpretation of both the mean and standard deviation of the PMF. Be mindful of how many decimal places you use for clarity.
+
+**Response:** 
+The average number of weekly rides that your friend will drive for uber is about 45 give or take 26. 
+
+
+
+i.  Given your friend’s consistent reliability as an Uber driver, imagine that Uber applies a bonus to her total weekly rides. If `X` is the number of rides, then the weekly Bonus is: 
+
+$$Bonus = 2X \cdot \log_{10}(X+20)$$
+
+Find the expected value of the bonus using your `x` and `p` (about 169); you do not need to use Wolfram-Alpha.
+
+```{r Q4i}
+bonus= 2*x*log10(x+20)
+
+sum(p5*bonus)
+
+
+
+```
+
+j)  A key theme of BAS 471 is that "averages alone aren't enough." When trying to describe the typical value of a complex random process (such as the bonus earned based on the number of completed rides), it’s not sufficient to rely solely on averages. Simply plugging the average number of rides into our Bonus equation does NOT give us the actual average bonus!
+
+* The average weekly number of rides is 45 from part (f).
+
+* Plug in this average (i.e. use it for the value of `X`) into the equation translating the weekly number of rides into the bonus.  Sanity check:  about 163
+
+* Mentally compare the actual expected bonus (about 169 from part i) to the incorrectly calculated expected bonus of about 163.
+
+Overestimating the expected bonus by 3% (a factor of 169/163 = 1.03) might not seem like a big deal for your friend, but in a business setting, a 3% overestimation in projected profits could be catastrophic — potentially leading to financial losses, falling stock prices, and serious consequences. This is one of *the* most critical lessons you need to take away from BAS 471!
+
+```{r Q4j}
+bwrong= 2*45*log10(45+20)
+bwrong
+
+
+```
+
+*************************************************************************************
+
+## Question 5 - identifying when to use various notorious discrete probability distributions.
+
+For each of the following random quantities, choose which probability model would be your "go to" in the absence of data.   When you choose, pick between the uniform, geometric, binomial, negative binomial, Poisson, or zero-Truncated Poisson.   Do not choose negative binomial when the geometric distribution could be used (the geometric is a simpler, specific case of one flavor of the negative binomial).  
+
+For each part, report what *you* think the answer is (and *briefly* justify your answer), then report what ChatGPT thinks the answer is. 
+
+On the conceptual midterm, you'll encounter many questions like this! Since ChatGPT is not allowed there, it's essential that you're able to identify distributions on your own — just like you might need to in a technical interview when asked how to model certain quantities. The good news for when you might need to do this on the job? ChatGPT does pretty well here as a resource, identifying the distribution 9 out of 10 times when I tried it.
+
+a.  The number birds in a "flock" (a "flock" could contain only a single bird)
+
+**Response:** 
+Me: 
+I think this is a poisson distribution because you could have 1 bird, 2 birds, 3 birds etc. Because its kind of a generic count. Additionally, this one would probably have to use the average flock size as its lambda parameter. 
+
+Chat GPT:
+Negative Binomial: If flocks form through a variable process with many small flocks and a few large ones.
+Geometric: If flock size is determined by sequential joining behavior.
+Poisson: If flocks arise randomly and independently.
+Power Law: If very large flocks are disproportionately more common than expected by a Poisson/Geometric model.
+
+
+b.  The number of jelly beans in a pack of 210 that, bizarrely, are fused together.
+
+**Response:** 
+Me: I think this is a poisson because we are looking for the count of fusions in a pack of jelly beans. That seems like a low context counting question. If we could find out the average amount of fusions, or the rate at which fusions occur this could help with making our lambda parameter. 
+
+Chat GPT:
+If fusions are frequent and vary greatly across packs → Negative Binomial (captures overdispersion).
+If fusions are relatively rare and follow a steady rate → Poisson.
+If modeling how often you encounter a fused bean in a sequence → Geometric.
+
+
+
+
+c.  The number of seconds displayed on a digital clock (0-59) when you randomly glance at the time.
+
+**Response:** 
+Me: I think this is uniform because each second has equal probability to be on the clock. It is also bounded fairly well, 0 to 59, 60 numbers. Seems like there is equal chance for each second. 
+
+Chat GPT:
+Why Uniform?
+Each second on the clock is cycling continuously.
+A random glance at the clock is equally likely to occur at any second.
+There is no bias toward any particular second.
+
+
+d.  The number of good items inspected on the assembly line before six defective items are discovered (each item has a probability `p` of being defective and a probability `1-p` of being good).
+
+**Response:** 
+Me:
+This sounds like negative binomial to me. Like our event of interest is six failures, and that just seems like the right answer. 
+
+Chat GPT:
+Model: Negative Binomial Distribution
+Definition: The negative binomial distribution models the number of good items inspected before encountering a fixed number of defective items.
+
+
+e.  The total number of items ordered by students at the K Brew in Haslam during the 9-10am hour.  
+
+**Response:** 
+Me: Poisson. No context, it just sounds like a count without context outside of a time frame. We could gather the mean number of customers at this time and make that our lambda. 
+
+Chat GPT:
+Why Poisson?
+Orders occur randomly over time.
+The probability of multiple students ordering at the exact same instant is low (so arrivals are independent).
+There is a fixed observation window (1 hour).
+The Poisson process naturally models counts of events in a time period.
+
+
+f.  The number of siblings that each of the 50 students currently enrolled in BAS 471 has in their family.  Chat says binomial which is incorrect (it would be binomial if it was asking for the number of the 50 students that have any siblings, since they you would be counting up the number of "successes" out a 50 trials).
+
+**Response:** 
+Me:
+Poisson, once again? Like there doesn't seem to be a success or failure here, not much context. My intuition says this is probably normally distributed, but I don't think that is an option, so I'll stick with Poisson. Additionally, we could figure out a lambda parameter for what the mean number of siblings are. 
+
+Chat GPT:
+Which One to Use?
+Use Poisson if sibling counts are fairly stable across students (e.g., most have 1-3 siblings).
+Use Negative Binomial if there’s high variability (some students have no siblings, some have 7).
+Empirical Data Needed: Checking real student responses (e.g., mean and variance of sibling counts) helps determine the best fit.
+
+
+
+g.  The number of parties in a restaurant that pay via credit card before a party pays in cash (each party has a probability `p` of paying in cash and a probability `1-p` of paying by card).
+
+**Response:**  
+Me: This sounds like a geometric distribution. Because the number of failures (paying with card) before a successs (someone paying in cash) is the question. 
+
+
+Chat GPT:
+This scenario follows a Geometric Distribution, which models the number of successes (credit card payments) before the first failure (cash payment).
+
+
+
+h.  The number of students currently enrolled in the business analytics capstone class BAS 479 that have applied to our Master's in Analytics program (there are 112 students currently enrolled in BAS 479).  
+
+**Response:**  
+Me initially, ignore this: 
+Poisson because counting. Maybe a zero truncated one, because I'd imagine there are at least 1 or 2 people in the 479 class that are going into the masters program. I don't really get how it would be a binomial distribution, so I'll stick to my intuition here. 
+Thought 2, better thought: 
+Like your lambda would be the average number of enrollees from past classes of 479 to the MSBA program, but this number changes year to year. So, I guess I could see how a binomial would be better now actually, like the probability would be that rate of enrollees. Yeah. I get it. 
+
+
+
+Chat GPT:
+This scenario follows a Binomial Distribution, as it counts the number of successes (students who applied) in a fixed number of independent trials (each student’s decision to apply or not).
+Alternative Models (if extra conditions apply)
+Poisson Approximation:
+Negative Binomial:
+
+
+
+i.  The total number of pets dropped off at an animal shelter on any particular day.
+
+**Response:** 
+Me:
+Poisson because little context and counting, lambda would be your mean number of animals dropped off on any given day. 
+
+
+Chat GPT:
+This scenario follows a Poisson Distribution, which models the number of events occurring in a fixed time period when the events happen independently and at a constant average rate.
+
+*************************************************************************************
+
+## Question 6: notorious discrete probability distributions in R
+
+a.  Sometimes a bag of potato chips contains a couple chips with an eerie and gross green edge.  Do you eat them?  I don't (even though having one or two is harmless).  Imagine that, on average, 3% of potato chips have the dreaded green edge.  Consider the number of green-edged chips in a bag of 250.   Using `dbinom` and/or `pbinom`, find the probability that:
+
+* there are fewer than 10 green-edged chips (use `pbinom`); about 78%
+* there are exactly 6 green-edged chips; about 14%
+* there are between 3 and 13 green-edged chips (inclusive); about 96%
+
+```{r Q6a}
+#fewer than 3 
+sum(dbinom(0:2, size=250, p=.03))
+#fewer than 10
+sum(dbinom(0:9, size=250, p=.03))
+
+#Exactly 6
+dbinom(6, size=250, p=.03)
+
+#Between 3 and 13 inclusive
+sum(dbinom(3:13, size = 250, p=.03))
+
+
+```
+
+
+b. Let's model the number of potholes per 100 foot segment on Neyland Drive (if you've driven it recently, you know what I mean) with a Poisson distribution that has an average of 4.4.  Determine the value of `lambda` for this Poisson (hint: this is an easy one), then using `dpois` and/or `ppois` to find:
+
+* the probability that a 100 foot segment has exactly 0 potholes (about 1%)
+* the probability that a 100 foot segment has exactly the average number of potholes (a warning comes up; this is ok, but figure out why this happens)
+* the probability that a 100 foot segment has more than 8 potholes  (about 3.6%)
+
+
+```{r Q6b}
+#Comment on what lambda is here:
+#lambda is the average of 4.4
+
+
+#0 potholes
+dpois(0,lambda=4.4)
+#Average number of potholes
+dpois(4.4, lambda = 4.4)
+#warning because we can't use non integers for this problem
+
+
+
+#more than 8
+1-sum(dpois(0:8, lambda = 4.4))
+
+
+
+```
+
+
+c.  You are distributing flyers about the Master's in Business Analytics program around Haslam.  Sidenote:  if you're enjoying this class, that's a *great* indication that you may really get a lot out of the MSBA!  Come chat with me about it if so, we can often give a semester or two of tuition wavers for qualified students!
+
+Each person you approach has a 10% chance of accepting a flyer, and their decisions are independent of each other.  After a while, you have only a single flyer to give away!  
+
+The geometric distribution provides a model for the number of people you must ask *before* someone takes the last flyer.  For the following questions, determine what is being asked about the number of failures (people refusing the flyer) before the first success (someone accepting it), and then calculate the requested probabilities.
+
+Using `dgeom` and/or `pgeom`, find:
+
+*  the probability that you will give away the last flyer to the 5th person you ask (about 6.5%).   
+*  the probability that you'll give away your last flier to the 10th, 11th, 12th, 13th, 14th, or 15th person you ask (about 18.2%)
+*  the probability that you will have to ask 18 or more people in order to give away your last flyer (about 17%)
+
+
+```{r Q6c}
+#Last flyer to the 5th person you ask
+dgeom(4,p=.10)
+
+
+#Last flyer to person 10-15 inclusive
+sum(dgeom(9:14, p=.1))
+
+
+#At least 18 people
+1-sum(dgeom(0:16, p=.1))
+1-pgeom(16, .1)
+#because logical statements are difficult, so its 18 inclusive as first success, meaning that I have to have 18,19, etc. but it also needs to be a more than statement, so I have to subtract another number in my count, I think. 
+
+
+```
+
+
+d.  Right after you give away your last flyer, you're handed 15 more. Find the probability that:
+
+*  you have to ask 100 or more people to give them all away (about 93.2%)
+
+*  you have to ask at least 115 but no more than 125 people to give them all away  (about 10.2%)
+
+Remember that the negative binomial counts up the number of *failures* before a certain number of successes.  A failure is someone refusing a flyer.  A success is someone accepting a flyer.  Translate these questions into how many failures are required to describe the event, then use `dnbinom` and/or `pnbinom`.
+
+```{r Q6d}
+#Ask 100 or more people
+1-sum(dnbinom(0:99, size=15, p=.1))
+# I think the sanity check is off, because this is what I'm getting. Otherwise, I'm very confused. 
+x<-0:1000
+p6<-dnbinom(x, size = 15, p=.1)
+sum(p6[which(x>=100)])
+barplot(p6, names.arg = x)
+
+
+
+
+
+#At least 115 but no more than 125 
+
+sum(dnbinom(115:124, size=15, p=.1))
+
+#can't figure this one out either
+```
+
+
+*************************************************************************************
+
+## Question 7
+
+Make sure both this .Rmd file and the `BAS471-HW5-Sp25.RData` have been moved/saved to your BAS 471 folder.  And make sure your working directory is this folder as well.  If you get an error loading in the file, and you think you've done these three things, do one last Save As and force save this .Rmd file into your BAS 471 folder.
+
+```{r Q7}
+library(fitdistrplus)
+load("BAS471-HW5-Sp25.RData")
+```
+
+Data analytics has helped to reduce and prevent crime.  Take, for instance, the "pre-crime" initiative led by the Chicago Police Department and Chicago University Urban Labs.  Here, machine learning and predictive analytics are applied to police data sets (including crime incidents, arrests, and weather data).  The results make it easier to pinpoint problem locations and understand the conditions in which crime can flourish.  
+
+There are, of course, a lot of data ethics issues which must be considered.  If you're interested, check out:
+
+* https://datapopalliance.org/lwl-39-the-data-detectives-how-ai-and-big-data-are-reshaping-criminal-justice/
+* https://www.nobledesktop.com/classes-near-me/blog/data-analytics-in-crime-prediction-and-prevention
+
+a)  The vector `englewood` contains the number of crimes reported on various streets in Chicago's Englewood neighborhood over the course of a week.  
+
+a1)  Fit the data to Poisson, Geometric, and Negative Binomial distributions.  Save the results of running `fitdist` into objects called `FIT.pois`, `FIT.geom`, and `FIT.nb`, and provide a `summary()` for each.
+  
+```{r Q7a1}
+library(fitdistrplus)
+
+FIT.pois<-fitdist(englewood, dist="pois")
+summary(FIT.pois)
+
+FIT.geom<-fitdist(englewood, dist = "geom")
+summary(FIT.geom)
+
+FIT.nb<-fitdist(englewood, dist="nbinom")
+summary(FIT.nb)
+
+```
+
+a2)  Determine which of these distributions provides the "best" model for the data.  Explain your reasoning.  Provide a `plot()` of the fit of the best model.  If there is a "tie", or no clear preference, say which models are basically equivalent, then choose one to display.
+
+**Response:**  
+
+```{r Q7a2}
+plot(FIT.nb)
+# I think the negaitve binomial model is the best fit because the graph on the right looks the closest to what we expect to see. 
+
+```
+  
+a3)  Comment on whether or not the "best" model provides a *reasonable* fit to the data.  Make sure to refer to the correct plot (only one provides guidance as to the quality of the fit) in your response.
+  
+**Response:** 
+I think that the negative binomial model does provide a reasonable fit to the data, the graph of the CDF looks the best of the three with some issues, but not too many. 
+
+a4)  Using all 3 models (regardless of their appropriateness), determine the probability that the number of crimes is between 13-18 (inclusive).  You can do this by running `sum` on the appropriate "d" version of the models (the models' parameter(s) are in the `Estimate` column of the `summary` of the fit).  Compare this with the actual fraction of data values that are between 13-18 (none of the models are particularly close at reproducing this number).  Sanity checks:  about 19.3% (negative binomial), 9.8% (Poisson), 12.6% (geometric).  The differences in probabilities show the importance of picking the "right" probability model!  Note:  R parameterizes the negative binomial with a `size` and `mu` parameter (instead of `p`).  For the second and third arguments to `dnbinom`, put in the `size=` and `mu=` that you see from the `summary` of the fit.
+
+```{r Q7a4}
+#poisson 
+mean(englewood)
+sum(dpois(13:18, lambda = 24.70131))
+
+#Geom
+sum(dgeom(13:18 ,p= 0.03890853))
+
+#negative binomial
+sum(dnbinom(13:18, size = 3.816534, mu=24.702280))
+
+
+
+```
+
+b)  Bonus.  Make a histogram of the values of `minutes` (the minute of the hour when a crime is reported).  It looks like the values are more or less uniformly distributed from 0 to 59 (makes sense).  However, R has no built-in functions to fit a discrete uniform distribution to data.  Review pages 138-143 of the Unit 5 notes, and you'll find code that allows you to define the "d", "p", and "q" versions of a custom discrete uniform distribution. You'll also find an example of how to plot a fit of the discrete uniform to data.  Fit `minutes` to a discrete uniform, include the diagnostic plot, and comment as to whether the discrete uniform provides a decent fit to this data
+
+**Response:** 
+I think it is pretty reasonable, because the CDF graph on the right lines up fairly well with our data set. 
+```{r Q7b}
+hist(minutes)
+dunifdiscrete <- function(x,lower,upper) {
+ifelse( x %in% lower:upper, 1/length(lower:upper),0)
+}
+punifdiscrete <- function(q,lower,upper) {
+ifelse( q %in% lower:upper, (q-lower+1)/(upper-lower+1), ifelse(q<lower,0,1))
+}
+qunifdiscrete <- function(p,lower,upper) { }
+
+plotdist(minutes,"unifdiscrete",para=list(lower=min(minutes),upper=max(minutes)),discrete=TRUE)
+
+
+
+```
+
+**************************************************************
+
+## Question 8 (sports analytics bonus)
+
+One way to evaluate a pitcher is to evaluate his "no runs when no swings" probability.  This refers to the probability that a pitcher throws strikes consistently enough so that, if no batter ever swings at the ball, the game would end without a run being scored.  In other words, each inning has 3 strikeouts occur before 4 walks occur.  
+
+Imagine that each pitch independently has a 65% chance of being a "strike" and a 35% chance of being a "ball".  A batter has a "strike out" if 3 strikes occur before 4 balls.  A batter has a "walk" if 4 balls occur before 3 strikes.  You've seen a similar problem  back in an activity done in class for Unit 1, and on the Unit 2 Monte Carlo simulation worksheet, but this problem takes the analysis much further. 
+
+
+a)  What's the name of the "notorious" distribution that counts up the number of failures that occur before a target number of successes?
+
+**Response:**  
+Geometric distribution. 
+
+b)  Let a strike be considered a "success" and a ball be considered a "failure".  A strikeout occurs when there at most 3 balls (failures) before 3 strikes (successes).  Use the appropriate `d` or `p` function in R to calculate the probability of a strikeout (remember in Unit 1 how tedious it was to enumerate all possible ways a strikeout could occur?).  It turns out to be close to 88%.
+
+```{r Q8b}
+
+sum(dgeom(0:4, p=.35))
+#I can't figure out how this works
+```
+
+c)  Imagine a similar game called "buskerball" where a batter has a "strike out" if 7 strikes occur before 10 balls.  A batter has a "walk" if 10 balls occur before 7 strikes.  If the probability of throwing a strike is 0.65, what's the probability of a strikeout?  Sanity:  close to 98%.
+
+```{r Q8c}
+sum(dgeom(0:9, prob = .35))
+#nor this. 
+
+```
+
+d)  Back to actual baseball (building off of parts a and b).  Although I haven't seen this as an official sports analytics interview question, I wouldn't be surprised if some team asks it.   Imagine no batters ever swing at the ball.  Thus, an "inning" will end with no runs scored as long as 3 strikeouts occur before 4 walks.  Use one of the notorious distributions to find the probability that an inning has no runs scored (about 99.8%).  Then, find the probability that the game ends without any runs being scored (9 innings in a row, each with no runs scored; about 97.9%). 
+
+```{r Q8d}
+#An inning has no runs
+
+#9 innings in a row with no runs:
+
+```
+
+e)  Unfortunately, the pitcher who has the 65% chance of throwing a strike is injured and had to be replaced by a pitcher that only has a 50% chance of throwing a strike (yikes).  No batters swing at his pitches.
+
+e1)  Find the PMF (`x` and `p`) of the number of points scored in an *inning*, i.e., 
+    - The probability an inning ends with 0 points scored (3 strikeouts occur before 4 walks)
+    - The probability an inning ends with 1 point scored (the 3rd strikeout occurs after exactly 4 walks)
+    - The probability an inning ends with 2 points scored (the 3rd strikeout occurs after exactly 5 walks)
+    - The probability an inning ends with 3 points scored (the 3rd strikeout occurs after exactly 6 walks)
+    - etc.
+    - Sanity check:  the probability an inning ends with 3 points scored is 0.01305636
+    - Let `x` be `0:10` (so you go up to 10 points scored) and `p` be the corresponding probabilities.  Print out the contents of your `p` vector once you've defined them, then make a barplot to show the PMF. Have the x-label be "Points Scored in Inning" and y-label be "Probability".
+    
+```{r Q8e1}
+
+```
+    
+e2)  Now, approximate the PMF of the total number of runs scored over the course of a *game* (9 innings) by sampling (with replacement) 9 values from the PMF for runs scored in an inning that you derived in part `e1`.
+    - Run 100,000 trials, storing the total number of points scored in the game in a vector named `total.points`
+    - Include a barplot of the results, i.e., `barplot(table(total.points))`.  Have the x-label be "Points Scored in Game" and y-label be "Probability"
+    - What is the probability that at most 3 points are scored during these 9 innings (about 82%)?
+
+```{r Q8e2}
+
+```
+
+**********************************************************************************
+
+
+## Question 9 (no work required; provided for reference/study)- mean/average of notorious distributions
+
+**All answers provided.**  Since the length of time you have for this homework is shorter than normal, I have included the answers to these five questions where you characterize the mean and standard deviations of the members of the notorious zoo of distributions for counts.  It's important to have these all in one place!
+
+All of the notorious distributions have formulas giving their mean and standard deviations.  I usually open the R help file for the `d` version of the function (e.g. `?dbinom`), look at the course notes (the study guide page has all of these listed), or look on Wikipedia (except for the negative binomial, whose Wikipedia page is a mess).  Since these distributions are so common, you'll want to have these formulas for quick reference.
+
+a)  Take the number of deliveries that a food-delivering robot makes per day to be Poisson with a $\lambda$ of 16.  What are the average value and standard deviation of the number of deliveries per day?  Quote the formulas for the average/standard deviation and report numerical values as well.
+
+**Response:**  For a Poisson, the mean is $\lambda$ and the standard deviation is $\sqrt{\lambda}$, so an average of 16 and a standard deviation of 4 deliveries per day.
+
+b)  At your job, 100 tasks get randomly assigned between you and four other employees for the week.  Thus, the number of tasks assigned to you has a binomial distribution (20% chance of you receiving any particular task).  What are the mean and standard deviation of the number of tasks you are assigned?  Quote the formulas for the average/standard deviation and report numerical values as well.
+
+**Response:** For a binomial, the mean is $np$ and the standard deviation is $\sqrt{np(1-p)}$.  Thus the average is `100*.20=20` and the standard deviation is `sqrt(100*.20*.80)=4`.
+
+c)  On the first activity day, we discussed that the fraction of trials where an event occurs approaches $p$ (the true probability of the event) as the number of trials goes to infinity.  However, the deviation between the number of times the event occurred and the number of times you expect it to occur gets larger as the number of trials grows.  Imagine an event with a probability 1/4 (e.g. picking a 1 if you are randomly selecting the numbers between 1 and 4).  The deviation between the observed number of times a 1 is selected and the expected number of times a 1 is selected is:
+
+$$Deviation = \frac{\sqrt{3} }{2} \cdot \sqrt{n}$$
+
+In Unit 5, we've discussed that the total number of trials where an event occurs has a Binomial distribution with $n$ being the number of independent trials and $p$ being the probability of the event.  Thus, explain why the formula, $\sqrt{3}/2 \cdot \sqrt{n}$, now makes sense!
+
+**Response:**  The standard deviation of a probability distribution *is* the typical difference between the expected value of `X` and the values of `X` that might be observed.  The standard deviation of a Binomial distribution with $n$ trials and probability $p$ is $\sqrt{np(1-p)}$.  Plugging in $p=1/4$ (the probability of picking a 1), we get $\sqrt{n(1/4)(3/4)} = \sqrt{3n/4} = \sqrt{3}/2 \cdot \sqrt{n}$.  So the typical difference between the observed and expected number of 1s after $n$ picks is indeed $\sqrt{3}/2 \cdot \sqrt{n}$.  This gets larger as the number of trials increases!
+
+
+d)  Imagine that the probability that the next person you date is compatible enough to marry is 0.1.  A geometric distribution may model the number of people you date before getting married.   Find the expected value and standard deviation of the number of people you have to date before discovering the person will marry.  If you use Wikipedia, be carefully choose the "correct" representation of the geometric (number of failures before the first success).  Sidenote: the geometric distribution is so skewed that the mean/standard deviation doesn't really provide a great summary of the values you might see (but we can still get the numbers out of the distribution).  Quote the formulas for the average/standard deviation and report numerical values as well.
+
+**Response:** for the geometric distribution, the mean is `(1-p)/p` and the standard deviation is `sqrt( (1-p)/p^2)`.  The mean and standard deviation work out to be 9 and 9.5 respectively.  Not a very useful summary here!
+
+```{r Q9d}
+#if needed
+p <- 1/10
+(1-p)/p
+sqrt( (1-p)/p^2)
+```
+
+
+e)  A dog is thinking about escaping the yard.  Each day, there is a 10% chance that the dog tries to escape.  Each escape attempt allows the dog to learn a bit more as to how to get out.  On the 8th escape attempt, the dog will have learned enough to finally get out!   Take the number of days the dog stays put in the yard (no attempt at escape is made) before it escapes to be a negative binomial.  Find the average and standard deviation of the number of days the dog stays put.  Quote the formulas for the average/standard deviation and report numerical values as well.
+
+Hint:  avoid Wikipedia on this one since its notation is extremely inconsistent and confusing.  Rather, check out the course notes and Study Guide page.  Sanity check:  the mean is about 72 and the SD is near 27.  
+
+**Response:**  The course notes show that for a negative binomial:
+
+$$\mu = \frac{r(1-p)}{p} \qquad \sigma = \frac{ \sqrt{r(1-p)} }{p}$$
+where $r=8$ (target number of successes) and $p=0.10$ (probability of success)
+
+```{r Q9e}
+#if needed
+8*(1-.1)/.1
+sqrt(8*(1-.1) ) /.1
+```
+
+
