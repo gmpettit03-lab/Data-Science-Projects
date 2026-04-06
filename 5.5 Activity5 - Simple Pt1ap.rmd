@@ -1,0 +1,164 @@
+---
+title: "NAME - SECTION - Activity 5"
+author: "Simple Linear Regression 1"
+date: '...'
+output:
+  word_document: default
+  html_document: default
+---
+
+```{r, echo=FALSE, message=FALSE}
+#Do not change anything in this chunk of R code
+options(width=90)
+library(regclass)
+```
+
+**************
+
+Download this .Rmd file and `Activity5-xboxauction.dat` into your BAS320 folder.  Open RStudio and, as always, run `library(regclass)` to load up the functions we'll use.  Then read in the data file using `read.csv`, naming your data frame `XBOX`.
+
+```{r}
+#Complete the code below to read in the data to R, then uncomment it
+XBOX <- read.csv("Activity5-xboxauction.dat")
+
+```
+
+This dataset contains information on 149 auctions on eBay for the Xbox 360 game console.  The variable of interest is `price`, which is the final selling price of the auction.
+
+*********
+
+1.  Make a scatterplot to examine the relationship between `price` and `bids`.  A linear regression model is only appropriate when the overall trajectory of the stream of points is well-described by a straight line.  Though the stream may look heteroscedastic and have an outlier or two; a)is its *trajectory* "linear enough" here?
+b) Which variable should be y? and why?
+
+```{r scatterplot, collapse=TRUE}
+#R code for making scatterplot:  plot(y~x,data=DATA); replace x, y, DATA with appropriate names 
+plot(price~bids, data=XBOX)
+M<-lm(price~bids, data = XBOX)
+plot(M)
+
+
+
+
+```
+
+**Responses:**
+
+**a)**
+No I think that there are clear looking lines plural which indicates that we could be missing a control variable in order to group these better. But the overall trend looks incredibly heteroskedastic. 
+**b)**
+our variable of interest is price, therefore it should be our y. We are regressing that against bids therefore the bids should be our x variable. 
+
+**************
+
+2.  Fit the simple linear regression model, naming it `M`.   Add the regression line to the plot by running `abline(M)`.  Add a horizontal line at the average value of `price` to represent the "naive model" (code provided, just uncomment it).  Note:  it is rare but possible to run into a knitting problem here if RStudio "forgets" about the plot you just made.  If you run into an error, copy/paste your `plot` command from (1) and put it as the first line of code in this chunk.
+
+```{r}
+#R code fitting the model predicting price from bids:  M <- lm(y~x,data=DATA); replace x, y, DATA with appropriate names 
+M<-lm(price~bids, data = XBOX)
+M
+plot(M)
+
+abline(M)
+#R code adding the line with abline(M)
+
+#Uncomment the line below which adds a horizontal line at the average price, i.e. naive model
+abline(h=mean(XBOX$price))
+
+```
+
+**********
+
+3.  As you can see, the slope of the line is not very sleep, so the relationship must be weak if it exists at all.  However, it does fit the data better than the naive model (predicting the $y$ value of all individuals to be the overall average value of $y$ in the data, regardless of the individual's value of $x$).  Run `anova` on the model to identify the:
+
+a.  **SSE of the regression model: **  
+
+
+summary(M)
+
+anova(M)
+
+b.  **Reduction in SSE of regression model:  **  
+
+c. **How many total df's are there?:** 
+
+d. **Calculate r-square with the information provided:** 
+```{r}
+#R code running anova:  anova(M)
+
+anova(M)
+summary(M)
+confint(M, level=.95)
+```
+
+**********
+
+4.  Now run `possible_regressions(M)`.  The left plot displays the regression model in red.  In grey is an "envelope" of 100 other lines that correspond to the least squares regression lines on permutation datasets (created by randomly pairing `price` and `bids` so that there is no inherent relationship between the two, effectively making `bids` a "random, unrelated predictor").  The histogram shows the reductions in SSE of these lines along with the SSE of the original regression.  Does it looks like `price` is predicted by `bids` better than by a random, unrelated predictor?  Explain.
+
+```{r}
+#R code running possible_regressions:  possible_regressions(M)
+
+```
+
+**Response:**
+
+
+B<-lm(bids~price, data=XBOX)
+
+anova(B)
+
+summary(B)
+
+N<-lm(price~1, data=XBOX)
+
+anova(N)
+
+B$pvalue
+
+anova(M)
+
+M$pvalue(summary(M))
+
+**********
+5.  A regression predicting `price` from a completely unrelated variable will *always* give *some* reduction in the SSE relative to the naive model.  The question is whether the reduction is "large enough" to be convinced that `bids` does a better job predicting `price` than any random unrelated quantity.  The regression model using `bids` is statistically significant if its SSE reduction is "large", i.e., unlikely to produced "by chance".  Quote the $p$-value of the regression from the `anova` table and state whether the regression is indeed statistically significant.
+
+**Response:**
+
+
+*****************
+
+6.  Run `summary` on the model and quote:
+
+a.  **The intercept:**  
+b.  **The slope:**      
+c.  **The standard error of the slope:**  
+d.  **The RMSE:**   
+e.  **$R^2$:**  
+f.  **$p$-value of the regression**  
+
+```{r}
+#R code getting a summary of the model;  summary(M)
+
+```
+
+*****************
+
+7.  The slope of a regression line on a sample ($b_1$) will be close to "the truth", i.e., $\beta_1$, the slope of the regression line on the population.  Obtain a 95% confidence interval for $\beta_1$ for the regression predicting `price` from (*note the change in variable*) `bidderrate` (the winner's eBay rating).  Using the confidence interval, determine whether the relationship is statistically significant.
+
+```{r}
+#R code fitting and naming a regression predicting price from bidderrate; note the change in predictor!
+# CALLL the model Mbr <----
+#R code to give a 95% confidence interval for the slope:  confint(Mbr,level=0.95)
+
+```
+
+**Response:**
+
+8. Find (make print to the screen) the p-value in the prior model (bidderrate) in the output of the the model **Mbr ** 
+
+```{r}
+#R code to print p-value to the screen. Hint: Run this code and investigate the list MbrSum in your Evironment. 
+MbrSum <- summary(Mbr)
+
+
+```
+

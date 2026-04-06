@@ -1,0 +1,245 @@
+---
+title: "Activity 8 - Multiple Regression Part 2"
+date: "..."
+output:
+  word_document: default
+---
+
+```{r, echo=FALSE, message=FALSE}
+#Do not change anything in this chunk of R code
+options(width=100)
+knitr::opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE, collapse=TRUE)
+library(regclass)
+```
+
+**************
+
+Use the `data` command to load in the `LAUNCH` dataset.  This is a small part of a `kaggle.com` competition about market analysis.  The data contains information on 652 products released to the market in 2013.  We want to predict the total product sales over the course of the first few months after release (column `Profit`).  Since this is real company data, the 420 potential predictor variables are anonymized and are referred to as `x1`, `x2`, etc.  
+
+In Activity 7, we focused on the 9 predictor variables.  We saw that the assumptions behind the regression looked reasonable with the exception that there is a minimum value of `Profit` hard-coded into the data that our model can't quite reproduce.  Overall, this is a pretty minor effect and the model should still be useful.
+
+Run the following code that loads in the data then save a subset called `PL` which contains `Profit` and the first 6 predictors `x1`, `x2`,  `x3`, `x4`, `x5`, `x6`.
+
+
+```{r,collapse=TRUE}
+data(LAUNCH)  #Load in the dataset
+PL <- LAUNCH[,1:7] #Keep only the first 7 columns and call it PL
+```
+
+
+**Question 1**.  Fit the model predicting `Profit` from all 6 predictors in the `PL` dataframe without any interactions and record the values of $R^2$, $R^2_{adj}$, and $RMSE$.  
+
+
+
+**$R^2$:**  
+ 0.6898
+
+**$R^2_{adj}$:**  
+0.6869
+
+**$RMSE$:**  
+0.2877
+
+```{r,collapse=TRUE}
+#Code fitting model predicting Profit from all 6 variables in PL, then running summary.
+M<-lm(Profit~., data = PL)
+summary(M)
+
+```
+
+
+**************
+
+**Question 2**.  Interactions play a key role in many problems.  Relationships are complex, and the strength of the relationship between, say, `y` and `x` is NOT a constant but depends on the value of some third variable.  It is always good to explore the possibility of having interactions in the model.  Fit a model with all two-way interactions with the "twiddle dot squared" shortcut and name it  `M.int`. 
+Run `summary` to peruse the (long) output.
+
+```{r,collapse=TRUE}
+M.int <- lm(Profit~.^2,data=PL)  #Complete the command
+#Code running summary on M.int
+summary(M.int)
+
+
+```
+
+a.  Record the values of $R^2$, $R^2_{adj}$, and $RMSE$.  Recall that $R^2_{adj}$ gives a fairer assessment of how well the model fits the data.  Comment on how much the model has improved by considering interactions.
+
+**$R^2$:**  
+.7273
+**$R^2_{adj}$:**  
+.7182
+**$RMSE$:**  
+.2729
+**Response:**  
+The adjusted R^2 has increased by about .03 with the introduction of the additional interactions. 
+
+b.  How many of the 10 interactions are statistically significant?  
+
+**Response:**
+8
+c.  Peruse all 10 fitted interactions in the model by running `see_interactions` (with added argument `many=TRUE`).  Report one pair (and there may be more than one pair) of variables that 
+
+**look to have a strong interaction**
+X2, X5
+**look to have a weak/nonexistent**
+X1, X3
+
+```{r,collapse=TRUE}
+#Fit see_interactions on M.int with the additional argument many=TRUE
+
+see_interactions(M.int, many=TRUE)
+
+```
+
+
+
+d.  Fit a new model predicting `Profit` from `x2`, `x5`, and their interaction.  Run `visualize_model` to see the interaction plot.
+
+```{r,collapse=TRUE}
+#Fit model predicting from Profit from x2, x4, and their interaction using the * shortcut
+#Run visualize_model on this model
+M.25<-lm(Profit~(x2+x5)^2, data=PL)
+summary(M.25)
+visualize_model(M.25)
+```
+
+*  The implication of the significant interaction is that the expected difference in `Profit` between two products that differ in `x2` by one unit depends on the their (identical) value of `x4`.  Refer to the plot on the right.  When `x5` is near zero, are the expected differences in `Profit` between products that differ in `x2` relatively small or relatively large?   When `x5` is near 1500, are the expected differences in `Profit` between products that differ in `x2` relatively small or relatively large?
+
+**Response:**  
+When x5 is near 0, differences in Profit that differ in x2 between products is relatively large. 
+When x5 is near 1500, expected differences between products that differ in x2 are relatively small. 
+
+*  Another implication of the significant interaction is that strength of the relationship between `Profit` and `x5` depends on the particular value of `x2` of the products under consideration.  Once again look at the plot on the right and describe how the strength of the relationship changes between `Profit` and `x5` as the `x2` values of the products grow progressively larger.  Specifically, does the relationship between `Profit` and `x5` strengthen?  Weaken?  Flip sign?
+
+**Response:**  
+The relationship strengthens between profit and products that differ in x5 as x2 increases for small and median x5, but an intersection occurs with x5 large.
+
+*  Now look at the plot on the left, which shows the relationship between `Profit` and `x2` for various values of `x5`.  Describe how the nature of the relationship changes as we compare products with progressively larger values of `x5`.
+
+**Response:**  
+at a small x5 the slope is positive and steep, at a median x5 the slope is positive but the slope is flat, at a large x5 the slope is negative and steep. 
+******
+
+**Question 4**.  Finding outliers and influential points even with 5 predictors variables is difficult.  An influential point may have fairly typical values for the `x`'s, but may be unusual in some combination of them.   Run `influence_plot` on `M.int` and see how many points are influential.
+
+```{r,collapse=TRUE}
+#Run influence_plot on M.int
+
+influence_plot(M.int)
+
+
+```
+
+a.  How many points are influential according to the leverage/deleted studentized residual criteria?
+
+**Response**:
+8
+
+b.  The point on the very far right (highest leverage) belongs to row 463.  Run `summary` on `PL` to get summary statistics of each variable, then print this row of `PL` to the screen by running `PL[463,]`.  By comparing its values of `Profit` and the predictors to the Min/Max values of the variables in the dataset, determine if this product is highly unusual with regards to one of the variables (i.e., the min or max of all products in the data), or if it must be the case that what gives this product high leverage is that it is unusual in some combination of variables?
+
+```{r,collapse=TRUE}
+#Run summary on the PL dataframe to look at summaries of each column
+#Extract row 463 of the PL dataframe to see this individuals values
+summary(PL)
+PL[463,]
+```
+
+**Response**:  
+Well it has the minimum value at x6. 
+**************
+
+**Question 5**.  A scatterplot of `Profit` versus `x2` shows that the relationship may be nonlinear.  
+
+
+
+a.  Fit a simple linear regression predicting `Profit` from `x2` and run  `choose_order` too see what order a polynomial (if any) provides the "best fit".  Follow the "0.005" guideline.
+
+
+```{r,collapse=TRUE}
+#Fit a simple linear regression predicting Profit from x2
+#Run choose_order
+
+plot(Profit~x2, data=PL)
+Px2<-lm(Profit~x2, data=PL)
+choose_order(Px2)
+M.poly<-lm(Profit~poly(x2,2), data= PL)
+
+
+```
+
+**Comment**:  
+x2^2 is the best following .005 guideline
+b.  Fit the model predicting `Profit` with all interactions and include the relevant polynomial term in `x2` in the `PL` data frame.  Take a look at it with `summary`.  See slide 43 and 78 for useful syntax.
+
+```{r,collapse=TRUE}
+#Fit model predicting Profit from all variables, all two-way interactions, and a polynomial in x2
+#Get a summary of the model
+
+M.multi<-lm(Profit~.^2 + poly(x2,2), data=PL)
+summary(M.multi)
+```
+
+* Is the highest order of the polynomial statistically significant?  
+
+**Response**:  
+Yes. 
+
+* Has the model improved in terms of $R^2_{adj}$ and $RMSE$ by including the polynomial term?
+
+**$R^2_{adj}$:**  
+0.7305 
+**$RMSE$:**  
+0.2669
+**Response**:  
+Yes. 
+**************
+
+**Question 6**.  Imagine `x3` and `x5` represent the number of advertisements of the product on `cnn.com` and `foxnews.com` (the only 2 sites on which the products were advertised) and `x1` is the estimated total number of people who saw an internet ad for the product.  Then the variable `x1/(x3+x5)` represents the total number of people per ad who saw the product and may be a worthwhile as a predictor.  Create a variable called `ppa` (person per ad) to equal `x1/(x3+x5)`, add it to the `PL` dataframe, and fit a simple linear regression predicting `Profit` from it.  Is it statistically significant?  Note:  see slide 33 or 77 in the Ch4pt2 notes for an example how to do this.
+
+```{r,collapse=TRUE}
+#Code defining ppa to be the desired quantity
+new.variable<-(PL$x1/(PL$x3+5))
+#Code adding ppa to the PL dataframe
+PL$ppa<-new.variable
+#Code fitting model predicting profit from ppa
+M.ppa<-lm(Profit~ppa, data=PL)
+#Summary of the model
+summary(M.ppa)
+
+new.variable1<-(PL$x2/(PL$x3+PL$x5))
+PL$newvar<-new.variable1
+
+M.newvar<-lm(Profit~newvar, data=PL)
+summary(M.newvar)
+```
+
+**Comment**:  
+yes, p value is close to 0. 
+**************
+
+**Question 7**.  It can be difficult tell if a prediction requires extrapolation because while the point may have typical values for `x`, it may be unusual in some combination.  Run the following command to define `TO.PREDICT`, a dataframe containing the `x` values of two new points (each individual value of $x$ is pretty typical, you could check with `summary` if you want).  Then, run `extrapolation_check` to see if either prediction requires extrapolating, and comment.  Note:  the model passed to `extrapolation_check` should be `M.int`, the one you fit at the beginning of this exercise.
+
+```{r,collapse=TRUE}
+TO.PREDICT <- data.frame(
+  x1=c(80000,2000000),
+  x2=c(3000, 9000),
+  x3=c(100,63),
+  x4=c(620000,255000),
+  x5=c(10,250),
+  x6=c(10,20)
+)
+
+TO.PREDICT1 <- data.frame(
+  x1=c(90000),
+  x2=c(32000),
+  x3=c(100),
+  x4=c(800000),
+  x5=c(500),
+  x6=c(30)
+)
+
+extrapolation_check(M.int,newdata=TO.PREDICT1)
+
+```
+
+**Comment**:  
+

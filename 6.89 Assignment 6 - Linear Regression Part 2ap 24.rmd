@@ -1,0 +1,247 @@
+---
+title: "Assignment 6 - Linear Regression Part 2ap24"
+author: "Your name here"
+date: "Put date here"
+output:
+  word_document: default
+  pdf_document: default
+---
+
+
+**Grading: 5 points for deleting above**  
+**Grading: 5 points for page numbers**  
+
+
+```{r load up regclass, message=FALSE, echo=FALSE}
+#Do not change anything in this R chunk
+library(regclass)
+```
+
+
+
+**Question 1: Abalone Data**  You need to load in `EX3.ABALONE` using the `data()` command and have that be in the R chunk.  
+
+**Grading:** 8 points each, 32 points total.  
+**Grading: 4 points for organized output per instructions**  
+
+
+```{r q1, include=FALSE}
+# Question 3, pg "126" (literal page 8) of the homework packet 
+
+#load in EX3.ABALONE
+data("EX3.ABALONE")
+
+```
+
+
+**Question 1a)** Make the relevent scatterplot, using the additional arguments pch=25 and cex=0.25 to see
+the points better. Explain why we cannot model this relationship with a linear regression.
+
+```{r q1a, echo=FALSE}
+#scatterplot with options
+
+plot(Meat.Weight~Diameter, data= EX3.ABALONE, pch=25, cex=0.25)
+
+
+
+
+```
+
+
+**1a. Answer:**    
+We cannot use a linear regression for this model because the distribution of the points is not normal, its not equally spread around a straight line and essetially it looks more like a concave line than a straight one. 
+
+
+**Question 1b)** Fit the linear regression anyway and look at it using visualize_model, then produce a list
+of possible transformations that may “fix” the issues by running find_transformations.
+Is the log-log model one of the choices (how do you know)? 
+
+```{r q1b, echo=FALSE}
+#fit the model  !! Don't use $, use data =
+#visualize_model
+#find_transformations
+M<-lm(Meat.Weight~Diameter, data= EX3.ABALONE)
+check_regression(M)
+visualize_model(M)
+find_transformations(M)
+#### Delelte the 4 "Transformation Plots", leave the table of transformations %%%%%%%%%%%%%%%
+
+
+```
+
+**1b. Answer:**    
+
+Hint: "6 Chapter3pt2-CheckingSimpleLinearRegression - Update.pdf" slide 16-17, 61 - 63.
+
+Yes, because most of the options are raised to a negative power. 
+
+**Question 1c)** Choose the transformation with the highest R2 that is *easist to interpret* (justify your answer) **You cannot use x(-2.25) and Y(-0.75)**. Fit this transformed model and run summary(). Write out the regression equation of this transformed model, then “untransform” it to get an equation of the form Meat Weight = . . ..
+
+
+
+
+
+```{r q1c, echo=TRUE}
+#define y.trans =
+Y<-EX3.ABALONE$Meat.Weight^(-1)
+#define x.trans =
+X<-EX3.ABALONE$Diameter^(-3)
+
+#fit transformed model, calling it M.trans
+M.trans<-lm(Y~X)
+#summary of model
+summary(M.trans)
+
+
+```
+
+**1c. Answer: Transformed**    
+X to the -3rd power    and Y to the  -1st  power yielding an r^2 of 0.951
+
+Note:  do your best to type in the untransformed equation here.  
+
+**1c. Answer: Untransformed**   
+ y = (500000 x^3)/(337147 x^3 + 192057)
+     
+             
+                  
+**Question 1d)** Check whether the transformed model reasonably reflects reality by running
+check_regression. Statistically, which assumptions (if any) are satisfied?
+
+```{r q1d, echo=FALSE}
+#check_regression
+check_regression(M.trans)
+
+
+```
+
+**1d. Answer:**    
+None of the assumptions are satisfied. 
+
+
+
+
+**************
+
+**Question 2: Housing.**  Load in the `EX3.HOUSING` dataframe using the `data()` command. This dataset tabulates the selling prices and square areas of over 500 houses in Massachusetts. Companies like Zillow and Trulia employ statistical modelers to incorporate basic information about the house and neighborhood to come up with a reasonable estimate of what a house  
+
+**Grading: 4 points for organized output per instructions**  
+
+```{r q2, include=FALSE}
+#R code loading in the EX3.HOUSING dataframe
+
+data("EX3.HOUSING")
+
+```
+**Question 2a:** A Although it is not the transformation
+pair that gives the highest R2, let us use y.trans = log10(PRICE), and x.trans = sqrt(AREA). Fit this transformed model and examine the results of visualize.model and check.regression. Are the statistical tests of the assumptions passed? If not, does it look like linear regression is appropriate for modeling
+this transformation (why or why not)?
+ 
+
+**Grading:** 10 points total: 2 point for defining transformed variables, 2 point for fit the model, 2 point for visualize_model, 2 point for check_regression, and 2 point for conclusion why or why not.  
+
+```{r q2a, echo=FALSE}
+#define y.trans    
+y.trans = log10(EX3.HOUSING$PRICE)
+#define x.trans
+x.trans = sqrt(EX3.HOUSING$AREA)
+#fit the model
+M.House<-lm(y.trans~x.trans, data = EX3.HOUSING )
+#visualize_model
+visualize_model(M.House)
+#check_regression
+check_regression(M.House)
+
+
+```
+
+
+**2a. Answer:**   
+P values are below .05, equal spread and normality are not passed. Looking at the residual graph the errors get heteroskedastic in the top righthand side, spread is pretty normal looking at the residual plot, and looking at the bell curve it looks relatively normal although there is a slight skew to the right. 
+
+
+
+**Question 2b:** Verify that the regression equation is log10(PRICE) = 4.35 + .02(sqrt(AREA) by using
+summary() on the transformed model (Show ONLY the ANOVA table, delete the rest after knitting). Untransform the equation to be in the form PRICE
+
+
+ **Grading:** 6 points total: 2 point for summary and 4 points for untransformed equation.
+```{r q2b, echo=FALSE}
+#summary of model
+summary(M.House)
+anova(M.House)
+
+##  ********** Clean up this output and ONLY show the Coefficients Table (4 lines)
+
+
+```
+**2b. Answer:**   
+
+**Note:**  write your untransformed equation here:
+
+y≈22387.2 e^(0.0460517 sqrt(x))
+This is from wolframalpha, this looks pretty off to me. 
+
+ 
+ 
+ 
+**************
+
+**Question 3:  BodyFat Data**  Load in the `EX3.BODYFAT` dataframe using the `data()` command.We want to predict someone’s body fat percentage (Fat) based on their triceps skinfold thickness (Triceps).
+
+**Grading:** 10 points each, 30 points total.
+
+
+```{r q3, include=FALSE}
+#R code loading in the EX3.BODYFAT dataframe
+data("EX3.BODYFAT")
+```
+**Question 3a** Predict (and examine 95% confidence and prediction intervals) the body fat percentage
+when Triceps equals 25 and when it equals 33. Why is the Confidience interval much wider for 33 than 25?
+
+
+
+
+```{r q3a, echo=FALSE}
+#fit model predicting Fat from Triceps
+M.Fat<-lm(Fat~Triceps, data = EX3.BODYFAT)
+
+#define dataframe called TO.PREDICT containing new triceps measurements
+TO.PREDICT<-data.frame(Triceps=c(25,33))
+
+#95% confidence interval code
+#95% prediction interval code
+predict(M.Fat, newdata=TO.PREDICT, interval="prediction", level=0.95)
+predict(M.Fat, newdata=TO.PREDICT, interval="prediction", level=0.95, se.fit=TRUE)
+
+
+```
+
+
+**3a. Answer:**    
+     fit      lwr      upr
+25: 19.93356 13.86259 26.00453
+for 25" triceps fit of 19.9% is the 95% prediction mean of fat percentage, the lower bound of the confidence interval is 13.8% fat the upper bound of the confidence interval is 26.0% of fat. 
+
+33: 26.79105 20.37354 33.20856
+for 33" triceps fit of 26.8% is the 95% prediction mean of fat percentage, the lower bound of the confidence interval is 20.4% fat the upper bound of the confidence interval is 33.21% of fat. 
+**************
+
+
+**Question 3b** Which of the intervals is appropriate if you want to predict your friend’s body fat percentage given he has a triceps measurement of 25? Which interval is appropriate if you wanted to
+predict the average body fat percentage of all males whose triceps measurements are 33?
+
+
+**3b. Answer:**  
+Well, I would still use the confidence interval from the prediction model regardless. But its definitely more appropritate to use this model with regards to individuals at random instead of an individual who is known. If I know that my friend is relatively fit and goes to the gym then I can not be sure of whether he falls in to the normal distribution of fat percentages at that given measurement. 
+**Question 3b** Can we use this model to predict the body fat of a body builder whose triceps measurement
+is 45? Why or why not?
+Well, yes. because assuming that these measurements are in inches a 45 inch tricep is pretty much impossible to have a good percentage of muscle on it, being a bodybuilder in and of itself isn't indicative of what your body fat percentage is at any given time. For example, power lifters and body builders both go through phases of bulking to build muscle and cutting for competition. Thus, at a 45 inch tricep we can assume that the given body builder is on a bulk. And 45 inches is actually bigger than the average mans chest length. So, these predictions on body fat would be pretty much accurate, if not under estimates of fat. That said, in principal at a lower measurement, say 23,25 etc, this would be an inaccurate measurement method due to body builders carrying around a lot more muscle at those sizes. 
+However, this is all off of the assumption that we are measuring in inches. 
+**3c. Answer:** 
+
+
+
+**************
+
+

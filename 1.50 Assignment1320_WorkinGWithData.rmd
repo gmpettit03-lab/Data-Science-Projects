@@ -1,0 +1,283 @@
+---
+title: "BAS 320 - Assignment 1 - Data Manipulation and Validation2"
+author: "Grayson Pettit"
+date: '...'
+output:
+  word_document: default
+  html_document:
+    df_print: paged
+  pdf_document: default
+---
+
+
+*********************
+
+[//]:   (Grading notes:  Points earn by correct R output is all or nothing, and R chunks are graded based on its output and not its style.  No output or incorrect output will not earn any points because of the difficulty and subjectivity involved in gauging how "close" your code is to be correct.  Partial credit can given when asked to write a written response; you'll see a Response: for you to fill out when requested.   This and all assignments will be worth 20 points.)
+
+[//]:   (In this and on future assignments you will also be graded on the "neatness" of your assignment.  This mainly means that 1.  no EXCESSIVE output from unnecessary R commands is displayed and 2.  it is obvious where your answers are.  When you knit your document, look at it to make sure there's not a bunch of output that should not be included!  Excessive is defined as roughly more than half a page of output like the contents of a vector, dataframe, etc., that was not requested.)
+
+[//]:   (Submission notes: a knitted version of the assignment must be uploaded to Canvas before the deadline.  I recommend knitting to a Word document, adding any desired extra content or formatting, and submitting that or the Word document that has been saved as a PDF.  Late work is not accepted.  Raw .Rmd files are not accepted.)
+
+[//]:  (Instructions:  for each question, provide a line (or lines) or R code that, when the document is knitted, outputs the answer in the code chunk that is provided.  There is only one written response required (last problem about Kroger data), so fill in your answer after the **Response:**.  For example, if I asked to define a vector `x` which contained the integers 37 to 58 and to find the average of them, and I wanted to know what your favorite animal was,  I would expect to see:) 
+
+```{r example response,include=FALSE}
+x <- 37:58
+mean(x)
+```
+
+**Response:**  My favorite animal is the red panda!
+
+*********************
+
+[//]:   (Instructions for Assignment 1:  download DataAssign1.RData from Canvas and ensure it is in your BAS folder along with this .Rmd file.  In RStudio, clear the global environment (click the broom icon in the Environment tab), ensure your working folder is your BAS folder, and run the line of code below to load in the relevant data.)  
+
+```{r load in assignment1}
+getwd()  #This should output the path to your BAS folder; change with Session, Set Working Directory if not
+# Total 100 points for this assignment.
+```
+
+*********************
+
+**Question 1.**  Translate into R syntax the following mathematical expressions.  Have the answers be "printed to the screen" (i.e., don't left-arrow them to anything) when it is knitted.  Note:  you'll want to knit this document *now* so you can see what these equations look like.
+
+a.  $$sqrt{38})$$
+
+b.  $$e^{2}$$
+
+c.  $$\sqrt{ 4 + \text{log10}}$$
+
+d.  $$22^{1.21} + 2019$$
+
+```{r Q1}
+# 1.a 6.164414; 
+print(sqrt(38))
+# 1.b 7.389056;
+print(exp(2))
+# 1.c 2.510495; 
+print(sqrt(4+log(10)))
+# 1.d 2061.105;
+print(22^(1.21)+2019)
+```
+
+**Grading:** 5 points each, 20 points total.
+
+*********************
+
+**Question 2.**  Use the `seq` command to help answer the following questions:
+
+a.  Generate a sequence that starts at 5, goes to 20, and goes up in increments of 3.5. 
+
+
+b.  What's the 11th element of a sequence that starts at 2.1 and increments by 0.5?  (e.g., 2.1, 2.6, 3.1, ...)
+
+
+c.  Consider a sequence that starts at 5 and ends at 8 and which has 121 elements. How many elements are greater than 7.13?
+
+
+
+```{r Q2}
+#2.a
+Q2a<-(seq(from=5, to=20, by=3.5))
+
+print(Q2a)
+
+#2.b 
+Q2b<-seq(from=2.1, by=0.5, length=11)
+Q2b[11]
+
+#2.c 
+Q2c<-seq(from=5, to=8, length=121)
+table(Q2c> 7.13)
+```
+
+**Grading:** 5 points each, 15 points total
+
+*********************
+
+**Question 3.**  After loading in the .RData file for this assignment, you'll see a dataframe called `ALUMNI` in the global environment (you'll be using this dataframe for questions 3-7).  
+Remind yourself of the R command that determines the type of an object (i.e., prints out whether it's a numeric, integer, character, etc).  What does R think the following types of objects are:  `ALUMNI`, `ALUMNI$ZIPCODE`, `ALUMNI$YEARS2UT`, and `ALUMNI$LTG2HCB`
+
+```{r Q3}
+# 3. 
+load("DataAssign1320.RData") # load data, do not change code here.
+class('ALUMNI')
+class('ALMUNI$ZIPCODE')
+class('ALMUNI$YEARS2UT')
+class('ALUMNI$LTG2HCB')
+
+
+```
+
+**Grading:** only 2.5 point total. If at least one part is correct they get all 2.5 points.
+
+*********************
+
+**Question 4.**  Consider various columns of  `ALUMNI`.  Write all code to answer the following questions in the single R chunk that's after the list of questions.
+
+  a.  What is the grand total of the amount of money that has been donated to UT (i.e., the sum of all values that are in the column `LTG2UT`)?  
+  
+  b.  What *percentage* (a number between 0-1) of alumni have donated (`LTG2UT>0`).  Two ways of approaching this:  one with `length` and `which` and the other with `mean` (we recommend doing both!).  One way is to count how many the entries in the `LTG2UT` column equal 0 and divide by the number of rows of the data.  
+
+  c.  "Print to the screen" the values of `GENDER_CODE` in rows 12, 34, 567, 890, and 1234.   Remember the phrase "print to the screen" just means ensuring the command does not have a left-arrow so that the results get output to the console and are "knitted" into the document.
+
+  d.  Print to the screen the last 6 entries of the `AREA_CODE` column.
+
+  e.  What is the largest value of `AREA_CODE` column (there are `NA`s in here, so you'll have to add a certain argument to `max` to ignore them)?
+
+  f.  Which row (1-43994) contains the max value of `LTG2UT`?
+  
+  g.  How many rows have values `LTG2UT` that are greater than 1,000,000 dollars AND values of `AREA_CODE` that is 865?
+
+  h.  What fraction (a number between 0 and 1) of alumni have values in `LTG2UT` between 10 and 1000 (including those amounts)?
+
+  i.  How many alumni's values of `LTG2UT` are multiples of 1000 (do not include 0)?  Hint:  generate with `seq` that starts at 1000 and ends at 48879436 that goes up in increments of 1000.
+  
+  j.  Print to the screen the possible values (i.e., levels vector) of `DEGREE1_CAMPUS`
+
+
+
+
+
+
+```{r Q4}
+load("DataAssign1320.RData")
+#a
+sum(ALUMNI$LTG2UT)
+#$255,819,127
+
+#b 
+mean(ALUMNI$LTG2UT> 0)
+#41.1647%
+
+#c 
+print(ALUMNI$GENDER_CODE [12])
+print(ALUMNI$GENDER_CODE [34])
+print(ALUMNI$GENDER_CODE [567])
+print(ALUMNI$GENDER_CODE [890])
+print(ALUMNI$GENDER_CODE [1234])
+
+
+#d
+print(tail(ALUMNI$LTG2UT))
+
+#e
+max(ALUMNI$AREA_CODE ,na.rm=TRUE)
+
+
+#f 
+which.max(ALUMNI$LTG2UT)
+
+#g 
+print(table(ALUMNI$LTG2UT>1000000 & ALUMNI$AREA_CODE==865))
+
+#h 
+mean(ALUMNI$LTG2UT>=10 & ALUMNI$LTG2UT<=1000)
+
+
+#i 0
+thousands<-seq(from=1000,to=48879436, by=1000)
+table(ALUMNI$LTG2UT== thousands)
+
+#j
+print(levels(ALUMNI$DEGREE1_CAMPUS))
+```
+
+**Grading:** 2.5 points each (no partial credit), 25 points total for the problem.
+
+*********************
+
+**Question 5.**  Add a column called `GREEK` that is initially a copy of the categorical variable `FRATERNITY.SORORITY`.  
+
+  a.  How many levels does `GREEK` have?
+
+  b.  One level is "UTK - Omega Psi Phi".  What position in the levels vector is this value?
+ 
+  c.  How many people did not "go Greek" in the data?  In other words, how many people do have a "missing" value (to see how a blank or missing value is encoded, check out `levels(ALUMNI$GREEK)[1]`).
+
+  d.  What integrity issues do you spot for this column?
+
+**Response to 5d:**  
+  
+ 
+  
+```{r Q5}
+ GREEK<-(ALUMNI$FRATERNITY.SORORITY)
+
+
+# 5.a 65
+length(levels(GREEK))
+# 5.b 40
+which(levels(GREEK)=="UTK - Omega Psi Phi")
+
+# 5.c  39542
+table(GREEK=="")
+levels(GREEK)[1]
+# 5.d
+# The names are very long, there are a lot of spaces and there are 65 different variables that are factors. This is difficult to code and difficult to search up. 
+```
+
+**Grading:** 5 point each, 20 points total.
+
+
+*********************
+
+**Question 6.** Rename the `GENDER_CODE` column to be `GENDER`, rename its levels to be "Female", "Male", and "NA", and print to the screen a frequency table of this recoded `GENDER` column.
+
+```{r Q6}
+# 6.
+GENDER<-(ALUMNI$GENDER_CODE)
+levels(GENDER)<-c("Female" ,"Male" ,"NA")
+table(GENDER)/length(GENDER)
+
+
+```
+
+**Grading:** 2.5 point, all points hinge on the output of table(). It’s ok to use different capitalization than what solutions have. No partial credit otherwise.
+
+
+*********************
+
+**Question 7.**   Create a subset, called `HOLD` of alumni who (1). graduated (`DEGREE1_GRAD_YEAR`) between 1992 and 1998 (including those years) and (2). who have donated to UT (i.e., those people who have values in `LTG2UT` greater than 0) and (3). whose majors (`DEGREE1_MAJOR`) are either Statistics, Finance, or Accounting. 
+
+Keep only the columns `LTG2UT`, `DEGREE1_GRAD_YEAR`, `DEGREE1_MAJOR`, and `WE`. 
+
+You will work with this data frame from the remainder of this problem.
+
+  a.  Verify that your subset has 768 rows and 4 columns by checking the result of running `dim()`.
+
+  b.  What fraction (0-1) of these alumni in this subset are Statistics majors?  
+
+  c.  Define a data frame called `SORTHold` that is the result of sorting the `HOLD` dataframe on `LTG2UT`  (largest in first row,  smallest in last row).  Print to the screen rows 3-6 of `SORTNEW`.
+
+
+```{r Q7}
+# a. Create HOLD dataframe and print its dimension
+
+HOLD<-subset(ALUMNI,(ALUMNI$DEGREE1_GRAD_YEAR>=1992 & ALUMNI$DEGREE1_GRAD_YEAR<=1998)&(ALUMNI$LTG2UT>0) &(ALUMNI$DEGREE1_MAJOR=="Statistics"|ALUMNI$DEGREE1_MAJOR=="Finance"|ALUMNI$DEGREE1_MAJOR=="Accounting"))
+
+##HOLD1<-factor(c(HOLD$LTG2UT, HOLD$DEGREE1_GRAD_YEAR, HOLD$DEGREE1_MAJOR, HOLD$WE))
+
+##dim(HOLD1)
+
+##c(ALUMNI$LTG2UT,ALUMNI$DEGREE1_GRAD_YEAR, ALUMNI$DEGREE1_MAJOR, ALUMNI$WE)
+##HOLD<-
+
+##summary(HOLD)
+dim(HOLD)
+
+
+
+      
+
+
+
+# b.
+print(mean(ALUMNI$DEGREE1_MAJOR=="Statistics"))
+##table(ALUMNI$DEGREE1_MAJOR=="Statistics")/subset(HOLD)
+# c. 
+##SORTHold<-HOLD[order(HOLD$LTG2UT, decreasing = TRUE)]
+
+```
+
+**Grading:** 5 point each, 15 points total. 
+

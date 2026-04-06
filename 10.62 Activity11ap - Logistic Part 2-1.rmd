@@ -1,0 +1,298 @@
+---
+title: "Activity 11 Part 2"
+author: "Logistic Regression"
+date: "Name" 
+output:
+  word_document: default
+  html_document: default
+---
+
+```{r load up regclass, message=FALSE, echo=FALSE}
+#Do not change anything in this R chunk
+library(regclass)
+knitr::opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE, collapse=TRUE)
+```
+
+**************
+
+###Question 1:###  
+Use the `data` command to load in the dataframe `JUNK`.  This data comes from the late 1990s when junk mail filters were being designed.  The goal is to predict the probability that an email is `Junk` or `Safe` (column `Junk` in the data) from word frequencies (`money`, `buy`, `free`, `your`, `meeting`), symbol frequencies like `bracket` [], `parenthesis` (), `hashtag` \#, and how words are capitalized (the last three columns in the data contain information on how many times in a row all capital letters appear).  How well does a logistic regression model work as a junk mail filter?  Note:  because `Safe` comes last alphabetically, *the model will be predicting the probability of an email being `Safe`*.
+
+```{r}
+#load data with data()
+data(JUNK)
+summary(JUNK$Junk)
+
+
+2788/(1813+2788)
+
+1-0.6059552
+
+```
+
+
+**a.** The naive model predicts every email to be the majority level.  Run `summary`.  Which level (`Junk` or `Safe`) is the majority level?  What is the misclassification rate of the naive model?  
+
+**Response:**  
+Majority level is safe, misclassification rate of naive model is 39.40448%
+********************
+
+**b.** A particularly strong association exists between the probability of being junk and the frequency of the word `you`.  Fit a simple logistic regression model (note:  you will get a warning about fitted probabilities being 0 or 1, which is fine).  Run `summary`, `visualize.model`, and `confusion.matrix` on the model.
+
+```{r}
+#Fit model
+M<-glm(Junk~you, data = JUNK, family = "binomial")
+#summary
+summary(M)
+#visualize_model
+visualize_model(M)
+#confusion_matrix
+confusion_matrix(M)
+
+(560+2394)/4601
+(394+1253)/4601
+
+
+```
+
+**b1.** True/False:  emails that contain a higher fraction of the word `you` have a higher probability of being `Junk`: 
+False
+**b2.** How many junk emails were correctly classified as junk? 
+560
+**b3.** How many safe emails were incorrectly classified as junk? 
+394
+**b4.** What is the misclassification rate of the model? 
+35.79657%
+
+********************
+
+**c.** Check the validity of the simple logistic regression by running  `check_regression`.  Does the logistic curve provide an reasonable reflection of how the probability of being safe changes with the value of `you`?
+
+```{r}
+
+#check_regression
+check_regression(M)
+```
+
+**Response**:  
+Method 1 works, method 2 does not...
+********************
+
+**d.** Even when the logistic curve does not provide a reasonable description of how $p$ changes with $x$, the model may still be more useful than the naive model in the sense that it makes more accurate predictions.  Does this simple logistic regression model get more predictions correct than the naive model? 
+yes.
+
+
+**Response**:   
+
+********************
+
+**e.** Now fit the full model using all predictors (no interactions) using the "twidle dot" shortcut.  Look at the results of `summary`, `check_regression`, and `confusion_matrix`.
+
+```{r}
+#Fit model
+M2<- glm(Junk~., family = "binomial", data = JUNK)
+#summary
+summary(M2)
+
+check_regression(M2)
+
+#visualize_model
+visualize_model(M2)
+#confusion_matrix
+confusion_matrix(M2)
+
+(194+122)/4601
+(1619+2860)/4601
+drop1(M2, test = "Chisq")
+
+```
+
+********************
+
+**e1**:  Among emails with otherwise identical word/character frequencies and capital letter characteristics, do emails with a higher frequency of brackets have a larger or smaller chance of being Safe?  Note:  \texttt{semicolon} will be near the bottom of the list of predictors.  Is the association between the probability and \texttt{semicolon} statistically significant?
+
+**Response**:  
+brackets: higher
+semicolon:higher statistically significant
+********************
+
+**e2**:  Is the variable `make` statistically significant in the multiple regression model (up near the top of the list)?  Fit a simple logistic regression predicting `Junk` from `make` and verify that its significance is opposite of what is found in the full model.   So which is it:  is there an association between the probability of being safe and the frequency of the word `make` or not?  Note:  while you don't need to answer anything here, you should be able to explain why this happens in a clear and intuitive manner as if you were talking to your boss.
+
+
+```{r}
+
+M3<-glm(Junk~make, family= "binomial", data = JUNK)
+
+#summary
+summary(M3)
+visualize_model(M3)
+confusion_matrix(M3)
+(1650+115)/4601
+
+```
+
+**Response**: 
+The word 'Make' is statistically significant stand alone, but when added with different variables, different words, the explanatory value of 'make' becomes statistically insignificant, meaning that there are other terms that better predict the probability of not junk within an email. 
+********************
+
+**e3**:  Does the multiple logistic regression model provide a statistically valid description of how the probability of being `Safe` varies with the predictors?  Regardless of whether it is or is not, is the model useful for making predictions?  Justify your answer with the goodness of fit test and misclassification rate. 
+
+**Response**:  
+It does not provide a statistically valid description of how probability of being safe varies with predictors, however it is an incredibly useful model because it accurately predicts roughly 93.14% of outcomes. 
+
+********************
+
+**f**:  Interactions may play an important role.  Without interactions present, the model assumes that "one curve fits all", i.e., the shape of the curve describing how $p$ changes $x$ is the same regardless of the values of the other predictors.  This assumption is often overly simplistic.  Perhaps the probability of being safe slowly increases with the frequency of the word `direct` when there are few exclamation points in the email, but instead quickly decreases when there are a lot of exclamation points.   
+
+Fit a logisitic regression model predicting `Junk` from `free` and `direct` along with their interaction.  Run `summary` and `visualize_model`, changing the limits of the $x$ axis to $-15$ to $15$, and putting the legend in the `"left"`. 
+
+```{r}
+#Fit model
+M4<-glm(Junk~free*direct, family = "binomial", data = JUNK)
+
+
+#summary
+summary(M4)
+#visualize_model changing xlimits to -15 to 15 and legend on "left"
+visualize_model(M4, loc = "bottomleft", xlim=c(-15,15))
+
+?visualize_model
+?xlim
+quantile(JUNK$direct,0.05); quantile(JUNK$direct,0.5)
+```
+
+**f1**:  Is the interaction statistically significant?
+Yes
+**Response**: 
+
+********************
+
+**f2**:  For what value of `direct` (small/median/large) does the relationship between $p$ and `free` change the steepest? 
+
+**Response**:
+
+Direct Large
+
+********************
+
+**f3**:  When an email does not have the word `free` in it (`free` = 0), what types of emails are most likely to be safe:  those with many `directs`s or those with few `directs`?  What if `free`=3?  
+
+**Response**:
+Large direct
+median direct
+********************
+
+**f4**:  Describe how the nature of the relationship between the probability of being safe and the frequency of the word `direct` changes as we consider emails with progressively larger frequencies of the word `free`. 
+
+**Response**: 
+
+********************
+
+**f5**:  Re-fit this model without the interaction and visualize it.  Notice how the model implies that the probability of being safe increases with `direct` regardless of the value of `free`.  Nothing to answer here, but it's useful to see the consequence of leaving out an important interaction.
+
+```{r}
+#Fit model
+M5<-glm(Junk~direct+free, family="binomial", data = JUNK)
+#visualize_model changing xlimits to -15 to 15 and legend on "left"
+visualize_model(M5, loc = "bottomleft", xlim=c(-15,15))
+
+```
+
+********************
+********************
+********************
+
+
+##Question 2:##
+Load in `EX9.STORE` using the `data` command.  This dataset was created by a bank that was studying whether there were associations between shopping at one store and others.  It's real data, so the store names have been anonymized.  Fit a model predicting `Store60` (levels are `Buy`/`No`) from all other predictors (each are Buy/No values for whether the shopper made a purchase at other stores).  Since `No` comes last alphabetically, *the model will predict the probability of NOT buying*. 
+
+```{r}
+#load in data with data()
+data("EX9.STORE")
+#fit model
+M6<-glm(Store60~., family="binomial", data=EX9.STORE)
+#summary
+summary(M6)
+
+```
+
+**a.**  Among two shoppers with otherwise identical buying habits (e.g., they both shop at the same set of stores and not shop at the same set of stores), which one has the higher probability OF BUYING at Store 60:  the one who buys at Store66 or the one who does not buy at Store66?  
+
+**Response**:  
+
+********************
+
+
+**b**:  By running `confusion_matrix`, comment on whether the multiple logistic regression model is more useful than the naive model for predicting whether shoppers buy at Store60.  Hint:  compare misclassification rates (you can get the misclassification rate of the naive model by looking at the confusion matrix of this model as well).
+
+```{r}
+#confusion_matrix
+summary(EX9.STORE$Store6)
+1147/(1147+353)
+1-.7646667
+confusion_matrix(M6)
+(60+321)/1500
+```
+
+**Response:**  
+less useful
+
+********************
+
+
+**c**:  Run `check_regression` and comment on whether the logistic regression provides a reasonable reflection of how the probability of buying at store60 varies with other shoppers' behaviors.
+
+```{r}
+#check_regression
+check_regression(M6)
+```
+
+**Response:**  Yes.  
+
+
+
+********************
+********************
+********************
+
+##Question 3:##
+Download and import act11-account.dat using `read.csv("act11-account.dat", stringsAsFactors = TRUE), calling it `ACCOUNT`.  We want to predict `Purchase` (Yes/No), which says whether a bank customer signed up for a new account.
+
+**a:**  Fit a model predicting `Purchase` from `Checking.Balance` and `Branch.of.Bank` (no interaction).  Management wants to find out if, when comparing customers with identical checking balances, there is a difference in probabilities based on the `Branch.of.Bank` (some branches may be more successful at convincing customers to buy).  Running `drop1(M,test="Chisq")` determine if there is a statistically significant difference in the probabilities of opening the account between banks.  If there is, determine which branch (B1-B19) has the highest probability from the output of `summary` (while you are welcome to run `visualize_model`, it is hard to tell from the plot).
+
+
+```{r}
+#Read in data using read.csv
+ACCOUNT<-read.csv("~/Downloads/Major Course work: Materials/BAS 320 (Linear Regression) Grayson Pettit/act11-account-3.dat", stringsAsFactors = TRUE)
+# stringsAsFactors = TRUE
+#Fit model
+M7<-glm(Purchase~Checking.Balance+Branch.of.Bank, family = "binomial", data= ACCOUNT)
+#drop1
+drop1(M7, test ="Chisq")
+#summary, if necessary
+summary(M7)
+#visualize_model, if necessary
+visualize_model(M7, loc = "bottomright")
+M8<-glm(Purchase~Checking.Balance*Branch.of.Bank, family = "binomial", data= ACCOUNT)
+summary(M8)
+
+check_regression(M8)
+```
+
+**Response**:
+
+********************
+
+**b:**  Without an interaction, the model assumes that "one curve fits all", in other words the shape of the curve describing how $p$ changes with checking balance is the same for all branches.  Maybe that's not the case.  May the relationship is much stronger for some banks than it is for others.  Re-fit the model now with the interaction.   Run `drop1(M,test="Chisq")` to determine if there is a statistically significant difference in the shape of the logistic curves between branches (i.e., if the interaction is statistically significant).  If there is, run `visualize_model` and make some comments about what you see (i.e., does the probability decrease with checking balance for some banks, which bank has the weakest relationship, which has the strongest)?
+
+
+```{r}
+
+
+#drop1
+
+
+#visualize model, putting legend on the "right"
+```
+
+**Response:**  

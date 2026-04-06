@@ -1,0 +1,311 @@
+---
+title: "Assignment 9 - Categorical Regression24"
+author: "Your name here"
+date: "Date Here"
+output:
+  word_document: default
+  pdf_document: default"
+---
+
+# Delete this line and lines 11-20 before knitting or from the Word doc after knitting. 
+**************
+### Put page numbers in upper right hand cornter AFTER knitting  
+Problem statements are provided in this file.
+Write your brief answer immediately after the :  
+
+
+The following chunk loads library regclass and one dataframe (HW9.BIKE).
+(Make sure that the file "Assignment9_SP22.RData" is in the same folder as this markdown file!)  
+
+*************  
+
+
+**Grading: Deleted instructions** 5 points  
+**Grading: Page Numbers** 5 points  
+
+**Question 1:**  Use `HW9.BIKE`. This is a modified version of the bicycle demand in DC dataset.  
+There are categorical variables such as day of the week, whether the day was a working day or holiday, the weather, and the humidity that may help us predict demand. 
+In this set of questions, we will consider inclusion of categorical variables *without* interactions.  
+
+```{r load up regclass, message=FALSE, echo=FALSE}
+#Do not change anything in this R chunk
+library(regclass)
+load("~/Downloads/Major Course work: Materials/BAS 320 (Linear Regression) Grayson Pettit/Assignment9_SP22.RData")
+knitr::opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE, collapse=TRUE)
+```
+
+
+
+**Question 1a:** What is the overall average demand for rainy days and non-rainy days (and the difference between the two)?   Is the difference in average demands on rainy vs. non-rainy days statistically significant?  Hint:  you can use `associate` on the columns `Demand` and `Weather` or can fit a regression predicting `Demand` from `Weather` to answer this question.  Delete graphs and only show 3-4 lines of output that answer the question. 
+
+**Grading:** 5 points  
+**Grading: Correct amount of output** 5 points  
+
+
+```{r q1a, echo=FALSE}
+M<-lm(Demand~Weather, data = HW9.BIKE)
+summary(M)
+
+```
+
+**1a Response:**  
+Given two days that differ only in whether they are rainy or not rainy, the rainy day is predicted to have $907.12 less demand than the not rainy day, on average. 
+
+
+
+********
+
+**Question 1b:** If we represent the categorical variable `Weather` (levels `No rain` vs. `Rain`) by an indicator variable, how should it be numerically defined?  Which level is the reference level?  
+
+**Grading:** 5 points
+
+  
+
+**1b Response:** 
+The reference level would be No Rain, this will go into the intercept estimate, and the level 'rain' will be defined by 1 and 0. 1 will mean that there is rain, 0 will mean that there is no rain. 
+
+
+
+********
+**Question 1c:** Let us compare the average demands for rainy and non-rainy days after accounting for the temperature.  Fit a regression model predicting `Demand` from `Temp` and `Weather`.  Examine the results of `summary()` as well as `visualize_model()` for this model.  Use the regression summary to answer the following questions:  
+
+
+```{r Q1c, echo=FALSE}
+#fit model
+M1<-lm(Demand~Temp+Weather, data = HW9.BIKE)
+#visualize_model
+visualize_model(M1)
+#summary of model
+summary(M1)
+
+
+
+```
+
+**Question 1c1:**  Among days with the same temperature, how much smaller is the average demand when it rains than when it does not rain, and is this difference statistically significant?  Why or why not?  
+
+**Grading:** 5 points  
+
+**1c1 Response:**  
+Among two days with the same temperature, which only differ by whether they are rainy days or not, the demand for the rainy day will be $655.71 less than the not rainy day, on average. This difference is statistically significant because within the model the indicator variable for weather (rainy) has a p value of 0. Moreover the p value for the entire regression is 0 as well. 
+
+********
+
+**Question 1c2:** Compare the above difference in averages to the difference from (a).  Are they about the same (i.e., to within 15%) or noticeably different?  Why are they different?
+
+**Grading:** 5 points  
+
+**1c2 Response:** 
+The second regression's indicator variable for weather is about %72 the size of the indicator variable for weather in the first regression. Thus, these are noticeably different, because we have an extra variable in the second model 'Temperature' which is both statistically significant at the 0 percent level and is a positive variable in the model. The variable temperature, when added to the model, reduced both the size of the intercept from about $5000 to about $2200. 
+
+
+********
+
+**Question 1c3:**   Write out the implicit regression equations relating `Demand` to `Temp` for rainy and for non-rainy days (round to whole numbers.  
+
+**Grading:** 10 points  
+
+**1c3 Response Below:**  
+
+Overall regression equation:  
+
+No Rain:   
+Demand= 2200 + 133*Temperature
+
+Rain:  
+Demand = 1544 +133*Temperature
+
+********
+
+
+*d:*  Demand for bikes may fluctuate with the humidity level, so let us consider the variable `Humidity`.
+
+**Question 1d1:** `Humidity` has three levels.  Behind the scenes, how many indicator variables must be added to the regression to represent `Humidity`, and which level of `Humidity` does not have an indicator variable named after it?  
+
+**Grading:** 5 points  
+
+**1d1 Response:**  
+Two indicator variables must be used "Humidity Low" and "Humidity Moderate". This is because "Humidity High" is the first alphabetically of the three levels, and therefore it will go into the intercept of the model and be assumed as the null reference level. 
+
+
+********
+
+
+**Question 1d2:**  Fit the regression model predicting  `Demand` from  only `Temp` and `Humidity`.  Include a plot of the implicit regression lines when we predict `Demand` from `Temp` and `Humidity` (use `visualize_model`).  After accounting for the temperature, which humidity levels look to have the highest and lowest average demands?  Only show the graph.
+
+**Grading:** 5 points  
+**Grading: Correct amount of output** 5 points  
+
+
+
+```{r q1d2, include=FALSE}
+
+#fit model
+M2<- lm(Demand~Temp+Humidity, data = HW9.BIKE)
+#summary
+summary(M2)
+
+```
+
+
+```{r Graph Output, echo=FALSE}
+##  Put visualize_model here to print out
+visualize_model(M2)
+
+
+```
+
+
+**1d2 Response:** 
+High humidity seems to have the lowest average demand whereas moderate humidity seems to have the highest average demand. Meaning that two days with the same temperature that only differ in humidity by high and moderate humidity will see the moderate humidity day have $1134.20 more demand than the high humidity day, on average. 
+
+********
+
+**Question 1d3:** Examine the results of `summary` on the model from d2, then write out the implicit regression equations for all levels of Humidity.Round to whole numbers.  
+
+**Grading:** 10 points  
+
+
+**1d3 Response Below:**  
+
+Overall regression equation:   Demand = 973 + 135*Temperature + 1113*HumidityLow + 1134*HumidityModerate
+
+High Humidity:  
+Demand = 973 + 135*Temperature
+Moderate Humidity:  
+Demand = 2107 + 135*Temperature
+Low Humidity:  
+Demand = 2086 + 135*Temperature
+
+
+********
+
+**Question 1d4:**  What is the difference in average demands between High Humidity and for Low Humidity days that have the same temperature? Note:  this is a single number from the `summary` output of the model.  
+**Grading:** 5 points  
+
+
+**1d4 Response:**  
+ Given two days with the same temperature that differ only in high humidity and low humidity, the day with low humidity will have $1113.09 more demand than the high humidity day, on average. 
+
+********
+
+**Question 1d5:** What is the difference in average demands between Moderate Humidity and Low Humidity days that have the same temperature? Note:  you'll have to subtract two numbers found on the `summary` output.  
+
+**Grading:** 5 points  
+
+
+**1d5 Response:**  
+Given two days with the same temperature that differ only in moderate humidity and low humidity, the day with moderate humidity will have $21.11 more demand than the low humidity day, on average.
+
+
+********
+
+**Question 1e:**  Fit a model predicting `Demand` using all predictors (you can use ~. in your `lm` command).   Examine the output of `summary`. 
+
+```{r q1e}
+M3<-lm(Demand~., data=HW9.BIKE)
+summary(M3)
+
+
+```
+
+**Question 1e1:** After accounting for all the information available (i.e., temperature, humidity, windspeed, weather, and if the day was a working day vs. holiday), which weekday has the highest average demand, and which day has the lowest average demand?  Note:  these answers are found by scanning the list of coefficients for the indicator variables for `Day`. 
+
+**Grading:** 5 points
+  
+  
+**1e1 Response:** 
+Highest Average demand: Friday, this is the reference level. Therefore it is defined in the intercept as a null/ 0.  
+Lowest Average demand: Sunday
+Given two days that only differ on being a Friday and Sunday, the Friday will have an average demand that is $398 more than the Sunday, on average. 
+
+********
+
+**Question 1e2:**  After accounting for all the information available, is there a statistically significant difference in average demands between days?   Show ONLY 1-2 lines of output (after knitting) that shows the correct p-value. 
+
+**Grading:** 5 points  
+**Grading: Correct output** 5 points  
+
+
+```{r q1e2, echo=FALSE}
+## I'll drop a hint here 
+drop1(M3, test = "F")
+
+```
+
+**1e2 Response:**    
+No statistically significant difference in average demand of days. Using drop 1 F-test P values are larger than .05. 
+
+
+********
+********
+
+**Question 2.** In marketing analytics, the relationship between the sales of a product and the amount of money spent on advertising is often studied.  What follows is output of a model predicting `Sales` (thousands of dollars) based on the amount of Internet advertising `Ads` (thousands of dollars), the `Room` in which the product would be placed (Kitchen, Bed, Office), and the `Size` of the product (Small, Large).  
+
+```{r q2,eval=FALSE}
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  3.241    0.07193  45.059   <2e-16 ***
+Ads          0.969    0.04335  22.365   <2e-16 ***
+RoomKitchen -0.123    0.05554  -2.213   0.0277 *  
+RoomOffice  -0.157    0.08736  -1.806   0.0721 .  
+SizeSmall    0.011    0.05593   0.195   0.8457    
+```
+
+ 
+**Question 2a.** Interpret the coefficient of `Ads`.  
+
+**Grading:** 2 points  
+
+**2a Response:**    
+
+Given two products that differ only in $1000 spent upon advertisement, the product that has the larger expenditure on advertisement is expected to have $969 more in sales on average than the smaller expenditure on advertisement, all else equal and on average. 
+
+
+********
+
+
+
+**Question 2b.** Interpret the coefficient of `RoomKitchen`.  
+
+**Grading:** 2 points  
+
+**2b Response:**     
+Given two products that only differ in product placement, one in the kitchen and one in the bedroom, the product placed in the kitchen is expected to have $123 less in sales than the one in the bedroom, on average, all else equal. 
+
+********
+
+
+
+**Question 2c.**  What is the implicit regression equation relating `Sales` to `Ads` for large products that go in the bedroom?  
+
+**Grading:** 2 points  
+
+**2c Response:**   
+Sales (thousands of dollars)= 3.241 +  0.969*Ads
+********
+
+
+
+
+**Question 2d.** What is the implicit regression equation relating `Sales` to `Ads` for small products that go in the office?  
+
+**Grading:** 2 points  
+
+**2d Response:**    
+Sales (thousands of dollars)= 3.095 +0.969*Ads
+********
+
+
+**Question 2e.** Among all six type of products (Bed Small, Bed Large, Kitchen Small, Kitchen Large, etc.), which one has the highest average sales (assuming each product has had an equal amount of advertising)?  
+
+**Grading:** 2 points  
+
+**2e Response:** 
+Small products that go in the bedroom have the highest average sales.
+The implicit for small products in the bedroom equation is as follows:
+Sales (Thousands of dollars)= 3.252 + 0.969*Ads
+
+
+
+
+

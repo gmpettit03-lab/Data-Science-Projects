@@ -1,0 +1,1552 @@
+"Amount","DaysSinceStart","Industry","SuperIndustry","Internet","CZIP","MZIP","ID","Merchant","Distance"
+14.06,33,"Family Apparel","Apparel and Accessories","No",10583,"10917",37783,"M20",26
+4.99,409,"Grocery Stores","Grocery and Food Stores","No",10583,"10549",37783,"M29",13
+19.53,311,"Home Improvement Centers","Home Improvement Centers","No",10583,"11710",37783,"M65",22
+0.99,135,"Miscellaneous","Miscellaneous","Yes",10583,"98144",37783,"M155",2092
+9.55,259,"Miscellaneous","Miscellaneous","Yes",10583,"98108",37783,"M155",2093
+74.89,416,"Miscellaneous","Miscellaneous","Yes",10583,"98101",37783,"M155",2093
+89.99,74,"Miscellaneous","Miscellaneous","Yes",10583,"98108",37783,"M155",2093
+0.99,136,"Miscellaneous","Miscellaneous","Yes",10583,"98144",37783,"M155",2092
+0.99,135,"Miscellaneous","Miscellaneous","Yes",10583,"98144",37783,"M155",2092
+0.99,135,"Miscellaneous","Miscellaneous","Yes",10583,"98144",37783,"M155",2092
+0.99,135,"Miscellaneous","Miscellaneous","Yes",10583,"98144",37783,"M155",2092
+27.79,346,"Miscellaneous","Miscellaneous","Yes",10583,"98101",37783,"M155",2093
+27.01,384,"Miscellaneous","Miscellaneous","Yes",10583,"98101",37783,"M155",2093
+36.2,82,"Miscellaneous","Miscellaneous","Yes",10583,"98108",37783,"M155",2093
+31,82,"Miscellaneous","Miscellaneous","Yes",10583,"98108",37783,"M155",2093
+44.2,444,"Miscellaneous Apparel","Apparel and Accessories","No",10583,"10601",37783,"M161",3
+10.25,373,"Family Apparel","Apparel and Accessories","No",10583,"10583",37783,"M169",0
+106.25,268,"Family Apparel","Apparel and Accessories","No",10583,"10583",37783,"M169",0
+24.71,367,"Family Apparel","Apparel and Accessories","No",10583,"10583",37783,"M169",0
+49.93,85,"Insurance","Finance and Insurance","No",10583,"51401",37783,"M179",949
+49.93,54,"Insurance","Finance and Insurance","No",10583,"51401",37783,"M179",949
+49.93,146,"Insurance","Finance and Insurance","No",10583,"51401",37783,"M179",949
+53.15,389,"Insurance","Finance and Insurance","No",10583,"51401",37783,"M179",949
+53.15,327,"Insurance","Finance and Insurance","No",10583,"51401",37783,"M179",949
+53.15,297,"Insurance","Finance and Insurance","No",10583,"51401",37783,"M179",949
+53.15,450,"Insurance","Finance and Insurance","No",10583,"51401",37783,"M179",949
+95,362,"Insurance","Finance and Insurance","No",10583,"51401",37783,"M179",949
+53.15,358,"Insurance","Finance and Insurance","No",10583,"51401",37783,"M179",949
+53.15,419,"Insurance","Finance and Insurance","No",10583,"51401",37783,"M179",949
+49.93,115,"Insurance","Finance and Insurance","No",10583,"51401",37783,"M179",949
+49.93,207,"Insurance","Finance and Insurance","No",10583,"51401",37783,"M179",949
+49.93,23,"Insurance","Finance and Insurance","No",10583,"51401",37783,"M179",949
+49.92,238,"Insurance","Finance and Insurance","No",10583,"51401",37783,"M179",949
+53.15,266,"Insurance","Finance and Insurance","No",10583,"51401",37783,"M179",949
+49.93,176,"Insurance","Finance and Insurance","No",10583,"51401",37783,"M179",949
+69.46,345,"Women's Apparel","Apparel and Accessories","No",10583,"10583",37783,"M209",0
+782.76,303,"Computer / Software Stores","Consumer Electronics and Computers","Yes",10583,"94014",37783,"M216",2244
+70,233,"Computer / Software Stores","Consumer Electronics and Computers","Yes",10583,"94014",37783,"M216",2244
+1,233,"Computer / Software Stores","Consumer Electronics and Computers","Yes",10583,"94014",37783,"M216",2244
+41.88,288,"Computer / Software Stores","Consumer Electronics and Computers","Yes",10583,"94014",37783,"M216",2244
+1,288,"Computer / Software Stores","Consumer Electronics and Computers","Yes",10583,"94014",37783,"M216",2244
+37.57,416,"Communications, Telecommunications, Cable Services","Information","No",10583,"10583",37783,"M253",0
+4.55,350,"Eating Places","Accommodations and Food Services","No",10583,"11371",37783,"M260",13
+13.48,399,"Eating Places","Accommodations and Food Services","No",10583,"10917",37783,"M260",26
+62.54,290,"Eating Places","Accommodations and Food Services","No",10583,"06830",37783,"M331",8
+129.45,290,"Eating Places","Accommodations and Food Services","No",10583,"06830",37783,"M331",8
+9.65,242,"Book Stores","Sporting Goods and Hobby","No",10583,"10607",37783,"M340",3
+38.6,231,"Book Stores","Sporting Goods and Hobby","Yes",10583,"07094",37783,"M340",17
+71.85,33,"Men's Apparel","Apparel and Accessories","No",10583,"10917",37783,"M343",26
+110.49,340,"Home Furnishings / Furniture","General Merchandise Stores","No",10583,"10710",37783,"M382",3
+47.96,376,"Home Furnishings / Furniture","General Merchandise Stores","Yes",10583,"07512",37783,"M382",20
+76.03,282,"Home Furnishings / Furniture","General Merchandise Stores","No",10583,"11803",37783,"M382",19
+184.22,164,"Consumer Electronics / Appliances","Consumer Electronics and Computers","No",10583,"10710",37783,"M410",3
+268.42,310,"Consumer Electronics / Appliances","Consumer Electronics and Computers","No",10583,"10530",37783,"M410",2
+86.69,248,"Consumer Electronics / Appliances","Consumer Electronics and Computers","No",10583,"10710",37783,"M410",3
+14.07,319,"Consumer Electronics / Appliances","Consumer Electronics and Computers","No",10583,"10710",37783,"M410",3
+56.33,241,"Consumer Electronics / Appliances","Consumer Electronics and Computers","No",10583,"10710",37783,"M410",3
+53.92,184,"Department Stores","General Merchandise Stores","No",10583,"10605",37783,"M468",3
+88.22,303,"Department Stores","General Merchandise Stores","No",10583,"10605",37783,"M468",3
+122.34,310,"Department Stores","General Merchandise Stores","No",10583,"60611",37783,"M468",625
+1,346,"Family Apparel","Apparel and Accessories","Yes",10583,"10018",37783,"M473",17
+407.38,346,"Family Apparel","Apparel and Accessories","Yes",10583,"10018",37783,"M473",17
+8.13,66,"Women's Apparel","Apparel and Accessories","No",10583,"10601",37783,"M535",3
+51.51,429,"Automotive Fuel","Motor Vehicles","No",10583,"08817",37783,"M544",39
+5,415,"Automotive Fuel","Motor Vehicles","No",10583,"11548",37783,"M544",13
+74,415,"Automotive Fuel","Motor Vehicles","No",10583,"11548",37783,"M544",13
+5,415,"Automotive Fuel","Motor Vehicles","No",10583,"11548",37783,"M544",13
+5,429,"Automotive Fuel","Motor Vehicles","No",10583,"08817",37783,"M544",39
+5,429,"Automotive Fuel","Motor Vehicles","No",10583,"08817",37783,"M544",39
+94.49,254,"Men's Apparel","Apparel and Accessories","No",10583,"10583",37783,"M548",0
+37.91,240,"Family Apparel","Apparel and Accessories","No",10583,"10710",37783,"M583",3
+12.33,23,"Children's Apparel","Apparel and Accessories","No",10583,"10583",37783,"M593",0
+17.14,181,"Children's Apparel","Apparel and Accessories","No",10583,"10583",37783,"M593",0
+8.57,73,"Children's Apparel","Apparel and Accessories","No",10583,"10583",37783,"M593",0
+14.99,290,"Children's Apparel","Apparel and Accessories","No",10583,"10583",37783,"M593",0
+4.82,109,"Children's Apparel","Apparel and Accessories","No",10583,"10583",37783,"M593",0
+45.36,81,"Children's Apparel","Apparel and Accessories","No",10583,"10583",37783,"M593",0
+16.09,9,"Children's Apparel","Apparel and Accessories","No",10583,"10583",37783,"M593",0
+28.94,213,"Children's Apparel","Apparel and Accessories","No",10583,"10583",37783,"M593",0
+17.57,37,"Children's Apparel","Apparel and Accessories","No",10583,"10583",37783,"M593",0
+238.41,323,"Children's Apparel","Apparel and Accessories","Yes",10583,"07512",37783,"M593",20
+37.56,132,"Children's Apparel","Apparel and Accessories","No",10583,"10583",37783,"M593",0
+15.5,243,"Children's Apparel","Apparel and Accessories","No",10583,"10583",37783,"M593",0
+7.55,90,"Clothing, Uniform, Costume Rental","Real Estate, Rental and Leasing","Yes",10583,"53151",37783,"M596",650
+42.78,90,"Clothing, Uniform, Costume Rental","Real Estate, Rental and Leasing","Yes",10583,"53151",37783,"M596",650
+20.63,205,"Eating Places","Accommodations and Food Services","No",10583,"10583",37783,"M619",0
+36.78,433,"Eating Places","Accommodations and Food Services","No",10583,"10583",37783,"M619",0
+53.15,312,"Eating Places","Accommodations and Food Services","No",10583,"10583",37783,"M619",0
+1,222,"Eating Places","Accommodations and Food Services","Yes",10583,"08543",37783,"M619",56
+21.99,316,"Eating Places","Accommodations and Food Services","No",10583,"10502",37783,"M686",3
+33.38,263,"Eating Places","Accommodations and Food Services","No",10583,"10601",37783,"M743",3
+50.99,226,"Eating Places","Accommodations and Food Services","No",10583,"10601",37783,"M743",3
+47.41,121,"Eating Places","Accommodations and Food Services","No",10583,"10601",37783,"M743",3
+2.14,431,"Variety / General Merchandise Stores","General Merchandise Stores","No",10583,"10530",37783,"M772",2
+2.15,169,"Variety / General Merchandise Stores","General Merchandise Stores","No",10583,"10530",37783,"M772",2
+8.57,452,"Variety / General Merchandise Stores","General Merchandise Stores","No",10583,"10530",37783,"M772",2
+5,164,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M791",0
+5,149,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M791",0
+5,128,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M791",0
+5,456,"Automotive Fuel","Motor Vehicles","No",10583,"11803",37783,"M791",19
+5,164,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M791",0
+5,456,"Automotive Fuel","Motor Vehicles","No",10583,"11803",37783,"M791",19
+5,149,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M791",0
+5,276,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M791",0
+5,204,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M791",0
+5,307,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M791",0
+68.59,307,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M791",0
+5,1,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M791",0
+65.01,456,"Automotive Fuel","Motor Vehicles","No",10583,"11803",37783,"M791",19
+5,211,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M791",0
+37.68,351,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M791",0
+5,113,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M791",0
+60,204,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M791",0
+5,307,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M791",0
+5,205,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M791",0
+5,204,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M791",0
+5,128,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M791",0
+5,205,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M791",0
+44.16,124,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M791",0
+5,351,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M791",0
+52.03,205,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M791",0
+54.02,211,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M791",0
+5,124,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M791",0
+38.67,241,"Automotive Fuel","Motor Vehicles","No",10583,"11803",37783,"M791",19
+5,113,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M791",0
+47.01,128,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M791",0
+5,241,"Automotive Fuel","Motor Vehicles","No",10583,"11803",37783,"M791",19
+46,113,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M791",0
+5,124,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M791",0
+5,351,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M791",0
+59.53,276,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M791",0
+48.02,149,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M791",0
+5,276,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M791",0
+5,211,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M791",0
+56.45,164,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M791",0
+5,241,"Automotive Fuel","Motor Vehicles","No",10583,"11803",37783,"M791",19
+61.58,272,"Family Apparel","Apparel and Accessories","No",10583,"10012",37783,"M819",18
+192.91,319,"Shoe Stores","Apparel and Accessories","No",10583,"10601",37783,"M833",3
+5,76,"Automotive Fuel","Motor Vehicles","No",10583,"06880",37783,"M861",22
+818.94,219,"T+E Airlines","Transportation and Warehousing","Yes",10583,"77002",37783,"M869",1248
+1,219,"T+E Airlines","Transportation and Warehousing","No",10583,"77002",37783,"M869",1248
+1,219,"T+E Airlines","Transportation and Warehousing","No",10583,"77002",37783,"M869",1248
+11,249,"T+E Airlines","Transportation and Warehousing","No",10583,"77002",37783,"M869",1248
+48.7,335,"Shoe Stores","Apparel and Accessories","Yes",10583,"80503",37783,"M928",1427
+19.21,60,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10583",37783,"M955",0
+13.58,24,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10583",37783,"M955",0
+21.42,290,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10583",37783,"M955",0
+31.09,315,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10583",37783,"M955",0
+42.83,48,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10583",37783,"M955",0
+22.3,424,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10583",37783,"M955",0
+30.13,3,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10583",37783,"M955",0
+19.18,455,"Drug Store Chains","Health and Personal Care Stores","No",10583,"11803",37783,"M955",19
+22.16,345,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10583",37783,"M955",0
+12.86,282,"Drug Store Chains","Health and Personal Care Stores","No",10583,"11803",37783,"M955",19
+18.53,197,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10583",37783,"M955",0
+17.34,283,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10583",37783,"M955",0
+14.19,312,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10583",37783,"M955",0
+29.17,14,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10583",37783,"M955",0
+38.58,326,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10583",37783,"M955",0
+17.6,162,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10605",37783,"M955",3
+24.15,313,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10583",37783,"M955",0
+20.84,36,"Drug Store Chains","Health and Personal Care Stores","No",10583,"06880",37783,"M955",22
+14.29,316,"Drug Store Chains","Health and Personal Care Stores","No",10583,"06897",37783,"M955",21
+6.79,367,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10583",37783,"M955",0
+7.98,346,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10502",37783,"M955",3
+10.72,276,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10502",37783,"M955",3
+8.12,291,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10583",37783,"M955",0
+18.08,221,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10583",37783,"M955",0
+36.99,198,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10583",37783,"M955",0
+14.37,324,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10583",37783,"M955",0
+15,167,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10583",37783,"M955",0
+45.85,3,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10583",37783,"M955",0
+41.47,437,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10583",37783,"M955",0
+37.56,87,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10502",37783,"M955",3
+25,188,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10583",37783,"M955",0
+40,313,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10583",37783,"M955",0
+9.65,215,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10502",37783,"M955",3
+146.14,360,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10583",37783,"M955",0
+3.53,93,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10583",37783,"M955",0
+9.63,48,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10583",37783,"M955",0
+27.86,294,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10583",37783,"M955",0
+26.8,32,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10502",37783,"M955",3
+36.88,304,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10583",37783,"M955",0
+138.31,416,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10583",37783,"M955",0
+76.68,389,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10583",37783,"M955",0
+15.01,420,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10502",37783,"M955",3
+34.66,167,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10583",37783,"M955",0
+19.84,319,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10583",37783,"M955",0
+15,240,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10583",37783,"M955",0
+6.43,298,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10583",37783,"M955",0
+12.35,303,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10583",37783,"M955",0
+52.07,254,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10583",37783,"M955",0
+19.44,135,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10605",37783,"M955",3
+12.77,42,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10583",37783,"M955",0
+41.49,248,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10583",37783,"M955",0
+23.75,226,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10605",37783,"M955",3
+51.03,19,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10583",37783,"M955",0
+29.07,396,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10583",37783,"M955",0
+25,60,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10583",37783,"M955",0
+40.36,81,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10583",37783,"M955",0
+19.49,388,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10583",37783,"M955",0
+58.86,212,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10583",37783,"M955",0
+833.72,346,"Computer / Software Stores","Consumer Electronics and Computers","No",10583,"78682",37783,"M1008",1318
+159,166,"Computer / Software Stores","Consumer Electronics and Computers","No",10583,"78682",37783,"M1008",1318
+20,312,"Women's Apparel","Apparel and Accessories","No",10583,"10605",37783,"M1022",3
+73.57,271,"Children's Apparel","Apparel and Accessories","Yes",10583,"07302",37783,"M1036",19
+26.37,218,"Children's Apparel","Apparel and Accessories","Yes",10583,"07302",37783,"M1036",19
+137.98,149,"Children's Apparel","Apparel and Accessories","Yes",10583,"07302",37783,"M1036",19
+142.78,415,"Children's Apparel","Apparel and Accessories","Yes",10583,"07302",37783,"M1036",19
+54.31,179,"Children's Apparel","Apparel and Accessories","Yes",10583,"07302",37783,"M1036",19
+95.72,213,"Children's Apparel","Apparel and Accessories","Yes",10583,"07302",37783,"M1036",19
+119.43,310,"Children's Apparel","Apparel and Accessories","Yes",10583,"07302",37783,"M1036",19
+56,383,"Children's Apparel","Apparel and Accessories","Yes",10583,"07302",37783,"M1036",19
+73.14,242,"Children's Apparel","Apparel and Accessories","Yes",10583,"07302",37783,"M1036",19
+54.42,376,"Children's Apparel","Apparel and Accessories","Yes",10583,"07302",37783,"M1036",19
+70.58,348,"Children's Apparel","Apparel and Accessories","Yes",10583,"07302",37783,"M1036",19
+9.92,287,"Miscellaneous Publishing Industries","Information","No",10583,"01020",37783,"M1101",90
+9.92,441,"Miscellaneous Publishing Industries","Information","No",10583,"01020",37783,"M1101",90
+9.92,411,"Miscellaneous Publishing Industries","Information","No",10583,"01020",37783,"M1101",90
+9.92,378,"Miscellaneous Publishing Industries","Information","No",10583,"01020",37783,"M1101",90
+9.92,350,"Miscellaneous Publishing Industries","Information","No",10583,"01020",37783,"M1101",90
+9.92,317,"Miscellaneous Publishing Industries","Information","No",10583,"01020",37783,"M1101",90
+9.92,257,"Miscellaneous Publishing Industries","Information","No",10583,"01020",37783,"M1101",90
+55.8,93,"Health/Beauty/Medical Supplies","Health and Personal Care Stores","Yes",10583,"98004",37783,"M1108",2088
+23.97,344,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10018",37783,"M1112",17
+8.23,270,"Eating Places","Accommodations and Food Services","No",10583,"10523",37783,"M1120",4
+8.77,399,"Eating Places","Accommodations and Food Services","No",10583,"10522",37783,"M1120",3
+2.24,83,"Eating Places","Accommodations and Food Services","No",10583,"10583",37783,"M1120",0
+9.69,217,"Eating Places","Accommodations and Food Services","No",10583,"10583",37783,"M1120",0
+40,198,"Other Transportation Services","Transportation and Warehousing","No",10583,"10314",37783,"M1128",28
+35,457,"Other Transportation Services","Transportation and Warehousing","No",10583,"10314",37783,"M1128",28
+30,285,"Other Transportation Services","Transportation and Warehousing","No",10583,"10314",37783,"M1128",28
+35,33,"Other Transportation Services","Transportation and Warehousing","No",10583,"10314",37783,"M1128",28
+35,41,"Other Transportation Services","Transportation and Warehousing","No",10583,"10314",37783,"M1128",28
+35,46,"Other Transportation Services","Transportation and Warehousing","No",10583,"10314",37783,"M1128",28
+50,382,"Other Transportation Services","Transportation and Warehousing","No",10583,"10314",37783,"M1128",28
+30,327,"Other Transportation Services","Transportation and Warehousing","No",10583,"10314",37783,"M1128",28
+30,312,"Other Transportation Services","Transportation and Warehousing","No",10583,"10314",37783,"M1128",28
+30,296,"Other Transportation Services","Transportation and Warehousing","No",10583,"10314",37783,"M1128",28
+35,81,"Other Transportation Services","Transportation and Warehousing","No",10583,"10314",37783,"M1128",28
+30,277,"Other Transportation Services","Transportation and Warehousing","No",10583,"10314",37783,"M1128",28
+50,421,"Other Transportation Services","Transportation and Warehousing","No",10583,"10314",37783,"M1128",28
+35,61,"Other Transportation Services","Transportation and Warehousing","No",10583,"10314",37783,"M1128",28
+30,255,"Other Transportation Services","Transportation and Warehousing","No",10583,"10314",37783,"M1128",28
+40,164,"Other Transportation Services","Transportation and Warehousing","No",10583,"10314",37783,"M1128",28
+50,355,"Other Transportation Services","Transportation and Warehousing","No",10583,"10314",37783,"M1128",28
+80,98,"Other Transportation Services","Transportation and Warehousing","No",10583,"10314",37783,"M1128",28
+35,27,"Other Transportation Services","Transportation and Warehousing","No",10583,"10314",37783,"M1128",28
+82.62,153,"Sporting Goods / Apparel / Footwear","Sporting Goods and Hobby","Yes",10583,"54401",37783,"M1134",736
+55,313,"Shoe Stores","Apparel and Accessories","Yes",10583,"19007",37783,"M1138",72
+83.45,264,"Grocery Stores","Grocery and Food Stores","No",10583,"10705",37783,"M1155",6
+63.07,193,"Automotive Fuel","Motor Vehicles","No",10583,"10601",37783,"M1246",3
+25.02,222,"Automotive Fuel","Motor Vehicles","No",10583,"06840",37783,"M1246",17
+5,79,"Automotive Fuel","Motor Vehicles","No",10583,"06840",37783,"M1246",17
+15.02,155,"Automotive Fuel","Motor Vehicles","No",10583,"10530",37783,"M1246",2
+5,204,"Automotive Fuel","Motor Vehicles","No",10583,"06831",37783,"M1246",8
+5,48,"Automotive Fuel","Motor Vehicles","No",10583,"06831",37783,"M1246",8
+50.11,328,"Automotive Fuel","Motor Vehicles","No",10583,"11561",37783,"M1246",25
+5,324,"Automotive Fuel","Motor Vehicles","No",10583,"11577",37783,"M1246",14
+52.24,286,"Automotive Fuel","Motor Vehicles","No",10583,"08852",37783,"M1246",49
+5,106,"Automotive Fuel","Motor Vehicles","No",10583,"06831",37783,"M1246",8
+20.01,106,"Automotive Fuel","Motor Vehicles","No",10583,"06831",37783,"M1246",8
+75.72,362,"Automotive Fuel","Motor Vehicles","No",10583,"11577",37783,"M1246",14
+5,362,"Automotive Fuel","Motor Vehicles","No",10583,"11577",37783,"M1246",14
+5,439,"Automotive Fuel","Motor Vehicles","No",10583,"07856",37783,"M1246",38
+5,301,"Automotive Fuel","Motor Vehicles","No",10583,"07856",37783,"M1246",38
+5,286,"Automotive Fuel","Motor Vehicles","No",10583,"08852",37783,"M1246",49
+5,347,"Automotive Fuel","Motor Vehicles","No",10583,"06820",37783,"M1246",15
+5,362,"Automotive Fuel","Motor Vehicles","No",10583,"11577",37783,"M1246",14
+57.87,210,"Automotive Fuel","Motor Vehicles","No",10583,"10601",37783,"M1246",3
+5,210,"Automotive Fuel","Motor Vehicles","No",10583,"10601",37783,"M1246",3
+5,347,"Automotive Fuel","Motor Vehicles","No",10583,"06820",37783,"M1246",15
+55.55,230,"Automotive Fuel","Motor Vehicles","No",10583,"06897",37783,"M1246",21
+45.01,238,"Automotive Fuel","Motor Vehicles","No",10583,"06897",37783,"M1246",21
+5,301,"Automotive Fuel","Motor Vehicles","No",10583,"07856",37783,"M1246",38
+49.55,197,"Automotive Fuel","Motor Vehicles","No",10583,"07856",37783,"M1246",38
+5,197,"Automotive Fuel","Motor Vehicles","No",10583,"07856",37783,"M1246",38
+70.95,455,"Automotive Fuel","Motor Vehicles","No",10583,"10475",37783,"M1246",7
+5,155,"Automotive Fuel","Motor Vehicles","No",10583,"10530",37783,"M1246",2
+5,439,"Automotive Fuel","Motor Vehicles","No",10583,"07856",37783,"M1246",38
+5,222,"Automotive Fuel","Motor Vehicles","No",10583,"06840",37783,"M1246",17
+65.04,347,"Automotive Fuel","Motor Vehicles","No",10583,"06820",37783,"M1246",15
+5,324,"Automotive Fuel","Motor Vehicles","No",10583,"11577",37783,"M1246",14
+5,356,"Automotive Fuel","Motor Vehicles","No",10583,"06897",37783,"M1246",21
+5,356,"Automotive Fuel","Motor Vehicles","No",10583,"06897",37783,"M1246",21
+68.07,356,"Automotive Fuel","Motor Vehicles","No",10583,"06897",37783,"M1246",21
+5,230,"Automotive Fuel","Motor Vehicles","No",10583,"06897",37783,"M1246",21
+5,238,"Automotive Fuel","Motor Vehicles","No",10583,"06897",37783,"M1246",21
+5,328,"Automotive Fuel","Motor Vehicles","No",10583,"11561",37783,"M1246",25
+5,455,"Automotive Fuel","Motor Vehicles","No",10583,"10475",37783,"M1246",7
+5,455,"Automotive Fuel","Motor Vehicles","No",10583,"10475",37783,"M1246",7
+5,193,"Automotive Fuel","Motor Vehicles","No",10583,"10601",37783,"M1246",3
+83.52,324,"Automotive Fuel","Motor Vehicles","No",10583,"11577",37783,"M1246",14
+5,50,"Automotive Fuel","Motor Vehicles","No",10583,"06831",37783,"M1246",8
+20,204,"Automotive Fuel","Motor Vehicles","No",10583,"06831",37783,"M1246",8
+5,328,"Automotive Fuel","Motor Vehicles","No",10583,"11561",37783,"M1246",25
+5,25,"Automotive Fuel","Motor Vehicles","No",10583,"21842",37783,"M1246",167
+4.24,394,"Automotive Fuel","Motor Vehicles","No",10583,"10546",37783,"M1246",13
+36.01,439,"Automotive Fuel","Motor Vehicles","No",10583,"07856",37783,"M1246",38
+49,301,"Automotive Fuel","Motor Vehicles","No",10583,"07856",37783,"M1246",38
+5,38,"Automotive Fuel","Motor Vehicles","No",10583,"10522",37783,"M1246",3
+25,122,"Professional Sports Teams","Arts, Entertainment, Recreation","Yes",10583,"90064",37783,"M1276",2147
+5.54,285,"Eating Places","Accommodations and Food Services","No",10583,"10604",37783,"M1334",4
+9.67,211,"Eating Places","Accommodations and Food Services","No",10583,"10604",37783,"M1334",4
+5.83,426,"Eating Places","Accommodations and Food Services","No",10583,"10604",37783,"M1334",4
+6.29,398,"Eating Places","Accommodations and Food Services","No",10583,"10604",37783,"M1334",4
+5.29,446,"Eating Places","Accommodations and Food Services","No",10583,"10604",37783,"M1334",4
+4.52,258,"Eating Places","Accommodations and Food Services","No",10583,"10604",37783,"M1334",4
+6.06,343,"Eating Places","Accommodations and Food Services","No",10583,"10604",37783,"M1334",4
+8.33,355,"Eating Places","Accommodations and Food Services","No",10583,"10604",37783,"M1334",4
+2.16,397,"Eating Places","Accommodations and Food Services","No",10583,"10604",37783,"M1334",4
+9.15,209,"Eating Places","Accommodations and Food Services","No",10583,"10604",37783,"M1334",4
+4.1,342,"Eating Places","Accommodations and Food Services","No",10583,"10604",37783,"M1334",4
+4.2,292,"Eating Places","Accommodations and Food Services","No",10583,"10604",37783,"M1334",4
+1.4,223,"Eating Places","Accommodations and Food Services","No",10583,"10604",37783,"M1334",4
+8.13,454,"Eating Places","Accommodations and Food Services","No",10583,"10604",37783,"M1334",4
+2.16,411,"Eating Places","Accommodations and Food Services","No",10583,"10604",37783,"M1334",4
+9.15,357,"Eating Places","Accommodations and Food Services","No",10583,"10604",37783,"M1334",4
+4.74,210,"Eating Places","Accommodations and Food Services","No",10583,"10604",37783,"M1334",4
+4.67,328,"Eating Places","Accommodations and Food Services","No",10583,"10604",37783,"M1334",4
+3.45,433,"Eating Places","Accommodations and Food Services","No",10583,"10604",37783,"M1334",4
+3.24,300,"Eating Places","Accommodations and Food Services","No",10583,"10604",37783,"M1334",4
+4.47,370,"Eating Places","Accommodations and Food Services","No",10583,"10604",37783,"M1334",4
+4.4,259,"Eating Places","Accommodations and Food Services","No",10583,"10604",37783,"M1334",4
+2.7,279,"Eating Places","Accommodations and Food Services","No",10583,"10604",37783,"M1334",4
+8.72,349,"Eating Places","Accommodations and Food Services","No",10583,"10604",37783,"M1334",4
+5.41,274,"Eating Places","Accommodations and Food Services","No",10583,"10604",37783,"M1334",4
+5.43,419,"Eating Places","Accommodations and Food Services","No",10583,"10604",37783,"M1334",4
+1.6,259,"Eating Places","Accommodations and Food Services","No",10583,"10604",37783,"M1334",4
+6.37,385,"Eating Places","Accommodations and Food Services","No",10583,"10604",37783,"M1334",4
+3.86,264,"Eating Places","Accommodations and Food Services","No",10583,"10604",37783,"M1334",4
+10.99,190,"Eating Places","Accommodations and Food Services","No",10583,"10604",37783,"M1334",4
+4.87,335,"Eating Places","Accommodations and Food Services","No",10583,"10604",37783,"M1334",4
+2.05,390,"Eating Places","Accommodations and Food Services","No",10583,"10604",37783,"M1334",4
+5.71,321,"Eating Places","Accommodations and Food Services","No",10583,"10604",37783,"M1334",4
+5,278,"Eating Places","Accommodations and Food Services","No",10583,"10604",37783,"M1334",4
+3.66,372,"Eating Places","Accommodations and Food Services","No",10583,"10604",37783,"M1334",4
+4.78,400,"Eating Places","Accommodations and Food Services","No",10583,"10604",37783,"M1334",4
+4.53,348,"Eating Places","Accommodations and Food Services","No",10583,"10604",37783,"M1334",4
+4.42,315,"Eating Places","Accommodations and Food Services","No",10583,"10604",37783,"M1334",4
+6.91,182,"Eating Places","Accommodations and Food Services","No",10583,"10604",37783,"M1334",4
+6.37,176,"Eating Places","Accommodations and Food Services","No",10583,"10604",37783,"M1334",4
+2.63,453,"Eating Places","Accommodations and Food Services","No",10583,"10604",37783,"M1334",4
+6.16,383,"Eating Places","Accommodations and Food Services","No",10583,"10604",37783,"M1334",4
+6.01,258,"Eating Places","Accommodations and Food Services","No",10583,"10604",37783,"M1334",4
+4.74,302,"Eating Places","Accommodations and Food Services","No",10583,"10604",37783,"M1334",4
+6.97,425,"Eating Places","Accommodations and Food Services","No",10583,"10604",37783,"M1334",4
+3.74,294,"Eating Places","Accommodations and Food Services","No",10583,"10604",37783,"M1334",4
+3.12,265,"Eating Places","Accommodations and Food Services","No",10583,"10604",37783,"M1334",4
+5.6,327,"Eating Places","Accommodations and Food Services","No",10583,"10604",37783,"M1334",4
+3.59,439,"Eating Places","Accommodations and Food Services","No",10583,"10604",37783,"M1334",4
+93.94,428,"Shoe Stores","Apparel and Accessories","No",10583,"11360",37783,"M1369",13
+33.08,40,"Florists","General Merchandise Stores","No",10583,"11803",37783,"M1422",19
+84.36,448,"Family Apparel","Apparel and Accessories","Yes",10583,"43123",37783,"M1444",431
+0.45,60,"Family Apparel","Apparel and Accessories","Yes",10583,"43123",37783,"M1444",431
+28.15,282,"Family Apparel","Apparel and Accessories","No",10583,"11803",37783,"M1444",19
+847.5,271,"Insurance","Finance and Insurance","No",10583,"22412",37783,"M1470",235
+833.5,90,"Insurance","Finance and Insurance","No",10583,"22412",37783,"M1470",235
+857.5,455,"Insurance","Finance and Insurance","No",10583,"22412",37783,"M1470",235
+5,181,"Automotive Fuel","Motor Vehicles","No",10583,"10502",37783,"M1485",3
+59.35,147,"Automotive Fuel","Motor Vehicles","No",10583,"11362",37783,"M1485",14
+5,147,"Automotive Fuel","Motor Vehicles","No",10583,"11362",37783,"M1485",14
+38.69,68,"Automotive Fuel","Motor Vehicles","No",10583,"07039",37783,"M1485",27
+5,33,"Automotive Fuel","Motor Vehicles","No",10583,"11545",37783,"M1485",14
+5,96,"Automotive Fuel","Motor Vehicles","No",10583,"07849",37783,"M1485",37
+30,181,"Automotive Fuel","Motor Vehicles","No",10583,"10502",37783,"M1485",3
+30.08,96,"Automotive Fuel","Motor Vehicles","No",10583,"07849",37783,"M1485",37
+81.79,32,"Sporting Goods / Apparel / Footwear","Sporting Goods and Hobby","No",10583,"10583",37783,"M1540",0
+96.62,345,"Sporting Goods / Apparel / Footwear","Sporting Goods and Hobby","No",10583,"10583",37783,"M1540",0
+54.13,318,"Sporting Goods / Apparel / Footwear","Sporting Goods and Hobby","No",10583,"10583",37783,"M1540",0
+23.76,25,"Sporting Goods / Apparel / Footwear","Sporting Goods and Hobby","No",10583,"10583",37783,"M1540",0
+40.77,22,"Sporting Goods / Apparel / Footwear","Sporting Goods and Hobby","No",10583,"10583",37783,"M1540",0
+11.27,81,"Sporting Goods / Apparel / Footwear","Sporting Goods and Hobby","No",10583,"10583",37783,"M1540",0
+147.82,73,"Sporting Goods / Apparel / Footwear","Sporting Goods and Hobby","No",10583,"10583",37783,"M1540",0
+20.05,164,"Automotive Fuel","Motor Vehicles","No",10583,"10010",37783,"M1596",17
+5,177,"Automotive Fuel","Motor Vehicles","No",10583,"11590",37783,"M1596",17
+20,177,"Automotive Fuel","Motor Vehicles","No",10583,"11590",37783,"M1596",17
+5,177,"Automotive Fuel","Motor Vehicles","No",10583,"11590",37783,"M1596",17
+75,373,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1596",0
+5,373,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1596",0
+25.01,310,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1596",0
+5,2,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1596",0
+5,310,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1596",0
+5,310,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1596",0
+5,164,"Automotive Fuel","Motor Vehicles","No",10583,"10010",37783,"M1596",17
+5,177,"Automotive Fuel","Motor Vehicles","No",10583,"11590",37783,"M1596",17
+5,395,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1596",0
+5,395,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1596",0
+5,373,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1596",0
+66.89,395,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1596",0
+5,164,"Automotive Fuel","Motor Vehicles","No",10583,"10010",37783,"M1596",17
+18.74,14,"Family Apparel","Apparel and Accessories","No",10583,"10601",37783,"M1602",3
+109.05,457,"Family Apparel","Apparel and Accessories","No",10583,"11530",37783,"M1602",17
+37.71,121,"Family Apparel","Apparel and Accessories","No",10583,"10601",37783,"M1602",3
+28.14,310,"Giftware/Houseware/Card Shops","General Merchandise Stores","No",10583,"06851",37783,"M1624",20
+10.84,247,"Children's Apparel","Apparel and Accessories","No",10583,"10601",37783,"M1635",3
+10.73,170,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10530",37783,"M1647",2
+32.49,113,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10710",37783,"M1647",3
+63.5,340,"Automotive Fuel","Motor Vehicles","No",10583,"10507",37783,"M1705",15
+5,374,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+62.5,444,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,296,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,136,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,420,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+75.1,318,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+56.51,290,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,354,"Automotive Fuel","Motor Vehicles","No",10583,"11790",37783,"M1705",31
+5,318,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+68.07,260,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+50,136,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+54.22,120,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+64,186,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,184,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,120,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,319,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,186,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,383,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,233,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+50.03,299,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,407,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,134,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+55.98,387,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,242,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,40,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,299,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+60.01,248,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,362,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,434,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,340,"Automotive Fuel","Motor Vehicles","No",10583,"10507",37783,"M1705",15
+63.71,233,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,248,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+62,420,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,260,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,186,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,134,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,406,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,184,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+45,184,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,269,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,168,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,387,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,28,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,387,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+60.03,319,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,318,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+62.93,383,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,271,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,444,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,444,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,354,"Automotive Fuel","Motor Vehicles","No",10583,"11790",37783,"M1705",31
+54.91,271,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+30,168,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,179,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+61.5,407,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,248,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,290,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,334,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,434,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,420,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+58.5,179,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,407,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+66,334,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,269,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,362,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+63.51,374,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+59,282,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,242,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,374,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,444,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,406,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,290,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+56,362,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,444,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,136,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+70,296,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,22,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+47.04,134,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,120,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+83.01,406,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,233,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+47,54,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,282,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,383,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,271,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,340,"Automotive Fuel","Motor Vehicles","No",10583,"10507",37783,"M1705",15
+5,282,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+75.88,434,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,334,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,54,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+40,354,"Automotive Fuel","Motor Vehicles","No",10583,"11790",37783,"M1705",31
+55.01,242,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,260,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+65,269,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,299,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,45,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,179,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+71,444,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,296,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,54,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,319,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+5,168,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M1705",0
+22.87,3,"Home Improvement Centers","Home Improvement Centers","No",10583,"10710",37783,"M1739",3
+51.74,360,"Home Improvement Centers","Home Improvement Centers","No",10583,"10710",37783,"M1739",3
+30.55,387,"Home Improvement Centers","Home Improvement Centers","No",10583,"10710",37783,"M1739",3
+33.52,396,"Home Improvement Centers","Home Improvement Centers","No",10583,"10710",37783,"M1739",3
+19.25,11,"Home Improvement Centers","Home Improvement Centers","No",10583,"10710",37783,"M1739",3
+25.74,7,"Variety / General Merchandise Stores","General Merchandise Stores","No",10583,"10607",37783,"M1743",3
+3.99,401,"Book Stores","Sporting Goods and Hobby","No",10583,"10165",37783,"M1793",16
+3.99,401,"Book Stores","Sporting Goods and Hobby","No",10583,"10165",37783,"M1793",16
+3.99,377,"Book Stores","Sporting Goods and Hobby","No",10583,"10165",37783,"M1793",16
+27.76,249,"Book Stores","Sporting Goods and Hobby","No",10583,"07114",37783,"M1793",24
+1.29,444,"Music and Videos","Sporting Goods and Hobby","Yes",10583,"95014",37783,"M1874",2234
+2.58,414,"Music and Videos","Sporting Goods and Hobby","Yes",10583,"95014",37783,"M1874",2234
+2.99,428,"Music and Videos","Sporting Goods and Hobby","Yes",10583,"95014",37783,"M1874",2234
+2.58,419,"Music and Videos","Sporting Goods and Hobby","Yes",10583,"95014",37783,"M1874",2234
+2.14,390,"Music and Videos","Sporting Goods and Hobby","Yes",10583,"95014",37783,"M1874",2234
+29.64,444,"Family Apparel","Apparel and Accessories","No",10583,"10601",37783,"M1883",3
+52.04,47,"Family Apparel","Apparel and Accessories","No",10583,"10601",37783,"M1883",3
+81.37,303,"Family Apparel","Apparel and Accessories","Yes",10583,"24513",37783,"M1883",331
+64.2,457,"Family Apparel","Apparel and Accessories","No",10583,"11530",37783,"M1883",17
+92.41,350,"Family Apparel","Apparel and Accessories","No",10583,"27302",37783,"M1883",391
+137.64,297,"Family Apparel","Apparel and Accessories","No",10583,"10601",37783,"M1883",3
+14.96,457,"Children's Apparel","Apparel and Accessories","No",10583,"11530",37783,"M1900",17
+36.29,328,"Women's Apparel","Apparel and Accessories","Yes",10583,"19007",37783,"M1945",72
+1,327,"Women's Apparel","Apparel and Accessories","Yes",10583,"19007",37783,"M1945",72
+79.24,290,"Photofinishing Services","Other Services","Yes",10583,"94608",37783,"M2023",2233
+18.58,452,"Photofinishing Services","Other Services","Yes",10583,"94608",37783,"M2023",2233
+18.36,212,"Photofinishing Services","Other Services","Yes",10583,"94608",37783,"M2023",2233
+78.47,206,"Photofinishing Services","Other Services","Yes",10583,"94608",37783,"M2023",2233
+95.81,411,"Photofinishing Services","Other Services","Yes",10583,"94608",37783,"M2023",2233
+19.03,136,"Photofinishing Services","Other Services","Yes",10583,"94608",37783,"M2023",2233
+36.3,442,"Photofinishing Services","Other Services","Yes",10583,"94608",37783,"M2023",2233
+31.2,92,"Department Stores","General Merchandise Stores","Yes",10583,"45044",37783,"M2024",494
+95.47,319,"Department Stores","General Merchandise Stores","No",10583,"10710",37783,"M2024",3
+30.2,33,"Department Stores","General Merchandise Stores","No",10583,"10917",37783,"M2067",26
+3.25,451,"Miscellaneous Personal Services","Other Services","No",10583,"10710",37783,"M2069",3
+2,393,"Miscellaneous Personal Services","Other Services","No",10583,"06851",37783,"M2069",20
+6,431,"Miscellaneous Personal Services","Other Services","No",10583,"06851",37783,"M2069",20
+6.86,147,"Toy Stores","General Merchandise Stores","No",10583,"10583",37783,"M2076",0
+45.93,147,"Toy Stores","General Merchandise Stores","No",10583,"10583",37783,"M2076",0
+69.22,13,"Women's Apparel","Apparel and Accessories","No",10583,"10607",37783,"M2144",3
+53.15,207,"Women's Apparel","Apparel and Accessories","No",10583,"10583",37783,"M2148",0
+207.98,311,"Women's Apparel","Apparel and Accessories","No",10583,"11590",37783,"M2148",17
+79.47,48,"Department Stores","General Merchandise Stores","No",10583,"10583",37783,"M2162",0
+32.11,114,"Department Stores","General Merchandise Stores","No",10583,"10583",37783,"M2162",0
+45.96,347,"Department Stores","General Merchandise Stores","No",10583,"10583",37783,"M2162",0
+20.14,17,"Department Stores","General Merchandise Stores","No",10583,"10583",37783,"M2162",0
+26.31,42,"Department Stores","General Merchandise Stores","No",10583,"10583",37783,"M2162",0
+12.89,226,"Department Stores","General Merchandise Stores","No",10583,"10583",37783,"M2162",0
+243.86,68,"Department Stores","General Merchandise Stores","No",10583,"10583",37783,"M2162",0
+42.14,68,"Department Stores","General Merchandise Stores","No",10583,"10583",37783,"M2162",0
+21.48,109,"Department Stores","General Merchandise Stores","No",10583,"10583",37783,"M2162",0
+106.32,42,"Department Stores","General Merchandise Stores","No",10583,"10583",37783,"M2162",0
+275.71,68,"Department Stores","General Merchandise Stores","No",10583,"10583",37783,"M2162",0
+16.54,74,"Department Stores","General Merchandise Stores","No",10583,"10583",37783,"M2162",0
+33.37,347,"Department Stores","General Merchandise Stores","No",10583,"10583",37783,"M2162",0
+205.67,347,"Department Stores","General Merchandise Stores","No",10583,"10583",37783,"M2162",0
+40.8,109,"Department Stores","General Merchandise Stores","No",10583,"10583",37783,"M2162",0
+136.9,42,"Department Stores","General Merchandise Stores","No",10583,"10583",37783,"M2162",0
+5,101,"Automotive Fuel","Motor Vehicles","No",10583,"11793",37783,"M2180",22
+44.51,101,"Automotive Fuel","Motor Vehicles","No",10583,"11793",37783,"M2180",22
+5.36,431,"Discount Department Stores","General Merchandise Stores","No",10583,"10530",37783,"M2248",2
+21,378,"T+E Railroad","Transportation and Warehousing","No",10583,"12312",37783,"M2333",-999
+18.25,260,"T+E Railroad","Transportation and Warehousing","No",10583,"12312",37783,"M2333",-999
+29.25,153,"T+E Railroad","Transportation and Warehousing","No",10583,"12312",37783,"M2333",-999
+10.5,316,"T+E Railroad","Transportation and Warehousing","No",10583,"12312",37783,"M2333",-999
+10.5,349,"T+E Railroad","Transportation and Warehousing","No",10583,"12312",37783,"M2333",-999
+21,344,"T+E Railroad","Transportation and Warehousing","No",10583,"12312",37783,"M2333",-999
+21,307,"T+E Railroad","Transportation and Warehousing","No",10583,"12312",37783,"M2333",-999
+14.5,135,"T+E Railroad","Transportation and Warehousing","No",10583,"12312",37783,"M2333",-999
+10.5,440,"T+E Railroad","Transportation and Warehousing","No",10583,"12312",37783,"M2333",-999
+7.25,153,"T+E Railroad","Transportation and Warehousing","No",10583,"12312",37783,"M2333",-999
+10.5,405,"T+E Railroad","Transportation and Warehousing","No",10583,"12312",37783,"M2333",-999
+21,392,"T+E Railroad","Transportation and Warehousing","No",10583,"12312",37783,"M2333",-999
+42,383,"T+E Railroad","Transportation and Warehousing","No",10583,"12312",37783,"M2333",-999
+42,356,"T+E Railroad","Transportation and Warehousing","No",10583,"12312",37783,"M2333",-999
+21,364,"T+E Railroad","Transportation and Warehousing","No",10583,"12312",37783,"M2333",-999
+10.5,414,"T+E Railroad","Transportation and Warehousing","No",10583,"12312",37783,"M2333",-999
+10.5,278,"T+E Railroad","Transportation and Warehousing","No",10583,"12312",37783,"M2333",-999
+10.5,449,"T+E Railroad","Transportation and Warehousing","No",10583,"12312",37783,"M2333",-999
+21,401,"T+E Railroad","Transportation and Warehousing","No",10583,"12312",37783,"M2333",-999
+21,272,"T+E Railroad","Transportation and Warehousing","No",10583,"12312",37783,"M2333",-999
+7.25,62,"T+E Railroad","Transportation and Warehousing","No",10583,"12312",37783,"M2333",-999
+10.5,434,"T+E Railroad","Transportation and Warehousing","No",10583,"12312",37783,"M2333",-999
+14.5,126,"T+E Railroad","Transportation and Warehousing","No",10583,"12312",37783,"M2333",-999
+42,224,"T+E Railroad","Transportation and Warehousing","No",10583,"12312",37783,"M2333",-999
+10.5,448,"T+E Railroad","Transportation and Warehousing","No",10583,"12312",37783,"M2333",-999
+7.75,449,"T+E Railroad","Transportation and Warehousing","No",10583,"12312",37783,"M2333",-999
+7.75,448,"T+E Railroad","Transportation and Warehousing","No",10583,"12312",37783,"M2333",-999
+7.75,273,"T+E Railroad","Transportation and Warehousing","No",10583,"12312",37783,"M2333",-999
+18.25,238,"T+E Railroad","Transportation and Warehousing","No",10583,"12312",37783,"M2333",-999
+14.5,84,"T+E Railroad","Transportation and Warehousing","No",10583,"12312",37783,"M2333",-999
+21,371,"T+E Railroad","Transportation and Warehousing","No",10583,"12312",37783,"M2333",-999
+42,322,"T+E Railroad","Transportation and Warehousing","No",10583,"12312",37783,"M2333",-999
+21,427,"T+E Railroad","Transportation and Warehousing","No",10583,"12312",37783,"M2333",-999
+18.25,217,"T+E Railroad","Transportation and Warehousing","No",10583,"12312",37783,"M2333",-999
+210,125,"T+E Railroad","Transportation and Warehousing","No",10583,"12312",37783,"M2333",-999
+9.75,93,"T+E Railroad","Transportation and Warehousing","No",10583,"12312",37783,"M2333",-999
+7.75,218,"T+E Railroad","Transportation and Warehousing","No",10583,"12312",37783,"M2333",-999
+10.5,266,"T+E Railroad","Transportation and Warehousing","No",10583,"12312",37783,"M2333",-999
+21,288,"T+E Railroad","Transportation and Warehousing","No",10583,"12312",37783,"M2333",-999
+18.25,286,"T+E Railroad","Transportation and Warehousing","No",10583,"12312",37783,"M2333",-999
+21,217,"T+E Railroad","Transportation and Warehousing","No",10583,"12312",37783,"M2333",-999
+10.5,414,"T+E Railroad","Transportation and Warehousing","No",10583,"12312",37783,"M2333",-999
+7.75,246,"T+E Railroad","Transportation and Warehousing","No",10583,"12312",37783,"M2333",-999
+298.43,42,"T+E Railroad","Transportation and Warehousing","Yes",10583,"10017",37783,"M2333",16
+35,96,"Other Transportation Services","Transportation and Warehousing","No",10583,"11201",37783,"M2336",20
+35,55,"Other Transportation Services","Transportation and Warehousing","No",10583,"11201",37783,"M2336",20
+35,55,"Other Transportation Services","Transportation and Warehousing","No",10583,"11201",37783,"M2336",20
+30,224,"Other Transportation Services","Transportation and Warehousing","No",10583,"11201",37783,"M2336",20
+20,344,"Other Transportation Services","Transportation and Warehousing","No",10583,"11201",37783,"M2336",20
+30,69,"Other Transportation Services","Transportation and Warehousing","No",10583,"11201",37783,"M2336",20
+30,371,"Other Transportation Services","Transportation and Warehousing","No",10583,"11201",37783,"M2336",20
+30,132,"Other Transportation Services","Transportation and Warehousing","No",10583,"11201",37783,"M2336",20
+2.25,93,"Other Transportation Services","Transportation and Warehousing","No",10583,"11201",37783,"M2336",20
+2.25,167,"Other Transportation Services","Transportation and Warehousing","No",10583,"11201",37783,"M2336",20
+2.25,135,"Other Transportation Services","Transportation and Warehousing","No",10583,"11201",37783,"M2336",20
+10,62,"Other Transportation Services","Transportation and Warehousing","No",10583,"11201",37783,"M2336",20
+30,272,"Other Transportation Services","Transportation and Warehousing","No",10583,"11201",37783,"M2336",20
+20,86,"Other Transportation Services","Transportation and Warehousing","No",10583,"11201",37783,"M2336",20
+10,160,"Other Transportation Services","Transportation and Warehousing","No",10583,"11201",37783,"M2336",20
+20,146,"Other Transportation Services","Transportation and Warehousing","No",10583,"11201",37783,"M2336",20
+30,448,"Other Transportation Services","Transportation and Warehousing","No",10583,"11201",37783,"M2336",20
+20,204,"Other Transportation Services","Transportation and Warehousing","No",10583,"11201",37783,"M2336",20
+30,392,"Other Transportation Services","Transportation and Warehousing","No",10583,"11201",37783,"M2336",20
+43.43,431,"Arts and Craft Stores","General Merchandise Stores","No",10583,"10530",37783,"M2346",2
+51.99,450,"Arts and Craft Stores","General Merchandise Stores","No",10583,"10530",37783,"M2346",2
+56.88,269,"Sporting Goods / Apparel / Footwear","Sporting Goods and Hobby","No",10583,"10607",37783,"M2383",3
+62.4,334,"Sporting Goods / Apparel / Footwear","Sporting Goods and Hobby","No",10583,"10710",37783,"M2383",3
+31.19,389,"Sporting Goods / Apparel / Footwear","Sporting Goods and Hobby","No",10583,"10710",37783,"M2383",3
+25.99,346,"Sporting Goods / Apparel / Footwear","Sporting Goods and Hobby","No",10583,"10710",37783,"M2383",3
+54.18,164,"Sporting Goods / Apparel / Footwear","Sporting Goods and Hobby","No",10583,"10710",37783,"M2383",3
+5.42,186,"Sporting Goods / Apparel / Footwear","Sporting Goods and Hobby","No",10583,"10710",37783,"M2383",3
+65.05,214,"Accommodations","Accommodations and Food Services","No",10583,"10019",37783,"M2404",16
+188.5,261,"Miscellaneous Administrative and Waste Disposal Services","Administrative Support, Waste Management and Remediation Services","Yes",10583,"12228",37783,"M2514",99
+80.5,396,"Miscellaneous Administrative and Waste Disposal Services","Administrative Support, Waste Management and Remediation Services","Yes",10583,"12228",37783,"M2514",99
+64,183,"Sporting Goods / Apparel / Footwear","Sporting Goods and Hobby","No",10583,"14304",37783,"M2524",263
+68.72,183,"Sporting Goods / Apparel / Footwear","Sporting Goods and Hobby","No",10583,"14304",37783,"M2524",263
+1,310,"Shoe Stores","Apparel and Accessories","Yes",10583,"19007",37783,"M2526",72
+43.56,347,"Miscellaneous Apparel","Apparel and Accessories","No",10583,"10530",37783,"UNKNOWN",2
+63.88,366,"Miscellaneous Apparel","Apparel and Accessories","No",10583,"10583",37783,"UNKNOWN",0
+32.66,48,"Miscellaneous Apparel","Apparel and Accessories","No",10583,"10583",37783,"UNKNOWN",0
+24.72,339,"Miscellaneous Apparel","Apparel and Accessories","No",10583,"10583",37783,"UNKNOWN",0
+150,334,"Miscellaneous Apparel","Apparel and Accessories","No",10583,"10583",37783,"UNKNOWN",0
+115,181,"Miscellaneous Apparel","Apparel and Accessories","No",10583,"10583",37783,"UNKNOWN",0
+118.06,420,"Miscellaneous Apparel","Apparel and Accessories","Yes",10583,"94066",37783,"UNKNOWN",2245
+57.98,149,"Miscellaneous Apparel","Apparel and Accessories","No",10583,"10583",37783,"UNKNOWN",0
+31,228,"Amusement, Recreation Activities","Arts, Entertainment, Recreation","No",10583,"10021",37783,"UNKNOWN",15
+46.85,431,"Amusement, Recreation Activities","Arts, Entertainment, Recreation","No",10583,"06854",37783,"UNKNOWN",18
+50,282,"Arts and Craft Stores","General Merchandise Stores","No",10583,"11021",37783,"UNKNOWN",12
+102.98,289,"Arts and Craft Stores","General Merchandise Stores","No",10583,"32533",37783,"UNKNOWN",904
+214.7,107,"Automotive New and Used Car Sales","Motor Vehicles","No",10583,"10583",37783,"UNKNOWN",0
+41.76,296,"Automotive New and Used Car Sales","Motor Vehicles","No",10583,"10583",37783,"UNKNOWN",0
+214.69,318,"Automotive New and Used Car Sales","Motor Vehicles","No",10583,"10583",37783,"UNKNOWN",0
+45.8,45,"Automotive New and Used Car Sales","Motor Vehicles","No",10583,"10583",37783,"UNKNOWN",0
+101.24,115,"Automotive New and Used Car Sales","Motor Vehicles","No",10583,"11021",37783,"UNKNOWN",12
+634.11,206,"Automotive New and Used Car Sales","Motor Vehicles","No",10583,"11021",37783,"UNKNOWN",12
+20.35,269,"Automotive New and Used Car Sales","Motor Vehicles","No",10583,"10583",37783,"UNKNOWN",0
+23.63,213,"Automotive New and Used Car Sales","Motor Vehicles","No",10583,"10583",37783,"UNKNOWN",0
+593.14,430,"Automotive New and Used Car Sales","Motor Vehicles","No",10583,"10583",37783,"UNKNOWN",0
+286.37,419,"Automotive New and Used Car Sales","Motor Vehicles","No",10583,"06825",37783,"UNKNOWN",28
+2.25,213,"Miscellaneous Personal Services","Other Services","No",10583,"V5C6B",37783,"UNKNOWN",-999
+29,99,"Miscellaneous Personal Services","Other Services","No",10583,"10011",37783,"UNKNOWN",17
+27,301,"Miscellaneous Personal Services","Other Services","No",10583,"10017",37783,"UNKNOWN",16
+2.25,332,"Miscellaneous Personal Services","Other Services","No",10583,"V5C6B",37783,"UNKNOWN",-999
+2.25,283,"Miscellaneous Personal Services","Other Services","No",10583,"V5C6B",37783,"UNKNOWN",-999
+2.25,347,"Miscellaneous Personal Services","Other Services","No",10583,"V5C6B",37783,"UNKNOWN",-999
+32,181,"Miscellaneous Personal Services","Other Services","No",10583,"10065",37783,"UNKNOWN",-999
+2.5,162,"Miscellaneous Personal Services","Other Services","No",10583,"06468",37783,"UNKNOWN",33
+5,426,"Miscellaneous Personal Services","Other Services","No",10583,"11101",37783,"UNKNOWN",16
+3,66,"Miscellaneous Personal Services","Other Services","No",10583,"10601",37783,"UNKNOWN",3
+71.01,254,"Miscellaneous Personal Services","Other Services","No",10583,"07114",37783,"UNKNOWN",24
+36,295,"Miscellaneous Personal Services","Other Services","No",10583,"10018",37783,"UNKNOWN",17
+3,263,"Miscellaneous Personal Services","Other Services","No",10583,"10601",37783,"UNKNOWN",3
+2.25,213,"Miscellaneous Personal Services","Other Services","No",10583,"V5C6B",37783,"UNKNOWN",-999
+3,248,"Miscellaneous Personal Services","Other Services","No",10583,"10601",37783,"UNKNOWN",3
+3,108,"Miscellaneous Personal Services","Other Services","No",10583,"10601",37783,"UNKNOWN",3
+3,47,"Miscellaneous Personal Services","Other Services","No",10583,"10601",37783,"UNKNOWN",3
+5,331,"Miscellaneous Personal Services","Other Services","No",10583,"10601",37783,"UNKNOWN",3
+3,319,"Miscellaneous Personal Services","Other Services","No",10583,"10601",37783,"UNKNOWN",3
+3,297,"Miscellaneous Personal Services","Other Services","No",10583,"10601",37783,"UNKNOWN",3
+3,317,"Miscellaneous Personal Services","Other Services","No",10583,"10601",37783,"UNKNOWN",3
+3,121,"Miscellaneous Personal Services","Other Services","No",10583,"10601",37783,"UNKNOWN",3
+3,444,"Miscellaneous Personal Services","Other Services","No",10583,"10601",37783,"UNKNOWN",3
+3,339,"Miscellaneous Personal Services","Other Services","No",10583,"10601",37783,"UNKNOWN",3
+3,247,"Miscellaneous Personal Services","Other Services","No",10583,"10601",37783,"UNKNOWN",3
+17,213,"Miscellaneous Personal Services","Other Services","No",10583,"10019",37783,"UNKNOWN",16
+0.75,435,"Miscellaneous Personal Services","Other Services","No",10583,"V5C6B",37783,"UNKNOWN",-999
+59.05,390,"Maintenance and Repair Services","Other Services","No",10583,"10583",37783,"UNKNOWN",0
+590.65,94,"Maintenance and Repair Services","Other Services","No",10583,"10710",37783,"UNKNOWN",3
+53.69,48,"Maintenance and Repair Services","Other Services","No",10583,"10583",37783,"UNKNOWN",0
+145.04,315,"Maintenance and Repair Services","Other Services","No",10583,"06897",37783,"UNKNOWN",21
+21.46,426,"Automotive Retail","Motor Vehicles","No",10583,"10583",37783,"UNKNOWN",0
+395.8,218,"Automotive Retail","Motor Vehicles","No",10583,"10583",37783,"UNKNOWN",0
+819.17,141,"Automotive Retail","Motor Vehicles","No",10583,"06851",37783,"UNKNOWN",20
+96,395,"Bars/Taverns/Nightclubs","Accommodations and Food Services","No",10583,"10573",37783,"UNKNOWN",6
+5,66,"Cosmetics and Beauty Services","Other Services","No",10583,"10583",37783,"UNKNOWN",0
+25,338,"Cosmetics and Beauty Services","Other Services","No",10583,"10583",37783,"UNKNOWN",0
+25,248,"Cosmetics and Beauty Services","Other Services","No",10583,"10583",37783,"UNKNOWN",0
+10,221,"Cosmetics and Beauty Services","Other Services","No",10583,"10583",37783,"UNKNOWN",0
+12,381,"Cosmetics and Beauty Services","Other Services","No",10583,"10583",37783,"UNKNOWN",0
+30,88,"Cosmetics and Beauty Services","Other Services","No",10583,"10583",37783,"UNKNOWN",0
+31.5,304,"Cosmetics and Beauty Services","Other Services","No",10583,"10075",37783,"UNKNOWN",-999
+12,115,"Cosmetics and Beauty Services","Other Services","No",10583,"10502",37783,"UNKNOWN",3
+12,254,"Cosmetics and Beauty Services","Other Services","No",10583,"10502",37783,"UNKNOWN",3
+25,168,"Cosmetics and Beauty Services","Other Services","No",10583,"10583",37783,"UNKNOWN",0
+12,228,"Cosmetics and Beauty Services","Other Services","No",10583,"10502",37783,"UNKNOWN",3
+25,324,"Cosmetics and Beauty Services","Other Services","No",10583,"10583",37783,"UNKNOWN",0
+22.99,284,"Cosmetics and Beauty Services","Other Services","No",10583,"10583",37783,"UNKNOWN",0
+22.99,318,"Cosmetics and Beauty Services","Other Services","No",10583,"10583",37783,"UNKNOWN",0
+22.99,242,"Cosmetics and Beauty Services","Other Services","No",10583,"10583",37783,"UNKNOWN",0
+55,248,"Cosmetics and Beauty Services","Other Services","No",10583,"10601",37783,"UNKNOWN",3
+25,234,"Cosmetics and Beauty Services","Other Services","No",10583,"10583",37783,"UNKNOWN",0
+25,7,"Cosmetics and Beauty Services","Other Services","No",10583,"10583",37783,"UNKNOWN",0
+30,143,"Cosmetics and Beauty Services","Other Services","No",10583,"10583",37783,"UNKNOWN",0
+25,107,"Cosmetics and Beauty Services","Other Services","No",10583,"10583",37783,"UNKNOWN",0
+12,198,"Cosmetics and Beauty Services","Other Services","No",10583,"10605",37783,"UNKNOWN",3
+30,276,"Cosmetics and Beauty Services","Other Services","No",10583,"10583",37783,"UNKNOWN",0
+12,183,"Cosmetics and Beauty Services","Other Services","No",10583,"10583",37783,"UNKNOWN",0
+15,16,"Cosmetics and Beauty Services","Other Services","No",10583,"10502",37783,"UNKNOWN",3
+12,151,"Cosmetics and Beauty Services","Other Services","No",10583,"10502",37783,"UNKNOWN",3
+25,395,"Cosmetics and Beauty Services","Other Services","No",10583,"10583",37783,"UNKNOWN",0
+15,53,"Cosmetics and Beauty Services","Other Services","No",10583,"10583",37783,"UNKNOWN",0
+25,410,"Cosmetics and Beauty Services","Other Services","No",10583,"10583",37783,"UNKNOWN",0
+25,66,"Cosmetics and Beauty Services","Other Services","No",10583,"10583",37783,"UNKNOWN",0
+35,359,"Cosmetics and Beauty Services","Other Services","No",10583,"10583",37783,"UNKNOWN",0
+30,368,"Cosmetics and Beauty Services","Other Services","No",10583,"10583",37783,"UNKNOWN",0
+60,244,"Cosmetics and Beauty Services","Other Services","No",10583,"06880",37783,"UNKNOWN",22
+65,320,"Cosmetics and Beauty Services","Other Services","No",10583,"06880",37783,"UNKNOWN",22
+60,176,"Cosmetics and Beauty Services","Other Services","No",10583,"06880",37783,"UNKNOWN",22
+50,87,"Cosmetics and Beauty Services","Other Services","No",10583,"11021",37783,"UNKNOWN",12
+25,419,"Cosmetics and Beauty Services","Other Services","No",10583,"10583",37783,"UNKNOWN",0
+9.5,295,"Cosmetics and Beauty Services","Other Services","No",10583,"10014",37783,"UNKNOWN",18
+40,441,"Cosmetics and Beauty Services","Other Services","No",10583,"10605",37783,"UNKNOWN",3
+75,386,"Cosmetics and Beauty Services","Other Services","No",10583,"06880",37783,"UNKNOWN",22
+60,76,"Cosmetics and Beauty Services","Other Services","No",10583,"06880",37783,"UNKNOWN",22
+60,2,"Cosmetics and Beauty Services","Other Services","No",10583,"06880",37783,"UNKNOWN",22
+230.86,67,"Sporting Goods / Apparel / Footwear","Sporting Goods and Hobby","No",10583,"10583",37783,"UNKNOWN",0
+16,147,"Wholesale Trade","Wholesale Trade","No",10583,"10605",37783,"UNKNOWN",3
+52.5,368,"Amusement, Recreation Activities","Arts, Entertainment, Recreation","No",10583,"10956",37783,"UNKNOWN",13
+50,437,"Miscellaneous Administrative and Waste Disposal Services","Administrative Support, Waste Management and Remediation Services","Yes",10583,"04101",37783,"UNKNOWN",225
+25,112,"Miscellaneous Administrative and Waste Disposal Services","Administrative Support, Waste Management and Remediation Services","No",10583,"19073",37783,"UNKNOWN",95
+25,96,"Miscellaneous Administrative and Waste Disposal Services","Administrative Support, Waste Management and Remediation Services","Yes",10583,"19073",37783,"UNKNOWN",95
+25,138,"Miscellaneous Administrative and Waste Disposal Services","Administrative Support, Waste Management and Remediation Services","No",10583,"19073",37783,"UNKNOWN",95
+10,159,"Miscellaneous Administrative and Waste Disposal Services","Administrative Support, Waste Management and Remediation Services","No",10583,"19073",37783,"UNKNOWN",95
+25,77,"Miscellaneous Administrative and Waste Disposal Services","Administrative Support, Waste Management and Remediation Services","Yes",10583,"19073",37783,"UNKNOWN",95
+6,254,"Communications, Telecommunications, Cable Services","Information","No",10583,"32901",37783,"UNKNOWN",844
+6,254,"Communications, Telecommunications, Cable Services","Information","No",10583,"32901",37783,"UNKNOWN",844
+28.01,143,"Maintenance and Repair Services","Other Services","No",10583,"10710",37783,"UNKNOWN",3
+18.95,31,"Maintenance and Repair Services","Other Services","No",10583,"10502",37783,"UNKNOWN",3
+18,361,"Maintenance and Repair Services","Other Services","No",10583,"10710",37783,"UNKNOWN",3
+8.62,330,"Eating Places","Accommodations and Food Services","No",10583,"10605",37783,"UNKNOWN",3
+200,383,"Health Care and Social Assistance","Health Care and Social Assistance","No",10583,"10570",37783,"UNKNOWN",9
+45.53,221,"Children's Apparel","Apparel and Accessories","No",10583,"10583",37783,"UNKNOWN",0
+54.69,332,"Children's Apparel","Apparel and Accessories","No",10583,"10583",37783,"UNKNOWN",0
+56.98,380,"Children's Apparel","Apparel and Accessories","Yes",10583,"63017",37783,"UNKNOWN",786
+67.75,323,"Children's Apparel","Apparel and Accessories","Yes",10583,"75028",37783,"UNKNOWN",1211
+16.89,303,"Children's Apparel","Apparel and Accessories","No",10583,"10583",37783,"UNKNOWN",0
+44.03,298,"Children's Apparel","Apparel and Accessories","No",10583,"10583",37783,"UNKNOWN",0
+109.03,291,"Children's Apparel","Apparel and Accessories","No",10583,"10583",37783,"UNKNOWN",0
+33.78,303,"Children's Apparel","Apparel and Accessories","No",10583,"10583",37783,"UNKNOWN",0
+106.3,452,"Children's Apparel","Apparel and Accessories","No",10583,"10583",37783,"UNKNOWN",0
+76.85,166,"Children's Apparel","Apparel and Accessories","Yes",10583,"75028",37783,"UNKNOWN",1211
+33.63,240,"Children's Apparel","Apparel and Accessories","No",10583,"10583",37783,"UNKNOWN",0
+71.89,52,"Jewelry and Giftware","Apparel and Accessories","No",10583,"10583",37783,"UNKNOWN",0
+37.53,339,"Jewelry and Giftware","Apparel and Accessories","No",10583,"10583",37783,"UNKNOWN",0
+107.38,107,"Jewelry and Giftware","Apparel and Accessories","No",10583,"10583",37783,"UNKNOWN",0
+257.71,415,"Jewelry and Giftware","Apparel and Accessories","No",10583,"10583",37783,"UNKNOWN",0
+746.75,244,"Jewelry and Giftware","Apparel and Accessories","No",10583,"21208",37783,"UNKNOWN",166
+327.49,268,"Jewelry and Giftware","Apparel and Accessories","No",10583,"10538",37783,"UNKNOWN",4
+17.18,205,"Jewelry and Giftware","Apparel and Accessories","No",10583,"10583",37783,"UNKNOWN",0
+48.32,339,"Jewelry and Giftware","Apparel and Accessories","No",10583,"10583",37783,"UNKNOWN",0
+64.43,275,"Jewelry and Giftware","Apparel and Accessories","No",10583,"10583",37783,"UNKNOWN",0
+179.23,324,"Wholesale Trade","Wholesale Trade","No",10583,"11530",37783,"UNKNOWN",17
+129.99,187,"Software Production, Network Services and Data Processing","Information","Yes",10583,"10013",37783,"UNKNOWN",19
+169,283,"Health Care and Social Assistance","Health Care and Social Assistance","No",10583,"10583",37783,"UNKNOWN",0
+107,269,"Health Care and Social Assistance","Health Care and Social Assistance","No",10583,"10583",37783,"UNKNOWN",0
+28.8,448,"Health Care and Social Assistance","Health Care and Social Assistance","No",10583,"10583",37783,"UNKNOWN",0
+15.83,289,"Miscellaneous","Miscellaneous","Yes",10583,"61401",37783,"UNKNOWN",752
+49.37,189,"Miscellaneous","Miscellaneous","Yes",10583,"95014",37783,"UNKNOWN",2234
+48.76,300,"Miscellaneous","Miscellaneous","No",10583,"95014",37783,"UNKNOWN",2234
+48.98,169,"Miscellaneous","Miscellaneous","No",10583,"95014",37783,"UNKNOWN",2234
+53.68,392,"Miscellaneous","Miscellaneous","Yes",10583,"95014",37783,"UNKNOWN",2234
+10,135,"Health Care and Social Assistance","Health Care and Social Assistance","Yes",10583,"10591",37783,"UNKNOWN",6
+40,303,"Health Care and Social Assistance","Health Care and Social Assistance","No",10583,"10528",37783,"UNKNOWN",3
+5,162,"Health Care and Social Assistance","Health Care and Social Assistance","No",10583,"10604",37783,"UNKNOWN",4
+20,142,"Health Care and Social Assistance","Health Care and Social Assistance","No",10583,"10604",37783,"UNKNOWN",4
+20,7,"Health Care and Social Assistance","Health Care and Social Assistance","No",10583,"10601",37783,"UNKNOWN",3
+25,437,"Health Care and Social Assistance","Health Care and Social Assistance","No",10583,"10583",37783,"UNKNOWN",0
+25,183,"Health Care and Social Assistance","Health Care and Social Assistance","No",10583,"10583",37783,"UNKNOWN",0
+10,42,"Health Care and Social Assistance","Health Care and Social Assistance","No",10583,"10583",37783,"UNKNOWN",0
+40,311,"Health Care and Social Assistance","Health Care and Social Assistance","No",10583,"10583",37783,"UNKNOWN",0
+25,345,"Health Care and Social Assistance","Health Care and Social Assistance","No",10583,"10528",37783,"UNKNOWN",3
+10,135,"Health Care and Social Assistance","Health Care and Social Assistance","Yes",10583,"10591",37783,"UNKNOWN",6
+40,233,"Health Care and Social Assistance","Health Care and Social Assistance","No",10583,"10528",37783,"UNKNOWN",3
+40,414,"Health Care and Social Assistance","Health Care and Social Assistance","Yes",10583,"10528",37783,"UNKNOWN",3
+25,338,"Health Care and Social Assistance","Health Care and Social Assistance","Yes",10583,"10528",37783,"UNKNOWN",3
+40.81,413,"Health Care and Social Assistance","Health Care and Social Assistance","Yes",10583,"10528",37783,"UNKNOWN",3
+40,191,"Health Care and Social Assistance","Health Care and Social Assistance","No",10583,"10528",37783,"UNKNOWN",3
+30,42,"Health Care and Social Assistance","Health Care and Social Assistance","No",10583,"10583",37783,"UNKNOWN",0
+20,308,"Health Care and Social Assistance","Health Care and Social Assistance","No",10583,"10583",37783,"UNKNOWN",0
+25,373,"Health Care and Social Assistance","Health Care and Social Assistance","No",10583,"10528",37783,"UNKNOWN",3
+25,198,"Health Care and Social Assistance","Health Care and Social Assistance","No",10583,"10604",37783,"UNKNOWN",4
+20,162,"Health Care and Social Assistance","Health Care and Social Assistance","No",10583,"10604",37783,"UNKNOWN",4
+25,413,"Health Care and Social Assistance","Health Care and Social Assistance","No",10583,"10528",37783,"UNKNOWN",3
+135.72,450,"Health Care and Social Assistance","Health Care and Social Assistance","Yes",10583,"10528",37783,"UNKNOWN",3
+40,17,"Dry Cleaning, Laundry Services","Other Services","No",10583,"10583",37783,"UNKNOWN",0
+47.8,231,"Dry Cleaning, Laundry Services","Other Services","No",10583,"10502",37783,"UNKNOWN",3
+60,52,"Dry Cleaning, Laundry Services","Other Services","No",10583,"10583",37783,"UNKNOWN",0
+20.85,203,"Dry Cleaning, Laundry Services","Other Services","No",10583,"10502",37783,"UNKNOWN",3
+28.75,446,"Dry Cleaning, Laundry Services","Other Services","No",10583,"10502",37783,"UNKNOWN",3
+88.9,371,"Dry Cleaning, Laundry Services","Other Services","No",10583,"10502",37783,"UNKNOWN",3
+51.5,312,"Dry Cleaning, Laundry Services","Other Services","No",10583,"10502",37783,"UNKNOWN",3
+36.5,196,"Dry Cleaning, Laundry Services","Other Services","No",10583,"10502",37783,"UNKNOWN",3
+18.35,270,"Dry Cleaning, Laundry Services","Other Services","No",10583,"10502",37783,"UNKNOWN",3
+24.55,326,"Dry Cleaning, Laundry Services","Other Services","No",10583,"10502",37783,"UNKNOWN",3
+38,263,"Dry Cleaning, Laundry Services","Other Services","No",10583,"10502",37783,"UNKNOWN",3
+40,361,"Dry Cleaning, Laundry Services","Other Services","No",10583,"10502",37783,"UNKNOWN",3
+18.1,249,"Dry Cleaning, Laundry Services","Other Services","No",10583,"10502",37783,"UNKNOWN",3
+13.25,153,"Dry Cleaning, Laundry Services","Other Services","No",10583,"10502",37783,"UNKNOWN",3
+0.05,388,"Dry Cleaning, Laundry Services","Other Services","No",10583,"10502",37783,"UNKNOWN",3
+8,147,"Dry Cleaning, Laundry Services","Other Services","No",10583,"10502",37783,"UNKNOWN",3
+46.25,333,"Dry Cleaning, Laundry Services","Other Services","No",10583,"10502",37783,"UNKNOWN",3
+8,243,"Dry Cleaning, Laundry Services","Other Services","No",10583,"10502",37783,"UNKNOWN",3
+15.05,284,"Dry Cleaning, Laundry Services","Other Services","No",10583,"10502",37783,"UNKNOWN",3
+61.7,410,"Dry Cleaning, Laundry Services","Other Services","No",10583,"10502",37783,"UNKNOWN",3
+13,221,"Dry Cleaning, Laundry Services","Other Services","No",10583,"10502",37783,"UNKNOWN",3
+0.05,388,"Dry Cleaning, Laundry Services","Other Services","No",10583,"10502",37783,"UNKNOWN",3
+21,418,"Dry Cleaning, Laundry Services","Other Services","No",10583,"10502",37783,"UNKNOWN",3
+25,184,"Dry Cleaning, Laundry Services","Other Services","No",10583,"10502",37783,"UNKNOWN",3
+0.05,133,"Dry Cleaning, Laundry Services","Other Services","No",10583,"10502",37783,"UNKNOWN",3
+12.5,238,"Dry Cleaning, Laundry Services","Other Services","No",10583,"10502",37783,"UNKNOWN",3
+13,207,"Dry Cleaning, Laundry Services","Other Services","No",10583,"10502",37783,"UNKNOWN",3
+33.25,256,"Dry Cleaning, Laundry Services","Other Services","No",10583,"10502",37783,"UNKNOWN",3
+63.3,453,"Dry Cleaning, Laundry Services","Other Services","No",10583,"10502",37783,"UNKNOWN",3
+3.2,305,"Dry Cleaning, Laundry Services","Other Services","No",10583,"10502",37783,"UNKNOWN",3
+40.5,385,"Dry Cleaning, Laundry Services","Other Services","No",10583,"10502",37783,"UNKNOWN",3
+95,347,"Dry Cleaning, Laundry Services","Other Services","No",10583,"10502",37783,"UNKNOWN",3
+0.05,133,"Dry Cleaning, Laundry Services","Other Services","No",10583,"10502",37783,"UNKNOWN",3
+13,277,"Dry Cleaning, Laundry Services","Other Services","No",10583,"10502",37783,"UNKNOWN",3
+43.45,340,"Dry Cleaning, Laundry Services","Other Services","No",10583,"10502",37783,"UNKNOWN",3
+31.7,436,"Eating Places","Accommodations and Food Services","No",10583,"10583",37783,"UNKNOWN",0
+8.98,86,"Eating Places","Accommodations and Food Services","No",10583,"10018",37783,"UNKNOWN",17
+11.49,323,"Eating Places","Accommodations and Food Services","No",10583,"10018",37783,"UNKNOWN",17
+6.83,401,"Eating Places","Accommodations and Food Services","No",10583,"10018",37783,"UNKNOWN",17
+32.2,429,"Eating Places","Accommodations and Food Services","No",10583,"10583",37783,"UNKNOWN",0
+12.3,427,"Eating Places","Accommodations and Food Services","No",10583,"10018",37783,"UNKNOWN",17
+12.68,224,"Eating Places","Accommodations and Food Services","No",10583,"10018",37783,"UNKNOWN",17
+13.69,203,"Eating Places","Accommodations and Food Services","No",10583,"10018",37783,"UNKNOWN",17
+5.67,364,"Eating Places","Accommodations and Food Services","No",10583,"10018",37783,"UNKNOWN",17
+11.24,204,"Eating Places","Accommodations and Food Services","No",10583,"10018",37783,"UNKNOWN",17
+55.4,149,"Eating Places","Accommodations and Food Services","No",10583,"10583",37783,"UNKNOWN",0
+2.25,272,"Eating Places","Accommodations and Food Services","No",10583,"10018",37783,"UNKNOWN",17
+8.98,63,"Eating Places","Accommodations and Food Services","No",10583,"10018",37783,"UNKNOWN",17
+26.61,165,"Eating Places","Accommodations and Food Services","No",10583,"10583",37783,"UNKNOWN",0
+40,378,"Eating Places","Accommodations and Food Services","No",10583,"10583",37783,"UNKNOWN",0
+36.51,23,"Eating Places","Accommodations and Food Services","No",10583,"10583",37783,"UNKNOWN",0
+32.16,294,"Eating Places","Accommodations and Food Services","No",10583,"10583",37783,"UNKNOWN",0
+42.81,391,"Eating Places","Accommodations and Food Services","No",10583,"10601",37783,"UNKNOWN",3
+46.09,420,"Eating Places","Accommodations and Food Services","No",10583,"10502",37783,"UNKNOWN",3
+44.37,314,"Eating Places","Accommodations and Food Services","No",10583,"10011",37783,"UNKNOWN",17
+67.67,345,"Eating Places","Accommodations and Food Services","No",10583,"10706",37783,"UNKNOWN",3
+33.59,161,"Eating Places","Accommodations and Food Services","No",10583,"10606",37783,"UNKNOWN",3
+27.22,409,"Eating Places","Accommodations and Food Services","No",10583,"10010",37783,"UNKNOWN",17
+22.49,394,"Eating Places","Accommodations and Food Services","No",10583,"10601",37783,"UNKNOWN",3
+51.48,325,"Eating Places","Accommodations and Food Services","No",10583,"10601",37783,"UNKNOWN",3
+35.76,193,"Eating Places","Accommodations and Food Services","No",10583,"10601",37783,"UNKNOWN",3
+51.48,325,"Eating Places","Accommodations and Food Services","No",10583,"10601",37783,"UNKNOWN",3
+5.67,414,"Eating Places","Accommodations and Food Services","No",10583,"10018",37783,"UNKNOWN",17
+13.12,405,"Eating Places","Accommodations and Food Services","No",10583,"10018",37783,"UNKNOWN",17
+42.68,356,"Eating Places","Accommodations and Food Services","No",10583,"10014",37783,"UNKNOWN",18
+25.7,220,"Eating Places","Accommodations and Food Services","No",10583,"10607",37783,"UNKNOWN",3
+67.92,329,"Eating Places","Accommodations and Food Services","No",10583,"10583",37783,"UNKNOWN",0
+23.25,150,"Eating Places","Accommodations and Food Services","No",10583,"10607",37783,"UNKNOWN",3
+30.8,186,"Eating Places","Accommodations and Food Services","No",10583,"10607",37783,"UNKNOWN",3
+7.75,186,"Eating Places","Accommodations and Food Services","No",10583,"10607",37783,"UNKNOWN",3
+22.3,186,"Eating Places","Accommodations and Food Services","No",10583,"10607",37783,"UNKNOWN",3
+88.46,205,"Eating Places","Accommodations and Food Services","No",10583,"10532",37783,"UNKNOWN",7
+25.75,373,"Eating Places","Accommodations and Food Services","No",10583,"10502",37783,"UNKNOWN",3
+108.98,52,"Eating Places","Accommodations and Food Services","No",10583,"10504",37783,"UNKNOWN",10
+152.39,346,"Eating Places","Accommodations and Food Services","No",10583,"10601",37783,"UNKNOWN",3
+103.35,227,"Eating Places","Accommodations and Food Services","No",10583,"10549",37783,"UNKNOWN",13
+46.18,227,"Eating Places","Accommodations and Food Services","No",10583,"10549",37783,"UNKNOWN",13
+10.25,163,"Eating Places","Accommodations and Food Services","No",10583,"10583",37783,"UNKNOWN",0
+13.66,356,"Eating Places","Accommodations and Food Services","No",10583,"10018",37783,"UNKNOWN",17
+161,229,"Eating Places","Accommodations and Food Services","No",10583,"06878",37783,"UNKNOWN",10
+25.21,30,"Eating Places","Accommodations and Food Services","No",10583,"06880",37783,"UNKNOWN",22
+36.06,270,"Eating Places","Accommodations and Food Services","No",10583,"10502",37783,"UNKNOWN",3
+43.4,84,"Eating Places","Accommodations and Food Services","No",10583,"06880",37783,"UNKNOWN",22
+118.11,10,"Eating Places","Accommodations and Food Services","No",10583,"10573",37783,"UNKNOWN",6
+15.41,286,"Eating Places","Accommodations and Food Services","No",10583,"10018",37783,"UNKNOWN",17
+45,34,"Eating Places","Accommodations and Food Services","No",10583,"11770",37783,"UNKNOWN",36
+9.58,139,"Eating Places","Accommodations and Food Services","No",10583,"10018",37783,"UNKNOWN",17
+30.25,64,"Eating Places","Accommodations and Food Services","No",10583,"10502",37783,"UNKNOWN",3
+28.69,122,"Eating Places","Accommodations and Food Services","No",10583,"10591",37783,"UNKNOWN",6
+92.35,367,"Eating Places","Accommodations and Food Services","No",10583,"10530",37783,"UNKNOWN",2
+8.98,70,"Eating Places","Accommodations and Food Services","No",10583,"10018",37783,"UNKNOWN",17
+87.1,203,"Eating Places","Accommodations and Food Services","No",10583,"10036",37783,"UNKNOWN",16
+14.45,90,"Eating Places","Accommodations and Food Services","No",10583,"10502",37783,"UNKNOWN",3
+11.05,295,"Eating Places","Accommodations and Food Services","No",10583,"10018",37783,"UNKNOWN",17
+199.24,333,"Eating Places","Accommodations and Food Services","No",10583,"10013",37783,"UNKNOWN",19
+51,77,"Eating Places","Accommodations and Food Services","No",10583,"10003",37783,"UNKNOWN",18
+6.88,225,"Eating Places","Accommodations and Food Services","No",10583,"10018",37783,"UNKNOWN",17
+38.55,236,"Eating Places","Accommodations and Food Services","No",10583,"10607",37783,"UNKNOWN",3
+208.44,45,"Eating Places","Accommodations and Food Services","No",10583,"10003",37783,"UNKNOWN",18
+36.19,108,"Eating Places","Accommodations and Food Services","No",10583,"10591",37783,"UNKNOWN",6
+70.2,432,"Eating Places","Accommodations and Food Services","No",10583,"10583",37783,"UNKNOWN",0
+88.6,101,"Eating Places","Accommodations and Food Services","No",10583,"10801",37783,"UNKNOWN",4
+157.69,141,"Eating Places","Accommodations and Food Services","No",10583,"10605",37783,"UNKNOWN",3
+169.84,304,"Eating Places","Accommodations and Food Services","No",10583,"10023",37783,"UNKNOWN",15
+52.59,123,"Eating Places","Accommodations and Food Services","No",10583,"10583",37783,"UNKNOWN",0
+55.52,43,"Eating Places","Accommodations and Food Services","No",10583,"10583",37783,"UNKNOWN",0
+72.56,2,"Eating Places","Accommodations and Food Services","No",10583,"10583",37783,"UNKNOWN",0
+36.02,111,"Eating Places","Accommodations and Food Services","No",10583,"10583",37783,"UNKNOWN",0
+217.57,2,"Eating Places","Accommodations and Food Services","No",10583,"10583",37783,"UNKNOWN",0
+34.33,219,"Eating Places","Accommodations and Food Services","No",10583,"10502",37783,"UNKNOWN",3
+27.35,115,"Eating Places","Accommodations and Food Services","No",10583,"11021",37783,"UNKNOWN",12
+24.67,119,"Eating Places","Accommodations and Food Services","No",10583,"10502",37783,"UNKNOWN",3
+94.49,59,"Eating Places","Accommodations and Food Services","No",10583,"10533",37783,"UNKNOWN",4
+14.04,260,"Eating Places","Accommodations and Food Services","No",10583,"10018",37783,"UNKNOWN",17
+33.98,201,"Eating Places","Accommodations and Food Services","No",10583,"10502",37783,"UNKNOWN",3
+19.59,381,"Eating Places","Accommodations and Food Services","No",10583,"10502",37783,"UNKNOWN",3
+9.24,128,"Eating Places","Accommodations and Food Services","No",10583,"10018",37783,"UNKNOWN",17
+51.54,59,"Eating Places","Accommodations and Food Services","No",10583,"10533",37783,"UNKNOWN",4
+21,192,"Eating Places","Accommodations and Food Services","No",10583,"10502",37783,"UNKNOWN",3
+38,274,"Eating Places","Accommodations and Food Services","No",10583,"10530",37783,"UNKNOWN",2
+51.98,105,"Eating Places","Accommodations and Food Services","No",10583,"10022",37783,"UNKNOWN",16
+64.7,125,"Eating Places","Accommodations and Food Services","No",10583,"10012",37783,"UNKNOWN",18
+46.71,224,"Eating Places","Accommodations and Food Services","No",10583,"10583",37783,"UNKNOWN",0
+58.95,177,"Eating Places","Accommodations and Food Services","No",10583,"10583",37783,"UNKNOWN",0
+54.17,238,"Eating Places","Accommodations and Food Services","No",10583,"10022",37783,"UNKNOWN",16
+128.05,233,"Eating Places","Accommodations and Food Services","No",10583,"10591",37783,"UNKNOWN",6
+28.59,0,"Eating Places","Accommodations and Food Services","No",10583,"10591",37783,"UNKNOWN",6
+107.05,388,"Eating Places","Accommodations and Food Services","No",10583,"10504",37783,"UNKNOWN",10
+155.69,366,"Eating Places","Accommodations and Food Services","No",10583,"10533",37783,"UNKNOWN",4
+17,374,"Eating Places","Accommodations and Food Services","No",10583,"10591",37783,"UNKNOWN",6
+6.88,266,"Eating Places","Accommodations and Food Services","No",10583,"10018",37783,"UNKNOWN",17
+51.92,144,"Eating Places","Accommodations and Food Services","No",10583,"10603",37783,"UNKNOWN",4
+108.45,143,"Eating Places","Accommodations and Food Services","No",10583,"10708",37783,"UNKNOWN",3
+7.52,143,"Eating Places","Accommodations and Food Services","No",10583,"10708",37783,"UNKNOWN",3
+44.2,246,"Eating Places","Accommodations and Food Services","No",10583,"10065",37783,"UNKNOWN",-999
+212.01,115,"Eating Places","Accommodations and Food Services","No",10583,"10607",37783,"UNKNOWN",3
+61.64,122,"Eating Places","Accommodations and Food Services","No",10583,"10543",37783,"UNKNOWN",4
+169.36,297,"Eating Places","Accommodations and Food Services","No",10583,"10022",37783,"UNKNOWN",16
+28.61,15,"Eating Places","Accommodations and Food Services","No",10583,"10570",37783,"UNKNOWN",9
+34,54,"Eating Places","Accommodations and Food Services","No",10583,"10502",37783,"UNKNOWN",3
+177.66,199,"Eating Places","Accommodations and Food Services","No",10583,"06878",37783,"UNKNOWN",10
+201.62,164,"Eating Places","Accommodations and Food Services","No",10583,"10003",37783,"UNKNOWN",18
+37,87,"Eating Places","Accommodations and Food Services","No",10583,"10502",37783,"UNKNOWN",3
+47,317,"Eating Places","Accommodations and Food Services","No",10583,"10502",37783,"UNKNOWN",3
+31.57,164,"Eating Places","Accommodations and Food Services","No",10583,"10003",37783,"UNKNOWN",18
+68.95,386,"Eating Places","Accommodations and Food Services","No",10583,"10012",37783,"UNKNOWN",18
+114.5,80,"Eating Places","Accommodations and Food Services","No",10583,"10502",37783,"UNKNOWN",3
+69.3,374,"Eating Places","Accommodations and Food Services","No",10583,"10591",37783,"UNKNOWN",6
+20.85,240,"Eating Places","Accommodations and Food Services","No",10583,"10583",37783,"UNKNOWN",0
+178.56,444,"Eating Places","Accommodations and Food Services","No",10583,"10013",37783,"UNKNOWN",19
+90.11,353,"Eating Places","Accommodations and Food Services","No",10583,"11937",37783,"UNKNOWN",74
+9.52,64,"Eating Places","Accommodations and Food Services","No",10583,"10018",37783,"UNKNOWN",17
+62.54,189,"Eating Places","Accommodations and Food Services","No",10583,"06897",37783,"UNKNOWN",21
+28.32,49,"Eating Places","Accommodations and Food Services","No",10583,"10708",37783,"UNKNOWN",3
+80.38,176,"Eating Places","Accommodations and Food Services","No",10583,"10708",37783,"UNKNOWN",3
+90.91,277,"Eating Places","Accommodations and Food Services","No",10583,"10003",37783,"UNKNOWN",18
+38.55,150,"Eating Places","Accommodations and Food Services","No",10583,"10607",37783,"UNKNOWN",3
+37.05,3,"Eating Places","Accommodations and Food Services","No",10583,"10583",37783,"UNKNOWN",0
+129.29,409,"Eating Places","Accommodations and Food Services","No",10583,"10010",37783,"UNKNOWN",17
+60.55,388,"Eating Places","Accommodations and Food Services","No",10583,"10601",37783,"UNKNOWN",3
+23.15,135,"Eating Places","Accommodations and Food Services","No",10583,"10583",37783,"UNKNOWN",0
+22.26,42,"Eating Places","Accommodations and Food Services","No",10583,"06907",37783,"UNKNOWN",14
+44.5,228,"Eating Places","Accommodations and Food Services","No",10583,"10019",37783,"UNKNOWN",16
+45.1,163,"Eating Places","Accommodations and Food Services","No",10583,"10583",37783,"UNKNOWN",0
+31,128,"Eating Places","Accommodations and Food Services","No",10583,"10583",37783,"UNKNOWN",0
+40.8,332,"Eating Places","Accommodations and Food Services","No",10583,"10583",37783,"UNKNOWN",0
+186.56,241,"Eating Places","Accommodations and Food Services","No",10583,"06830",37783,"UNKNOWN",8
+80.97,213,"Eating Places","Accommodations and Food Services","No",10583,"10010",37783,"UNKNOWN",17
+67.04,91,"Eating Places","Accommodations and Food Services","No",10583,"10036",37783,"UNKNOWN",16
+25.95,86,"Eating Places","Accommodations and Food Services","No",10583,"10583",37783,"UNKNOWN",0
+44.25,319,"Eating Places","Accommodations and Food Services","No",10583,"10583",37783,"UNKNOWN",0
+44.05,207,"Eating Places","Accommodations and Food Services","No",10583,"10583",37783,"UNKNOWN",0
+35.9,297,"Eating Places","Accommodations and Food Services","No",10583,"10022",37783,"UNKNOWN",16
+40.9,180,"Eating Places","Accommodations and Food Services","No",10583,"10502",37783,"UNKNOWN",3
+157.39,422,"Eating Places","Accommodations and Food Services","No",10583,"06759",37783,"UNKNOWN",53
+24.2,351,"Eating Places","Accommodations and Food Services","No",10583,"10583",37783,"UNKNOWN",0
+18.8,373,"Eating Places","Accommodations and Food Services","No",10583,"10583",37783,"UNKNOWN",0
+113.98,339,"Eating Places","Accommodations and Food Services","No",10583,"10573",37783,"UNKNOWN",6
+54.23,14,"Eating Places","Accommodations and Food Services","No",10583,"10583",37783,"UNKNOWN",0
+39.73,36,"Eating Places","Accommodations and Food Services","No",10583,"10583",37783,"UNKNOWN",0
+9,356,"Eating Places","Accommodations and Food Services","No",10583,"10014",37783,"UNKNOWN",18
+30.8,46,"Eating Places","Accommodations and Food Services","No",10583,"10502",37783,"UNKNOWN",3
+25.51,416,"Eating Places","Accommodations and Food Services","No",10583,"10502",37783,"UNKNOWN",3
+17,12,"Eating Places","Accommodations and Food Services","No",10583,"10502",37783,"UNKNOWN",3
+14.5,227,"Eating Places","Accommodations and Food Services","No",10583,"10583",37783,"UNKNOWN",0
+15.95,12,"Eating Places","Accommodations and Food Services","No",10583,"10502",37783,"UNKNOWN",3
+115,451,"Eating Places","Accommodations and Food Services","No",10583,"06830",37783,"UNKNOWN",8
+15.95,12,"Eating Places","Accommodations and Food Services","No",10583,"10502",37783,"UNKNOWN",3
+21.35,164,"Eating Places","Accommodations and Food Services","No",10583,"10583",37783,"UNKNOWN",0
+4.19,207,"Eating Places","Accommodations and Food Services","No",10583,"10532",37783,"UNKNOWN",7
+51.47,384,"Eating Places","Accommodations and Food Services","No",10583,"10960",37783,"UNKNOWN",9
+72.61,435,"Eating Places","Accommodations and Food Services","No",10583,"10601",37783,"UNKNOWN",3
+116.77,234,"Eating Places","Accommodations and Food Services","No",10583,"10538",37783,"UNKNOWN",4
+30.6,186,"Eating Places","Accommodations and Food Services","No",10583,"10583",37783,"UNKNOWN",0
+54.2,211,"Eating Places","Accommodations and Food Services","No",10583,"10583",37783,"UNKNOWN",0
+27.35,399,"Eating Places","Accommodations and Food Services","No",10583,"10583",37783,"UNKNOWN",0
+23.6,391,"Eating Places","Accommodations and Food Services","No",10583,"10583",37783,"UNKNOWN",0
+97.85,451,"Eating Places","Accommodations and Food Services","No",10583,"06830",37783,"UNKNOWN",8
+46,412,"Eating Places","Accommodations and Food Services","No",10583,"10011",37783,"UNKNOWN",17
+200,236,"Eating Places","Accommodations and Food Services","No",10583,"11577",37783,"UNKNOWN",14
+10,14,"Eating Places","Accommodations and Food Services","No",10583,"10502",37783,"UNKNOWN",3
+35.25,221,"Eating Places","Accommodations and Food Services","No",10583,"10583",37783,"UNKNOWN",0
+42,3,"Eating Places","Accommodations and Food Services","No",10583,"06830",37783,"UNKNOWN",8
+92.75,129,"Eating Places","Accommodations and Food Services","No",10583,"06830",37783,"UNKNOWN",8
+7.71,263,"Eating Places","Accommodations and Food Services","No",10583,"10502",37783,"UNKNOWN",3
+81,129,"Eating Places","Accommodations and Food Services","No",10583,"06830",37783,"UNKNOWN",8
+82,402,"Eating Places","Accommodations and Food Services","No",10583,"06830",37783,"UNKNOWN",8
+127.24,402,"Eating Places","Accommodations and Food Services","No",10583,"06830",37783,"UNKNOWN",8
+42.13,3,"Eating Places","Accommodations and Food Services","No",10583,"06830",37783,"UNKNOWN",8
+20.62,332,"Eating Places","Accommodations and Food Services","No",10583,"10583",37783,"UNKNOWN",0
+97.99,430,"Eating Places","Accommodations and Food Services","No",10583,"10014",37783,"UNKNOWN",18
+108.73,437,"Eating Places","Accommodations and Food Services","No",10583,"10601",37783,"UNKNOWN",3
+20,14,"Eating Places","Accommodations and Food Services","No",10583,"10502",37783,"UNKNOWN",3
+45.46,295,"Eating Places","Accommodations and Food Services","No",10583,"10014",37783,"UNKNOWN",18
+10.94,338,"Eating Places","Accommodations and Food Services","No",10583,"10018",37783,"UNKNOWN",17
+8.98,119,"Eating Places","Accommodations and Food Services","No",10583,"10018",37783,"UNKNOWN",17
+41.2,248,"Eating Places","Accommodations and Food Services","No",10583,"10502",37783,"UNKNOWN",3
+33.76,220,"Eating Places","Accommodations and Food Services","No",10583,"10606",37783,"UNKNOWN",3
+91.56,107,"Eating Places","Accommodations and Food Services","No",10583,"10522",37783,"UNKNOWN",3
+15.13,232,"Eating Places","Accommodations and Food Services","No",10583,"10018",37783,"UNKNOWN",17
+59.77,342,"Eating Places","Accommodations and Food Services","No",10583,"10533",37783,"UNKNOWN",4
+5.67,371,"Eating Places","Accommodations and Food Services","No",10583,"10018",37783,"UNKNOWN",17
+5.74,384,"Eating Places","Accommodations and Food Services","No",10583,"10018",37783,"UNKNOWN",17
+13.69,392,"Eating Places","Accommodations and Food Services","No",10583,"10018",37783,"UNKNOWN",17
+5.74,434,"Eating Places","Accommodations and Food Services","No",10583,"10018",37783,"UNKNOWN",17
+12.03,401,"Eating Places","Accommodations and Food Services","No",10583,"10018",37783,"UNKNOWN",17
+8.98,113,"Eating Places","Accommodations and Food Services","No",10583,"10018",37783,"UNKNOWN",17
+15.13,266,"Eating Places","Accommodations and Food Services","No",10583,"10018",37783,"UNKNOWN",17
+22.52,323,"Consumer Electronics / Appliances","Consumer Electronics and Computers","No",10583,"10583",37783,"UNKNOWN",0
+73.6,65,"Home Furnishings / Furniture","General Merchandise Stores","No",10583,"10533",37783,"UNKNOWN",4
+64,42,"Home Furnishings / Furniture","General Merchandise Stores","No",10583,"10533",37783,"UNKNOWN",4
+52.66,38,"Home Furnishings / Furniture","General Merchandise Stores","No",10583,"10533",37783,"UNKNOWN",4
+4.3,350,"Eating Places","Accommodations and Food Services","No",10583,"27577",37783,"UNKNOWN",392
+7.26,350,"Eating Places","Accommodations and Food Services","No",10583,"11430",37783,"UNKNOWN",20
+11.01,92,"Eating Places","Accommodations and Food Services","No",10583,"10018",37783,"UNKNOWN",17
+32.95,217,"Eating Places","Accommodations and Food Services","No",10583,"10522",37783,"UNKNOWN",3
+7.95,232,"Eating Places","Accommodations and Food Services","No",10583,"10018",37783,"UNKNOWN",17
+45.1,213,"Eating Places","Accommodations and Food Services","No",10583,"10522",37783,"UNKNOWN",3
+30.93,353,"Eating Places","Accommodations and Food Services","No",10583,"11937",37783,"UNKNOWN",74
+8,76,"Eating Places","Accommodations and Food Services","No",10583,"10018",37783,"UNKNOWN",17
+12.98,75,"Eating Places","Accommodations and Food Services","No",10583,"10018",37783,"UNKNOWN",17
+10.6,140,"Eating Places","Accommodations and Food Services","No",10583,"10018",37783,"UNKNOWN",17
+21.11,449,"Eating Places","Accommodations and Food Services","No",10583,"06897",37783,"UNKNOWN",21
+9.41,162,"Eating Places","Accommodations and Food Services","No",10583,"10011",37783,"UNKNOWN",17
+9.41,160,"Eating Places","Accommodations and Food Services","No",10583,"10011",37783,"UNKNOWN",17
+15.66,246,"Eating Places","Accommodations and Food Services","No",10583,"10018",37783,"UNKNOWN",17
+11.32,155,"Eating Places","Accommodations and Food Services","No",10583,"10018",37783,"UNKNOWN",17
+10.7,225,"Eating Places","Accommodations and Food Services","No",10583,"10018",37783,"UNKNOWN",17
+5.98,378,"Eating Places","Accommodations and Food Services","No",10583,"07094",37783,"UNKNOWN",17
+61.85,423,"Eating Places","Accommodations and Food Services","No",10583,"10522",37783,"UNKNOWN",3
+8.87,132,"Eating Places","Accommodations and Food Services","No",10583,"10018",37783,"UNKNOWN",17
+30.5,429,"Eating Places","Accommodations and Food Services","No",10583,"19047",37783,"UNKNOWN",72
+8.15,447,"Eating Places","Accommodations and Food Services","No",10583,"10573",37783,"UNKNOWN",6
+10.48,161,"Eating Places","Accommodations and Food Services","No",10583,"10011",37783,"UNKNOWN",17
+140,445,"Eating Places","Accommodations and Food Services","No",10583,"10570",37783,"UNKNOWN",9
+42.36,413,"Eating Places","Accommodations and Food Services","No",10583,"10603",37783,"UNKNOWN",4
+23.5,52,"Public Administration","Public Administration","Yes",10583,"10591",37783,"UNKNOWN",6
+145.15,226,"Florists","General Merchandise Stores","No",10583,"10583",37783,"UNKNOWN",0
+25.26,71,"Giftware/Houseware/Card Shops","General Merchandise Stores","No",10583,"11803",37783,"UNKNOWN",19
+55.74,437,"Giftware/Houseware/Card Shops","General Merchandise Stores","Yes",10583,"75081",37783,"UNKNOWN",1198
+77.83,297,"Giftware/Houseware/Card Shops","General Merchandise Stores","No",10583,"11771",37783,"UNKNOWN",15
+79,24,"Amusement, Recreation Activities","Arts, Entertainment, Recreation","No",10583,"21811",37783,"UNKNOWN",171
+60,34,"Amusement, Recreation Activities","Arts, Entertainment, Recreation","No",10583,"11786",37783,"UNKNOWN",41
+115,116,"Amusement, Recreation Activities","Arts, Entertainment, Recreation","No",10583,"10512",37783,"UNKNOWN",28
+0.9,384,"Public Administration","Public Administration","No",10583,"10960",37783,"UNKNOWN",9
+135,332,"Public Administration","Public Administration","No",10583,"10562",37783,"UNKNOWN",11
+55,402,"Public Administration","Public Administration","No",10583,"10580",37783,"UNKNOWN",5
+1.25,23,"Public Administration","Public Administration","No",10583,"10583",37783,"UNKNOWN",0
+391,266,"Public Administration","Public Administration","No",10583,"10607",37783,"UNKNOWN",3
+7,247,"Public Administration","Public Administration","No",10583,"10607",37783,"UNKNOWN",3
+80.78,437,"Grocery Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+58.05,6,"Grocery Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+15.58,32,"Grocery Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+12.48,228,"Grocery Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+23.59,165,"Grocery Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+88.41,214,"Grocery Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+37.98,270,"Grocery Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+12.37,432,"Grocery Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+115,295,"Grocery Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+73.53,52,"Grocery Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+98.26,368,"Grocery Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+15.37,352,"Grocery Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+15.56,15,"Grocery Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+20.64,228,"Grocery Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+45.75,87,"Grocery Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+13.49,220,"Grocery Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+78,410,"Grocery Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+32.52,193,"Grocery Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+6.59,290,"Grocery Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+31.48,360,"Grocery Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+46.66,401,"Grocery Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+50.15,184,"Grocery Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+9.08,420,"Grocery Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+33.19,236,"Grocery Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+8.76,403,"Grocery Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+31.17,147,"Grocery Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+91.42,375,"Grocery Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+60.34,180,"Grocery Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+53.37,12,"Grocery Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+27,312,"Grocery Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+28.49,16,"Grocery Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+28.29,396,"Grocery Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+83.76,60,"Grocery Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+60.83,38,"Grocery Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+72.5,11,"Grocery Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+40.05,95,"Grocery Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+125.74,171,"Grocery Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+57.73,102,"Grocery Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+26.74,150,"Grocery Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+37.27,116,"Grocery Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+70.01,56,"Grocery Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+72.02,158,"Grocery Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+36.54,186,"Grocery Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+90.55,254,"Grocery Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+27.15,46,"Grocery Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+82.17,143,"Grocery Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+59.77,25,"Grocery Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+60.04,261,"Grocery Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+3.69,377,"Grocery Stores","Grocery and Food Stores","No",10583,"10583",37783,"UNKNOWN",0
+25.81,76,"Grocery Stores","Grocery and Food Stores","No",10583,"06880",37783,"UNKNOWN",22
+15.7,54,"Grocery Stores","Grocery and Food Stores","No",10583,"06880",37783,"UNKNOWN",22
+25.42,83,"Grocery Stores","Grocery and Food Stores","No",10583,"06880",37783,"UNKNOWN",22
+76.8,318,"Grocery Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+26.61,424,"Grocery Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+37.39,109,"Grocery Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+6.93,205,"Grocery Stores","Grocery and Food Stores","No",10583,"10583",37783,"UNKNOWN",0
+72.72,317,"Grocery Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+1,238,"Cosmetics and Beauty Services","Other Services","No",10583,"10583",37783,"UNKNOWN",0
+35,168,"Cosmetics and Beauty Services","Other Services","No",10583,"10583",37783,"UNKNOWN",0
+35,21,"Cosmetics and Beauty Services","Other Services","No",10583,"10583",37783,"UNKNOWN",0
+35,107,"Cosmetics and Beauty Services","Other Services","No",10583,"10583",37783,"UNKNOWN",0
+35,388,"Cosmetics and Beauty Services","Other Services","No",10583,"10583",37783,"UNKNOWN",0
+25,323,"Cosmetics and Beauty Services","Other Services","No",10583,"10583",37783,"UNKNOWN",0
+25,280,"Health Care and Social Assistance","Health Care and Social Assistance","No",10583,"10530",37783,"UNKNOWN",2
+40,212,"Health Care and Social Assistance","Health Care and Social Assistance","No",10583,"10021",37783,"UNKNOWN",15
+25,323,"Health Care and Social Assistance","Health Care and Social Assistance","No",10583,"10021",37783,"UNKNOWN",15
+15,371,"Health Care and Social Assistance","Health Care and Social Assistance","Yes",10583,"10021",37783,"UNKNOWN",15
+125,314,"Health Care and Social Assistance","Health Care and Social Assistance","No",10583,"02142",37783,"UNKNOWN",147
+25,184,"Health Care and Social Assistance","Health Care and Social Assistance","No",10583,"10530",37783,"UNKNOWN",2
+20,17,"Health Care and Social Assistance","Health Care and Social Assistance","No",10583,"10530",37783,"UNKNOWN",2
+20,142,"Health Care and Social Assistance","Health Care and Social Assistance","No",10583,"10530",37783,"UNKNOWN",2
+20,79,"Health Care and Social Assistance","Health Care and Social Assistance","No",10583,"10530",37783,"UNKNOWN",2
+20,41,"Health Care and Social Assistance","Health Care and Social Assistance","No",10583,"10530",37783,"UNKNOWN",2
+20,93,"Health Care and Social Assistance","Health Care and Social Assistance","No",10583,"10530",37783,"UNKNOWN",2
+25,170,"Health Care and Social Assistance","Health Care and Social Assistance","No",10583,"10530",37783,"UNKNOWN",2
+20,23,"Health Care and Social Assistance","Health Care and Social Assistance","No",10583,"10530",37783,"UNKNOWN",2
+20,13,"Health Care and Social Assistance","Health Care and Social Assistance","No",10583,"10530",37783,"UNKNOWN",2
+25,268,"Health Care and Social Assistance","Health Care and Social Assistance","No",10583,"10530",37783,"UNKNOWN",2
+25,233,"Health Care and Social Assistance","Health Care and Social Assistance","No",10583,"10530",37783,"UNKNOWN",2
+60,198,"Health Care and Social Assistance","Health Care and Social Assistance","No",10583,"10530",37783,"UNKNOWN",2
+3,36,"Health Care and Social Assistance","Health Care and Social Assistance","No",10583,"10549",37783,"UNKNOWN",13
+100,399,"Health Care and Social Assistance","Health Care and Social Assistance","No",10583,"10601",37783,"UNKNOWN",3
+9,279,"T+E Taxi and Limousine","Transportation and Warehousing","No",10583,"10583",37783,"UNKNOWN",0
+200.35,67,"Accommodations","Accommodations and Food Services","No",10583,"07039",37783,"UNKNOWN",27
+352.27,276,"Accommodations","Accommodations and Food Services","No",10583,"10003",37783,"UNKNOWN",18
+1,22,"Accommodations","Accommodations and Food Services","No",10583,"07039",37783,"UNKNOWN",27
+5,260,"Grocery Stores","Grocery and Food Stores","No",10583,"10018",37783,"UNKNOWN",17
+71,94,"Grocery Stores","Grocery and Food Stores","No",10583,"06612",37783,"UNKNOWN",28
+12.79,371,"Grocery Stores","Grocery and Food Stores","No",10583,"10018",37783,"UNKNOWN",17
+8.29,279,"Grocery Stores","Grocery and Food Stores","No",10583,"10018",37783,"UNKNOWN",17
+28.59,6,"Grocery Stores","Grocery and Food Stores","No",10583,"10583",37783,"UNKNOWN",0
+4.45,356,"Grocery Stores","Grocery and Food Stores","No",10583,"10018",37783,"UNKNOWN",17
+31.81,311,"Grocery Stores","Grocery and Food Stores","No",10583,"11793",37783,"UNKNOWN",22
+57.5,105,"Grocery Stores","Grocery and Food Stores","Yes",10583,"07074",37783,"UNKNOWN",15
+71.5,257,"Grocery Stores","Grocery and Food Stores","Yes",10583,"07074",37783,"UNKNOWN",15
+66.99,379,"Grocery Stores","Grocery and Food Stores","Yes",10583,"07074",37783,"UNKNOWN",15
+80.98,450,"Grocery Stores","Grocery and Food Stores","Yes",10583,"07074",37783,"UNKNOWN",15
+59.95,169,"Grocery Stores","Grocery and Food Stores","Yes",10583,"07074",37783,"UNKNOWN",15
+14.05,156,"Grocery Stores","Grocery and Food Stores","No",10583,"06851",37783,"UNKNOWN",20
+5.49,384,"Grocery Stores","Grocery and Food Stores","No",10583,"10018",37783,"UNKNOWN",17
+9,280,"Grocery Stores","Grocery and Food Stores","No",10583,"06831",37783,"UNKNOWN",8
+14.46,317,"Variety / General Merchandise Stores","General Merchandise Stores","No",10583,"10583",37783,"UNKNOWN",0
+53.5,48,"Variety / General Merchandise Stores","General Merchandise Stores","Yes",10583,"08028",37783,"UNKNOWN",99
+18.09,246,"Variety / General Merchandise Stores","General Merchandise Stores","No",10583,"10018",37783,"UNKNOWN",17
+10.17,315,"Variety / General Merchandise Stores","General Merchandise Stores","No",10583,"10583",37783,"UNKNOWN",0
+3.21,291,"Variety / General Merchandise Stores","General Merchandise Stores","No",10583,"10583",37783,"UNKNOWN",0
+11.24,446,"Variety / General Merchandise Stores","General Merchandise Stores","No",10583,"10583",37783,"UNKNOWN",0
+18.51,323,"Variety / General Merchandise Stores","General Merchandise Stores","No",10583,"10583",37783,"UNKNOWN",0
+19.6,430,"Variety / General Merchandise Stores","General Merchandise Stores","No",10583,"10583",37783,"UNKNOWN",0
+8.14,303,"Variety / General Merchandise Stores","General Merchandise Stores","No",10583,"10583",37783,"UNKNOWN",0
+226.21,60,"Variety / General Merchandise Stores","General Merchandise Stores","Yes",10583,"11801",37783,"UNKNOWN",19
+27.9,324,"Variety / General Merchandise Stores","General Merchandise Stores","No",10583,"10583",37783,"UNKNOWN",0
+17.14,448,"Variety / General Merchandise Stores","General Merchandise Stores","No",10583,"10583",37783,"UNKNOWN",0
+16.32,246,"Variety / General Merchandise Stores","General Merchandise Stores","No",10583,"10018",37783,"UNKNOWN",17
+66.35,42,"Variety / General Merchandise Stores","General Merchandise Stores","Yes",10583,"85021",37783,"UNKNOWN",1871
+66.13,291,"Variety / General Merchandise Stores","General Merchandise Stores","No",10583,"10583",37783,"UNKNOWN",0
+21.43,221,"Variety / General Merchandise Stores","General Merchandise Stores","No",10583,"10583",37783,"UNKNOWN",0
+20.59,240,"Home Furnishings / Furniture","General Merchandise Stores","No",10583,"10710",37783,"UNKNOWN",3
+103.08,345,"Home Furnishings / Furniture","General Merchandise Stores","No",10583,"10583",37783,"UNKNOWN",0
+30.5,283,"Movie and Other Theatrical","Information","No",10583,"10601",37783,"UNKNOWN",3
+17,193,"Movie and Other Theatrical","Information","No",10583,"10601",37783,"UNKNOWN",3
+34,415,"Movie and Other Theatrical","Information","No",10583,"10710",37783,"UNKNOWN",3
+11.25,340,"Movie and Other Theatrical","Information","No",10583,"10710",37783,"UNKNOWN",3
+11.25,410,"Movie and Other Theatrical","Information","No",10583,"10710",37783,"UNKNOWN",3
+15.5,451,"Movie and Other Theatrical","Information","No",10583,"10710",37783,"UNKNOWN",3
+36,394,"Movie and Other Theatrical","Information","No",10583,"10523",37783,"UNKNOWN",4
+22,220,"Movie and Other Theatrical","Information","No",10583,"10523",37783,"UNKNOWN",4
+5.25,168,"Movie and Other Theatrical","Information","No",10583,"10523",37783,"UNKNOWN",4
+11,205,"Movie and Other Theatrical","Information","No",10583,"10523",37783,"UNKNOWN",4
+1.75,394,"Movie and Other Theatrical","Information","No",10583,"10523",37783,"UNKNOWN",4
+11.5,220,"Movie and Other Theatrical","Information","No",10583,"10523",37783,"UNKNOWN",4
+24,269,"Movie and Other Theatrical","Information","No",10583,"10523",37783,"UNKNOWN",4
+4.75,394,"Movie and Other Theatrical","Information","No",10583,"10523",37783,"UNKNOWN",4
+27,290,"Movie and Other Theatrical","Information","No",10583,"10523",37783,"UNKNOWN",4
+24,207,"Movie and Other Theatrical","Information","No",10583,"10523",37783,"UNKNOWN",4
+15,290,"Movie and Other Theatrical","Information","No",10583,"10523",37783,"UNKNOWN",4
+27.5,269,"Movie and Other Theatrical","Information","No",10583,"10523",37783,"UNKNOWN",4
+7.5,207,"Movie and Other Theatrical","Information","No",10583,"10523",37783,"UNKNOWN",4
+11,168,"Movie and Other Theatrical","Information","No",10583,"10523",37783,"UNKNOWN",4
+15.75,361,"Movie and Other Theatrical","Information","No",10583,"10710",37783,"UNKNOWN",3
+25.75,451,"Movie and Other Theatrical","Information","No",10583,"10710",37783,"UNKNOWN",3
+22,438,"Movie and Other Theatrical","Information","No",10583,"10532",37783,"UNKNOWN",7
+34,380,"Movie and Other Theatrical","Information","No",10583,"10601",37783,"UNKNOWN",3
+58,388,"Movie and Other Theatrical","Information","No",10583,"10601",37783,"UNKNOWN",3
+62,325,"Movie and Other Theatrical","Information","No",10583,"10601",37783,"UNKNOWN",3
+25,331,"Movie and Other Theatrical","Information","No",10583,"10601",37783,"UNKNOWN",3
+15,410,"Office Supply Chains","General Merchandise Stores","Yes",10583,"10128",37783,"UNKNOWN",14
+80,310,"Religious, Civic and Professional Organizations","Other Services","Yes",10583,"10004",37783,"UNKNOWN",20
+110,310,"Religious, Civic and Professional Organizations","Other Services","Yes",10583,"10004",37783,"UNKNOWN",20
+30,221,"Religious, Civic and Professional Organizations","Other Services","Yes",10583,"90017",37783,"UNKNOWN",2139
+16.1,169,"Miscellaneous Personal Services","Other Services","No",10583,"10583",37783,"UNKNOWN",0
+63.2,410,"Beer/Wine/Liquor Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+10.83,27,"Beer/Wine/Liquor Stores","Grocery and Food Stores","No",10583,"10710",37783,"UNKNOWN",3
+54.15,419,"Beer/Wine/Liquor Stores","Grocery and Food Stores","No",10583,"10710",37783,"UNKNOWN",3
+44,147,"Beer/Wine/Liquor Stores","Grocery and Food Stores","No",10583,"10583",37783,"UNKNOWN",0
+50.92,351,"Beer/Wine/Liquor Stores","Grocery and Food Stores","No",10583,"10710",37783,"UNKNOWN",3
+61.74,59,"Beer/Wine/Liquor Stores","Grocery and Food Stores","No",10583,"10710",37783,"UNKNOWN",3
+16.23,115,"Beer/Wine/Liquor Stores","Grocery and Food Stores","No",10583,"10710",37783,"UNKNOWN",3
+42.93,426,"Beer/Wine/Liquor Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+94.26,346,"Beer/Wine/Liquor Stores","Grocery and Food Stores","No",10583,"10710",37783,"UNKNOWN",3
+30.72,79,"Beer/Wine/Liquor Stores","Grocery and Food Stores","No",10583,"06880",37783,"UNKNOWN",22
+34.66,346,"Beer/Wine/Liquor Stores","Grocery and Food Stores","No",10583,"10710",37783,"UNKNOWN",3
+25.98,4,"Beer/Wine/Liquor Stores","Grocery and Food Stores","No",10583,"10710",37783,"UNKNOWN",3
+48.03,196,"Beer/Wine/Liquor Stores","Grocery and Food Stores","No",10583,"10502",37783,"UNKNOWN",3
+61.17,65,"Beer/Wine/Liquor Stores","Grocery and Food Stores","No",10583,"10607",37783,"UNKNOWN",3
+130,270,"Miscellaneous entertainment and recreation","Arts, Entertainment, Recreation","No",10583,"10523",37783,"UNKNOWN",4
+175,447,"Miscellaneous entertainment and recreation","Arts, Entertainment, Recreation","No",10583,"10523",37783,"UNKNOWN",4
+50,93,"Miscellaneous Educational Services","Education Services","Yes",10583,"20007",37783,"UNKNOWN",196
+57.85,291,"Miscellaneous Educational Services","Education Services","No",10583,"10583",37783,"UNKNOWN",0
+16.02,452,"Miscellaneous Educational Services","Education Services","No",10583,"10583",37783,"UNKNOWN",0
+55.73,437,"Miscellaneous Educational Services","Education Services","No",10583,"10583",37783,"UNKNOWN",0
+8.03,416,"Miscellaneous Educational Services","Education Services","No",10583,"10583",37783,"UNKNOWN",0
+140,12,"Miscellaneous Educational Services","Education Services","Yes",10583,"10010",37783,"UNKNOWN",17
+5,304,"Automotive Fuel","Motor Vehicles","No",10583,"10607",37783,"UNKNOWN",3
+40,304,"Automotive Fuel","Motor Vehicles","No",10583,"10607",37783,"UNKNOWN",3
+5,304,"Automotive Fuel","Motor Vehicles","No",10583,"10607",37783,"UNKNOWN",3
+66.68,233,"Sporting Goods / Apparel / Footwear","Sporting Goods and Hobby","Yes",10583,"98072",37783,"UNKNOWN",2083
+185.33,398,"Women's Apparel","Apparel and Accessories","Yes",10583,"33308",37783,"UNKNOWN",940
+22,247,"Department Stores","General Merchandise Stores","No",10583,"10601",37783,"M2535",3
+18.79,47,"Department Stores","General Merchandise Stores","No",10583,"10601",37783,"M2535",3
+24.13,108,"Department Stores","General Merchandise Stores","No",10583,"10601",37783,"M2535",3
+74.06,310,"Department Stores","General Merchandise Stores","No",10583,"52404",37783,"M2535",808
+148.71,307,"Department Stores","General Merchandise Stores","Yes",10583,"52404",37783,"M2535",808
+114.97,310,"Department Stores","General Merchandise Stores","No",10583,"52404",37783,"M2535",808
+30.85,308,"Department Stores","General Merchandise Stores","Yes",10583,"52404",37783,"M2535",808
+32.91,310,"Department Stores","General Merchandise Stores","Yes",10583,"52404",37783,"M2535",808
+42.9,443,"Department Stores","General Merchandise Stores","Yes",10583,"52404",37783,"M2535",808
+184.97,307,"Department Stores","General Merchandise Stores","Yes",10583,"52404",37783,"M2535",808
+184.97,305,"Department Stores","General Merchandise Stores","Yes",10583,"52404",37783,"M2535",808
+42.9,445,"Department Stores","General Merchandise Stores","Yes",10583,"52404",37783,"M2535",808
+114.97,308,"Department Stores","General Merchandise Stores","No",10583,"52404",37783,"M2535",808
+21.3,77,"T+E Taxi and Limousine","Transportation and Warehousing","No",10583,"11217",37783,"M2548",20
+7.3,125,"T+E Taxi and Limousine","Transportation and Warehousing","No",10583,"11106",37783,"M2548",15
+13.32,386,"T+E Taxi and Limousine","Transportation and Warehousing","No",10583,"11101",37783,"M2548",16
+21.3,77,"T+E Taxi and Limousine","Transportation and Warehousing","No",10583,"11217",37783,"M2548",20
+10.81,93,"T+E Taxi and Limousine","Transportation and Warehousing","No",10583,"11222",37783,"M2548",17
+10.4,111,"T+E Taxi and Limousine","Transportation and Warehousing","No",10583,"11220",37783,"M2548",23
+10.56,310,"T+E Taxi and Limousine","Transportation and Warehousing","No",10583,"10001",37783,"M2548",17
+11.88,356,"T+E Taxi and Limousine","Transportation and Warehousing","No",10583,"10001",37783,"M2548",17
+11.88,356,"T+E Taxi and Limousine","Transportation and Warehousing","No",10583,"10001",37783,"M2548",17
+11.88,357,"T+E Taxi and Limousine","Transportation and Warehousing","No",10583,"10001",37783,"M2548",17
+11.88,357,"T+E Taxi and Limousine","Transportation and Warehousing","No",10583,"10001",37783,"M2548",17
+10.81,93,"T+E Taxi and Limousine","Transportation and Warehousing","No",10583,"11217",37783,"M2548",20
+9.84,310,"T+E Taxi and Limousine","Transportation and Warehousing","No",10583,"11101",37783,"M2548",16
+9,203,"T+E Taxi and Limousine","Transportation and Warehousing","No",10583,"10019",37783,"M2548",16
+10.4,356,"T+E Taxi and Limousine","Transportation and Warehousing","No",10583,"11106",37783,"M2548",15
+21.3,77,"T+E Taxi and Limousine","Transportation and Warehousing","No",10583,"11217",37783,"M2548",20
+90,75,"T+E Taxi and Limousine","Transportation and Warehousing","No",10583,"11222",37783,"M2548",17
+128.45,214,"Cosmetics and Beauty Services","Other Services","No",10583,"10016",37783,"M2555",17
+98.05,33,"Department Stores","General Merchandise Stores","No",10583,"32819",37783,"M2562",840
+22.4,286,"Office Supply Chains","General Merchandise Stores","No",10583,"10018",37783,"M2563",17
+3.35,309,"Family Apparel","Apparel and Accessories","Yes",10583,"43123",37783,"M2575",431
+23.94,309,"Family Apparel","Apparel and Accessories","Yes",10583,"43123",37783,"M2575",431
+21.39,1,"Family Apparel","Apparel and Accessories","No",10583,"10583",37783,"M2575",0
+10.04,305,"Family Apparel","Apparel and Accessories","No",10583,"10583",37783,"M2575",0
+80.39,290,"Giftware/Houseware/Card Shops","General Merchandise Stores","Yes",10583,"68127",37783,"M2612",1007
+1402.2,177,"Consumer Electronics / Appliances","Consumer Electronics and Computers","No",10583,"10710",37783,"M2632",3
+5.67,184,"Eating Places","Accommodations and Food Services","No",10583,"10583",37783,"M2651",0
+14.05,73,"Giftware/Houseware/Card Shops","General Merchandise Stores","No",10583,"10710",37783,"M2677",3
+35.25,21,"Grocery Stores","Grocery and Food Stores","No",10583,"10710",37783,"M2684",3
+65.75,277,"Financial Services","Finance and Insurance","Yes",10583,"76011",37783,"M2696",1220
+46.71,403,"Financial Services","Finance and Insurance","Yes",10583,"76011",37783,"M2696",1220
+45.74,220,"Financial Services","Finance and Insurance","Yes",10583,"17602",37783,"M2696",127
+21.98,345,"Financial Services","Finance and Insurance","Yes",10583,"78230",37783,"M2696",1389
+1.45,161,"Eating Places","Accommodations and Food Services","No",10583,"10018",37783,"M2831",17
+22.34,346,"Miscellaneous Apparel","Apparel and Accessories","Yes",10583,"01886",37783,"M2861",143
+64.23,394,"Family Apparel","Apparel and Accessories","No",10583,"19007",37783,"M2886",72
+74.99,345,"Family Apparel","Apparel and Accessories","Yes",10583,"19007",37783,"M2886",72
+66.29,212,"Family Apparel","Apparel and Accessories","Yes",10583,"19007",37783,"M2886",72
+24.31,237,"Family Apparel","Apparel and Accessories","No",10583,"19007",37783,"M2886",72
+75.15,271,"Family Apparel","Apparel and Accessories","Yes",10583,"19007",37783,"M2886",72
+1,271,"Family Apparel","Apparel and Accessories","Yes",10583,"19007",37783,"M2886",72
+1,211,"Family Apparel","Apparel and Accessories","Yes",10583,"19007",37783,"M2886",72
+6.29,106,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10017",37783,"M2970",16
+9.68,90,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10017",37783,"M2970",16
+1.29,219,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10017",37783,"M2970",16
+6.66,160,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10017",37783,"M2970",16
+1.29,218,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10017",37783,"M2970",16
+2.58,131,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10017",37783,"M2970",16
+2.69,224,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10017",37783,"M2970",16
+20.42,355,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10017",37783,"M2970",16
+6.14,127,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10017",37783,"M2970",16
+3.26,440,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10017",37783,"M2970",16
+15.28,392,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10017",37783,"M2970",16
+4.31,85,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10017",37783,"M2970",16
+2.58,124,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10017",37783,"M2970",16
+3.87,139,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10017",37783,"M2970",16
+3.87,146,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10017",37783,"M2970",16
+236.23,275,"Men's Apparel","Apparel and Accessories","No",10583,"10583",37783,"M3014",0
+91.27,437,"Men's Apparel","Apparel and Accessories","No",10583,"10583",37783,"M3014",0
+126.7,381,"Men's Apparel","Apparel and Accessories","No",10583,"10003",37783,"M3014",18
+8.67,108,"Health/Beauty/Medical Supplies","Health and Personal Care Stores","No",10583,"10601",37783,"M3148",3
+21.68,297,"Health/Beauty/Medical Supplies","Health and Personal Care Stores","No",10583,"10601",37783,"M3148",3
+10,43,"Amusement, Recreation Activities","Arts, Entertainment, Recreation","No",10583,"19047",37783,"M3152",72
+164.28,429,"Amusement, Recreation Activities","Arts, Entertainment, Recreation","No",10583,"19047",37783,"M3152",72
+170.79,42,"Amusement, Recreation Activities","Arts, Entertainment, Recreation","Yes",10583,"32821",37783,"M3152",844
+1,42,"Amusement, Recreation Activities","Arts, Entertainment, Recreation","Yes",10583,"32821",37783,"M3152",844
+5,401,"Automotive Fuel","Motor Vehicles","No",10583,"10502",37783,"M3172",3
+5,193,"Automotive Fuel","Motor Vehicles","No",10583,"10704",37783,"M3172",5
+5,216,"Automotive Fuel","Motor Vehicles","No",10583,"10502",37783,"M3172",3
+5,43,"Automotive Fuel","Motor Vehicles","No",10583,"10502",37783,"M3172",3
+5,80,"Automotive Fuel","Motor Vehicles","No",10583,"10803",37783,"M3172",5
+5,142,"Automotive Fuel","Motor Vehicles","No",10583,"10606",37783,"M3172",3
+5,315,"Automotive Fuel","Motor Vehicles","No",10583,"10607",37783,"M3172",3
+5,394,"Automotive Fuel","Motor Vehicles","No",10583,"10502",37783,"M3172",3
+5,60,"Automotive Fuel","Motor Vehicles","No",10583,"10502",37783,"M3172",3
+5,450,"Automotive Fuel","Motor Vehicles","No",10583,"10502",37783,"M3172",3
+5,15,"Automotive Fuel","Motor Vehicles","No",10583,"10502",37783,"M3172",3
+2.59,82,"Automotive Fuel","Motor Vehicles","No",10583,"10607",37783,"M3172",3
+5,118,"Automotive Fuel","Motor Vehicles","No",10583,"10607",37783,"M3172",3
+5,145,"Automotive Fuel","Motor Vehicles","No",10583,"06851",37783,"M3172",20
+5,100,"Automotive Fuel","Motor Vehicles","No",10583,"06851",37783,"M3172",20
+5,275,"Automotive Fuel","Motor Vehicles","No",10583,"06851",37783,"M3172",20
+5,23,"Automotive Fuel","Motor Vehicles","No",10583,"10606",37783,"M3172",3
+5,332,"Automotive Fuel","Motor Vehicles","No",10583,"10606",37783,"M3172",3
+5,84,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M3172",0
+5,51,"Automotive Fuel","Motor Vehicles","No",10583,"10803",37783,"M3172",5
+5,367,"Automotive Fuel","Motor Vehicles","No",10583,"10502",37783,"M3172",3
+5,247,"Automotive Fuel","Motor Vehicles","No",10583,"10502",37783,"M3172",3
+5,225,"Automotive Fuel","Motor Vehicles","No",10583,"10502",37783,"M3172",3
+5,129,"Automotive Fuel","Motor Vehicles","No",10583,"11021",37783,"M3172",12
+5,32,"Automotive Fuel","Motor Vehicles","No",10583,"10502",37783,"M3172",3
+5,435,"Automotive Fuel","Motor Vehicles","No",10583,"10502",37783,"M3172",3
+5,348,"Automotive Fuel","Motor Vehicles","No",10583,"10502",37783,"M3172",3
+5,94,"Automotive Fuel","Motor Vehicles","No",10583,"10502",37783,"M3172",3
+5,108,"Automotive Fuel","Motor Vehicles","No",10583,"10502",37783,"M3172",3
+5,263,"Automotive Fuel","Motor Vehicles","No",10583,"10502",37783,"M3172",3
+5,268,"Automotive Fuel","Motor Vehicles","No",10583,"10502",37783,"M3172",3
+5,311,"Automotive Fuel","Motor Vehicles","No",10583,"10502",37783,"M3172",3
+5,170,"Automotive Fuel","Motor Vehicles","No",10583,"10502",37783,"M3172",3
+5,341,"Automotive Fuel","Motor Vehicles","No",10583,"10502",37783,"M3172",3
+5,259,"Automotive Fuel","Motor Vehicles","No",10583,"10502",37783,"M3172",3
+5,87,"Automotive Fuel","Motor Vehicles","No",10583,"10502",37783,"M3172",3
+5,420,"Automotive Fuel","Motor Vehicles","No",10583,"10502",37783,"M3172",3
+5,9,"Automotive Fuel","Motor Vehicles","No",10583,"10502",37783,"M3172",3
+5,381,"Automotive Fuel","Motor Vehicles","No",10583,"10502",37783,"M3172",3
+5,108,"Automotive Fuel","Motor Vehicles","No",10583,"10704",37783,"M3172",5
+124.54,355,"Grocery Stores","Grocery and Food Stores","No",10583,"10583",37783,"M3195",0
+141.22,200,"Grocery Stores","Grocery and Food Stores","No",10583,"10583",37783,"M3195",0
+26.96,298,"Grocery Stores","Grocery and Food Stores","No",10583,"10583",37783,"M3195",0
+146.28,263,"Grocery Stores","Grocery and Food Stores","No",10583,"10583",37783,"M3195",0
+47.05,284,"Grocery Stores","Grocery and Food Stores","No",10583,"10583",37783,"M3195",0
+101.4,340,"Grocery Stores","Grocery and Food Stores","No",10583,"10583",37783,"M3195",0
+220.24,417,"Grocery Stores","Grocery and Food Stores","No",10583,"10583",37783,"M3195",0
+122.85,270,"Grocery Stores","Grocery and Food Stores","No",10583,"10583",37783,"M3195",0
+44.8,396,"Grocery Stores","Grocery and Food Stores","No",10583,"10583",37783,"M3195",0
+18.95,369,"Grocery Stores","Grocery and Food Stores","No",10583,"10583",37783,"M3195",0
+6.43,254,"Grocery Stores","Grocery and Food Stores","No",10583,"10583",37783,"M3195",0
+252.41,326,"Grocery Stores","Grocery and Food Stores","No",10583,"10583",37783,"M3195",0
+97.62,346,"Grocery Stores","Grocery and Food Stores","No",10583,"10583",37783,"M3195",0
+68.8,207,"Grocery Stores","Grocery and Food Stores","No",10583,"10583",37783,"M3195",0
+84.62,404,"Grocery Stores","Grocery and Food Stores","No",10583,"10583",37783,"M3195",0
+172.05,334,"Grocery Stores","Grocery and Food Stores","No",10583,"10583",37783,"M3195",0
+135.1,227,"Grocery Stores","Grocery and Food Stores","No",10583,"10583",37783,"M3195",0
+65.96,379,"Grocery Stores","Grocery and Food Stores","No",10583,"10583",37783,"M3195",0
+24.84,415,"Grocery Stores","Grocery and Food Stores","No",10583,"10583",37783,"M3195",0
+95.3,389,"Grocery Stores","Grocery and Food Stores","No",10583,"10583",37783,"M3195",0
+48.19,196,"Grocery Stores","Grocery and Food Stores","No",10583,"10583",37783,"M3195",0
+120.93,242,"Grocery Stores","Grocery and Food Stores","No",10583,"10583",37783,"M3195",0
+123.47,430,"Grocery Stores","Grocery and Food Stores","No",10583,"10583",37783,"M3195",0
+72.13,192,"Grocery Stores","Grocery and Food Stores","No",10583,"10583",37783,"M3195",0
+36.26,312,"Grocery Stores","Grocery and Food Stores","No",10583,"10583",37783,"M3195",0
+36.91,254,"Grocery Stores","Grocery and Food Stores","No",10583,"10583",37783,"M3195",0
+103.81,382,"Grocery Stores","Grocery and Food Stores","No",10583,"10583",37783,"M3195",0
+95.23,361,"Grocery Stores","Grocery and Food Stores","No",10583,"10583",37783,"M3195",0
+68.1,248,"Grocery Stores","Grocery and Food Stores","No",10583,"10583",37783,"M3195",0
+155.8,220,"Grocery Stores","Grocery and Food Stores","No",10583,"10583",37783,"M3195",0
+11.59,79,"Grocery Stores","Grocery and Food Stores","No",10583,"11803",37783,"M3195",19
+109.91,451,"Grocery Stores","Grocery and Food Stores","No",10583,"10583",37783,"M3195",0
+44.74,448,"Grocery Stores","Grocery and Food Stores","No",10583,"10583",37783,"M3195",0
+2.44,398,"Eating Places","Accommodations and Food Services","No",10583,"06897",37783,"M3263",21
+12.47,223,"Eating Places","Accommodations and Food Services","No",10583,"06897",37783,"M3263",21
+7.42,399,"Eating Places","Accommodations and Food Services","No",10583,"06897",37783,"M3263",21
+7.75,285,"Eating Places","Accommodations and Food Services","No",10583,"06897",37783,"M3263",21
+31.52,453,"Giftware/Houseware/Card Shops","General Merchandise Stores","Yes",10583,"08234",37783,"M3311",101
+81.47,177,"Sporting Goods / Apparel / Footwear","Sporting Goods and Hobby","No",10583,"11590",37783,"M3319",17
+40.78,213,"Office Supply Chains","General Merchandise Stores","No",10583,"10583",37783,"M3342",0
+9.21,181,"Office Supply Chains","General Merchandise Stores","No",10583,"10583",37783,"M3342",0
+42.39,163,"Office Supply Chains","General Merchandise Stores","No",10583,"06897",37783,"M3342",21
+169.2,136,"Grocery Stores","Grocery and Food Stores","No",10583,"10710",37783,"M3367",3
+31.5,5,"Grocery Stores","Grocery and Food Stores","No",10583,"10710",37783,"M3367",3
+98.62,387,"Grocery Stores","Grocery and Food Stores","No",10583,"10710",37783,"M3367",3
+167.82,4,"Grocery Stores","Grocery and Food Stores","No",10583,"10710",37783,"M3367",3
+121.56,283,"Grocery Stores","Grocery and Food Stores","No",10583,"10710",37783,"M3367",3
+78.39,380,"Grocery Stores","Grocery and Food Stores","No",10583,"10710",37783,"M3367",3
+58.08,81,"Grocery Stores","Grocery and Food Stores","No",10583,"10710",37783,"M3367",3
+92.89,88,"Grocery Stores","Grocery and Food Stores","No",10583,"10710",37783,"M3367",3
+71.94,27,"Grocery Stores","Grocery and Food Stores","No",10583,"10710",37783,"M3367",3
+18.45,373,"Grocery Stores","Grocery and Food Stores","No",10583,"10710",37783,"M3367",3
+47.99,334,"Grocery Stores","Grocery and Food Stores","No",10583,"10710",37783,"M3367",3
+71.64,200,"Grocery Stores","Grocery and Food Stores","No",10583,"10710",37783,"M3367",3
+20.22,331,"Grocery Stores","Grocery and Food Stores","No",10583,"10710",37783,"M3367",3
+184.8,310,"Grocery Stores","Grocery and Food Stores","No",10583,"10710",37783,"M3367",3
+60.41,194,"Grocery Stores","Grocery and Food Stores","No",10583,"10710",37783,"M3367",3
+29.42,164,"Grocery Stores","Grocery and Food Stores","No",10583,"10710",37783,"M3367",3
+43.65,67,"Grocery Stores","Grocery and Food Stores","No",10583,"10710",37783,"M3367",3
+26.95,177,"Grocery Stores","Grocery and Food Stores","No",10583,"10710",37783,"M3367",3
+30.65,454,"Grocery Stores","Grocery and Food Stores","No",10583,"10710",37783,"M3367",3
+59.57,18,"Grocery Stores","Grocery and Food Stores","No",10583,"10710",37783,"M3367",3
+127.92,115,"Grocery Stores","Grocery and Food Stores","No",10583,"10710",37783,"M3367",3
+58.54,254,"Grocery Stores","Grocery and Food Stores","No",10583,"10710",37783,"M3367",3
+25.98,59,"Grocery Stores","Grocery and Food Stores","No",10583,"10710",37783,"M3367",3
+170.93,408,"Grocery Stores","Grocery and Food Stores","No",10583,"10710",37783,"M3367",3
+215.68,445,"Grocery Stores","Grocery and Food Stores","No",10583,"10710",37783,"M3367",3
+73.89,52,"Grocery Stores","Grocery and Food Stores","No",10583,"10710",37783,"M3367",3
+86.41,78,"Grocery Stores","Grocery and Food Stores","No",10583,"10710",37783,"M3367",3
+16.25,11,"Grocery Stores","Grocery and Food Stores","No",10583,"10710",37783,"M3367",3
+134.63,419,"Grocery Stores","Grocery and Food Stores","No",10583,"10710",37783,"M3367",3
+66.25,369,"Grocery Stores","Grocery and Food Stores","No",10583,"10710",37783,"M3367",3
+38.27,242,"Grocery Stores","Grocery and Food Stores","No",10583,"10710",37783,"M3367",3
+72.34,396,"Grocery Stores","Grocery and Food Stores","No",10583,"10710",37783,"M3367",3
+128.98,73,"Grocery Stores","Grocery and Food Stores","No",10583,"10522",37783,"M3372",3
+160.96,109,"Grocery Stores","Grocery and Food Stores","No",10583,"10522",37783,"M3372",3
+149.48,305,"Grocery Stores","Grocery and Food Stores","No",10583,"10522",37783,"M3372",3
+155.09,277,"Grocery Stores","Grocery and Food Stores","No",10583,"10522",37783,"M3372",3
+228.89,151,"Grocery Stores","Grocery and Food Stores","No",10583,"10522",37783,"M3372",3
+100.68,95,"Grocery Stores","Grocery and Food Stores","No",10583,"10522",37783,"M3372",3
+142.67,46,"Grocery Stores","Grocery and Food Stores","No",10583,"10522",37783,"M3372",3
+142.16,66,"Grocery Stores","Grocery and Food Stores","No",10583,"10522",37783,"M3372",3
+103.96,129,"Grocery Stores","Grocery and Food Stores","No",10583,"10522",37783,"M3372",3
+90.38,32,"Grocery Stores","Grocery and Food Stores","No",10583,"10522",37783,"M3372",3
+73.77,102,"Grocery Stores","Grocery and Food Stores","No",10583,"10522",37783,"M3372",3
+86.33,166,"Grocery Stores","Grocery and Food Stores","No",10583,"10522",37783,"M3372",3
+7.03,166,"Grocery Stores","Grocery and Food Stores","No",10583,"10522",37783,"M3372",3
+124.86,177,"Grocery Stores","Grocery and Food Stores","No",10583,"10522",37783,"M3372",3
+125.03,122,"Grocery Stores","Grocery and Food Stores","No",10583,"10522",37783,"M3372",3
+173.6,235,"Grocery Stores","Grocery and Food Stores","No",10583,"10522",37783,"M3372",3
+17.16,297,"Shoe Stores","Apparel and Accessories","No",10583,"10601",37783,"M3378",3
+319.71,339,"Optical","Health and Personal Care Stores","No",10583,"10601",37783,"M3400",3
+5,28,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M3402",0
+5,283,"Automotive Fuel","Motor Vehicles","No",10583,"10523",37783,"M3402",4
+5,283,"Automotive Fuel","Motor Vehicles","No",10583,"10523",37783,"M3402",4
+72.51,283,"Automotive Fuel","Motor Vehicles","No",10583,"10523",37783,"M3402",4
+5,246,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M3402",0
+25,246,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M3402",0
+5,291,"Automotive Fuel","Motor Vehicles","No",10583,"07645",37783,"M3402",11
+67.76,291,"Automotive Fuel","Motor Vehicles","No",10583,"07645",37783,"M3402",11
+5,291,"Automotive Fuel","Motor Vehicles","No",10583,"07645",37783,"M3402",11
+5,423,"Automotive Fuel","Motor Vehicles","No",10583,"06776",37783,"M3402",40
+41.01,423,"Automotive Fuel","Motor Vehicles","No",10583,"06776",37783,"M3402",40
+5,423,"Automotive Fuel","Motor Vehicles","No",10583,"06776",37783,"M3402",40
+5,170,"Automotive Fuel","Motor Vehicles","No",10583,"10530",37783,"M3402",2
+5,170,"Automotive Fuel","Motor Vehicles","No",10583,"10530",37783,"M3402",2
+61.29,170,"Automotive Fuel","Motor Vehicles","No",10583,"10530",37783,"M3402",2
+5,413,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M3402",0
+5,413,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M3402",0
+69.16,413,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M3402",0
+5,96,"Automotive Fuel","Motor Vehicles","No",10583,"10502",37783,"M3402",3
+5,96,"Automotive Fuel","Motor Vehicles","No",10583,"10502",37783,"M3402",3
+53.51,15,"Automotive Fuel","Motor Vehicles","No",10583,"10502",37783,"M3402",3
+20.01,96,"Automotive Fuel","Motor Vehicles","No",10583,"10502",37783,"M3402",3
+5,15,"Automotive Fuel","Motor Vehicles","No",10583,"10502",37783,"M3402",3
+5,15,"Automotive Fuel","Motor Vehicles","No",10583,"10502",37783,"M3402",3
+5,246,"Automotive Fuel","Motor Vehicles","No",10583,"10583",37783,"M3402",0
+47.91,430,"Eating Places","Accommodations and Food Services","No",10583,"10014",37783,"M3419",18
+50.93,242,"Family Apparel","Apparel and Accessories","No",10583,"10523",37783,"M3434",4
+27.77,332,"Discount Department Stores","General Merchandise Stores","No",10583,"10530",37783,"M3437",2
+41.68,455,"Discount Department Stores","General Merchandise Stores","No",10583,"11801",37783,"M3437",19
+77.29,114,"Discount Department Stores","General Merchandise Stores","No",10583,"10601",37783,"M3456",3
+9.74,182,"Discount Department Stores","General Merchandise Stores","No",10583,"10601",37783,"M3456",3
+77.2,22,"Discount Department Stores","General Merchandise Stores","No",10583,"10601",37783,"M3456",3
+77.2,22,"Discount Department Stores","General Merchandise Stores","No",10583,"10601",37783,"M3456",3
+200,40,"Travel Agencies and Tour Operators","Administrative Support, Waste Management and Remediation Services","No",10583,"06855",37783,"M3461",19
+44.38,305,"Children's Apparel","Apparel and Accessories","Yes",10583,"07094",37783,"M3501",17
+208.15,299,"Children's Apparel","Apparel and Accessories","Yes",10583,"07094",37783,"M3501",17
+291.93,297,"Home Furnishings / Furniture","General Merchandise Stores","No",10583,"10601",37783,"M3506",3
+33.4,36,"Camera/Photography Supplies","Consumer Electronics and Computers","Yes",10583,"94043",37783,"M3599",2233
+178.54,367,"Toy Stores","General Merchandise Stores","Yes",10583,"19406",37783,"M3645",90
+169.01,339,"Toy Stores","General Merchandise Stores","Yes",10583,"19406",37783,"M3645",90
+190.7,213,"Toy Stores","General Merchandise Stores","No",10583,"10601",37783,"M3646",3
+43.33,354,"Grocery Stores","Grocery and Food Stores","No",10583,"11803",37783,"M3656",19
+11.99,267,"Miscellaneous Personal Services","Other Services","Yes",10583,"06850",37783,"M3675",18
+11.99,239,"Miscellaneous Personal Services","Other Services","Yes",10583,"06850",37783,"M3675",18
+11.99,86,"Miscellaneous Personal Services","Other Services","Yes",10583,"06850",37783,"M3675",18
+11.99,453,"Miscellaneous Personal Services","Other Services","Yes",10583,"06905",37783,"M3675",13
+11.99,299,"Miscellaneous Personal Services","Other Services","Yes",10583,"06905",37783,"M3675",13
+11.99,26,"Miscellaneous Personal Services","Other Services","Yes",10583,"06850",37783,"M3675",18
+11.99,386,"Miscellaneous Personal Services","Other Services","Yes",10583,"06905",37783,"M3675",13
+11.99,180,"Miscellaneous Personal Services","Other Services","Yes",10583,"06850",37783,"M3675",18
+11.99,147,"Miscellaneous Personal Services","Other Services","Yes",10583,"06850",37783,"M3675",18
+11.99,208,"Miscellaneous Personal Services","Other Services","Yes",10583,"06850",37783,"M3675",18
+11.99,117,"Miscellaneous Personal Services","Other Services","Yes",10583,"06850",37783,"M3675",18
+11.99,55,"Miscellaneous Personal Services","Other Services","Yes",10583,"06850",37783,"M3675",18
+11.99,359,"Miscellaneous Personal Services","Other Services","Yes",10583,"06905",37783,"M3675",13
+11.99,386,"Miscellaneous Personal Services","Other Services","Yes",10583,"06905",37783,"M3675",13
+11.99,390,"Miscellaneous Personal Services","Other Services","Yes",10583,"06905",37783,"M3675",13
+11.99,420,"Miscellaneous Personal Services","Other Services","Yes",10583,"06905",37783,"M3675",13
+11.99,328,"Miscellaneous Personal Services","Other Services","Yes",10583,"06905",37783,"M3675",13
+31,137,"Home Improvement Centers","Home Improvement Centers","No",10583,"10502",37783,"M3680",3
+4.38,380,"Courier Services","Transportation and Warehousing","No",10583,"10502",37783,"M3699",3
+17.6,48,"Courier Services","Transportation and Warehousing","No",10583,"10530",37783,"M3699",2
+10.09,8,"Courier Services","Transportation and Warehousing","No",10583,"10530",37783,"M3699",2
+5.7,52,"Courier Services","Transportation and Warehousing","No",10583,"10583",37783,"M3699",0
+13.9,265,"Courier Services","Transportation and Warehousing","No",10583,"10583",37783,"M3699",0
+23.76,360,"Courier Services","Transportation and Warehousing","No",10583,"10530",37783,"M3699",2
+7.92,395,"Courier Services","Transportation and Warehousing","No",10583,"10583",37783,"M3699",0
+3.2,362,"Courier Services","Transportation and Warehousing","No",10583,"11804",37783,"M3699",21
+23,319,"Movie and Other Theatrical","Information","No",10583,"10710",37783,"M3729",3
+34.5,114,"Movie and Other Theatrical","Information","No",10583,"10710",37783,"M3729",3
+75.15,284,"Family Apparel","Apparel and Accessories","No",10583,"11530",37783,"M3751",17
+69.95,20,"Maintenance and Repair Services","Other Services","No",10583,"06851",37783,"M3773",20
+133.92,234,"Communications, Telecommunications, Cable Services","Information","No",10583,"10530",37783,"M3788",2
+53.69,13,"Communications, Telecommunications, Cable Services","Information","No",10583,"10530",37783,"M3788",2
+22.53,233,"Communications, Telecommunications, Cable Services","Information","No",10583,"10530",37783,"M3788",2
+161.01,234,"Communications, Telecommunications, Cable Services","Information","No",10583,"10530",37783,"M3788",2
+292.82,337,"Communications, Telecommunications, Cable Services","Information","Yes",10583,"95630",37783,"M3788",2166
+48.3,319,"Communications, Telecommunications, Cable Services","Information","No",10583,"10530",37783,"M3788",2
+55,319,"Women's Apparel","Apparel and Accessories","No",10583,"10601",37783,"M3799",3
+16.47,405,"Drug Store Chains","Health and Personal Care Stores","No",10583,"32819",37783,"M3837",840
+21.13,144,"Drug Store Chains","Health and Personal Care Stores","No",10583,"10583",37783,"M3837",0
+21.16,105,"Discount Department Stores","General Merchandise Stores","No",10583,"06851",37783,"M3841",20
+42.37,113,"Discount Department Stores","General Merchandise Stores","No",10583,"06851",37783,"M3841",20
+33.32,97,"Discount Department Stores","General Merchandise Stores","No",10583,"06851",37783,"M3841",20
+101,332,"Cosmetics and Beauty Services","Other Services","No",10583,"06830",37783,"M3845",8
+106,241,"Cosmetics and Beauty Services","Other Services","No",10583,"06830",37783,"M3845",8

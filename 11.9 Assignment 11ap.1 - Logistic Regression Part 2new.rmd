@@ -1,0 +1,183 @@
+---
+title: "BAS 320 - Assignment 9 - Logistic Regression"
+author: "Your name here"
+output:
+  word_document: default
+---
+
+************************************************************************************
+
+[//]:   (Submission notes: a knitted version of the assignment must be uploaded to Canvas before the deadline along with the raw .Rmd.  I recommend knitting to a Word document, adding any desired extra content or formatting, and submitting that or the Word document that has been saved as a PDF.  Late work is not accepted.)
+
+[//]:   (Instructions for Assignment 9:   follow the instructions on Canvas.  This chunk of code is what you can use to read in data files. If you're working with data in .RData you can uncomment the line.  Otherwise, you'll want to come up with names for your data frames and add some `read.csv` commands here (illustrated with a few examples in the R chunk below) )
+
+```{r Data Wrangling}
+library(regclass)
+getwd()  #This should output the path to your BAS folder; change with Session, Set Working Directory if not
+
+#Uncomment the following line ONLY if you're using one of the premade datasets 
+#in the course .RData file for this assignment
+load("~/Downloads/Major Course work: Materials/BAS 320 (Linear Regression) Grayson Pettit/BAS320datasetsYCategoricalSpring24.RData")  
+
+
+
+#Remember that whatever data you choose needs have:
+# * One categorical Y variable with 2 levels (you can create this if your data doesn't have it).
+# * At least two numeric X's that are statistically significant predictors of Y by itself
+# * At least one categorical X with 2 levels (you can create this if your data doesn't have it).  Each level needs to have at least 20 individuals in it.
+# * At least one categorical X with between 3-12 levels (you may be able to create this if your data doesn't have it).  Each level needs to have at least 20 individuals in it.
+
+
+
+#NOTE 0 (MOVIEDATA and BEER if you follow the video walkthrough):  
+# * If you use the MOVIEDATA, make sure you are NOT predicting Outcome from Outcome2 or Outcome3, etc.  Once you've selected your Y variable, NULL out the the other 2 possible Outcome columns)
+# * If you use the BEER data, make sure you define a Y variable with level High and Low for just one of the review scores, then NULL OUT the other review scores.
+
+
+#NOTE 1:  if you have a numeric Y that you'd like to convert into a two-level categorical Y (e.g. High vs. Low), you can uncomment and adapt the following lines of code. The code below basically converts values into "High" or "Low" depending on if the number is greater than 3 or not.  You'll have to change data frame names, column names, and the "3" into whatever you feel is appropriate.  If you do this, ensure that the equivalent of mean(DATA$newY=="High") is between 0.20 and 0.80; if not try changing the numeric cutoff into something else
+
+# Uncomment ONLY if you're creating a Y variable from a numeric variable; adapt to your data
+# DATA$newY <- factor( ifelse( DATA$numericalx > 3, "High","Low") )
+# mean(DATA$newY=="High")
+
+
+#NOTE 2:  if you have categorical variable you'd like to use but it has "too many" levels, you can use the following lines of code (after adapting it with the name of your columns and dataset and uncommenting it) to get it to a target number of levels.  It basically combines all the least common levels of the categorical variable into a new level called "Combined", leaving with you the desired number of levels.  Run a summary() though to make sure because if there are ties for frequencies, it may leave you with more or fewer than the target!
+
+#Uncomment only if you need to reduce the number of levels
+#Change target to desired number of levels; DATA to name of your dataframe; categoricalvariable
+#to column containing the categorical variable whose number of levels you wish to reduce
+#target <- 3
+#threshold <- sort(table(DATA$categoricalvariable),decreasing=TRUE)[target]
+#DATA$newcatvariable <- combine_rare_levels(DATA$categoricalvariable,threshold)$values
+
+
+
+#NOTE 3:  you can turn a numeric predictor into a categorical variable by adapting the following code to your data.  It will usually give you the target number of levels, but sometimes fewer if there are a lot of duplicate numerical values.
+
+#You'll get values like [42,70], (72,100], etc. that have groups the numerical values into categories.  If you see a [ or ], that means the interval includes that value.  If you see a ( or ) it means the interval doesn't include that value.  (72,100] mean GREATER than 72 and up to and including 100)
+
+#Uncomment only if you need to convert a numeric predictor into a categorical one
+#Change target to desired number of levels; DATA to name of your dataframe; numerical
+#to column containing the numerical variable you want to create categories for
+#target <- 3
+#breaks <- unique( quantile(DATA$numerical,seq(from=0,to=1,length=target+1)) )
+#DATA$catfromnumeric <- cut( DATA$numerical,breaks,include.lowest=TRUE) 
+
+
+```
+
+************************************************************************************
+
+
+Code you should keep:  `glm`, `summary`, `drop1`, `visualize_model`, `predict`, `confusion_matrix`, `table`, `check_regression`; basically everything not in the 1st R chunk
+
+Code you should delete after knitting: code reading in the data and doing data wrangling (combining categories, creating categorical variables from numerical ones if you used it); basically everything in the R chunk above this (and any other code you created that isn't requested).  In addition, in the output of `summary` delete everything from `Dispersion parameter for binomial...` and below in the output.  After knitting, you may have a few lines that read `glm.fit: fitted probabilities numerically 0 or 1 occurred` and/or `prediction from rank-deficient fit`; go ahead and delete those all lines associated with those warnings.
+
+
+
+## Analysis of ... (replace the ... with what you're analyzing)
+
+I'm using a logistic regression model to predict the probability that a client of a Portuguese bank has subscribed to a term deposit, this is in the variable 'buy' and will be predicting the likelihood of purchase from the client's age, number of contacts with the client during the marketing campaign, the client's job type, and whether the client has a previous default history. 
+
+I'm making this model because term deposits are used by banks as assets on their books in order to make loans, it expands their capital stock, and by modeling whether a client would subscribe to a term deposit can increase efficiency with marketing and selling the product.  
+
+The data I'm using comes from TERM within the Rdata file associated with the project and contains a total of 41188 clients .  Each row records a clients age, job, default history, whether they have a loan at the bank, the clients marital status, contact communication type, number of times the bank has contacted the individual, whether the individual has an outstanding loan, whether the individual has a housing loan. It also includes the European 3 month average interest rate during the contact with the client, "eurobor", along with a monthly consumer price index. 
+
+
+
+## Task 1 - Investigation of the relationship between the probability of subscription to a term deposit and number of contacts performed during the campaign. 
+
+As the number of contacts with the client increases the probability of the individual subscribing to a term deposit decreases, an extrapolation was made that at -14.16 contacts with the client that the probability of subscription would be 50%, however this is just a guess because it falls way below normal range, and indeed you cannot have -14 contacts with an individual. 
+
+```{r Task 1}
+M.task1 <- glm(Buy~campaign, family= "binomial", data=TERM)  #Fit a simple logistic regression predicting Y from X (numeric)
+summary(M.task1)
+visualize_model(M.task1)
+
+#You'll also need one calculation here that gets the value of X that has a 50% chance of having the level of interest
+#1.776717/-0.125440=-14.16388
+```
+
+## Task 2 - Investigation of the relationship between the probability of subscribing to a term deposit and number of contacts perforemed during the marketing campaign as well as the client's default history. 
+
+
+Individuals with No history of default have a higher probability of subscribing to a term deposit in comparison to individuals with a history of default or individuals with unknown history of default. Unfortunately for our model, the level yes is statistically insignificant, while unknown default history is statistically significant. 
+
+Individuals with no default history have the strongest relationship to subscribing to the term deposit. As contact numbers increase for individuals with no history of default, the probability of subscription drops the fastest in comparison to individuals with a history of default or individuals with unknown history of default. However, while individuals with no history of default tend to have the highest probability of subscribing to a term deposit with less marketing, after around 16 contacts the individuals with unknown history of default have the highest probability of subscription. However, this is all below the .5 line which assumes that none of these individuals will subscribe to the term deposit. 
+
+I have also added a prediction with the first and third quartile quantities of contacts with the clients, for the first quartile prediction of contact I have this individual with no history of default, for the third quartile individual I have them with a history of default. According to my prediction, neither individual has over a 0.5 probability of subscribing to the term deposit, therefore neither individual will subscribe. 
+
+```{r Task 2}
+M.task2.noint <- glm(Buy~campaign+default, family= "binomial", data=TERM)  #Fit a regression predicting Y from X1 (numeric) and X2 (categorical) that EXCLUDES the interaction
+summary(M.task2.noint )
+visualize_model(M.task2.noint )
+
+M.task2.int  <- glm(Buy~campaign*default, family= "binomial", data=TERM)  #Fit a regression predicting Y from X1 (numeric) and X2 (categorical) that INCLUDES the interaction
+summary(M.task2.int )
+visualize_model(M.task2.int )
+
+summary(TERM$campaign)
+TO.PREDICT <- data.frame(campaign=c(1,3), default=c("no","yes"))  #Construct the dataframe where you're making predictions;  2 rows
+pred.p<-predict(M.task2.int,newdata=TO.PREDICT,type="response")
+ifelse(pred.p>0.5, "Yes", "No")
+```
+
+
+## Task 3 - Investigation of the relationship between subscribing to a term deposit and all predictors: age, job type, default history, loan history with the bank, number of contacts the bank has made with the client, last contact duration, number of contacts the bank has made during the marketing campaign, outcomes of the previous campaign, quarterly employment variance rate, consumer price index and consumer confidence index. 
+
+(In this section, investigate a multiple logistic regression model predicting your Y variable from all columns in the data using the "twiddle dot" shortcut; no interactions.  Ensure all your predictors are either numeric or factors with 2-12 levels, otherwise R can crash.  You can always `DATA$badcolumn <- NULL` to get rid of a bad column.  If you feel you have too many predictors, it's fine to `NULL` some of them out too, but keep the predictors you studied in Task 1 and Task 2 for sure.  Include the result of running `summary` and `drop1`)
+
+
+Given otherwise identical individuals who differ by one additional contact during the marketing campaign, the individual who has the higher number of contacts during the campaign will have a lower probability of subscribing to the term deposit, all else equal. The variable 'campaign' which represents this is statistically significant at the 1 percent level, which means that it reduces the deviance within the model, and is therefore a useful predictor for subscription. 
+
+Given otherwise identical individuals who differ only in whether they were contacted on their cellphone or their telephone (home phone), the individual who was contacted on their telephone is less likely to subscribe to the term deposit plan than an individual contacted by cellphone, all else equal. 
+
+Among otherwise identical entities who differ in jobs, either retired or in an administrative role, the individual who is retired is more likely to subscribe to a term deposit plan than the individual in an administrative role. Retired individuals have the highest probability of subscribing to the plan. Unknown job individuals have the lowest probability, however their p value on the summary table is not statistically significant. Individuals who work blue collar jobs have the lowest probability of subscribing to a term deposit plan and their coefficient is statistically significant. We know that the variable 'job' is statistically significant from the drop1 chi square test, which means that it significantly reduces deviance in the model. 
+
+
+```{r Task 3}
+TERM$euribor3m<-NULL
+TERM$nr.employed<-NULL
+TERM$previous<-NULL
+M.full <- glm(Buy~., family="binomial", data = TERM)  #Fit a regression predicting Y from everything
+summary(M.full)
+drop1(M.full,test="Chisq")
+
+
+ 
+
+
+
+
+```
+
+## Task 4 - Assessing the full model
+
+(In this section, investigate the performance of a multiple logistic regression model predicting your Y variable from all columns in the data using the "twiddle dot squared" shortcut that contains all interactions.  Ensure all your predictors are either numeric or factors with 2-12 levels, otherwise R can crash.  Note:  it may take a LONG time for this model to be fit, which also means it can take a long time for R to knit the document.  You can ignore warning messages such as "algorithm did not converge", "fitted probabilities numerically 0 or 1 occurred ", or "prediction from rank-deficient fit; attr(*, "non-estim") has doubtful cases")
+
+(Include the results of running `confusion_matrix` and `check_regression` for the full model with no interaction from Task 3 and the full model with interactions for this model)
+
+
+The misclassification rate made in the naive model is around 11.3%, meaning that it has an accuracy of about 88.7%. The misclassification rate in the full model without interaction is around 8.9%, meaning that its accuracy is about 91.1%. The misclassification rate in the full model with interaction is around 8.87% meaning that its accuracy is about 91.13%. The highest overall accuracy is in the full model with interaction, the lowest is in the naive model. 
+
+
+Both regressions pass the method 1 test (both p values are 1), however both models also fail the method 2 test (both p values are 0). Therefore, with a slight bias to method 1, these models are decent reflections to reality, and are relatively useful. The failure on the method 2 test is likely due to the sensitivity that the method has to large sample sizes.  
+
+```{r Task 4}
+M.full2 <- glm(Buy~.^2, family = "binomial", data = TERM)  #Fit a regression predicting Y from all predictors and all interactions
+
+confusion_matrix(M.full)
+#(929+2758)/41188=0.08951636
+
+confusion_matrix(M.full2)
+#(935+2722)/41188=0.088788
+
+
+table(TERM$Buy)
+#4640/41188= 0.1126542   #You need a frequency table of the column containing Y and a calculation of the naive model's accuracy
+
+check_regression(M.full)
+
+check_regression(M.full2)
+```
+

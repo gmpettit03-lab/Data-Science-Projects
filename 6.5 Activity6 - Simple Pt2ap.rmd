@@ -1,0 +1,137 @@
+---
+title: "NAME - SECTION - Activity 6tap"
+author: "Simple Linear Regression 2"
+date: "..."
+output:
+  word_document: default
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+```{r, echo=FALSE, message=FALSE}
+#Do not change anything in this chunk of R code
+options(width=90)
+library(regclass)
+```
+
+**************
+
+Use the `data` command to load in the `BULLDOZER` dataset.  This contains information on 924 bulldozers that were sold at auction.  We want to predict the selling price of a bulldozer (`SalePrice`) from its `Usage`.  You can read more about the data by doing `?BULLDOZER` (but don't include that in the R chunk)
+
+```{r}
+#code reading in the BULLDOZER dataset
+data("BULLDOZER")
+```
+
+*********
+
+1.  Make the scatterplot using `plot` (add the arguments `pch=20` and `cex=0.3` to make the points small). Fit the regression and give it a name, then add the regression line. You will see that the relationship does not look very strong.  However, the trajectory does look linear (at least, it doesn't look like it has curvature) and the vertical scatter is about the same everywhere (hard to tell vertical spread when `Usage` is over 20000), so a linear regression should be appropriate for summarizing the relationship and could be useful for predicting prices.
+
+
+```{r}
+#code for plot(), with additional arguments pch=20 and cex=0.3
+plot(SalePrice~Usage, data = BULLDOZER, pch=20, cex=0.3)
+M<-lm(SalePrice~Usage, data = BULLDOZER)
+abline(M, col='red')
+#code fitting and naming the regression model
+plot(M, pch=20, cex=0.3)
+#code adding the regression line
+abline(M, col='red')
+```
+
+**************
+
+2.  The value of the slope, its standard error, $p$-value, and confidence/predictions intervals are only reliable when the model provides a reasonable reflection of reality.  Run `check_regression` on the model.
+
+```{r}
+#code running check_regression
+check_regression(M)
+```
+
+a.  The textual output gives the results of statistical tests for linearity, equal spread, and Normality of residuals.  Which (if any) tests are passed and which (if any) are failed?
+
+**Comment**
+
+
+b.  We already know our model is wrong (reality is always more complex), so failure of the statistical tests does not invalidate our model unless our data only has a couple dozen observations (we have 924 here).  For the tests that were failed, comment on whether the diagnostic plots suggest the violation is *severe* (in which case we must abandon the model) or if they are small enough to be ignored.
+
+**Comment on linearity (if needed)** 
+
+**Comment on equal spread (if needed)**
+
+**Comment on Normality (if needed)**
+
+
+**********
+
+3.  In my opinion (and it takes years to build up this intuition), none of the violations look to be severe enough to invalidate the model.  Using `visualize_model`, look at the regression line along with the confidence and prediction intervals.  Have the legend appear in the upper right by adding the argument `loc="topright"`.  An additional informal test of the model's validity is checking to see whether about 95% of points indeed fall inside the 95% prediction interval (meaning 5% should be outside).   How many *should* be outside (out of the 924 observations), and is the actual number close?  Is the model overestimating the variability in sale prices, underestimating it, or getting it about right?
+
+```{r}
+#code for visualize_model, placing the legend in the "topright"
+```
+
+**Comment**: 
+
+
+**********
+
+4.  Although the prediction intervals appear a bit wider than they need to be (fewer than 5% of points are outside them), lets predict `SalePrice` anyway for values of `Usage` of 0, 10000, and 30000.  To do this we need to make a data frame (let's call it `TO.PREDICT`) that contains a column named `Usage` that has the values of interest.  The code below shows how to do this and you can simply run the line of code.
+
+```{r}
+TO.PREDICT <- data.frame( Usage=c(0,15000,30000) )
+predict(M,newdata=TO.PREDICT, interval="prediction", level=0.95)
+```
+
+a.  Obtain 95% confidence intervals for the *average* sale price among bulldozers who have those three usages using `predict`.
+
+```{r}
+#code for a 95% confidence interval for average sale price using predict()
+```
+
+b.  Obtain 95% prediction intervals for *the next* bulldozer to be sold at each of these usages.
+
+```{r}
+#code for a 95% prediction interval for individual sale prices using predict()
+```
+
+c.  Additional observations to keep in mind:
+  * The width of the confidence/prediction intervals when `Usage=30000` is larger than their widths when `Usage=10000`.   This is because uncertainty increases when you predict at values of `x` farther away from the overall average value.  
+  * The 95% confidence interval is pretty narrow, meaning that we have nailed down the average selling price well.  Collecting more data would further narrow this down.
+  * The 95% prediction intervals are extremely wide.  This reflects the fact that at a particular value of `Usage` there is a tremendous amount of variation in `SalePrice` our model can't explain.  Collecting more data won't make this smaller (the variability is inherent in nature).  The model is of limited use for predicting the sale price of individual bulldozers.
+  * The lower limit of the prediction interval at a usage of 30000 is negative, obviously an impossible value.  This exposes a limitation and flaw in the model (namely, it doesn't "know" that values must be positive).  As we already know, our model is just an approximation to a more complicated reality.  
+  
+
+**********
+
+5.  Make a scatterplot to visualize the relationship between `SalePrice` ($y$) and `YearMade` ($x$).  There's clear nonlinearity.  Fit the regression model and run `check_regression` to see what the residuals plots look like.
+
+```{r}
+#code making the scatterplot 
+#code fitting and naming the model
+#code adding the regression line
+#code for checking regression
+
+```
+
+**********
+
+6.  It may be the case that the "correct" relationship to model isn't between the measured values of `SalePrice` and `YearMade`, but rather functions of these quantities (like square root, log).   Run `find_transformations` on your model to see the best fitting transformations.  
+
+```{r}
+#code running find_transformations (remember to run the lines containing the updated definition first)
+```
+
+**********
+
+7.  Transformations don't always work, so we always fit the suggested model and check it.  Define variables `x.trans` and `y.trans` according to the "best" transformation suggested from `find_transformations`.  Fit a linear regression predicting `y.trans` from `x.trans`, then run `check_regression` on it.  Does it appear that we can model the relationship between the transformed values with a linear regression?  Why or why not?
+
+
+```{r}
+#Define x.trans appropriately
+#Define y.trans appropriately
+#Fit and name regression using the transformed variables
+#Run check_regression on this model
+```
+
+**Comment:**

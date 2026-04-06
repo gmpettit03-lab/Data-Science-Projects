@@ -1,0 +1,411 @@
+---
+title: "MR Part 2 Dose Regression"
+author: "By: Allen Pannell"
+date: "......"
+output: word_document
+---
+Lead-in to Multiple Regression Part 2:
+
+### What's new
+
+## Key pdf MR Part 2 pages
+
+  #  4-5, 8,11,13,15,18, 24, 30-2, 37-9, 43, 55-7, 62, 78,81
+
+### New Functions
+
+     see_interactions()
+     influence_plot()
+     choose_order()
+     extrapolation_check()
+     poly()
+     outlier_demo()
+
+### Some new concepts
+
+        Interaction analysis
+        Influence for detecting outliers
+        Multivariate outlier detection
+        Checking polynomials for multiple variables
+        Hierarchy -- Parsimony's cousin
+
+**********
+# **BAS 320 Multiple Regession Insights - Drug Dosing: Presciptive? Predictive? Descriptive?**
+
+Use this file to guide your work. Work with your neighbor. Keep this file for notes. Run the first chunk.
+
+**********
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(regclass)
+
+
+
+```
+Clinicians are studying the delivery of a certain drug in a hospital setting. The outcome characteristic Y has too much variation, and patient results are hard to predict. The outcome has a target value of 215 with a tolerance of +/- 10. Clinicians have collected data on the process to determine key variables that impact the outcome variable. The dataset (.csv) contains three variables:
+
+	X1 = Dose (amount of drug given)
+	X2 = % Mix (amount of a certain ingredient)
+	X3 = Mix time (time the drug is “mixed” when prepared)
+
+
+**The work flow is outlined, some work is done for you.**
+
+ 
+1. load the .csv files, naming it Drug
+
+
+```{r 1 Load Data}
+
+Drug = read.csv("Downloads/Major Course work: Materials/BAS 320 (Linear Regression) Grayson Pettit/8.1 Dose_Regression1.csv") 
+
+```
+
+2. You may want to rename the variables for simplicity. I named them 'Dose', 'Mix', 'Time' and 'Y'
+
+```{r 2 Rename}
+names(Drug)<- c("Dose", "Mix", "Time", "Y")
+names(Drug)
+
+
+```
+
+3.a) Calculate the mean of Y, store in an object
+
+MeanY<-mean(Drug$Y, na.rm=TRUE)
+
+**Note there is an NA in the last row of the dataset**
+
+3.b) Create a vector 'to.predict' to use to predict the X values in the last row of the data set
+
+```{r 3 Mean}
+# Mean  Watch out for missing data. 
+to.predict<- data.frame(Dose=c(115), Mix=c(12), Time=c(65) )
+
+## Predict vector - one way
+
+
+
+```
+
+**********
+**********
+
+
+4. Run a simple linear regression using on the data set,
+Regress (y ~ X1). Use summary() to get key values, use predict() to predict Y with your model
+
+
+```{r 4 Regress O}
+## Model and Summary
+M<-lm(Y~Dose, data = Drug)
+#  summary(M)
+summary(M)
+
+
+
+## Predict
+
+predict(M, newdata= to.predict, interval="confidence", level= .95)
+predict(M, newdata= to.predict, interval="prediction", level= .95)
+
+
+```
+4.a) Report the numerical value that represents the impact of X1(Dose) on Y(outcome).
+1.2396 
+**Value =**
+
+4.b) Provide an interpretation to this value. Do NOT just use the standard classroom definition(s), modify to communicate to management. 
+For each additional unit of dose, the Y value increases by 1.24, and we can explain 35% of our variation in the mean value of Y with our model. 
+**Interpretation: **
+
+4.c) Predicted value of Y. 
+206.3704
+Given a dose of 115 we expect the mean Y value to be 206.36 with 95% level of confidence. Our standard errors on our model are +-.34, therefore we know that this is significant and unbiased.
+**Value =**
+
+**********
+
+**********
+
+
+
+5. Run a linear regression using on the data set,
+Regress (y ~ X1 + X2). Use summary() to get key values, use predict() to predict Y with your model
+
+
+```{r  M Regress }
+### Copy the Code from 4. Modify
+M2<- lm(Y~Dose+ Mix, data = Drug)
+
+summary(M2)
+
+predict(M2, newdata= to.predict, interval="confidence", level= .95)
+predict(M2, newdata= to.predict, interval="prediction", level= .95)
+
+
+
+```
+6.a) Report the numerical value that represents the impact of X1(Dose) on Y(outcome).
+
+**Value =**
+  1.3926 
+
+
+6.b) Provide an interpretation to this value. Do NOT just use the standard classroom definition(s), modify to communicate to management. 
+
+For each additional unit of dose, the Y value increases by 1.393. And with the variables doe and mix in our model, we can explain 68% of the variation in the mean value of Y. 
+
+**Interpretation: **
+
+6.c) Report the predicted Y.
+212.13
+**Value =**
+
+**********
+**********
+
+
+7. Run a linear regression using on the data set,
+Regress (y ~ X1 + X2 +X3). Use summary() to get key values, use predict() to predict Y with your model
+
+
+```{r 7 FM Regress }
+### Copy the Code from 4. Modify
+lm(Y~.,data = Drug)->MR
+summary(MR)
+predict(MR, newdata= to.predict, interval="confidence", level= .95)
+
+
+```
+7.a) Report the numerical value that represents the impact of X1(Dose) on Y(outcome).
+
+**Value =**
+ 1.4337 
+ 
+7.b) Report the predicted value Y. 
+
+**Value =: **
+214.1628
+**********
+
+**********
+
+8. Run the code below for the data set. 
+
+Make your own plot of the residuals vs. fitted, the canned plot is hard to see. You will have to use the MR object variables to do this. 
+
+
+```{r 10 Residuals}
+MR <- lm(Y ~ ., data = Drug)
+check_regression(MR)
+summary(MR)
+
+## Make your plot. Scale y-axis from -25 to 25. Put a line at zero.
+plot(MR$residuals~MR$fitted.values, ylim = c(-25,25))
+abline(h=0)
+plot(MR)
+
+```
+
+
+**********
+
+**Hard stop here for part 1.**
+
+*********
+
+
+
+# **Part 2**
+
+9. Create all variables for all two-factor interactions and squared terms for the data set (the X variables). 
+**Note: you sometimes can use the poly() and I() functions to do this, but don't. We can talk in class about the differences. 
+
+
+```{r 9 New Variables}
+
+# Hint. There should be 6 new variables for the data set. Add the variables to the current data.frames.
+# Examples
+Drug$Dsq <- Drug$Dose^2
+Drug$Tsq<- Drug$Time^2
+Drug$Msq<- Drug$Mix^2
+Drug$MT = Drug$Mix*Drug$Time
+Drug$DT= Drug$Dose*Drug$Time
+Drug$MD=Drug$Mix*Drug$Dose
+
+# Another Hint: Be careful with the last row 
+
+```
+
+
+************
+
+10. Run a model with all 9 variables(original 3 plus the 6 created). 
+Run summary, report the value that indicates the impact of X1 on Y. 
+What is your overall impression of the model? Compare r-sqaure to the models in 8. Run VIF().  Don't forget to predict. What is the slope of Dose(X1)? 
+
+```{r 10 Full Model}
+# you will need a new to.predict. Be careful
+FM<- lm(Y~ Dose+Mix+Time+Dsq+MT+DT+MD+Tsq+Msq, data = Drug)
+summary(FM)
+
+```
+10.a) Report the numerical value that represents the impact of X1(Dose) on Y(outcome).
+1.577e+00
+**Value =**
+
+10.b) Report the predicted value Y. 
+
+**Value =: **
+
+10.c) Report R-square. How does it compare to the last model?
+
+**Value =**
+
+10.d) Comment on the VIFs
+
+**Comment: **
+
+**********
+
+11. Based on 10. use p-values. Select what you consider to be the FINAL model for the data set. Don't forget about **parsimony and hierarchy**. Run summary(), check_regression() and VIF() on your final model. 
+
+```{r}
+# Use p < .05
+
+# Final model using p-values hierarchy and parsimony
+
+
+
+
+
+
+```
+11.a) Report the numerical value that represents the impact of X1(Dose) on Y(outcome).
+
+**Value =**
+
+11.b) Report the predicted value Y. 
+
+**Value =: **
+
+11.c) Report R-square. How does it compare to the last model?
+
+**Value =**
+
+11.d) Comment on the VIFs
+
+
+**********
+
+12. Now repeat 9, 10 and 11 using **"centered polynomials"**. Load in 8.2 Drug.Rdata so you can use my code. The concept is that you subtract the mean from each variable before squaring or creating interaction terms. I've given all but two lines below. I created a new data.frame with a 'c' on the end just because I was getting too confused. You can or you don't have to. There's a lot of code copying here from above with some minor changes.
+
+```{r}
+ # LAST ROW HAS BEEN DELETED You can get it back or save before running this code to make to.predict easier.  ********************************************************************
+
+
+load("8.2 Drug.Rdata") 
+
+
+# Create new data.frame if you want   
+Drugc <- Drug
+
+
+
+# Create new variables here
+Drugc$Dsq <- (Drugc$Dose -mean(Drugc$Dose))^2
+
+
+Drugc$Msq = (Drugc$Mix -mean(Drugc$Mix))^2
+#Drugc$Tsq = ??
+
+
+Drugc$DM = (Drugc$Dose-mean(Drugc$Dose))*(Drugc$Mix - mean(Drugc$Mix))
+Drugc$DT = (Drugc$Dose-mean(Drugc$Dose))*(Drugc$Time - mean(Drugc$Time))
+#Drugc$MT = ???
+
+# New to.predict. be careful. **************
+
+
+# Run full model here
+
+
+# Search for models here
+#####   Just use the statistically significant variables and apply Hierarchy
+
+
+
+
+# Evaluate final model here
+
+
+
+```
+
+
+12.a) Report the numerical value that represents the impact of X1(Dose) on Y(outcome).
+
+**Value =**
+
+12.b) Report the predicted value Y. 
+
+**Value =: **
+
+12.c) Report R-square. How does it compare to the last model?
+
+**Value =**
+
+12.d) Comment on the VIFs
+
+*********
+
+13. One more easy one. Run cor_matrix() on the original data set(meaning without any added variables). What do you see? 
+**NOTE: You have to take out the last row with NA for Y if you haven't already. **
+
+**Interpretation?**
+
+
+
+```{r 13 Cor Matrix}
+# Insert your data.frame names
+
+cor_matrix(Drug[1:26,1:4]) 
+
+
+```
+
+
+
+
+
+
+
+
+# Yea you are done ...... mostly
+
+*********
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

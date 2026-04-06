@@ -1,0 +1,282 @@
+---
+title: "Activity 9 - Categorical Variables"
+date: "..."
+output:
+  word_document: default
+---
+
+```{r,collapse=TRUE, echo=FALSE, message=FALSE}
+#Do not change anything in this chunk of R code
+options(width=100)
+knitr::opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE, collapse=TRUE)
+library(regclass)
+```
+
+**************
+
+**Part A** Import data EX9.BIRTHWEIGHT and save it in the dataframe  **BABY**.  This data looks at the birthweights of newborns (in grams) along with gestation (in weeks) and characteristics of the mother and father.  The original purpose of the data was to quantify the effect of smoking on a baby's health.  Since the variation in birthweights between babies can be attributable to many factors, it is important to account for them before comparing the weights of babies from mothers who smoke and those who don't.
+
+```{r,collapse=TRUE}
+data(EX9.BIRTHWEIGHT)
+BABY <- EX9.BIRTHWEIGHT
+```
+
+**************
+
+**Q1**.  Smoker has two levels:  `now` and `never`.  Are smokers or are nonsmokers the "reference" level?
+
+**Response**:  
+Nonsmokers are the reference level because 'e' comes before 'o' alphabetically
+**************
+
+
+**Q2a**.  Fit a simple linear regression predicting `Birthweight` (in grams) from only `Smoking`.  The coefficient of `Smokingnow` tells us the difference in average birthweights between levels (technically, among "otherwise identical babies", but since no other predictors are in the model, this is just the overall difference in averages). Do babies born to smokers or to non-smokers have the lower average birthweight, and by how much?  
+
+```{r,collapse=TRUE}
+#Code fitting model, naming it M
+M<-lm(Birthweight~ Smoking, data = BABY)
+
+#Code for summary of model
+summary(M)
+```
+
+**Response**:  
+Given two babies who are born to two parents who only differ by smoking or non smoking, the babies born to smokers have lower average birth weight by an average of 271.77 grams, all else constant, on average. 
+**************
+
+**Q2b** Run `associate` taking $y$ to be `Birthweight` and $x$ to be `Smoking`.  This essentially repeats the analysis from a different point of view.  Notice how the coefficient of `Smokingnow` in part a is indeed equal to the *difference* in average birthweights between the `now` and `never` groups.
+
+```{r,collapse=TRUE}
+#Code running associate
+associate(BABY$Birthweight~BABY$Smoking)
+```
+
+**************
+
+**Q2c** Is the overall difference in average birthweights between smokers and nonsmokers statistically significant?  Do you feel this difference has practical significance (i.e., is it large)?  Note:  the average birthweights of babies tends to be about 3400g, and 1 lb is about 450 grams.  Explain.
+
+**Response**:  
+The difference is both statistically and practically significant. Mean weights of babies who are born to smokers are about a half pound less than to non smokers, moreover the p value of the association is 0. 
+**************
+
+**Q3** The observed difference in average birthweights *could* be attributed to smoking, but it *could* be explained by other differences between mothers.  For example, it could be the case that women who smoke tend to have shorter gestation periods.  Since babies who gestate longer typically weigh more, the differences in birthweights between smoking/nonsmoking mothers is really "due" to differences in gestation periods.  To better isolate the association between birthweight and smoking, we should account for all potential lurking variables (other reasons birthweights can vary).  Let us explore.
+
+Fit a model predicting `Birthweight` from `Gestation` (weeks) and `Smoking`.  This allows us to compare the average birthweights for babies with the same gestation period (i.e., we wanted to "control for" the effect of gestation before comparing averages).  Based on the plot, does it look there is a difference in average birthweights after we account for `Gestation`?  Obtain a `summary` of the model, write out the overall regression equation, then write out the implicit regression equations (one for `now` and one for `never`, round coefficients to the nearest integer).
+
+```{r,collapse=TRUE}
+#Model predicting Birthweight from Gestation and Smoking
+M1<- lm(Birthweight~Gestation + Smoking, data = BABY)
+#Code visualizing the model
+visualize_model(M1)
+#Code for summary
+summary(M1)
+```
+
+**Response**: 
+
+Overall regression equation:
+
+Implicit regression (Birthweight vs. Gestation) for smokers (`never`):
+Birthweight = -411.789 + 91.273Gestation
+Implicit regression (Birthweight vs. Gestation) for non-smokers (`now`):
+Birthweight = -170.467 + 91.273Gestation
+
+
+**************
+
+**Q4**: Find the predictor that is most correlated with `Birthweight` (besides `Gestation`; note:  use `all_correlations`), fit the  linear regression predicting `Birthweight` from `Smoking` and this variable, then run `visualize_model`.  Does it look like the difference in average birthweights "goes away" after accounting for this variable?   Why or why not?
+
+```{r,collapse=TRUE}
+#Run all_correlations to determine the variable (not Gestation) most correlated with Birthweight
+all_correlations(BABY)
+#Fit a model predicting Birthweight from that predictor and Smoking
+M2<-lm(Birthweight~MotherHeight+Smoking, data = BABY)
+#Code for visualize_model
+visualize_model(M2)
+summary(M2)
+```
+
+**Response**:  
+Mother Height
+No, the difference gets larger. 
+**************
+
+**Q5**:  Now predict `Birthweight` from all variables in the dataset (remember to use the "twidle dot" shortcut).  Obtain the `summary`.
+
+```{r,collapse=TRUE}
+#Code for model predicting Birthweight from all predictors using ~.
+M3<- lm(Birthweight~., data = BABY)
+#Obtain a summary
+summary(M3)
+check_regression(M3)
+```
+
+The coefficient of `Smokingnow` now tells us the average difference in birthweights when we compare babies coming from women who have the same gestation length and same physical characteristics, same education, and same race (same true for fathers).   What is the difference in average birthweights between "otherwise identical babies" born to smokers and to nonsmokers, is this difference statistically significant (quote the $p$-value), and is this difference large? 
+
+**Response**:
+-232.9149 grams, p value is 1.41e-08 ***
+
+**************
+
+
+**Q6** There is some suspicion that poorly educated women give birth to unhealthier (and lighter) babies.  The first line of code below shows that the difference in average birthweights between education levels is statistically significant.  However, there is a statistically significant association between women's education and smoking, so we shouldn't simply compare birthweights of babies for each level of education without also accounting for the mother's smoking habits.   Using `drop1()`, determine if the variable `MotherEducation` is statistically significant in your model from Q5.  Is there `any` difference in average birthweights between levels of education after accounting for the other information in the dataset?
+
+```{r,collapse=TRUE}
+M.ed <- lm(Birthweight~MotherEducation,data=BABY) 
+summary(M.ed1)
+summary(M.ed)
+
+
+levels(BABY$MotherEducation)[levels(BABY$MotherEducation)=='Less HS']<-'Without HS'
+levels(BABY$MotherEducation)
+M.ed <- lm(Birthweight~MotherEducation,data=BABY) 
+summary(M.ed)
+#Predicting Birthweight from just MotherEducation
+drop1(M.ed,test="F")  #Shows that the difference in average birthweights is somehow different between levels of education
+#Code running drop1 on model from Q5
+drop1(M3)
+```
+
+**Response**: 
+No difference
+
+**************
+
+
+**Q7** Run `check_regression` to see if the regression model from Q5 looks valid. Which variable fails the linearity test?  Is the violation severe (you'll have to add `extra=TRUE` to see the predictor vs. residuals plot, but I would not recommend knitting with `extra=TRUE` in the code because the output is very long)?  Is equal spread and Normality passed?  If not, are the violations severe?
+
+```{r,collapse=TRUE}
+#Code running check_regression
+check_regression(M3, extra = TRUE)
+```
+
+**Response**: 
+normality is severe, linearity is severe for most variables except mother's age, mother's height and weight along with father's age, weight and height. 
+**************
+
+**Q8** Run `influence_plot` to find the influential babies to the regression from Q5. You'll see the baby in row 553 is influential.  Print out row 553 of the data frame and run `summary` on the data frame to see what makes this baby unusual.
+
+
+```{r,collapse=TRUE}
+#code running influence_plot
+influence_plot(M3)
+
+#printing row 553 of the BABY data frame to the screen
+BABY[553,]
+#obtaining a summary of the BABY data frame
+summary(BABY)
+
+```
+
+**Response**: 
+minimum birthweight. minimum gestation, age in 3rd quartile, mother weight in third quartile, father height  in third quartile, father weight above third quartile. 
+
+
+**************
+
+**************
+
+**************
+
+
+
+
+**Part B** Load in `TIPS` with the `data` command.  Let us investigate whether there is a difference in average tip percentages between smokers and nonsmokers and between days of the week.
+
+```{r,collapse=TRUE}
+data(TIPS)
+```
+
+**************
+
+
+**Q1** Fit a regression predicting `TipPercentage` from `Smoker` (or just run `associate()`).  Verify that the overall difference in average tip percentages is not statistically significant.
+
+```{r,collapse=TRUE}
+#Code for model predicting TipPercentage from Smoker
+M.0<- lm(TipPercentage~Smoker, data = TIPS)
+
+#summary of model
+summary(M.0)
+
+```
+
+**************
+
+
+**Q2** It may be the case that an association between `TipPercentage` and `Smoker` is only apparent after accounting for the (relatively large) amount of variability in `TipPercentage` attributable to differences in `Bill` amounts.  Fit a model predicting `TipPercentage` from `Bill` and `Smoker` and run `visualize_model` and `summary`.  Is the difference in average tip percentages statistically significant once we compare bills of equal size?
+
+
+```{r,collapse=TRUE}
+#Code for model predicting TipPercentage from Bill and Smoker
+M.1<-lm(TipPercentage~Smoker+Bill, data = TIPS)
+M.2<-lm(TipPercentage~Smoker*Bill, data= TIPS)
+#summary of model
+summary(M.1)
+summary(M.2)
+#code for visualize_model
+visualize_model(M.1)
+visualize_model(M.2)
+
+```
+
+**Response**  
+
+yes. Once it is interacted. 
+**************
+
+**Q3** Now predict `TipPercentage` from all variables in the dataset.  After accounting for all the information available to us, who leaves the higher average tip percentage (smokers or nonsmokers), by how much, and is the difference statistically significant?
+
+```{r,collapse=TRUE}
+#Model predicting TipPercentage from all variables using ~.
+
+M.3<-lm(TipPercentage~., data = TIPS)
+#summary of model
+summary(M.3)
+```
+
+**Response**:  
+
+**************
+
+**Q4a** Fit a model predicting `Bill` (not `TipPercentage`) from `PartySize` and `Weekday` (day of the week).  Obtain the `summary`, and write out the implicit regression equations for Friday and for Thursday.  Round coefficients to the first digit after the decimal place.
+
+```{r,collapse=TRUE}
+#Model predicting Bill from PartySize and Weekday
+M4<-lm(Bill~Weekday+PartySize, data=TIPS)
+#Summary of model
+summary(M4)
+.1621+1.3943
+
+```
+
+**Response**:
+
+
+**************
+
+**Q4b** Among equally sized parties, what is the difference in average bill amount between Sunday and Friday?  Between Thursday and Saturday?
+
+**Response** 
+
+**************
+
+
+**Q4c**: After accounting for the size of the party, on which day is the average bill largest?  smallest?  
+
+**Response**:  
+
+**************
+
+
+**Q4d**:  Among equally sized parties, is the difference in average bill amounts among days statistically significant?  Hint:  use `drop1`.
+
+```{r,collapse=TRUE}
+#drop1 to check significance of categorical variables with three or more levels
+
+5.4+ (5.6*2)+.2
+
+```
+
+**Response**: 
+

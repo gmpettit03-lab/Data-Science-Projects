@@ -1,0 +1,190 @@
+---
+title: "Activity 12"
+author: "Model Building"
+date: '...'
+output:
+  word_document: default
+  html_document: default
+---
+
+```{r,collapse=TRUE,collapse=TRUE, echo=FALSE, message=FALSE}
+#Do not change anything in this chunk of R code
+knitr::opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE, collapse=TRUE)
+library(regclass)
+```
+
+**************
+
+###Question 1:###  
+
+Load in `CUSTLOYALTY`  from package `regclass`.  In this dataset, the goal is to relate the customer's value to a company over his/her lifetime `CustomerLV` to information about his/her gender, marital status, income, first purchase amount, whether he/she has a loyalty card, his/her wallet share (the fraction of customers' purchases of similar products made through this company, goes from 0-100), total number of transactions, and last transaction amount.
+
+```{r,collapse=TRUE}
+data(CUSTLOYALTY)
+```
+
+***************
+
+**a.**   If we use the "all possible" models technique, how many models will be consider if we exclude interactions ($2^k$) and if we include interactions ($2^{k(k+1)/2}$)?  Note:  remember that we must introduce a *set* of indicator variables to represent `Income` (a 6 level categorical variable).
+
+**Response:**
+
+2^(14(14+1)/2)
+
+***************
+
+**b.**  Use `regsubsets` to perform the "all possible models" technique considering up to a maximum of 10 variables. Don't consider interactions! Then use `see_models` to report best 5 models.
+
+```{r,collapse=TRUE}
+#regsubsets commmand, saving the result to someone (I've been calling it ALL).  Be sure to add nvmax=10
+#see_models
+ALL <- regsubsets(CustomerLV~.,data=CUSTLOYALTY,method="exhaustive") 
+see_models(ALL)
+
+
+```
+
+**b1:** How many predictors are in the model with the lowest AIC?   
+
+**Response:**
+
+
+***
+
+**b2:** Only certain indicator variables representing Income appear in the model with the lowest AIC.  In effect, what 3 levels of Income are being combined together to form the "reference level"?  
+
+**Response:**
+
+***
+
+**b3:** What variables do NOT appear at all in the model with the lowest AIC?  
+
+**Response:**
+
+***
+
+**b4:** There are two other models in the output of `see_models` and their AICs are not that much higher.  Would you recommend to your boss choosing one of these instead?  Why or why not?  If your boss *insisted* on using one of these other models, could you object to the decision on statistical grounds?
+
+**Response**
+
+***
+
+**b5:** Fit a model that predicts customerLV with the interaction between income level and total number of transactions, and the interaction between income and last transaction amount.
+Are the interaction terms statistically significant?
+
+```{r}
+# Build model
+
+# Statistical significance of interaction terms (categorical variable with 3+ levels chapter 5.3)
+# drop1(M, test="F") # test="Chisq" for logistic regression.
+
+```
+
+**Response**
+
+********************
+
+**c.**  Given enough time and patience, it is possible to perform the "all possible" approach while considering the two-way interactions, but let's perform a search instead.  Fit the naive (`~1`) and full model with all two way interactions (`~.^2`) and run `step`, using `direction="both"`.
+
+
+```{r,collapse=TRUE}
+#naive <- lm()  #finish command
+#full <- lm()   #finish command
+#S <- step(naive,scope=list(lower=naive,upper=full),direction="both",trace=0)  #uncomment, change trace=1 while running it to see output but put trace=0 if you are compiling the document
+
+```
+
+**c1.** The formula presented in the last step of the output gives the order in which the variables were added.  Which was the first variable added to the model during the search, and which was the last?
+
+**Response**:
+
+***
+
+**c2.** Is the model found with the search using `step` (which includes interactions) preferable to the model found using exhaustive enumeration `regsubsets` (which did not include interactions)?  Why or why not?  Would you insist on using this model instead of the one from `regsubsets` even if the boss strongly preferred the model without interactions?
+
+**Response**:
+
+***
+
+**c3.**  We have seen interpretation of models with interactions is difficult.  Either implicit regression equations must be written or the relationships must be visualized.  Describe the relationship between lifetime value and `Income` (which is involved in an interaction with `WalletShare`).  Run `see_interactions(S,many=TRUE)` and press Enter until you get to the relevant plot.  In other words, which income level has the highest lifetime value (the answer depends on the individual's wallet share, information that can be purchased from 3rd parties).
+
+```{r,collapse=TRUE}
+#see_interactions(S,many=TRUE)  #uncomment to run
+
+```
+
+**Response**:
+
+***
+
+**c4.**  The model selected in a building procedure, though "closest to the truth" of the ones considered, may not actually provide a reasonable reflection of reality.  We always must check the assumptions behind the model.  Run `check_regression(S)` and look at the classic 3 residuals plots.  One of the assumptions looks questionable.  Explain the issue that this model has. 
+```{r,collapse=TRUE}
+#check_regression
+
+```
+
+**Response**:
+
+
+**************************
+**************************
+
+
+###Question 2:###  
+Load in `CUSTREACQUIRE`.   In this dataset, the goal is to describe the relationship between the probability of reacquiring a customer who has previously churned (`Reacquire`) after they have been given a special offer.
+
+
+```{r,collapse=TRUE}
+data(CUSTREACQUIRE)
+```
+
+**************************
+
+**a.**  Let us search for a model while considering all two-way interactions between the variables `Lifetime1`, `OfferAmount`, `Lapse`, `PriceChange`, `Gender`, and `Age` (in other words, ignore `Lifetime2` and `Value2`.  Remember that you can do all two-way interactions between only some of the variables by putting them inside parentheses, separated by a plus sign, then raising it to the second power.  For example, if you wanted to fit a model with just `x1`, `x2`, and `x5` along with their 2-way interactions you would write  `(x1+x2+x5)^2`.
+
+Let's try two approaches:  starting with naive model and starting with the full model (they may end up with different results).  Complete the relevant code.
+
+```{r,collapse=TRUE}
+# naive <- glm() #finish command and uncomment
+# full <- glm() #finish command and uncomment; not you may get a warning, this is ok
+#S1 <- step(naive,scope=list(lower=naive,upper=full),direction="both",trace=0)  #uncomment once first 2 commands completed
+#S2 <- step(full,scope=list(lower=naive,upper=full),direction="both",trace=0) #uncomment once first 2 commands completed
+
+```
+
+**a1**:  What predictors are in the model found starting with the naive model?
+
+**Response**:  
+
+***
+
+**a2**:  What *additional* predictors are in the model found starting with the full model?
+
+**Response**: 
+
+***
+
+**a3**:  Your boss wants you to choose between these two models.  Which do you pick?
+
+**Response**:
+
+***
+
+**a4**:  Using your selected model, describe how the probability of reacquisition varies with the variable `Lapse` (the length of time between the customer churned and was given a special offer to entice him/her back)?
+
+**Response**:
+
+***
+
+**a5**: Run `check_regression` to check whether the model provides a reasonable reflection of reality and comment on whether we have found, to the best of our ability, a good descriptive model.
+
+```{r,collapse=TRUE}
+# check_regression
+
+```
+
+**Comment:**
+
+
+**************************
+

@@ -1,0 +1,342 @@
+---
+title: "Assignment 8 - Multiple Regression Part 2n"
+author: "Your name here"
+date: "Put Date Here"
+output:
+  word_document: default
+  pdf_document: default
+---
+
+# Delete this line and lines 11-19 before knitting or from the Word doc after knitting. 
+**************
+### Put page numbers in upper right hand cornter AFTER knitting  
+Problem statements are provided in this file.
+Write your brief answer immediately after the :  
+(if R code is required, have the R code be BEFORE your completed response).
+
+The following chunk loads library regclass and two dataframes (Bcycle, Car, and TIPS).
+(Make sure that the file "Assignment8_SP22.RData" is in the same folder as this markdown file!)
+**************  
+
+**Grading: Deleted instructions** 5 points  
+**Grading: Page Numbers** 5 points  
+
+```{r load up regclass, message=FALSE, include=FALSE}
+#Do not change anything in this R chunk
+library(regclass)
+load("~/Downloads/Major Course work: Materials/BAS 320 (Linear Regression) Grayson Pettit/Assignment8_SP22.RData")
+## Put in same folder as .rmd.
+
+knitr::opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE, collapse=TRUE)
+```
+
+**************
+
+**Question 1**:  Use the daframe `Car`. We want to predict `FuelEfficiency` from a car's characteristics.
+
+
+**Question 1a:**  Make the scatterplot matrix of the variables in the dataframe.  Do the relationships of each predictor with `FuelEfficiency` look roughly linear?  If not, which ones don't?
+ 
+ **Grading:** 5 points  
+
+ 
+```{r q1 scatterplot matrix, echo=FALSE}
+#scatterplot matrix
+pairs(FuelEff~., data= Car)
+
+```
+
+**1a. Response:** 
+
+Cylinders looks pretty clustered, not super linear.  
+Displace, Horse, and weight all look to be asymptotic, (not super linear) but with a transformation they'll be statistically significant, Accel is kind of linear, but super heteroskedastic. 
+
+**Question 1b:**  Fit the "full model" (with all variables in it) using the "twidle dot" shortcut.  Examine  `summary` as well as `check_regression` on the model (with `extra=TRUE`).  Discuss at least one issue with the regression that *potentially* makes it a bad model. **Comment on the assumptions, but delete the check_regression printed output, leaving only the graphs**  
+
+**Grading:** 5 points  
+**Grading: Deleted printed output** 5 points  
+
+```{r q1 first regression, echo=FALSE}
+#fitting model
+M<-lm(FuelEff~., data= Car)
+
+
+
+
+#checking model 
+
+summary(M)
+check_regression(M)
+anova(M)
+```
+
+
+**1b Response:**  
+Good things first, weight is considered linear for the model, although I think on the plot it looks a little iffy. The R squared and adjusted R squared are both good at a little over .71 on both of them. Our sample size is 277, which is more than the n>25 suggestion in order to work on the model more. 
+
+Bad news: Cylinders is not a statistically significant variable, Acceleration is also not a statistically significant variable. There are multiple linearity problems with cylinders, Displace, Horse, and Acceleration. Overall model is not linear because there aren't enough duplicate rows. There isn't much equal spread. It isn't normally distributed. 
+
+**Question 1c:** Nonlinearities may exist in the relationships, so let us try polynomial fits.  Fit five separate simple linear regressions (one for each predictor) and run `choose_order` (use max.order = 4) on each. Report the selected orders for each predictor based on the KISS or Ockam's Razor rule (within .02).  
+
+
+**Grading:** 2.5 points each, 10 points total.  
+**Grading: Only Showed 1 output** 5 points  
+
+```{r q1 choosing orders, include=FALSE}
+#Note:  I have set eval=FALSE here so no output shows up  in the document. 
+## Do all variables EXCEPT Acceleration in this chunk
+#This is fine, just make sure to choose and report the correct order!
+
+M.Cyl<-lm(FuelEff~Cylinders, data = Car)
+choose_order(M.Cyl, max.order = 4)
+M.Disp<-lm(FuelEff~Displace, data = Car)
+choose_order(M.Disp, max.order = 4)
+M.Horse<-lm(FuelEff~Horse, data = Car)
+choose_order(M.Horse, max.order = 4)
+M.Weight<-lm(FuelEff~Weight, data = Car)
+choose_order(M.Weight, max.order = 4)
+M.Accel<-lm(FuelEff~Accel, data = Car)
+choose_order(M.Accel, max.order = 4)
+
+
+
+```
+
+```{r Output, echo=FALSE}
+# Do Acceleration in this chunk so one example output appears
+M.Accel<-lm(FuelEff~Accel, data = Car)
+choose_order(M.Accel, max.order = 4)
+
+
+```
+
+**1c Answers:**
+
+       
+**`Cylinders`**:        
+Order: 1st order because R2adj us .611 compared to highest order of cubed at .629 (-.018)
+**`Displacement`**:     
+
+**`Horsepower`**:       
+Order: 2nd order because R2adj is .6578 compared to highest order of 4th power which is .6581 (-.003).
+**`Weight`**:           
+Order: 2nd order because R2 adj is .71685 compared to second highest order which is 1st order at .69665, the difference is .0201. Therefore we use the second order. 
+**`Acceleration`**:     
+Order: 2nd order because the difference between 2nd and 3rd (highest order) is about .013. 
+
+
+**Question 1c:** Fit a multiple regression model with the relevant polynomial terms and call it `M.poly`.  Report $R^2_{adj}$ and the $RMSE$ of this model and compare them to the model in *b:*.  Comment on whether these extra terms have  "significantly" improved the model.  
+Note:  your command should look something like the line in the following chunk (replace the question marks with the selected orders):
+
+**Grading:** 5 points  
+
+```{r poly, echo=FALSE}
+M.poly <- lm(FuelEff~poly(Cylinders,1)+ poly(Displace,2)+ poly(Horse,2)+ poly(Weight,2)+poly(Accel,2), data= Car)
+summary(M.poly)
+
+
+```
+
+
+
+**1d Response:**  
+
+These have significantly improved the model. The RSME in the model from part b was 4.224, while this model is 3.753. Moreover, while the P-values are similar in both models, the Adjusted R squared has increased in this model to .7713 compared to .7102 in the model in part b. That's a difference of about .0611 in adjusted r squared meaning that the addition of the polynomial terms have improved the model. 
+
+
+
+
+
+**************
+
+**Question 2**:  Use the dataframe `Bcycle`.
+
+
+**Question 2a:** Fit a model predicting `Demand` from all predictors and look at its `summary`. Examine the influence plot for this model.
+
+**Grading:** 5 points  
+**Grading: Deleted Leverage Plot** 5 points  
+```{r q2a fitting model and influence plot, echo=FALSE}
+#fit model
+M2<-lm(Demand~., data= Bcycle)
+#summary
+summary(M2)
+#influence_plot
+influence_plot(M2)
+
+  # Delete the Influence Plot after knitting, leave only the Row Leverage ID $$$$$$$$
+```
+
+
+
+
+**Question 2a1:**  There is one extremely influential point in this dataset.  Show the influential row, then explain what makes it so unusual through the use of the scatterplot matrix (its not possible to see why its unusual with `summary` on the individuals variables).
+
+**Grading:** 5 points
+
+```{r q2a1 investigation, echo=FALSE}
+# Use [] with the row number and all columns to print out that row to the screen
+Bcycle[307,]
+ #scatterplot matrix
+pairs(Demand~., data = Bcycle)
+
+TO.PREDICT1<- data.frame(
+  AvgTemp=c(29.66),
+  EffTemp=c(12.12),
+ AvgHumid=c(57.08),
+  AvgWind=c(15.5)
+)
+extrapolation_check(M2, newdata=TO.PREDICT1)
+check_regression(M2)
+summary(Bcycle)
+```
+
+
+**2a1 Response:** 
+
+
+Average Temperature is nonlinear, Average Humidity is nonlinear, the model is not normally distributed, spread is unequal. Extrapolation check on our variables in row 307, show that this point is in the 100th percentile and leverages the model to the upper end of the regression. 
+
+
+
+**Question 2a2:** The influential point represents a data error, so we are justified in removing it.  Re-fit the model *without* this point and examine the results of `summary` on the model.  Comment on the change in $R^2$ and $RMSE$ (has it gotten better by throwing away the point?) and the significance of predictors using this new model.  
+
+
+
+
+
+**Grading:** 5 points
+
+
+```{r q2a2 newmodel, echo=FALSE}
+# use [] in the data = argument to omit the row. Do not delete the row or make a new DF.Call the model M.new
+Bcycle1<-Bcycle[-307,]
+
+M.new<-lm(Demand~., data = Bcycle1)
+summary(M.new)
+
+M3<-lm(Demand~., data= Bcycle[-307,])
+summary(M3)
+
+```
+
+**2a2 Response:**  
+Old:
+AvgTemp: not statistically significant
+EffTemp: not statistically significant
+AvgHumid: statistically significant at .001 level
+AvgWind: statistically significant at .001 level
+Multiple R-Squared: .4095
+R Squared adjusted: .4031
+RMSE: 1366
+
+New: 
+AvgTemp: statistically significant at .01 level
+EffTemp: statistically significant at .001 level
+AvgHumid: statistically significant at .001 level
+AvgWind: statistically significant at .001 level
+Multiple R-Squared: .429
+R Squared adjusted: .4228
+RMSE: 1342
+
+New model has more statistically significant predictors from omitting row 307 including both AvgTemp and EffTemp. RMSE decreased by about 24, and multiple R squared increased by about .0195. Therefore the omission increased the utility of the model. 
+
+
+**Question 2b:** The *strength* of the relationship between `Demand` and the other predictors may not be a constant.  For example, the strength of the relationship between `Demand` and `AvgTemp` may depend on `AvgWind` (on warm days, wind speed may not matter, but on cold days, wind speed may matter a lot).  Fit a model with all two-way interactions (but without that influential point) and use `see_interactions` to scan for possible interactions (note:  add the argument `many=TRUE` or there will be too many plots).  Does it look like we should include interactions into the model?  Explain Why or why not using the plot of interaction with the lowest p-value?
+
+
+
+
+**Grading:** 10 points, 5 points for R output, 5 points for explanation.  
+**Grading: Showed only most statisitically significant ineraction plot pair** 5 points  
+
+```{r q2b, echo=FALSE}
+#model with all two way interactions omitting the offending row
+
+M.int <- lm(Demand~.^2, data = Bcycle[-307,])
+summary(M.int)
+
+#see interactions, with argument many=TRUE 
+see_interactions(M.int, many = TRUE)
+
+
+### only leave most statistically significant plot pair in AFTER knitting
+
+
+```
+
+
+**2b Response:**  
+ Not really a good idea to use interactions because the trends seem to be parallel between average Temp and EffTemp. However AvgTemp has a positive relationship to demand, while EffTemp has a negative relationship to demand. We do not see trend lines crossing. The p value is pretty close to 0 (3.91e-12), but the graphs just don't lead me to think that it's a great relationship. I would suspect that their might be multicollinearity involved with these two predictors. Moreover, while the addition of interactions does reduce the RMSE and increase the R squared, and adjusted R squared, to about .504 and .4906 respectively, it does this at the expense of all of 8 variables in our regression not being statistically significant. 
+
+
+
+**Question 2c:**  Fit a model from the analysis in **2b** above with using only the statistically significant (<.05) variables. Be sure to adhere to hierarchy! Are all the variables now statistically significant? 
+
+
+
+**Grading:** 5 points, 3 for correct model, 2 for right answer. 
+
+```{r q2c, echo=FALSE}
+#model with statistically significant variables omitting the offending row
+
+ M.sig <- lm(Demand~ AvgHumid+ AvgTemp +EffTemp +AvgTemp*EffTemp, data = Bcycle[-307,])
+summary(M.sig)
+
+```
+
+
+**2c Response: yes/no?** 
+No, AvgTemp is no longer statistically significant. 
+**************
+
+**Question 3**:  Use the dataframe `TIPS`.  The percentage tip left on a bill `TipPercentage` has an interesting relationship with the bill amount `Bill` and number of people at the table `PartySize`.
+
+**Question 3a** Fit a model predicting the tip percentage from the bill amount and size of party, including the interaction.  Look at `visualize_model` and `summary`.  You'll see that the interaction is significant but `PartySize` itself is not.  Would we be justified in dropping the `PartySize` term from the model?  Why or why not?
+
+**Grading:** 5 points
+
+```{r q3a, echo=FALSE}
+#model predicting the tip percentage from the bill amount and size of party with interaction
+# visualize_model
+M3<-lm(TipPercentage~Bill + PartySize + Bill*PartySize, data = TIPS)
+visualize_model(M3)
+summary(M3)
+```
+
+
+**3a Response:**  
+No, because given hierarchy and parsimony, we should include the terms that we are interacting. Moreover there will be a reduction in the RMSE associated with the inclusion of the Party Size variable that can increase the accuracy of our model. 
+
+**Question 3b**   Write out the overall regression equation.  Round each coefficient to two decimal places. 
+
+
+
+**Grading:** 5 points  
+
+**3b Response:**  
+TipPercentage= 25.81 -0.53*Bill -1.76PartySize + .09PartySize*Bill + error
+
+Rewriten:
+TipPercentage=25.81 -1.76Partysize + Bill(-.53 +.09PartySize) + error
+
+
+**Question 3c**   Now write out the implicit regression equations between tip percentage and bill for party of size 4.  
+
+**Grading:** 5 points.  
+
+
+**3c. Equation when party is size 4:** 
+
+TipPercentage= 25.81 -0.53*Bill -1.76(4) + .09(4)*Bill + error
+
+
+
+
+**Question 3d**  What is the story that the data tells us?  In other words, describe how the relationship between tip percentage and bill amount changes as the party size gets bigger.  Does it get weaker, stronger? Is it positive, negative?  
+
+**Grading:** 5 points  
+
+
+**3d Response:**   
+It gets stronger (the slope gets bigger) and is a negative relationship between bill size and tip percentage with the increase of party size. 

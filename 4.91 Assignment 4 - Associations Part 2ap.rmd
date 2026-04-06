@@ -1,0 +1,259 @@
+---
+title: "Assignment 4 - Associations Part 2ap"
+author: "Grayson Pettit"
+date: "15 September"
+output:
+  word_document: default
+  html_document: default
+  pdf_document: default
+---
+**************
+################################################## Delete ALL this once you knit for a clean report ##################################
+
+The assignment problems are taken from the book.  If you do not own the book, these questions can be found in the TEXTBOOK - Homework Packet (BAS320HomeworkPacket.pdf file) up in the Introduction - Class Resources module on Canvas.  
+
+Some questions may be slightly modified, so always answer the requested questions as written up here when they are provided.   Write your (brief) answer immediately after the \*Answer:\*  (if R code is required, have the R code be AFTER your completed answer).
+
+Note: For this assignment to "knit", the `regclass` packaged must be installed. 
+
+################################################## Delete ALL this once you knit for a clean report ##################################
+**************
+
+
+
+
+
+
+```{r load up regclass, message=FALSE, include=FALSE}
+#Do not change anything in this R chunk
+library(regclass)
+```
+
+
+**Data Description:** The government conducts the census every 10 years, but not everyone responds. Follow-up
+workers interview the people who don’t mail back their form. To intelligently allocate workers,
+we need to figure out which quantities are associated with the response rate. Use EX2.CENSUS.
+Most columns give the percentages of each neighborhood with a certain property, e.g., Suburban
+gives the percentage of that neighborhood that is considered “suburban”, Hispanics gives
+the percentage of individuals that identify as Hispanic, Age45to65 gives the percentage of the
+individuals within that age range. Other columns like VacantUnits and RentingHH give the
+fraction of housing units or households with that quality.
+
+**************
+
+**Question 1**: Use the EX2.CENSUS data that is included in Regclass. 
+**Grading:** 6 point each, 24 points total.
+```{r Load Data, include=FALSE}
+# bring in the data in this chunk.
+# you do not use read.csv() or load()
+data("EX2.CENSUS")
+
+### after you have the data in, Use the following code to create your random sample.
+
+MyCensus = EX2.CENSUS[sample(round(runif(1,2800,3220))),] # Check Environment to see what happened
+
+MyCensus
+
+
+
+
+```
+
+
+**1a. Question:** What five variables are most strongly correlated (maybe positive or negative) with ResponseRate. Show output for the top 10 **ONLY**.
+
+
+
+```{r Question 1a, echo=FALSE}
+library(regclass)
+data("EX2.CENSUS")
+MyCensus = EX2.CENSUS[sample(round(runif(1,2800,3220))),]
+
+all_correlations(MyCensus[c(1,2,3,4,5,6,7,8,9,10,11)], type = "pearson", sorted = "significance", interest = "ResponseRate")
+
+
+
+
+#sorted="significance", interest="ResponseRate"
+##[,c(1,2,3,4,5,6,7,8,9,10)]
+#code for 1a
+######### Don't forget to use the MyCensus dataframe. 
+                  
+
+```
+
+
+**1a. Answer:** 
+
+data("EX2.CENSUS")
+MyCensus = EX2.CENSUS[sample(round(runif(1,2800,3220))),]
+
+all_correlations(MyCensus[c(1,2,3,4,5,6,7,8,9,10,11)], type = "pearson", sorted = "significance", interest = "ResponseRate")
+
+**1b. Question: ** What is the rsquare between ResponseRate and RentingHH (% renting their housing)? Interpret this number. 
+
+```{r Code for 1b, echo=FALSE}
+# Code for 1b
+associate(MyCensus$ResponseRate~MyCensus$RentingHH)
+##Pearson's r                 -0.5962222
+(-0.5962222)^2
+```
+
+
+**1b. Answer:** 
+R^2=0.3554809
+**1c. Question:** Is the relationship between ResponsRate and FemaleHH statistically significant? Is that practically significant? Explain? 
+ 
+
+```{r Code 1c, eval=FALSE, include=FALSE}
+# No code needed. Answer is in output from 1a.
+
+```
+
+**1c. Answer:** 
+associate(MyCensus$ResponseRate~MyCensus$FemaleHH)
+It is statistically significant because the p value is 0. It could be practically significant because it could help to know the gender of the respondant on the part of the surveyer in order to improve operations. Knowing the negative correlation between response rates and female households could save money on operations expenses and time of the surveyers. 
+
+**1d. Question:** Explore the association between logMedianHouseValue (the logarithm of the median
+home value) and MedianHHIncomeCity (the median income of households in the city).
+Let x be MedianHHIncomeCity) and describe the direction and form
+of the stream of points. Does the stream have “unusual features”? Which measure (Pearson
+vs. Spearman) should be used to measure the strength of the association and why?
+
+```{r Code for 1d, echo=FALSE}
+#code for 1d
+# Show scatter plot, but not permutation graphs. Clean up remaining output to essential information. 
+## NOTE. This is just one line of code, one function.
+
+associate(MyCensus$logMedianHouseValue~ MyCensus$MedianHHIncomeCity)
+plot(MyCensus$logMedianHouseValue~ MyCensus$MedianHHIncomeCity)
+
+#
+
+#Spearman's rank correlation will automatically straighten out the log of this correlation. 
+
+#cor(MyCensus$logMedianHouseValue~ MyCensus$MedianHHIncomeCity, type= "spearman")
+
+
+```
+**1d. Answer:** 
+This graph is concave and upward sloping, thus there is a positive correlation between logMedianHouseValue and MedianHHIncomeCity. However, there are a multitude of outliers which underperform the best fit line. 
+
+**************
+
+**Question 2**:  Use EX2.TIPS. This dataset records the bill and tip amounts (along with tip percentage) as
+well as the party size, who was at the table, whether they smoked, and the time of visit.  
+
+**Grading:** 6 point each, 18 points total.
+```{r q2}
+
+data(EX2.TIPS)
+
+```
+
+**2a. Question:** We are curious whether there is an association between the size of the party and whether they smoke. Party sizes range between 1 and 6, so in this case, it is appropriate to compare the average between groups (when y only takes on a few different values, using the
+average is typically the best way to go regardless of what the distribution looks like). Run
+associate() to perform a test of significance using the default number of permutations.
+Why is the test inconclusive?
+
+```{r Code for 2a, echo=FALSE}
+# Code for 2a
+set.seed(320)
+associate(EX2.TIPS$Size_of_Party~EX2.TIPS$Smoker, seed = 320, permutations = 500)
+
+          
+### ONLY Show the output relevant to the permutations question (delete after knitting)
+
+
+```
+
+**2a.Answer:** 
+This test shows an ANOVA p value between .028 and .066, which means with 95% confidence that p= .05 is within the confidence interval, and that the confidence interval is not below .05. Therefore, this test is not statistically significant. 
+
+**2b. Question:** Change the number of permutations to 5000. The test should now be conclusive. Is there a
+statistically significant difference in average party size between smokers/non-smokers?
+
+```{r Code for 2b, echo=FALSE}
+## Code for 2b
+
+associate(EX2.TIPS$Size_of_Party~EX2.TIPS$Smoker, seed = 320, permutations = 5000)
+
+
+## only leave the output relevant to the question at hand. Only show a good looking box and whisker graph (boxplot())
+
+```
+
+
+**2b.Answer:** 
+Yes, there is a statistically significant difference because our p value is less than .05, there is evidence to suggest that smokers tend to be in smaller party sizes. 
+
+
+**2c. Question:**  Examine the association between y = Day_Night (whether the table was seated for lunch
+vs. dinner) and x = Smoker. Examine graphical output and the result of the statistical test.
+Is the fraction of non-smokers who dine at lunch (day) larger or smaller than for smokers? Provide numbers to support your answer. Is the
+association statistically significant? Using the conditional distribution table to explain the statistical significance result.
+
+```{r Code for 2c , echo=FALSE}
+
+## Code for 2b
+associate(EX2.TIPS$Day_Night~EX2.TIPS$Smoker, seed = 320, permutations = 500)
+
+
+## Don't leave "Chance of Discrepancy" Graph in. Clean up output, but show contingency table and Conditional distribution.
+
+
+
+```
+
+
+
+
+**2c.Answer:** 
+Is the fraction of non-smokers who dine at lunch (day) larger or smaller than for smokers? 
+Yes, the fraction of people who are non-smokers who dine at lunch time is 45/68 compared to 23/68 for smokers. 
+
+
+Is the association statistically significant?
+No, the p value is between .412 and .501, which fails to reject the null hypothesis. 
+
+
+
+**************
+
+
+**Question 3**: Visit <https://tylervigen.com/spurious/discover>.  Choose one of the variable types (Interesting variables, Marriage rates, etc.).   Scan through the list of variables, choose one, and click Correlate.  Scan through the list of possible correlations and choose one with a "large" positive or negative correlation and that has at least 12 observations (i.e. 12 yrs or more).   
+
+**Grading:** 6 point each, 18 points total.
+
+
+**3a. Question:**   Report the two variables you selected. Include the plot the website provides. 
+To do this in this document, right-click the graph that appears and copy the image address (URL). Paste it into the parentheses below so the image shows up in your writeup.
+
+
+**3a.Answer:** 
+
+**************  
+My two variables are Annual US household spending on mortgage interest and charges and the number of college computer science teachers in New Mexico.
+
+![My spurious correlation graph](https://tylervigen.com/spurious/correlation/image/22223_annual-us-household-spending-on-mortgage-interest-and-charges_correlates-with_the-number-of-college-computer-science-teachers-in-new-mexico.svg)
+![My spurious correlation plot](https://tylervigen.com/spurious/correlation/scatterplot/22223_annual-us-household-spending-on-mortgage-interest-and-charges_correlates-with_the-number-of-college-computer-science-teachers-in-new-mexico_scatterplot.png)
+
+
+
+************************************
+
+**3b. Question:**  Report $r^2$ and give the standard interpretation of its value.
+
+**3b.Answer:**  
+r2 = 0.6792345
+This means that 67.9% of variations around the mean number of college computer science teachers can be explained by annual household expenditure on mortgage interest. 
+
+
+**3c. Question:** The variables you selected have a statistically significant correlation (or association).  Explain whether you think the association is cause/effect, whether you think the association arose simply by chance alone, or whether you think there is a lurking variable inducing the association. 
+
+**3c.Answer:** 
+P<.01, 
+Therefore the correlation is statistically significant. I do not think that this relationship is causal because there are a multitude of variables that could be in the error term, those lurking variables. I do think that this association arose by chance. A lurking variable could be demand for computer science professionals outside of New Mexico in the private sector, or alternatively a change in student preferences towards a different major type. 
+
+
+

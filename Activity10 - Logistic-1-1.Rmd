@@ -1,0 +1,215 @@
+---
+title: "Activity 10"
+author: "Categorical variables and Interactions; intro Logistic Regression"
+date: '...'
+output:
+  word_document: default
+  html_document: default
+---
+
+```{r,collapse=TRUE, echo=FALSE, message=FALSE}
+#Do not change anything in this chunk of R code
+options(width=100)
+library(regclass)
+```
+
+**************
+
+**Question 1:** Download and `read.csv` act10-wholesale.dat, calling it `WHOLE` (make sure both this .Rmd file and the data file are in your BAS320 folder).  This contains customer data from a wholesaler that sells products typically used in the food industry (consumables,  groceries, detergents).  There are two broad customer types:  retail and restaurant.  It is useful to develop models of spending to better understand customers.  
+
+Consider making a model to predict the annual spending of fresh vegetables (`Fresh`) from the annual spending on other products (`Frozen`, `Milk`,`Grocery`,`Detergents`,`Meat`), from the type of customer (`Type`; levels are `Retail` and `Restaurant`) and region of the customer (`Region`, which is either `Lisbon`, `Oporto`, or `Other` places in Portugal).
+
+
+```{r,collapse=TRUE}
+ WHOLE <- read.csv("~/Downloads/Major Course work: Materials/BAS 320 (Linear Regression) Grayson Pettit/act10-wholesale-2.dat",stringsAsFactors = TRUE)
+
+```
+
+**************
+
+**a**.  Fit the multiple linear regression predicting `Fresh` from all other variables (remember to use ~. shortcut) and look at the `summary` and the results of `drop1` (remember to add `test="F"`)
+
+```{r,collapse=TRUE}
+#Fit model
+M<-lm(Fresh~., data = WHOLE)
+
+#Get summary
+summary(M)
+#Do drop1
+drop1(M, test = "F")
+```
+
+**a1**.  This regression lets us answer the question "Is there a difference in the average amount of money spent on fresh vegetables between otherwise identical retail and restaurant customers (with respect to the other variables in the model)?"  What number in the regression output answers this question?  If there a statistically significant difference in averages, and if so, which type of customer spends more and by how much?
+
+**Comment**:  
+Yes there is a statistically significant difference, restaurant customers spend more by 3985.27 euros.  
+************
+
+**a2:**  The regression also allows to probe where the average amount of money spent varies based on the location of otherwise identical customers (variable `Region`).  Is the difference in averages between regions statistically significant?  If so, which region had the largest average?
+
+**Comment**:  
+Not statistically significant. 
+**************
+
+**b:**  The fitted model may be overly simplistic because there are no interactions.  Without interactions, the model  assumes that the difference in average value of $y$ when comparing "otherwise identical" individuals who differ in just $x_i$ is a constant, i.e., independent of the other characteristics (other values for $x$) of the individuals.  Let's see if interactions seem to be important.
+
+**b1:** Consider the interaction between `Milk` and `Type`.  Including this interaction allows the nature of the relationship between `Fresh` and `Milk` to vary based on the `Type` of customer.  Fit the model predicting `Fresh` from `Type` and `Milk`, with the interaction, i.e., the formula should be `Fresh~Type*Milk`.  Visualize the model with `visualize.model`.   Which type of customer has the *larger* impact on the relationship between `Fresh` and `Milk`, and is the difference in strengths statistically significant?
+
+```{r,collapse=TRUE}
+#Fit model
+M1<-lm(Fresh~Type*Milk, data = WHOLE)
+#Get summary
+summary(M1)
+#Visualize model (put legend in "bottomleft")
+visualize_model(M1, loc = "bottomleft")
+```
+
+**Response**:  
+Restaurants have larger impacts on the relationship between fresh and milk. The difference is statistically significant. 
+************
+
+**b2:**  Consider the interaction between `Detergents` and `Region`.  This interaction allows the nature of the relationship between `Fresh` and `Detergents` to vary based on the `Region` of customer.  Fit the model predicting `Fresh` with these two predictors and their interaction, visualize it  (I suggest putting the legend in the "bottomleft"), and run `drop1`.   For which region is the impact on the relationship the largest?  The smallest?  Is the difference in impact statistically significant?
+
+
+```{r,collapse=TRUE}
+#Fit model
+M2<-lm(Fresh~Detergents*Region, data = WHOLE)
+#Visualize model (legend in bottomleft)
+visualize_model(M2, loc = "bottomleft")
+#Summary of model
+summary(M2)
+#Do drop1
+drop1(M2, test = "F")
+```
+
+**Comment**:  
+Largest, other
+smallest: lisbon
+difference is not statistically significant. 
+
+
+
+************
+
+**b3:**  Fit a model predicting `Fresh` from `Frozen`, `Region`, `Milk`, and the interaction between `Region` and `Milk`.  Starting with the output of `summary`, write the implicit regression equation (predicting `Fresh` from `Frozen` and `Milk`) for customers in Lisbon and the implicit regression equation for customers in Oporto.
+
+```{r,collapse=TRUE}
+#Fit model
+M3<-lm(Fresh~Frozen+Region*Milk, data = WHOLE)
+#Get summary
+summary(M3)
+```
+
+**Response**:
+
+
+
+*******
+
+**c:**  The boss decides to use a model predicting `Fresh` from all other variables along with the interactions between `Region` and `Frozen`, `Grocery` and `Detergents`, and `Grocery` and `Meat`.  Fit this model using
+
+```{r,collapse=TRUE}
+M <- lm(Fresh~. + Region*Frozen + Grocery*Detergents + Grocery*Meat,data=WHOLE)
+```
+
+**c1:** Verify that the interaction between `Region` and `Frozen` is statistically significant using `drop1` (even though the individual variables representing the interaction, whose coefficients are comparing the slopes between that region and the reference region are not).
+
+```{r,collapse=TRUE}
+#Get summary
+#Do drop1
+```
+
+**Comment**:  
+
+************
+
+**c2:**  Run `see_interactions` on the model and determine for which region the impact on the relationship between `Fresh` and `Frozen` is largest and smallest (assuming these customers are spending identical amounts on other items). 
+
+```{r,collapse=TRUE}
+#Run see_interactions, putting legend in the topleft
+```
+
+**Response**:   
+
+************
+************
+************
+
+**Question 2:** Download and `read.csv` act10-custreacquisition.dat, calling it `REACQUIRE` (make sure both this .Rmd file and the data file are in your BAS320 folder).  This contains data on 500 customers of a business who have "churned".  A special offer was made to try to reacquire the customer.  Sometimes the customer came back, sometimes they didn't.  Let us examine the relationship between the probability of requiring and the amount of money the customer originally spent before he or she churned. 
+
+
+```{r,collapse=TRUE}
+REACQUIRE <- read.csv("~/Downloads/Major Course work: Materials/BAS 320 (Linear Regression) Grayson Pettit/act10-custreacquisition-1-1.dat",stringsAsFactors = TRUE)
+```
+
+**a:** The levels of `Reacquire` are Yes/No.  When the logistic regression predicts a probability, which level is this probability for?
+
+**Response**:  
+
+***************
+
+**b:** Fit a simple logistic regression model predicting `Reacquire` from `Lifetime1` (amount customer spent before churning). Remember the new syntax:  `glm(formula,family=binomial,data=)`.  Get a `summary` and visualize the fitted logistic curve.  Do customers who have spent more money before churning have a higher or a lower chance of being reacquired than customers who have spent less money? 
+
+
+```{r,collapse=TRUE}
+#Fit model using glm
+M4<-glm(Reacquire~Lifetime1, family = binomial, data = REACQUIRE)
+
+#Get summary
+summary(M4)
+#Visualize model
+visualize_model(M4)
+
+
+```
+
+**Comment**:  
+
+*********
+
+**c:** Look at a summary of the model.  What part of the output tells us that, indeed, the probability of reacquiring changes with `Lifetime1` in the same way you saw from the plot?
+
+**Comment**:  
+
+
+**********
+
+**d:**  Using the numbers from the summary of the model (not the plot), at what value of `Lifetime1` is there a 50% chance of reacquisition? 
+
+**Comment**:  
+
+*******
+
+**e:**  Write out the equation for the logistic curve, i.e., $p = ...$, then predict the probability that a customer who spent 400 dollars before churning would be reacquired and the probability the customer would not be reacquired.   Note:  this involves a lot of $e$ raised to a power, not just plugging 400 into the equation from the summary output!  Recall that to do the number, say, $e^3$, you type it in as `exp(3)` and NOT `e^3`.
+
+```{r,collapse=TRUE}
+#Math to calculate the probability of reacquiring
+#Math to calculate the probability of not reacquiring
+```
+
+***************
+
+**f:** Fit a simple logistic regression model predicting `Reacquire` from `Offer` (value of offer to entice customer to return).   Visualize the fitted logistic curve.  You'll notice that it does not look like a logistic curve and instead looks like a straight line.   This is because we are only looking at a small range of `Offer`.  Add the argument `xlim=c(-20,80)` inside `visualize.model` to extend the range of the plot. Although these aren't viable values of `Offer`, you can see that we are indeed using the logistic curve.
+
+
+```{r,collapse=TRUE}
+#Fit model
+#Visualize model
+#Visualize model with new limits on x axis
+```
+
+**Comment**:  
+
+***************
+
+**g**:  It is a bit naive to study the relationship between the probability of reacquiring a customer and the amount of money spent before churning with a simple logistic regression because there are lurking variables (other reasons why probabilities may differ, like Gender, Age, how much the Offer was, how much time elapsed between churning and the offer, etc.).  Fit a model predicting `Reacquire` from `Lifetime1` as well as `Offer`, `Lapse`, `PriceChange`, `Gender`, and `Age`.  Look at the `summary`.  Among "otherwise identical individuals", does the individual with the larger value of `Lifetime1` have the larger or the smaller probability of reacquisition?  
+
+```{r,collapse=TRUE}
+#Fit model
+M5<-glm(Reacquire~Lifetime1+Offer+Lapse+PriceChange+Gender+Age, family= binomial, data = REACQUIRE)
+
+#Get summary
+summary(M5)
+```
+
+**Response**:  

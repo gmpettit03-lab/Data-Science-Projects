@@ -1,0 +1,108 @@
+---
+title: "Activity 4 - Associations Part 2"
+author: "YOUR NAME"
+date: "..."
+output:
+  word_document: default
+---
+
+```{r, echo=FALSE, message=FALSE}
+#Do not change anything in this chunk of R code
+options(width=90)
+library(regclass)
+```
+**************
+
+##Question 1:##
+Load up `SURVEY10` using `data(SURVEY10)`.  Making student profiles is valuable from a marketing perspective so that advertisments can be targeted to the right set of people.  To make a profile, associations must be analyzed.  
+
+a.  Run `cor_matrix` on the first 7 columns of the data frame to obtain a correlation matrix (there are so many variables doing `cor_matrix` on the entirety of the data frame results in too many values to look at).
+
+```{r}
+#load in data using data() command
+#cor_matrix on only the first 7 columns of SURVEY10, e.g. of SURVEY10[,1:7]
+data(SURVEY10)
+cor_matrix(SURVEY10)
+all_correlations(SURVEY10, interest ="GPA", sorted = "significance")
+```
+
+b.  Now run `all_correlations` on the entirety of the dataframe to get the pairwise correlations between every quantitative variable.  Add the argument `sorted="strength"` to have this list sorted by strength (from most negative to most positive).  What pair of quantities has the strongest positive, strongest negative, and strongest overall relationship?
+
+```{r}
+#all_correlations command
+```
+
+*Response*:
+
+c.  Which quantity has the strongest correlation with `GPA`.  Run `all_correlations` adding the arguments `interest="GPA"` and `sorted = "magnitude"` to find out. 
+
+
+```{r}
+#all_correlations command
+```
+
+*Response*:
+
+d.  The analysis you have done so far has assumed that Pearson's correlation coefficient provides a suitable measure of the strength of the relationship.   This may not be the case.  
+
+- Rerun the `all_correlations` command from part b, but add the argument `type="spearman"` so that Spearmans' rank correlations are considered.  You can ignore the `There were 50 or more warnings...` message.  
+
+```{r}
+#all_correlations with argument type="spearman"
+```
+
+- What pair of variables have the strong negative association?  
+
+*Response*:
+
+- Make a scatterplot of their relationship (same sort of syntax as what you use for `associate`:  `plot(y~x,data=DATA)` and determine if you should be using Pearson or Spearman to gauge the strength.  
+
+```{r}
+#plot() command
+```
+
+*Response*:
+
+- The association is highly statistically significant, but there is obviously not a cause-effect physical law underlying the relationship.  Why do you think we see such a strong relationship (i.e., what might be a lurking variable)?
+
+*Response*:
+
+
+**************
+
+##Question 2:##
+Load up `MOVIE` using `data(MOVIE)`.  This shows the opening weekend and total domestic gross of movies from about a decade ago.
+
+
+```{r}
+#data() command to load in MOVIE
+data("MOVIE")
+
+
+
+```
+
+
+a.  Run `associate()` as if you were predicting `Total` from `Weekend`.  Which measure (Pearson vs Spearman) is appropriate for testing the significance of the relationship and why?
+
+```{r}
+#associate command
+
+associate(MOVIE$Total~MOVIE$Weekend)
+
+
+```
+
+*Response:*
+
+b.  Run `associate()` again but this time use `log10(Total)` as your y variable and `log10(Weekend)` as your x variable.  The scatterplot should look somewhat "nicer".  Notice how Spearmans' rank correlation is the same value as before (this is one advantage of Spearman's rank correlation, it is the same value if you look at monotonic transformations of the original values).  Has Pearson's correlation increased or decreased?
+
+```{r}
+#associate command
+
+associate(log10(MOVIE$Total)~log10(MOVIE$Weekend))
+```
+
+*Response:*
+
+

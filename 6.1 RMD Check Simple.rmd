@@ -1,0 +1,123 @@
+---
+title: "Simple Regression Wk 2"
+author: "Grayson Pettit"
+date: '2024-09-24'
+output: word_document
+---
+Run this chunk first
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+set.seed(320)
+library(regclass)
+```
+Key pdf introduction pages: #  pdf Pg 7, 14, 17, 18, 21, 22, 27,
+
+
+Play around with the otlier demo to see how a single point can impact a line. Put the code in the console, not in the .rmd.
+
+
+outlier_demo()  #Pg34, 77
+
+pg 37-38
+
+
+In the chunk below, make 4 vectors, "x, y, z, w". x is a vector of length 50, where the first 25 entries are random (provided) and the next 25 are a carbon copy of the first 25. Let y = x^2 plus random normal variation. Let z = 50 random normal variates. Let w = z^2 plus random normal variation.
+
+```{r repeat}
+?length
+x <- rnorm(n=25)
+x= append(x,x, after = length(x))
+x
+y= x^2 +rnorm(n=50)
+z= rnorm(n=50)
+w= z^2 + rnorm(n=50)
+
+# This gets you started. The final x must be twice as long
+
+# final x
+
+# y
+
+# z
+
+# w
+
+
+
+
+
+
+
+
+```
+
+
+Use the code below to explore the w,x,y and z vectors. Add your own code to check regression assumptions and visualize the model. Remove the #'s lines 52-55.
+
+
+```{r explore, echo=FALSE}
+plot(y~x)
+M = lm(y~x)
+plot(M)
+summary(M)
+abline(M,col="red")
+
+visualize_model(M)
+# Pg 46 checing regression
+
+
+ # Pg 86 Review visualizing a model
+
+
+
+
+```
+
+Repeat the chunk above analyzing w ~ z
+
+```{r}
+# w ~ z
+plot(w~z)
+M1 = lm(w~z)
+plot(M1)
+summary(M1)
+abline(M1,col="red")
+visualize_model(M1)
+
+
+
+
+
+
+```
+
+Use the chunck below "check for transformations" in * model M *. You should find that the "best" model is y ~ x^2. Make a new variable xsq = x^2 and run all the plots and analyses on that model. 
+
+```{r transform}
+
+# Checking transformations:  pg 61
+
+
+
+
+xsq = x^2
+plot(y~xsq)
+M2<-lm(y~xsq)
+plot(M2)
+summary(M2)
+abline(M2,col="red")
+visualize_model(M2)
+find_transformations(M2, powers=seq(from=-3, to=3, by=.25), threshold = .3)
+```
+
+Practice predicting. Using the prior model y ~ xsq, predict the values of y for x = -5 , 0, 1, 3.  Get both confidence and prediction intervals. 
+
+```{r predict}
+TO.PREDICT<-data.frame(xsq= c(-5, 0, 1, 3))
+predict(M2,newdata=TO.PREDICT,interval="confidence",level=0.90)
+
+
+
+```
+

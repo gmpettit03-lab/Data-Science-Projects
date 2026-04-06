@@ -1,0 +1,93 @@
+---
+title: "BAS 320 - Assignment 5 - Simple Linear Regression Part 1"
+author: "Grayson Pettit"
+output:
+  word_document: default
+---
+
+
+************************************************************************************
+
+[//]:   (Submission notes: a knitted version of the assignment must be uploaded to Canvas before the deadline along with the raw .Rmd.  I recommend knitting to a Word document, adding any desired extra content or formatting, and submitting that or the Word document that has been saved as a PDF.  Late work is not accepted.)
+
+[//]:   (Instructions for Assignment 5:  follow the instructions on Canvas.  This chunk of code is what you can use to read in data files. If you're working with data in  `BAS320datasetsFall23.RData` you can uncomment the line.  Otherwise, you'll want to come up with names for your data frames and add some `read.csv` commands here (illustrated with a few examples in the R chunk below) )
+
+```{r reading in data for assignment5}
+library(regclass)
+getwd()  #This should output the path to your BAS folder; change with Session, Set Working Directory if not
+load("BAS320datasetsFall23-1.RData")  #Note updated .RData from from Assignment 2
+DATA <- read.csv("MBA.csv",stringsAsFactors=TRUE)
+
+```
+
+************************************************************************************
+
+ *After knitting also delete your code (the R chunks), leaving the plots and text/numeric output in place.* 
+
+
+## Part 1 (Analysis of ...)
+
+I'm using a simple linear regression to predict GMAT Score from student GPA because I would like to see the expected scores of higher GPA students compared to lower GPA counterparts in business schools admissions. We know that there is a preference for higher GMAT scores in admissions processes for prestigious business schools and therefore it would be interesting to see if these two are correlated.  
+
+The data I'm using comes from https://www.kaggle.com/datasets/taweilo/mba-admission-dataset and contains a total of 6194 rows.
+
+```{r Part1}
+M <- lm(gmat~gpa, data = DATA) #Fit the model
+plot(gmat~gpa, data= DATA)  #Show us the scatterplot
+abline(M) #Add the regression line
+summary(M)
+confint(M, level = .95) #Include confidence intervals for coefficients
+anova(M)
+Naive<-lm(gmat~1, data= DATA)
+
+summary(M)
+
+```
+
+A simple linear regression is appropriate for modeling the relationship between Gmat score and GPA because we can explain around 33% of the variation in gmat scores with the variable GPA alone. We also see that this correlation is statistically significant at the 5% level. We also assume that better students, based upon GPA- their grade point average throughout college- will perform better on standardized tests like the GMAT. 
+
+The regression equation is:   GMAT= 40.38 +187.87GPA + Error
+
+According to the model at a GPA of 0 we expect to see a GMAT score of 40.38 on average, we also see for each additional GPA point a given student has that their expected GMAT score will rise 187.87 points, on average. Moreover we see that our standard error for the GPA at 0, our y intercept, is 10.982 meaning that we can expect 95% of all observations (roughly 2 standard deviations each way) to be between 18.8 and 61.92 when GPA score is 0.  In fact, we can be 95% confident that for each additional gpa point we can see a rise in expected GMAT scores between 181.3 points and 194.5 points because our standard error for our variable GPA is 3.375 points. Therefore there is a positive correlation between GMAT scores and GPA. 
+
+The typical error when predicting GMAT score with my model is 40.25, compared to an error when predicting GMAT from its overall average of 49.29.
+
+In fact we can explain 33% of the variation around the mean of GMAT scores from GPA alone, meaning that we can predict the difference in GMAT scores between two students that vary by 1 point in GPA with around 33% accuracy from our model. 
+
+Our model is statistically significant at the 1 % and 5 % levels because our p value is incredibly close to 0. That means that this regression has explanatory value and it has the capacity to predict the GMAT scores of individuals within our sample size based upon their grade point average with around 95% confidence, in fact more than 95% confidence. 
+
+
+************************************************************************************
+
+
+## Part 2 (Analysis of ...)
+I'm using a simple linear regression to predict bank balances from estimated incomes because I would like to see if there is a relationship between income and bank balances. We know that higher income individuals will have more of their income going into equities and assets so we expect no relation between income and bank balances, which often do not provide a real return on assets. 
+
+The data I'm using comes from BAS320datasetsFall23-1.RData and contains a total of 10000 rows.
+
+
+```{r Part2}
+M1 <- lm(balance~estimated_salary, data = BANK) #Fit the model
+plot(balance~estimated_salary, data= BANK)  #Show us the scatterplot
+abline(M1) #Add the regression line
+summary(M1)
+
+confint(M1, level = .95)
+#Include confidence intervals for coefficients
+anova(M1)
+Naive1<-lm(balance~1, data= BANK)
+
+summary(Naive1)
+```
+A simple linear regression is appropriate for modeling the relationship between bank balances and estimated slaray because we would want to see if there is a relationship between income and what is held in a bank account.However we do not see that this relationship is statistically significant, our P-Value is .2007 which exceeds the .05 required in order to determine statistical significance. We would assume that higher income individuals would have more available cash at their disposal and therefore would hold more in bank accounts, however, we can not determine this from our model.
+
+The regression equation is:   Balance= 7.510e+04 +1.388e-02Estimated_Salary + Error
+
+According to the model at a estimated salary of 0 we expect to see a balance of 7.510e+04 on average, we also see for each additional dollar of salary a given individual has that their expected balance score will rise by 1.388e-02, on average. Moreover we see that our standard error for the estimated salary at 0, our y intercept, is 1.252e+03 meaning that we can expect 95% of all observations (roughly 2 standard deviations each way) to be between 7.264107e+04 and 7.755121e+04 when estimated salary score is 0.  In fact, we can be 95% confident that for each additional dollar of estimated salary we can see a rise in expected balances between -7.383111e-03 and 3.515302e-02 dollars because our standard error for our variable estimated salary is 1.085e-02 points. Because 0 is in the confidence interval we cannot determine a correlation between salary and balances.  
+
+The typical error when predicting Balances with my model is 62400, compared to an error when predicting balances from its overall average of 62400. Therefore my model has no statistical or practical significance.
+
+In fact we can only explain 6.377e-05% of the variation around the mean of balances from estimated salary alone, meaning that we can not predict the difference in bank balances between two individuals that vary by 1 dollar of income from our model. 
+
+Our model is not statistically significant at any level because our p value is .207. That means that this regression has no explanatory value and it does not have the capacity to predict the bank balances of individuals within our sample based upon their estimated salary with around 95% confidence. 
+

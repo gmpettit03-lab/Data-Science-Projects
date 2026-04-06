@@ -1,0 +1,231 @@
+---
+title: "Activity 7 - Multiple Regression Part 1" 
+date: "..."
+output: word_document
+---
+
+```{r, echo=FALSE, message=FALSE}
+#Do not change anything in this chunk of R code
+options(width=100)
+knitr::opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE, collapse=TRUE)
+library(regclass)
+```
+
+**************
+
+Use the `data` command to load in the `LAUNCH` dataset.  This contains information on 652 products released to the market in 2013.  We want to predict the total product sales over the course of the first few months after release (column `Profit`).  Since this is real company data, the 420 potential predictor variables are anonymized and are referred to as `x1`, `x2`, etc.  While interpretation of coefficients is a key skill, this activity will focus more on the mechanics of using R.
+
+```{r}
+# Load LAUNCH data
+data("LAUNCH")
+
+```
+
+*********
+
+1.  Let us make the problem somewhat simpler by restricting ourselves to only 9 predictor variables (x1,x2,x3,x4,x5,x7,x8,x9,x12). Run the following R command that defines a new dataframe called `PL` that has only the appropriate column of `LAUNCH` (`Profit` plus the 9 predictors).  You will use this data frame for the rest of the assignment.
+
+```{r}
+# define dataframe PL
+PL <- LAUNCH[,c(1:6,8:10,13)]
+
+```
+
+2.  Make the scatterplot matrix with all variables in `PL` using `pairs` (I suggest using the `~.` shortcut).  Add the additional arguments `pch=20` and `cex=0.3` to make the points small.  Make your plotting window big.  This is a LOT of plots!
+
+Note: If your plot with `~.` shortcut does not help you answer the questions, try plotting few variables at a time (ex. ~x1+x2+x3 etc..) but make sure that you cover all 9 variables!
+
+```{r}
+#scatterplot matrix
+pairs(PL)
+cor_matrix(PL)
+```
+
+a.  Name one of the predictors that looks to have a strong relationship with `Profit`.
+
+x4
+**Response:**   
+
+b.  Name one of the predictors that looks to have a weak/non-existent relationship with `Profit`.
+
+**Response:**    
+x12
+c.  Name one of predictors that looks like it may have a nonlinear relationship with `Profit`.
+
+**Response:**     
+x1
+
+d.  Name two predictors that appear to have a fairly strong association with each other.
+
+**Response:**     
+x1, x5
+**************
+
+3.  Fit the regression model with `lm` (hint: use the `~.` shortcut) using the `PL` dataframe and name it `M`.  Run `check_regression`.
+
+```{r}
+#Fit the regression model
+# Run check_regression
+M<-lm(Profit~., data = PL)
+
+check_regression(M)
+
+```
+
+a.  There are odd-looking diagonal lines in the residuals plot.  This is an artifact of the fact that there is a hard-coded minimum value for `Profit`.  The regression model cannot capture that fact (it assumes residuals have a Normal distribution which does not have a hard-coded maximum or minimum value), so this is a pattern we'll have to live with.
+
+b.  The $p$-value for linearity for the overall model is not available since no two products have the same values of every $x$.  Does this assumption appear to be met visually?
+
+**Response**:     
+
+
+c.  Equal spread test is failed, but does this appear to be a problem (outside of the odd diagonal bands)?
+
+**Response**:   
+
+
+d.  Normality test is failed, but does this appear to be a problem?
+
+**Response**:   
+
+
+**************
+
+3.  Linearity with *each* predictor is also required for multiple regression.  Rerun `check.regression` with the additional argument `extra=TRUE` to see the plots of the residuals versus each predictor.  Note:  when it comes time to knitting, also add the argument `prompt=FALSE` so that it doesn't prompt you for extra plots.  The linearity tests are failed for x2, x4, x5, x7, x8, and x9.  Are there any *obvious* nonlinearities in these plots?
+
+```{r}
+# Run check_regression / uncoment the line below
+#check_regression(M,extra=TRUE,prompt=FALSE)
+
+check_regression(M, extra = TRUE, prompt=FALSE)
+
+```
+
+**Comment**:  
+
+
+**************
+
+4.  Hopefully you came to the same conclusion as me:  the regression model looks like a reasonable model here (except for the hardcoded lower limit of $y$ that the model can't capture).   Run `summary` on the multiple regression model.
+
+```{r}
+# Run summary
+summary(M)
+```
+
+a.  Is the model itself statistically significant?  Quote the $p$-value.
+
+**Comment**:  
+
+
+b.  Which predictors are statistically significant in the multiple regression?
+
+**Comment**:    
+
+
+c.  Which predictors are not statistically significant?
+
+**Comment**:   
+
+
+d.  What is the value of $R^2$ and what is the value of $R^2_{adj}$?
+
+**Comment**:  
+
+
+e.  What is the typical size of the residual?
+
+**Comment**:  
+
+
+
+**************
+
+5.  Obtain a 95% confidence interval for the coefficient of `x1`.
+
+```{r}
+# 95% confidence intervals
+
+confint(x1, parm = LAUNCH, level = .95)
+
+confint(M, level = .95)
+
+```
+
+****
+
+6.  The presence of correlation among predictors means that there is redundant information floating around.  When two predictors are correlated, the standard errors of their coefficients are "inflated" (relative to the case had they been independent) since it is hard for the model to figure out what variation in $y$ is attributable to one versus the other.  The VIFs of the model assess the amount of correlation in the predictor.  Find the VIFs of the predictors.  
+
+```{r}
+# Find the VIFs of the predictors
+VIF(M)
+```
+
+A "large" VIF can be taken to be a value larger than $1/(1-R^2)$ (note:  not $R^2_{adj}$).  Is correlation among the predictors large enough to degrade the accuracy of the estimated coefficients?  Why or why not?
+
+**Comment**:    
+
+
+****
+
+7.  You should have found that x7, x9, and x12 were not significant in the regression.  Perform the partial F test (by completing the code below and uncommenting the lines) to determine if the *set* of them can be dropped from the model.
+
+```{r}
+# Uncomment the three lines below:
+#M.complex <- lm(Profit~.,data=PL)  #All predictors
+#M.simple <- lm(Profit~x1+x2+x3+x4+x5+x8,data=PL)  #without x7, x9, x12
+#anova(M.simple,M.complex)
+```
+
+**Comment**:   
+
+
+****
+
+
+8.  Making predictions is an involved process since it requires creating a data frame containing the values of *each* x-variable.  The names of the columns need to be the same as the names of the predictors used in the original model.  
+
+a.  Lets make a prediction for `Profit` when every $x$ variable equals its median and another for when it equals its mean.  Run `summary` on the `PL` dataframe to obtain this information.
+
+```{r}
+# Run summary on PL
+
+```
+
+
+b.  When making a data frame for predictions, it is often useful to split up the command in lines, as I have done below.  Fill in the rest of the R code with the median and mean value of each variable and uncomment the lines.  
+
+```{r}
+# Fill in missing values and uncoment the lines.
+#Note:  median is first number, mean is the second
+TO.PREDICT <- data.frame(
+ x1=c(1804500,1942597),
+ x2=c(7300,7038),
+ x3=c(63,65.05061),
+ x4=c(255662,443630.1),
+ x5=c(273.5,380.4),
+ x7=c(18.00,29.75),
+ x8=c(114,160.3497),
+ x9=c( 4,4.266871),
+ x12=c(3072 ,515391 )
+)
+
+
+median(PL$x3)
+mean(PL$x3)
+median(PL$x4)
+mean(PL$x4)
+median(PL$x8)
+mean(PL$x8)
+median(PL$x9)
+mean(PL$x9)
+
+```
+
+c.  The syntax of `predict` is the same as it was when we made predictions in simple linear regression.   Be sure to specify `interval="confidence"` or `interval="prediction"` if you want a confidence interval for the average value of $y$ or for a particular product's value of $y$.  Make both below.
+
+```{r}
+# Uncoment the lines below:
+predict(M,newdata=TO.PREDICT,interval="confidence")  #confidence interval for the population average
+predict(M,newdata=TO.PREDICT,interval="prediction")  #prediction interval for an individual's value of y
+```

@@ -1,0 +1,212 @@
+---
+title: "Diamond"
+output: word_document
+date: "2023-03-17"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+#Introduction to Multiple Regression (Part 1)
+
+# Key pdf pages: 7-8, 15, 27, 42, 45*, 61-4, 66-7, 74-6, 81-4. 89, 108, 114-5
+
+# New concept: Adjusted r-square. 
+
+# New Functions:
+    ##  VIF()
+    ##  pairs()
+    ##  anova(simple, complex)  sort of new
+
+# New Argument:
+    ## check_regression (M, extra = TRUE)
+  
+# Continued use:
+    ## confint()
+    ## predict()
+    ## cor_matrix()
+
+```{r}
+library(regclass)
+```
+
+
+
+
+Read in Round Prices dataset. Set of diamond prices and characteristics. Call data.frame 'D'
+
+MUST create D before trying to Knit ******************************************
+```{r read in}
+D = read.csv('~/Downloads/Major Course work: Materials/BAS 320 (Linear Regression) Grayson Pettit/7.1 Round Prices.csv')
+
+M= lm(Price ~ Carat, data=D)
+
+summary(M)
+
+MR= lm(Price~., data = D)
+summary(MR)
+
+anova(MR)
+
+
+# Elplore the datastet. 
+
+```
+
+
+
+Make a simple linear regression model 'M' with the most obvious x variable to predict Price (Y). If you don't know what the most obvious variable is, ask your instructor. Summarize the model. 
+
+```{r Make first model}
+M = lm(Price~Carat, data = D)
+
+summary(M)
+
+
+```
+Interpret r-squre in the context of the problem. Not the official definition, but as you needing to buy a diamond.
+We can explain 18.7% of variation within the slope of price between two different diamonds with the variable carat alone. 
+
+
+Now make a model(MR) with all the variables, using "twidle dot". Sumarize the model.
+```{r}
+MR = lm(Price~., data = D)
+check_regression(MR, extra = TRUE)
+summary(MR)
+anova(MR)
+visualize_model(MR)
+```
+
+What in world is all that output??? What do you think of r-square?
+
+
+Run this line of code (make sure your model name equals mine). What do you think the output is telling you?
+```{r}
+# anova(MR)
+```
+
+
+
+
+Run this code
+```{r Ordinal}
+Diamond = D[,c(1:4,6)]
+
+Diamond$Cut = ifelse (D$Cut == "Good", 1, 
+                ifelse(D$Cut == "Very Good", 2,
+                       ifelse(D$Cut == "Excellent", 3,4))
+)
+
+hist(Diamond$Cut)
+
+# Color
+# D$Color = factor(D$Color)
+# plot(D$Color)
+
+Diamond$Color = ifelse (D$Color == "K", 1, 
+                ifelse(D$Color == "J", 2,
+                       ifelse(D$Color == "I", 3,
+                              ifelse(D$Color == "H", 4,
+                                     ifelse(D$Color == "G", 5,
+                                             ifelse(D$Color == "F", 6,
+                                                    ifelse(D$Color == "E",7,8))))))
+)
+
+# Now Clarity
+
+ #D$Clarity =factor(D$Clarity)
+# plot(D$Clarity) 
+
+Diamond$Clarity = ifelse (D$Clarity == "SI1", 1, 
+                  ifelse(D$Clarity == "SI2", 2,
+                         ifelse(D$Clarity == "VS1", 3,
+                                ifelse(D$Clarity == "VS2", 4,
+                                       ifelse(D$Clarity == "VVS1", 5,
+                                              ifelse(D$Clarity == "VVS2", 6,7
+                                                     )))))
+)
+
+
+
+
+
+```
+
+
+############# WHEWWWWWWWWWWWWWWWWWW That was a lot ###########################
+
+
+##   now back to the story
+Look at the correlations between all the variables in Diamond. 
+```{r correlations}
+###  pgs. 17,106
+
+
+
+cor_matrix(Diamond)
+
+```
+ 
+
+Copy multiple regression code above, change D to Diamond. Run all the same analyses. 
+```{r}
+MR0= lm(Price~Carat, data = Diamond)
+
+MR1 = lm(Price~., data = Diamond)
+check_regression(MR1, extra = TRUE)
+summary(MR1)
+anova(MR1)
+visualize_model(MR1)
+
+VIF(MR1)
+
+to.predict= data.frame(Carat = c(2,.5), Cut = c(3,1), Color = c(6,1), Clarity =c(5,2))
+predict(MR1, newdata = to.predict, interval = "confidence", level= .95)
+
+cor_matrix(Diamond)
+
+pairs(Diamond)
+
+pairs(Price~ Carat + Clarity, data = Diamond)
+
+anova(MR0, MR1)
+
+confint(MR1)
+```
+
+
+Run the appropriate test to see if adding variables other than Carat are statistically significant as a whole
+
+```{r}
+## hint M.simple Pg 113
+
+
+```
+
+
+
+Check the regression assumptions on the multiple regression model. Run confidence intervals on the estimates. 
+
+```{r}
+
+# hint extra = TRUE
+
+```
+
+
+
+You are loooking at two diamonds that you may buy. Estimate their price and CI for their average price. 
+```{r predict}
+# Diamond 1: Carat = 2 ,Cut = 3, Color = 6 ,Clarity = 5
+# Diamond 2: Carat = .5 ,Cut = 1, Color = 1 ,Clarity = 2
+
+
+
+
+
+```
+
+
+
